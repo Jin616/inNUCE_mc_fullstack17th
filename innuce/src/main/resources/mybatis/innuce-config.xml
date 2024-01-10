@@ -6,10 +6,6 @@
 
 	<typeAliases>
 
-<!-- 		samplecode -->
-<!-- 		<typeAlias type="board.spring.mybatis.BoardDTO" alias="boarddto"/> -->
-<!-- 		<typeAlias type="board.spring.mybatis.MemberDTO" alias="memberdto"/> -->
-
 	</typeAliases>
 	
-</configuration>
+</configuration> 

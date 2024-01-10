@@ -2,25 +2,31 @@ package testonjava;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
 
 import org.json.JSONObject;
-
-import com.mc.innuce.NaverInform;
 
 /**
  * 
  * @author JIN
- * 
+ * summary 테스트
  *
  */
 public class SummaryTest {
 
-	public static void main(String[] args) {
-		String clientId = NaverInform.clientId; // 애플리케이션 클라이언트 아이디값";
-		String clientSecret = NaverInform.clientSecret; // 애플리케이션 클라이언트 시크릿값";
+	public static void main(String[] args) throws IOException {
+    	
+    	InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
+    	Properties props = new Properties();
+    	props.load(is);
+    	props.get("naverNewsId");
 		String result[] = new String[10];
 		
 		try {
@@ -52,8 +58,8 @@ public class SummaryTest {
 			for(int i = 0; i < title.length; i++) {
 				HttpURLConnection con = (HttpURLConnection) url.openConnection();
 				con.setRequestMethod("POST");
-				con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
-				con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
+				con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", props.getProperty("naverClientID"));
+				con.setRequestProperty("X-NCP-APIGW-API-KEY", props.getProperty("naverClientSecret"));
 				con.setRequestProperty("Content-Type", "application/json");
 				BufferedReader br = null;
 				con.setDoOutput(true);
@@ -72,13 +78,8 @@ public class SummaryTest {
 				total.put("document", document);
 				total.put("option", option);
 				
-				System.out.println(i);
-				
-				System.out.println(i);
 				wr.write(total.toString().getBytes("utf-8"));
-				///////////////// 요청 ///////
-	
-				///////////////// 응답 ///////
+
 				int responseCode = con.getResponseCode();
 				
 				if (responseCode == 200) { // 정상 호출
@@ -104,6 +105,7 @@ public class SummaryTest {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		is.close();
 	}
 
 }

@@ -10,6 +10,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+/**
+ * 
+ * @author JIN
+ * 셀레니움 예제 수정 중
+ * 
+ */
 public class SeleniumTest {
 	
 	static String url = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=100";
@@ -33,9 +39,9 @@ public class SeleniumTest {
 				thumbUri.add(newsList.get(i).findElement(By.tagName("img")));
 			}
 		}
+		
 		for(WebElement news : naverUri) {
 			driver.get(news.getAttribute("href"));
-			
 		}
 		
 		System.out.println(naverUri.get(0).getAttribute("href"));

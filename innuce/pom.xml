@@ -97,6 +97,14 @@
 		    <version>4.13.2</version>
 		    <scope>test</scope>
 		</dependency>
+		<!-- selenium -->
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		    <version>4.16.1</version>
+		</dependency>
+
 
 
 	</dependencies>

@@ -1,6 +1,6 @@
 #설정파일 제거
 src/main/resources/application.properties
-src/main/java/com/mc/innuce/MyNaverInform.java
+src/main/java/com/mc/innuce/NaverInform.java
 
 HELP.md
 target/

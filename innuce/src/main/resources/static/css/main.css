@@ -1,0 +1,228 @@
+body {
+	color: #333;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+img {
+	display: block;
+}
+
+input {
+	all: unset;
+}
+
+.full-container {
+	width: 100%; 
+	height: 100%; 
+	position: relative; 
+	background: white
+}
+
+
+
+/*header .logo {
+  height: 75px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}*/
+
+
+/*상단 버튼*/
+
+.top-bar {
+	left: 400px;
+	top: -3px;
+	position: absolute
+}
+.logo-txt-cover {
+	width: 1119px; 
+	height: 64px; 
+	left: 0px; 
+	top: 0px; 
+	position: absolute; 
+	background: #D8CBB8;
+}
+
+.top-bar #logo-txt {
+	width: 143px;
+	height: 35px;
+	left: 120px;
+	top: 15px;
+	position: absolute;
+	text-align: center;
+	color: #333333;
+	font-size: 30px;
+	/* 	font-family: Inter; 
+	font-style: italic;  */
+	font-family: 'Brygada 1918', serif;
+	/*etter-spacing: 0.20px; */
+	word-wrap: break-word
+}
+
+.top-bar .btn1-cover {
+	padding-left: 21px; 
+	padding-right: 21px; 
+	padding-top: 8px; 
+	padding-bottom: 8px; 
+	left: 790px; 
+	top: 15px; 
+	position: absolute; 
+	background: #D8CBB8; 
+	border-radius: 15px; 
+	border: 1px #4E3B1E solid; 
+	box-sizing: border-box;
+	justify-content: center; 
+	align-items: center;
+}
+.top-bar .btn1-cover #btn1 {
+	text-align: center;
+	color: #333333;
+	font-size: 16px;
+	font-weight: 500;
+	letter-spacing: 0.46px;
+	word-wrap: break-word;
+}
+.top-bar .btn2-cover{
+	padding-left: 21px; 
+	padding-right: 21px; 
+	padding-top: 8px; 
+	padding-bottom: 8px; 
+	left: 914.50px; 
+	top: 15px; 
+	position: absolute; 
+	background: #333333; 
+	border-radius: 15px; 
+	overflow: hidden; 
+	border: 1px #4E3B1E solid; 
+	box-sizing: border-box;
+	justify-content: center; 
+	align-items: center; 
+	gap: 10px; 
+	display: inline-flex;
+}
+.top-bar .btn2-cover #btn2 {
+	text-align: center; 
+	color: #F8F8F8; 
+	font-size: 16px; 
+	font-weight: 500; 
+	letter-spacing: 0.46px; 
+	word-wrap: break-word;
+}
+/*LOGO*/
+.logo {
+	width: 403px; 
+	height: 211px; 
+	left: 800px; 
+	top: 61px; 
+	position: absolute;
+	line-height: 1.4;
+}
+.logo .logo-ex {
+	width: 300px; 
+	height: 211px; 
+	left: 150px; 
+	top: 55px; 
+	position: absolute; 
+	text-align: center
+}
+/*SEARCH*/
+.search-container {
+	width: 760px; 
+	height: 45px; 
+	left: 582px; 
+	top: 272px; 
+	position: absolute; 
+	justify-content: flex-end; 
+	align-items: flex-start; 
+	gap: 9px; 
+	display: inline-flex; 
+}
+.search-container .material-symbols-outlined {
+	left: 5px;
+	font-size: 45px;
+	color: #333333;
+	position: absolute;
+}
+.search-container .input-keyword {
+	width: 650px; 
+	height: 45px; 
+	position: relative;
+	background-color: #DFD2BF;
+	border-radius: 15px;
+}
+.search-container .input-keyword:hover {
+	width: 650px; 
+	height: 45px; 
+	position: relative;
+	background-color: #DFD2BF;
+	border: 2px dashed #4E3B1E;
+	border-radius: 15px;
+}
+.search-container .input-keyword input {
+width: 550px; 
+height: 45px; 
+font-size: 20px;
+left: 50px; 
+top: 0px; 
+bottom: 0px;
+position: absolute;
+word-wrap: break-word
+}
+.search-container .search-btn {
+	width: 100px; 
+	height: 45px; 
+	background: rgba(160.44, 123.80, 68.85, 0.55); 
+	border-radius: 15px; 
+	overflow: hidden; 
+	border: 1px #4E3B1E solid; 
+	box-sizing: border-box;
+	flex-direction: column; 
+	justify-content: center; 
+	align-items: center; 
+	gap: 10px; 
+	display: inline-flex
+}
+.search-container .search-btn input {
+	color: #333333; 
+	font-size: 17px; 
+	font-weight: 800; 
+	word-wrap: break-word;
+}
+.search-container .myPlace {
+	background-repeat : no-repeat;
+  width: 45px;
+  height: 45px;
+	background-image: url("../images/location_logo.png");
+}
+
+/*채팅*/
+.debate-container {
+	width: 1019px; 
+	height: 256px; 
+	left: 451px; 
+	top: 2838px; 
+	position: relative;
+/*	opacity: 0.10; 
+	background-color: #A07C45;*/
+}
+
+.debate-container input {
+	left: 800px;
+	margin: 12px 20px;
+	width: 120px; 
+	height: 40px;
+	background: rgba(160.44, 123.80, 68.85, 0.55);
+	border-radius: 15px;
+	border: 1px #4E3B1E solid;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+	position: absolute;
+}

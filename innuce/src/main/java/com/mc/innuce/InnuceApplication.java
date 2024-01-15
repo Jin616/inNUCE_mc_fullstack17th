@@ -9,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.mc.innuce.domain.news.dto.NewsAndPressKeyDTO;
 import com.mc.innuce.domain.news.dto.PressDTO;
 import com.mc.innuce.domain.news.selenium.service.CrawlingNewsService;
 import com.mc.innuce.domain.news.selenium.service.CrawlingPressService;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.mc.innuce.domain.search.dao.CrudDAO">
+
+<select id="oneKeyword" parameterType="String" resultType="KeywordDTO">
+select * from keyword where keyword_content=#{keyword}
+</select>
+
+<update id="updateKeyword" parameterType="keywordDTO">
+update keyword
+set keyword_recent_time=now()
+where keyword_content=#{keyword_content}
+</update>
+
+<insert id="insertKeyword" parameterType="keywordDTO" >
+insert into keyword(keyword_content,keyword_recent_time) 
+values(#{keyword_content}, now());
+</insert>
+
+<insert id="insertToKeywordNews" parameterType="keywordDTO" >
+insert into keyword_news(keyword_key,news_key) 
+values(#{keyword_key}, 
+<foreach collection="array" item="num" separator=",">#{news_key})</foreach>
+</insert>
+
+
+
+</mapper>

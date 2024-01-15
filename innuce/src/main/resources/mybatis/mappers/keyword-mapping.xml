@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.mc.innuce.domain.search.dao.KeywordDAO">
+<!-- 
+id: dao에서 메소드명
+ -->
+<select id="getNewsList" resultType="newsdto" parameterType="keywordDTO">
+	select news.* from keyword_news join news using(news_key)
+	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
+</select>
+
+<!-- <select id="getNewsKeys1" resultType="">
+	select * from news join news using(news_key)
+	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
+</select> -->
+
+<!-- <select id="getNewsKeys2" resultType="long" parameterType="String">
+	select news.news_key from keyword_news as kn join news using(news_key)
+	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
+</select>
+ -->
+
+
+</mapper>

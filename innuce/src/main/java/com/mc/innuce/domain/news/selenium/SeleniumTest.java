@@ -1,4 +1,4 @@
-package testonjava;
+package com.mc.innuce.domain.news.selenium;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -13,15 +13,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 /**
  * 
  * @author JIN
- * 셀레니움 예제 수정 완
+ * 
  * 
  */
 public class SeleniumTest {
 	
-	static String url = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=100";
-	
-	public static void main(String[] args) {
-		// selenium 4.6.0 버전부터 알아서 드라이버를 자동 설치 해줌 크롬드라이버 설치 불필요
+	private void crawling(String url) {
 		System.out.println("드라이버를 연결 중...");
 		WebDriver driver = getDriver(url);
 		System.out.println("드라이버 연결 성공!");
@@ -29,23 +26,24 @@ public class SeleniumTest {
 		// 요소들을 받아올 리스트 생성
 		// By. 메소드를 이용해 원하는 값들을 검색해 가져올 수 있음. _cluster_content는 헤드라인에 있는 뉴스들
 		WebElement sectionBody = driver.findElement(By.className("section_body"));
-		List<WebElement> newsList = sectionBody.findElements(By.tagName("dt"));
-		List<String> thumbUri = new ArrayList<>(); // use
-		List<String> naverUri = new ArrayList<>();
 		
+		List<WebElement> newsList = sectionBody.findElements(By.tagName("dt"));
+		List<WebElement> thumbUri = new ArrayList<>(); // use
+		List<WebElement> naverUri = new ArrayList<>();
 		for(int i = 0; i < newsList.size(); i++) {
 			if(i % 2 == 0) {
-				naverUri.add(newsList.get(i).findElement(By.tagName("a")).getAttribute("href"));
-				thumbUri.add(newsList.get(i).findElement(By.tagName("img")).getAttribute("src"));
+				naverUri.add(newsList.get(i).findElement(By.tagName("a")));
+				thumbUri.add(newsList.get(i).findElement(By.tagName("img")));
 			}
 		}
 		
-		for(String url : naverUri) {
-			driver.get(url);
-			
-			WebElement content = driver.findElement(By.id("dic_area"));
-			System.out.println(content.getText());
+		for(WebElement news : naverUri) {
+			driver.get(news.getAttribute("href"));
 		}
+		
+		System.out.println(naverUri.get(0).getAttribute("href"));
+		System.out.println(thumbUri.get(0).getAttribute("src"));
+		
 		
 		System.out.println("드라이버 종료 중...");
 		driver.quit();
@@ -54,7 +52,7 @@ public class SeleniumTest {
 	private static WebDriver getDriver(String url) {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		
-		chromeOptions.addArguments("--lang=ko");
+		//chromeOptions.addArguments("--lang=ko");
 		//chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--incognito"); // 시크릿모드로 열기
 		chromeOptions.addArguments("--disable-extensions"); // 확장기능 비활성화

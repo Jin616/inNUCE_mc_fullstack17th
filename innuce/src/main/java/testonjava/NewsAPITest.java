@@ -22,7 +22,6 @@ import java.util.Properties;
  * navernews api test
  *
  */
-
 public class NewsAPITest {
 	
     public static void main(String[] args) throws IOException {
@@ -30,7 +29,6 @@ public class NewsAPITest {
     	InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
     	Properties props = new Properties();
     	props.load(is);
-    	props.get("naverNewsId");
     	
         String text = null;
         try {
@@ -42,7 +40,6 @@ public class NewsAPITest {
         String apiURL = "https://openapi.naver.com/v1/search/news.json?query=" + text;
         //String apiURL = "https://openapi.naver.com/v1/search/news.json?query=" + text;    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
-
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", props.getProperty("naverNewsId"));

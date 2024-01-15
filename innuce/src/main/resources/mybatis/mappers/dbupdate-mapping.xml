@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.news.dao.DBUpdateTimeDAO">
+
+	<!-- select -->
+	<select id="selectPressUpdateTime">
+	select update_time from db_update_time where update_key = 1;
+	</select>
+	
+	<!-- update -->
+	<update id="updatePressUpdateTime">
+	update db_update_time set update_time = now() where update_key = 1;
+	</update>
+	
+</mapper>

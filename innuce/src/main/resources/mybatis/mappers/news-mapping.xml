@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.news.dao.NewsDAO">
+
+	<!-- insert -->
+	<insert id="insertListNews" parameterType="java.util.List">
+		<foreach collection="list" item="p" separator="," open="insert into news values " close=";">
+			(#{p.news_key}, #{p.press_key}, #{p.news_title}, #{p.news_content}, #{p.news_writendate},
+			#{p.news_updatedate}, #{p.news_pulldate}, #{p.news_writer}, #{p.news_uri}, #{p.news_originuri},
+			#{p.news_deleted}, #{p.news_deleteddate}, #{p.news_deletedcode}, #{p.news_category},
+			#{p.news_thumbnailuri}, #{p.news_thumbnailuri2}, #{p.summ_content}, #{p.summ_sentiment},
+			#{p.summ_sentimentpercent})
+		</foreach>
+	</insert>
+	
+	<!-- select -->
+	<select id="countAllNews" resultType="int">
+	select count(*) from news;
+	</select>
+	
+	<select id="getAllNewsListOnlyKey" resultType="newsandpresskeydto">
+	select news_key, press_key from news;
+	</select>
+	<!-- update -->
+	
+	
+</mapper>

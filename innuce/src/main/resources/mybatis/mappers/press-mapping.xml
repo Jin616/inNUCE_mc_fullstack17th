@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.news.dao.PressDAO">
+
+	<!-- insert -->
+	<insert id="insertListPress" parameterType="java.util.List">
+		<foreach collection="list" item="p" separator="," open="insert into press values " close=";">
+			(#{p.press_key}, #{p.press_name}, #{p.press_logo}, #{p.press_mainpage}, #{p.press_navermain})
+		</foreach>
+	</insert>
+	
+	<insert id="insertPress" parameterType="pressdto">
+		insert into press values(#{press_key}, #{press_name}, #{press_logo}, #{press_mainpage}, #{press_navermain})
+	</insert>
+	
+	<!-- select -->
+	<select id="selectAllPress" resultType="pressdto">
+		select * from press
+	</select>
+	
+	<!-- update -->
+	<update id="updatePress" parameterType="pressdto">
+		update press 
+		set press_name = #{press_name}, press_logo = #{press_logo},
+			press_mainpage = #{press_mainpage}, press_navermain = #{press_navermain} 
+		where press_key = #{press_key}
+	</update>
+	
+</mapper>
+
+ <!-- !!!!!!this file will delete!!!!!! -->
+ <!-- sample code -->
+ <!-- 
+<mapper namespace="board.spring.mybatis.BoardDAO">
+<select id="insertBoard" parameterType="boarddto" resultType="int">
+insert into board(title, contents, writer, pw) values(#{title}, #{contents}, #{writer}, #{pw});
+</select>
+
+<select id="boardlist" resultType="boarddto" parameterType="int">
+select * from board where isdelete = false order by writingtime desc limit
+<foreach collection="array" item="num" separator=",">#{num}</foreach>
+</select>
+
+<select id="selectTotal" resultType="int">
+select count(*) from board where isdelete = false;
+</select>
+
+<update id="updateViewCount" parameterType="int">
+update board set viewcount = viewcount + 1 where seq = #{seq};
+</update>
+
+<select id="selectOneBoard" resultType="boarddto" parameterType="int">
+select * from board where seq = #{seq};
+</select>
+
+<update id="updateBoard" parameterType="boarddto">
+update board
+set title=#{title}, contents=#{contents}, writingtime=now()
+where seq=#{seq}
+</update>
+
+<update id="deleteOneBoard" parameterType="int">
+update board set isdelete = true where seq = #{seq}
+</update>
+
+<select id="boardAllSearchList" resultType="boarddto" parameterType="String">
+select * from board where title like '%${word}%' or contents like '%${word}%' or writer like '%${word}%'
+</select>
+
+<select id="boardSearchList" resultType="boarddto" parameterType="hashmap">
+select * from board where ${colname} like '#{colvalue}' limit #{startSeq}, #{limitSeq}
+</select>
+
+
+</mapper>
+  -->

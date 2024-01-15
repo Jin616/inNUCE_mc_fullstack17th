@@ -7,6 +7,6 @@ public class TestController {
 
 	@RequestMapping("/main")
 	public String main() {
-		return "test/main";
+		return "main";
 	}
 }

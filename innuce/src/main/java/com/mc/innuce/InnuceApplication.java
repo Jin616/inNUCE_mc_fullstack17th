@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +14,6 @@ import com.mc.innuce.domain.news.selenium.service.CrawlingPressService;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.news.service.PressService;
 
-@MapperScan(basePackages="com.mc.innuce")
 @SpringBootApplication
 public class InnuceApplication {
 	

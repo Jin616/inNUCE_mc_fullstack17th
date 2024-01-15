@@ -20,8 +20,8 @@
 	select count(*) from news;
 	</select>
 	
-	<select id="getAllNewsListOnlyKey" resultType="newsandpresskeydto">
-	select news_key, press_key from news;
+	<select id="getAllNewsListOnlyKey" resultType="long">
+	select news_key from news;
 	</select>
 	<!-- update -->
 	

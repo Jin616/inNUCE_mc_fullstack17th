@@ -48,3 +48,11 @@ select * from board where ${colname} like '#{colvalue}' limit #{startSeq}, #{lim
 
 </mapper>
   -->
+
+<mapper namespace="com.mc.innuce.domain.debate.dao.DebateRoomDAO">
+	<select id="openDebateRoomList" resultType="debateroomdto">
+		select *
+		from debate_room
+		where debate_room_status = 1
+	</select>
+</mapper>

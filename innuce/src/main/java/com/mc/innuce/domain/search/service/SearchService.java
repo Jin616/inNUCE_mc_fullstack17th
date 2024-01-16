@@ -8,7 +8,8 @@ import com.mc.innuce.domain.search.dao.SearchDAO;
 @Service
 public class SearchService {
 	@Autowired
-	SearchDAO searchDAO;
-	
-	
+	SearchDAO dao;
+
+
+
 }

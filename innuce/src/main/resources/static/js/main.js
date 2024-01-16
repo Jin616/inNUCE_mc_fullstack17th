@@ -1,4 +1,4 @@
-const badgeEl = document.querySelector('header .badges');
+var badgeEl = document.querySelector('header .badges');
 
 window.addEventListener('scroll', _.throttle(function() {
 	console.log(window.scrollY);

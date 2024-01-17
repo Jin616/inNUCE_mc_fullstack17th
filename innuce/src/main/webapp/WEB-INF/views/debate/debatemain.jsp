@@ -14,7 +14,7 @@
 </script>
 </head>
 <body>
-	<div class="opendebatelist">
+	<div class="open_debate_list">
 		<table border="1">
 			<thead>
 				<tr>

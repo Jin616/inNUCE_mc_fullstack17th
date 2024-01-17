@@ -3,6 +3,7 @@ package com.mc.innuce.domain.debate.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +80,13 @@ public class DebateRoomController {
 		
 		// 후 ModelAndView로 전달
 		mv.addObject("debateuser", dudto);
+		
+		// debate_room dto 반환
+		DebateRoomDTO drdto = debateRoomService.selectOneDebateRoom(roomId);
+		
+		// debate_room dto 전달
+		mv.addObject("debateroom", drdto);
+		
 		mv.setViewName("debate/debateroom");
 		
 		return mv;

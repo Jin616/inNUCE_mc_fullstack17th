@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.debate.dao.DebateUserDAO">
+	<select id="selectOneDebateUserByData" parameterType="debateuserdto" resultType="debateuserdto">
+		select *
+		from debate_user
+		where user_key = #{user_key} and debate_room_key = #{debate_room_key}
+	</select>
+	
+	<insert id="insertDebateUser" parameterType="debateuserdto">
+		insert into debate_user(user_key, debate_room_key)
+		values (#{user_key}, #{debate_room_key})
+	</insert>
+</mapper>

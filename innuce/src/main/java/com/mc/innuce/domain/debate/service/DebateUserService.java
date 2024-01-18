@@ -46,4 +46,10 @@ public class DebateUserService {
 		return key;
 	}
 	
+	// debate_user 테이블과 user 테이블을 join 하여 debate_user_key에 헤당하는 user의 id 반환
+	public String selectOneUserId(int debate_user_key) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.selectOneUserId(debate_user_key);
+	}
+	
 }

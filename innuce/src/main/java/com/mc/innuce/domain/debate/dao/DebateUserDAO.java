@@ -13,4 +13,6 @@ public interface DebateUserDAO {
 
 	void insertDebateUser(DebateUserDTO dudto);
 
+	String selectOneUserId(int debate_user_key);
+
 }

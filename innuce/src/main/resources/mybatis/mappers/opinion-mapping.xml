@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.debate.dao.OpinionDAO">
+	<insert id="insertOpinion" parameterType="opiniondto">
+		insert into opinion(debate_user_key, opinion_contents, opinion_regdate, opinion_like)
+		values (#{debate_user_key}, #{opinion_contents}, now(), 0)
+	</insert>
+	
+	<select id="selectOneOpinion" parameterType="int" resultType="opiniondto">
+		select *
+		from opinion
+		where opinion_key = #{opinion_key}
+	</select>
+	
+	<select id="selectLastInsertId" resultType="int">
+		select last_insert_id()
+	</select>
+</mapper>

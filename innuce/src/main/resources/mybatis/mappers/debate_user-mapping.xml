@@ -13,4 +13,11 @@
 		insert into debate_user(user_key, debate_room_key)
 		values (#{user_key}, #{debate_room_key})
 	</insert>
+	
+	<select id="selectOneUserId" parameterType="int" resultType="String">
+		select U.user_id
+		from debate_user DU join user_info U
+		on DU.user_key = U.user_key
+		where DU.debate_user_key = #{debate_user_key}
+	</select>
 </mapper>

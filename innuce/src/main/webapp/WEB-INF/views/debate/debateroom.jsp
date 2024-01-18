@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.mc.innuce.domain.user.dto.UserDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,14 +21,17 @@
 		
 		stomp.connect({}, function() {
 			
-			stomp.subscribe('/sub/debate/' + roomId, function(opiniondto) {
+			stomp.subscribe('/sub/debate/' + roomId, function(debateMessage) {
 				
-				let opinion = JSON.parse(opiniondto.body);
+				let message = JSON.parse(debateMessage.body);
 				
-				let contents = opinion.opinion_contents;
-				let regdate = opinion.opinion_regdate;
+				let key = message.opinion_key;
+				let id = message.user_id;
+				let contents = message.opinion_contents;
+				let regdate = message.opinion_regdate;
+				let like = message.opinion_like;
 				
-				$('.debate_room_opinion_list').append('<p>' + contents + ' ' + regdate + '</p><br>');
+				$('.debate_room_opinion_list').append('<p>' + key + ' ' + id + ' ' + contents + ' ' + regdate + ' ' + like + '</p>');
 			});
 			
 		});

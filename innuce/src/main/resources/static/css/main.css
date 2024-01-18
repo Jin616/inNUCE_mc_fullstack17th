@@ -1,228 +1,621 @@
 body {
-	color: #333;
+	color: #333333;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.4;
 	font-family: 'Nanum Gothic', sans-serif;
 }
 
-img {
-	display: block;
-}
-
 input {
 	all: unset;
 }
 
-.full-container {
-	width: 100%; 
-	height: 100%; 
-	position: relative; 
-	background: white
+.button {
+	cursor: pointer;
+	transition: .4s;
 }
 
-
-
-/*header .logo {
-  height: 75px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-}*/
-
-
-/*상단 버튼*/
-
-.top-bar {
-	left: 400px;
-	top: -3px;
-	position: absolute
-}
-.logo-txt-cover {
-	width: 1119px; 
-	height: 64px; 
-	left: 0px; 
-	top: 0px; 
-	position: absolute; 
-	background: #D8CBB8;
+/*HEADER*/
+header {
+	position: relative;
 }
 
-.top-bar #logo-txt {
-	width: 143px;
-	height: 35px;
-	left: 120px;
-	top: 15px;
-	position: absolute;
-	text-align: center;
-	color: #333333;
-	font-size: 30px;
-	/* 	font-family: Inter; 
-	font-style: italic;  */
-	font-family: 'Brygada 1918', serif;
-	/*etter-spacing: 0.20px; */
-	word-wrap: break-word
-}
-
-.top-bar .btn1-cover {
-	padding-left: 21px; 
-	padding-right: 21px; 
-	padding-top: 8px; 
-	padding-bottom: 8px; 
-	left: 790px; 
-	top: 15px; 
-	position: absolute; 
-	background: #D8CBB8; 
-	border-radius: 15px; 
-	border: 1px #4E3B1E solid; 
+header .logo-txt-cover {
+	width: 1119px;
+	height: 60px;
+	/*margin: 0 auto;*/
+	left: 50%;
+	transform: translate(-50%, 0);
+	background-color: rgba(216, 203, 184, 1);
+	position: fixed;
+	z-index: 5;
+	border: 2px solid rgba(160, 124, 69, 1);
 	box-sizing: border-box;
-	justify-content: center; 
+}
+
+header .badges {
+	top: 400px;
+	right: -250px;
+	position: absolute;
+	width: 200px;
+	height: 400px;
+	background-color: #58A9D7;
+	border-radius: 10px;
+	box-shadow: 10px 10px 22px rgba(0, 0, 0, .15);
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	display: block;
+}
+
+header .badges .badge {
+	margin: 12px auto;
+	border-radius: 10px;
+	width: 150px;
+	height: 70px;
+	border: 1px dashed #070555;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+}
+
+header .badges .title {
+	font-size: 20px;
+	color: #070555;
+	margin: 15px auto;
+	margin-bottom: 25px;
+	position: relative;
+	display: block;
+	text-align: center;
+}
+
+header .badges .badge input {
+	color: #070555;
+
+	position: absolute;
+}
+
+header .logo-txt-cover #logo-txt {
+	width: 143px;
+	height: 40px;
+	left: 120px;
+	margin: 10px 10px;
+	font-family: 'Brygada 1918', serif;
+	font-size: 30px;
+	position: absolute;
+}
+
+header .btn-cover {
+	display: inline-block;
+	right: 60px;
+	position: absolute;
+
+}
+
+header .btn-cover ul.button {
+	display: flex;
+	height: 60px;
+}
+
+header .btn-cover ul.button li {
+	border: 1px #4E3B1E solid;
+	border-radius: 15px;
+	height: 36px;
+	box-sizing: border-box;
+	margin: 12px;
+}
+
+header .btn-cover ul.button li:first-child {
+	background: #333333;
+	color: #F8F8F8;
+}
+
+header .btn-cover ul.button li:first-child:hover {
+	color: #333333;
+	background-color: unset;
+}
+
+header .btn-cover ul.button li:last-child {
+	color: #333;
+}
+
+header .btn-cover ul.button li:last-child:hover {
+	background-color: #333333;
+	color: #F8F8F8;
+}
+
+header .btn-cover ul.button li input {
+	top: 0;
+	bottom: 0;
+	font-family: Arial, sans-serif;
+	padding: 10px 15px;
+	display: block;
+	flex-direction: column;
+
+
+}
+
+/*header .btn-cover ul.button li #btn2 {
+	font-weight: 600;
+	color: #333;
+}
+*/
+header .logo-container {
+	width: 1119px;
+	height: 250px;
+	position: relative;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
 	align-items: center;
 }
-.top-bar .btn1-cover #btn1 {
-	text-align: center;
-	color: #333333;
-	font-size: 16px;
-	font-weight: 500;
-	letter-spacing: 0.46px;
-	word-wrap: break-word;
-}
-.top-bar .btn2-cover{
-	padding-left: 21px; 
-	padding-right: 21px; 
-	padding-top: 8px; 
-	padding-bottom: 8px; 
-	left: 914.50px; 
-	top: 15px; 
-	position: absolute; 
-	background: #333333; 
-	border-radius: 15px; 
-	overflow: hidden; 
-	border: 1px #4E3B1E solid; 
-	box-sizing: border-box;
-	justify-content: center; 
-	align-items: center; 
-	gap: 10px; 
-	display: inline-flex;
-}
-.top-bar .btn2-cover #btn2 {
-	text-align: center; 
-	color: #F8F8F8; 
-	font-size: 16px; 
-	font-weight: 500; 
-	letter-spacing: 0.46px; 
-	word-wrap: break-word;
-}
-/*LOGO*/
-.logo {
-	width: 403px; 
-	height: 211px; 
-	left: 800px; 
-	top: 61px; 
+
+header .logo-container .logo-img {
+	margin-top: 45px;
+	width: 200px;
+	height: 195px;
 	position: absolute;
+}
+
+header .logo-container .logo-img img {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+header .logo-container .logo-ex {
+	margin-top: 45px;
 	line-height: 1.4;
+	text-align: center;
+
+	right: 21%;
+	position: absolute;
 }
-.logo .logo-ex {
-	width: 300px; 
-	height: 211px; 
-	left: 150px; 
-	top: 55px; 
-	position: absolute; 
-	text-align: center
+
+header .logo-container .logo-ex span:nth-child(1) {
+	font-size: 20px;
+	font-family: 'Brygada 1918', serif;
 }
-/*SEARCH*/
-.search-container {
-	width: 760px; 
-	height: 45px; 
-	left: 582px; 
-	top: 272px; 
-	position: absolute; 
-	justify-content: flex-end; 
-	align-items: flex-start; 
-	gap: 9px; 
-	display: inline-flex; 
+
+header .logo-container .logo-ex span:nth-child(2) {
+	font-size: 17px;
+	font-weight: 300;
 }
-.search-container .material-symbols-outlined {
-	left: 5px;
+
+header .logo-container .logo-ex span:nth-child(3) {
+	font-size: 17px;
+	font-weight: 600;
+}
+
+header .search-container {
+	width: 760px;
+	height: 45px;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+
+}
+
+header .search-container .input-keyword {
+	width: 600px;
+	height: 100%;
+	background-color: #DFD2BF;
+	border-radius: 15px;
+	position: absolute;
+}
+
+header .search-container .input-keyword:hover {
+	width: 600px;
+	height: 100%;
+	position: relative;
+	background-color: #DFD2BF;
+	border: 2px dashed #4E3B1E;
+	box-sizing: border-box;
+	border-radius: 15px;
+}
+
+header .search-container .input-keyword .material-symbols-outlined {
 	font-size: 45px;
 	color: #333333;
 	position: absolute;
 }
-.search-container .input-keyword {
-	width: 650px; 
-	height: 45px; 
-	position: relative;
-	background-color: #DFD2BF;
-	border-radius: 15px;
-}
-.search-container .input-keyword:hover {
-	width: 650px; 
-	height: 45px; 
-	position: relative;
-	background-color: #DFD2BF;
-	border: 2px dashed #4E3B1E;
-	border-radius: 15px;
-}
-.search-container .input-keyword input {
-width: 550px; 
-height: 45px; 
-font-size: 20px;
-left: 50px; 
-top: 0px; 
-bottom: 0px;
-position: absolute;
-word-wrap: break-word
-}
-.search-container .search-btn {
-	width: 100px; 
-	height: 45px; 
-	background: rgba(160.44, 123.80, 68.85, 0.55); 
-	border-radius: 15px; 
-	overflow: hidden; 
-	border: 1px #4E3B1E solid; 
-	box-sizing: border-box;
-	flex-direction: column; 
-	justify-content: center; 
-	align-items: center; 
-	gap: 10px; 
-	display: inline-flex
-}
-.search-container .search-btn input {
-	color: #333333; 
-	font-size: 17px; 
-	font-weight: 800; 
+
+header .search-container .input-keyword input {
+	width: 550px;
+	height: 45px;
+	font-size: 20px;
+	left: 50px;
+	top: 0px;
+	bottom: 0px;
+	font-family: Arial, sans-serif;
+	position: absolute;
 	word-wrap: break-word;
 }
-.search-container .myPlace {
-	background-repeat : no-repeat;
-  width: 45px;
-  height: 45px;
-	background-image: url("../images/location_logo.png");
-}
 
-/*채팅*/
-.debate-container {
-	width: 1019px; 
-	height: 256px; 
-	left: 451px; 
-	top: 2838px; 
-	position: relative;
-/*	opacity: 0.10; 
-	background-color: #A07C45;*/
-}
-
-.debate-container input {
-	left: 800px;
-	margin: 12px 20px;
-	width: 120px; 
-	height: 40px;
-	background: rgba(160.44, 123.80, 68.85, 0.55);
+header .search-container .button {
+	width: 100px;
+	height: 45px;
+	right: 53px;
+	/*background: rgba(160.44, 123.80, 68.85, 0.55);*/
+	/*background-color: #4E3B1E;*/
 	border-radius: 15px;
 	border: 1px #4E3B1E solid;
+	box-sizing: border-box;
+	display: inline-flex;
+	justify-content: center;
+	position: absolute;
+	cursor: pointer;
+	color: #F8F8F8;
+	background-color: #4E3B1E;
+
+}
+
+header .search-container .button:hover {
+	background-color: #58A9D7;
+	color: #070555;
+}
+
+header .search-container .button input {
+	/*	color: #333333;*/
+	font-size: 17px;
+	font-weight: 800;
+	font-family: Arial, sans-serif;
+	word-wrap: break-word;
+
+}
+
+header .search-container .serach-myPlace {
+	background-repeat: no-repeat;
+	width: 45px;
+	height: 45px;
+	background-image: url("../images/location_logo.png");
+	right: 0px;
+	position: absolute;
+	cursor: pointer;
+}
+
+header .search-container .serach-myPlace form {
+	width: 100%;
+	height: 100%;
+}
+
+header .search-container .serach-myPlace form input {
+	width: 100%;
+	height: 100%;
+}
+
+
+/*MAIN*/
+
+/*키워드*/
+main .news-container {
+	width: 1019px;
+	height: 950px;
+	background: rgba(160, 124, 69, 0.1);
+	margin: 70px auto;
+	position: relative;
+	border-radius: 5px;
+}
+
+main .news-container .news-content-cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
 	flex-direction: column;
+	justify-content: flex-end;
+	display: flex;
+}
+
+main .news-container .news-content-cover .sub-menu {
+	position: absolute;
+	top: 20px;
+	right: 50px;
+}
+
+main .news-container .news-content-cover .sub-menu ul.menu {
+	display: flex;
+	font-family: arial, sans-serif;
+}
+
+main .news-container .news-content-cover .sub-menu ul.menu li {
+	z-index: 3;
+	position: relative;
+	font-size: 20px;
+	padding: 11px 16px;
+	display: block;
+	font-weight: 650;
+	color: #656565;
+	cursor: pointer;
+}
+
+main .news-container .news-content-cover .sub-menu ul.menu li:hover {
+	color: black;
+}
+
+/*main .news-container .news-content-cover .sub-menu ul.menu li::before {
+	content: "";
+	width: 1px;
+	height: 12px;
+	background-color: black;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}*/
+
+/*main .news-container .news-content-cover .sub-menu ul.menu li:first-child::before {
+	display: none;
+}*/
+
+main .news-container .news-content-cover .sub-menu ul.menu li input {
+	/*	font-size: 20px;
+	padding: 11px 16px;
+	display: block;
+	font-weight: 650;
+	color: #656565;*/
+}
+
+main .news-container .news-content-cover .sub-menu ul.menu li input:hover {
+	color: black;
+}
+
+main .news-container .news-content-cover .main-title {
+	color: #333333;
+	font-size: 30px;
+	font-family: Arial;
+	font-weight: 900;
+	top: 25px;
+	left: 20px;
+	position: absolute;
+	z-index: 3;
+}
+#keyword .tab-content {
+	display: none;
+}
+
+#keyword .tab-content.current {
+	/*display: inherit;*/
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-end;
+	display: flex;
+}
+#category .tab-content {
+	display: none;
+}
+
+#category .tab-content.current {
+	/*display: inherit;*/
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-end;
+	display: flex;
+}
+
+main .news-container .news-content-cover .content-cover {
+	width: 975px;
+	height: 149px;
+	border-radius: 5px;
+	background-color: rgba(203, 183, 153, 0.55);
 	justify-content: center;
 	align-items: center;
-	display: inline-flex;
-	position: absolute;
+	display: flex;
+	margin: 10px auto;
+	position: relative;
+}
+
+main .news-container .news-content-cover .content-cover:hover {
+	width: 1000px;
+	height: 180px;
+	transition: .2s;
+}
+
+main .news-container .news-content-cover #last-c {
+	margin-bottom: 20px;
+}
+
+main .news-container .news-content-cover .content-cover .a {
+	width: 795px;
+	height: 100%;
+	margin: 0 auto;
+	/*align-items: flex-start; 
+	flex-direction: column;
+	position: relative; */
+	position: relative;
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+}
+
+main .news-container .news-content-cover .content-cover .a div {
+	margin: 8px 0;
+}
+
+main .news-container .news-content-cover .content-cover .a .date {
+	color: #5A6372;
+	font-size: 13px;
+	font-family: Arial;
+	font-weight: 400;
+	line-height: 17px;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .date::before {
+	content: "Posted July 11, 2017";
+}
+
+main .news-container .news-content-cover .content-cover .a .main {
+	font-size: 23px;
+	font-family: Arial;
+	font-weight: 900;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .main::before {
+	content: '"연봉 1억원, 이런 밥상이 삼시세끼 공짜" 난리난 이 회사, 어디길래?';
+}
+
+main .news-container .news-content-cover .content-cover .a .cont {
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: 500;
+	line-height: 20px;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .cont::before {
+	content: "매끼 1만5000원의 식사가 ‘공짜’다. 맥주도 마음껏 마실 수 있다. "
+		"또 PC방도 편하게 즐길 수 있다. 이는 문화·외식시설이 아닌 한 게임사의 직원 지원 제도들이다. "
+		"전세계 흥행에 성공한 FPS 게임 ‘배틀그라운드’를 내놓은 ‘크래프톤’의 얘기다. "
+		"최근 크래프톤은 국내외에서 눈에 띄는 매출 성장을 이뤄내며 직원 지원을 아끼지 않고 있다.";
+}
+
+main .news-container .news-content-cover .content-cover img {
+	width: 150px;
+	height: 149px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	overflow: hidden;
+}
+
+main .news-container .news-content-cover .content-cover img::before {
+	content: url("/images/article_picture1.png");
+}
+main .news-container .news-content-cover #tab-1-keyword #img-1:before{
+	content: url("/images/font1.png");
+}
+main .news-container .news-content-cover #tab-2-keyword #img-1:before{
+	content: url("/images/font2.jpg");
+}
+main .news-container .news-content-cover #tab-3-keyword #img-1:before{
+	content: url("/images/font6.jpg");
+}
+main .news-container .news-content-cover #tab-1-category #img-1:before{
+	content: url("/images/font4.jpg");
+}
+main .news-container .news-content-cover #tab-2-category #img-1:before{
+	content: url("/images/font5.png");
+}
+main .news-container .news-content-cover #tab-3-category #img-1:before{
+	content: url("/images/font6.jpg");
+}
+main .news-container .news-content-cover #tab-4-category #img-1:before{
+	content: url("/images/font7.jpg");
+}
+main .news-container .news-content-cover #tab-5-category #img-1:before{
+	content: url("/images/inNUCE_logo.png");
+}
+main .news-container .news-content-cover #tab-6-category #img-1:before{
+	content: url("/images/font2.jpg");
+}
+
+/*카테고리*/
+main .news-container .news-content-cover #category .menu input.category {
+	font-size: 25px;
+	top: 20px;
+	right: 50px;
+}
+
+
+/*기사내용*/
+/*
+.news-container .news-content-cover .content-cover #first-1:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #first-2:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #first-3:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #img-2:before {
+	 content: '';
+}
+.news-container .news-content-cover .content-cover #second-1:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #second-2:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #second-3:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #img-3:before {
+	 content: '';
+}
+.news-container .news-content-cover .content-cover #third-1:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #third-2:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #third-3:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #img-4:before {
+	 content: '';
+}
+.news-container .news-content-cover .content-cover #fourth-1:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #fourth-2:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #fourth-3:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #img-5:before {
+	 content: '';
+}
+.news-container .news-content-cover .content-cover #fifth-1:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #fifth-2:before {
+	content: "";
+}
+.news-container .news-content-cover .content-cover #fifth-3:before {
+	content: "";
+}*/
+
+/*FOOTER*/
+footer .word-container {
+	background-color: #58A9D7;
+	width: 1019px;
+	height: 526px;
+	margin: 50px auto;
+	border-radius: 15px;
+	position: relative;
+}
+
+/*footer .word-container .title-cover {
+	height: 30px;
+	
+}*/
+
+footer .word-container .word-object {
+	height: 70px;
+	position: relative;
+	justify-content: center;
+	display: flex;
+}
+
+footer .word-container .word-object .title {
+	font-size: 40px;
+	font-family: 'Josefin Sans', sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+footer .word-container img {
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+footer .word-container img::before {
+	content: url();
 }

@@ -14,38 +14,33 @@
 	
 	
 	$(document).ready(function() {
-		let cancelButton = document.getElementById("cancelButton");
-		let id = document.getElementById("id");
-		let pw = document.getElementById("pw");
+		let id = document.getElementById("user_id");
+		let pw = document.getElementById("user_pw");
 		
-		$("#loginButton").on('click',function() {
-			
-			if(id.value =='' || pw.value=='') {
-				alert("아이디/비밀번호를 입력해 주세요");
-			} else {
+		$("#loginButton").on('click',function(ev) {
+			// 아이디나 패스워드 공란
+			if($('#user_id').val() == null || $('#user_pw').val()==null) {
+				alert("아이디/비밀번호를 입력해 주세요.");
+			}
 			
 			$.ajax({
-				url:"/",
-				data: {'id':$("#id").val(),'pw':$("#pw").val()},
-				type: "post",
-				dataType :"json",
-				success: function(response) {
-          let message = response.message;
-          alert(message);
-				},
-				error : function(request, e){
-					alert("코드=" + request.status + " 메시지=" + request.responseText + " 오류=" + e);
-				}
-			})//ajax 
-			}//else
+				type : 'post',
+				url : 'loginresult',
+				data : { 'user_id' : $("#user_id").val(), 'user_pw' : $("#user_pw").val() },
+				dataType: 'json',
+				success : function(response){
+						alert(response.login_result);
+						if(response.login_result == "로그인 성공."){
+							window.location.href = "main"
+						}
+					}		
+				})
+			
 		})//on
 		
-		cancelButton.addEventListener('click', () => {
-			alert("취소를 클릭하셨습니다.");
-		});
 		
 		
-	}); // ready
+		}); // ready
 	
 	</script>
 	<style>
@@ -79,24 +74,25 @@
 <body>
 	<h1>로그인</h1>
 	<hr>
+
 	<div class="input">
 		<div class="id">
 			<div class="text">아이디</div>
-			<input id="id" name="id" type="text">
+			<input id="user_id" name="user_id" type="text">
 		</div>
 
 		<div class="pw">
 			<div class="text">비밀번호</div>
-			<input id="pw" name="pw" type="password">
+			<input id="user_pw" name="user_pw" type="password">
 		</div>
 
 	</div>
 
 	<div class="button">
 		<input id="loginButton" type="button" value="로그인">&nbsp;&nbsp;
-		<input id="cancelButton" type="button" value="취   소">
+		
 	</div>
-
+	
 </body>
 
 </html>

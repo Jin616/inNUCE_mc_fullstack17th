@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.mc.innuce.domain.news.dto.NewsAndPressKeyDTO;
 import com.mc.innuce.domain.news.dto.NewsDTO;
 
 /**

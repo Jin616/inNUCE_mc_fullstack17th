@@ -1,53 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
- <!-- !!!!!!this file will delete!!!!!! -->
- <!-- sample code -->
- <!-- 
-<mapper namespace="board.spring.mybatis.BoardDAO">
-<select id="insertBoard" parameterType="boarddto" resultType="int">
-insert into board(title, contents, writer, pw) values(#{title}, #{contents}, #{writer}, #{pw});
-</select>
-
-<select id="boardlist" resultType="boarddto" parameterType="int">
-select * from board where isdelete = false order by writingtime desc limit
-<foreach collection="array" item="num" separator=",">#{num}</foreach>
-</select>
-
-<select id="selectTotal" resultType="int">
-select count(*) from board where isdelete = false;
-</select>
-
-<update id="updateViewCount" parameterType="int">
-update board set viewcount = viewcount + 1 where seq = #{seq};
-</update>
-
-<select id="selectOneBoard" resultType="boarddto" parameterType="int">
-select * from board where seq = #{seq};
-</select>
-
-<update id="updateBoard" parameterType="boarddto">
-update board
-set title=#{title}, contents=#{contents}, writingtime=now()
-where seq=#{seq}
-</update>
-
-<update id="deleteOneBoard" parameterType="int">
-update board set isdelete = true where seq = #{seq}
-</update>
-
-<select id="boardAllSearchList" resultType="boarddto" parameterType="String">
-select * from board where title like '%${word}%' or contents like '%${word}%' or writer like '%${word}%'
-</select>
-
-<select id="boardSearchList" resultType="boarddto" parameterType="hashmap">
-select * from board where ${colname} like '#{colvalue}' limit #{startSeq}, #{limitSeq}
-</select>
-
-
-</mapper>
-  -->
 
 <mapper namespace="com.mc.innuce.domain.debate.dao.DebateRoomDAO">
 	<select id="openDebateRoomList" resultType="debateroomdto">
@@ -55,4 +8,16 @@ select * from board where ${colname} like '#{colvalue}' limit #{startSeq}, #{lim
 		from debate_room
 		where debate_room_status = 1
 	</select>
+	
+	<select id="selectOneDebateRoom" parameterType="int" resultType="debateroomdto">
+		select *
+		from debate_room
+		where debate_room_key = #{debate_room_key}
+	</select>
+	
+	<update id="increaseParticipants" parameterType="int">
+		update debate_room
+		set participants_num = participants_num + 1
+		where debate_room_key = #{debate_room_key}
+	</update>
 </mapper>

@@ -15,6 +15,7 @@
 		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordDTO" alias="keywordDTO"/>
 		<typeAlias type="com.mc.innuce.domain.search.dto.SearchDTO" alias="searchDTO"/>
 		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordNewsDTO" alias="keywordNewsDTO"/>
+		<typeAlias type="com.mc.innuce.domain.search.dto.KeyOfKeywordAndNewsDTO" alias="keyOfKeywordAndNewsDTO"/>
 
 	</typeAliases>
 	

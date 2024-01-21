@@ -1,9 +1,11 @@
 package com.mc.innuce.domain.search.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.search.dao.CrudDAO;
+import com.mc.innuce.domain.search.dto.KeyOfKeywordAndNewsDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 
 @Service
@@ -20,7 +22,7 @@ public class CRUDService {
 	public int insertKeyword(KeywordDTO dto) {
 		return dao.insertKeyword(dto);
 	}
-	public void insertToKeywordNews(int keyword_key, long[] newsKeyArray) {
-		dao.insertToKeywordNews(keyword_key,newsKeyArray);
+	public void insertToKeywordNews(KeyOfKeywordAndNewsDTO dto) {
+		dao.insertToKeywordNews(dto);
 	}
 }

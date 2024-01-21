@@ -18,11 +18,11 @@ public class KeywordService {
 		return keywordDAO.getNewsList(dto);
 	}
 	
-	public long[] getNewsKeys1() {
+	public List<Long> getNewsKeys1() {
 		return keywordDAO.getNewsKeys1();
 	}
 
-	public long[] getNewsKeys2(String keyword) {
+	public List<Long> getNewsKeys2(String keyword) {
 		return keywordDAO.getNewsKeys2(keyword);
 	}
 

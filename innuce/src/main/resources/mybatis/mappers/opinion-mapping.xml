@@ -17,4 +17,50 @@
 	<select id="selectLastInsertId" resultType="int">
 		select last_insert_id()
 	</select>
+	
+	<select id="selectLastOpinion" parameterType="int" resultType="int">
+		select opinion_key
+		from opinion
+		where debate_user_key in (select debate_user_key
+									from debate_user
+									where debate_room_key = #{debate_room_key})
+		order by opinion_regdate desc
+		limit 0,1;
+	</select>
+	
+	<select id="selectOnePreOpinionList" parameterType="int" resultType="opiniondto">
+		select *
+		from opinion
+		where opinion_regdate &lt;= (select opinion_regdate
+										from opinion
+										where opinion_key = #{opinion_key})
+			and
+			debate_user_key in (select debate_user_key
+								from debate_user
+								where debate_room_key = (select debate_room_key
+															from debate_user
+															where debate_user_key = (select debate_user_key
+																						from opinion
+																						where opinion_key = #{opinion_key})))
+		order by opinion_regdate desc
+		limit 1,10;
+	</select>
+	
+	<select id="selectPreOpinionList" parameterType="int" resultType="opiniondto">
+		select *
+		from opinion
+		where opinion_regdate &lt;= (select opinion_regdate
+										from opinion
+										where opinion_key = #{opinion_key})
+			and
+			debate_user_key in (select debate_user_key
+								from debate_user
+								where debate_room_key = (select debate_room_key
+															from debate_user
+															where debate_user_key = (select debate_user_key
+																						from opinion
+																						where opinion_key = #{opinion_key})))
+		order by opinion_regdate desc
+		limit 0,10;
+	</select>
 </mapper>

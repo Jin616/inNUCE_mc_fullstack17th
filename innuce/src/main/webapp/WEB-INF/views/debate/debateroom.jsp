@@ -39,13 +39,10 @@
 		
 		// 이전 채팅 버튼 클릭 시 보여지는 채팅 이전의 채팅을 가져와 보여주기
 		$('#loadbtn').on('click', function() {
-			let premessages = loadMessage($('.debate_room_opinion_list'), roomId);
-			for(let i = 0; i < premessages.length; i++) {
-				preMessage(createMessage(premessages[i]), $('.debate_room_opinion_list'));
-			}
+			loadMessage($('.debate_room_opinion_list'), roomId);
 		});
 		
-		// position(채팅 공간)의 가장 이전의 채팅 key값과 debate_room_key로 그 이전의 채팅들을 가져오기
+		// position(채팅 공간)의 가장 이전의 채팅 key값과 debate_room_key로 그 이전의 채팅들을 가져와 보여주기
 		function loadMessage(position, roomkey){
 			let loadkey = position.children().first().attr('id');
 			
@@ -57,8 +54,6 @@
 					"opinion_key" : loadkey,
 			}
 			
-			let resultmsg = null;
-			
 			$.ajax({
 				type : "post",
 				url : "loadmessage/" + roomkey,
@@ -66,14 +61,18 @@
 				dataType : "json",
 				success : function(response) {
 					//alert(JSON.stringify(response));
-					resultmsg = response;
+					for(let i = 0; i < response.length; i++) {
+						// createMessage 메소드의 파라미터로 들어갈 JSON 형식으로 변환
+						let jsonobj = {body : JSON.stringify(response[i])};
+						// 채팅을 만들어 순서대로 채팅공간 제일 앞으로 붙이기
+						preMessage(createMessage(jsonobj), $('.debate_room_opinion_list'));
+					}
 				},
 				error : function(request, e) {
 					alert("코드 : " + request.status + " 메시지 : " + request.responseText + " 오류" + e);
 				}
 			});
 			
-			return resultmsg;
 		}
 		
 		// JSON 메시지 데이터를 append 하기 전의 string으로 만들어 반환

@@ -1,5 +1,7 @@
 package com.mc.innuce.domain.debate.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +52,11 @@ public class DebateUserService {
 	public String selectOneUserId(int debate_user_key) {
 		// TODO Auto-generated method stub
 		return debateUserDAO.selectOneUserId(debate_user_key);
+	}
+
+	public List<String> selectUserIdList(List<Integer> debateUserKeyList) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.selectUserIdList(debateUserKeyList);
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.mc.innuce.domain.debate.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,10 @@ public interface OpinionDAO {
 
 	int selectLastInsertId();
 
+	int selectLastOpinion(int roomId);
+
+	List<OpinionDTO> selectPreOpinionList(int opinion_key);
+
+	List<OpinionDTO> selectOnePreOpinionList(int opinion_key);
+	
 }

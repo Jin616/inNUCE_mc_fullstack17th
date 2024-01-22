@@ -1,5 +1,7 @@
 package com.mc.innuce.domain.debate.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,21 @@ public class OpinionService {
 	public OpinionDTO selectOneOpinion(int opinion_key) {
 		// TODO Auto-generated method stub
 		return opinionDAO.selectOneOpinion(opinion_key);
+	}
+
+	public int selectLastOpinion(int roomId) {
+		// TODO Auto-generated method stub
+		return opinionDAO.selectLastOpinion(roomId);
+	}
+
+	public List<OpinionDTO> selectPreOpinionList(int opinion_key) {
+		// TODO Auto-generated method stub
+		return opinionDAO.selectPreOpinionList(opinion_key);
+	}
+
+	public List<OpinionDTO> selectOnePreOpinionList(int opinion_key) {
+		// TODO Auto-generated method stub
+		return opinionDAO.selectOnePreOpinionList(opinion_key);
 	}
 	
 }

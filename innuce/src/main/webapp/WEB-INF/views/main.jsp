@@ -22,13 +22,109 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <!--    anyChart -->
+ <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-tag-cloud.min.js"></script>
+
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script defer src="/js/main.js"></script>
 </head>
 <body>
 <!-- header -->
 
-<c:choose>
+  <!-- 상단바 -->
+		<div class="logo-txt-cover">
+		<!-- 채팅바 -->
+		<div class="badges">
+			<div class="title">실시간 인기 토론방</div>
+			<div class="badge">
+				<input type=button value="채팅방1"> 
+			</div>
+			<div class="badge">
+				<input type=button value="채팅방1"> 
+			</div>
+			<div class="badge">
+				<input type=button value="채팅방1"> 
+			</div>
+			<div class="badge">
+				<input type=button value="채팅방1"> 
+			</div>
+			
+		</div>
+		
+   <form action="/main">
+   	<input id="logo-txt" type=submit value='in NUCE'> 
+   </form>
+   
+   <div class="btn-cover">
+   
+   <ul class="button">
+   	<li>
+   	<form action="javascript:void(0)">
+       <input class="button" type=button id='btn1' value='SignUp'>
+   	</form>
+   	</li>
+   	
+   	<li>
+   	<form action="javascript:void(0)">
+   		<input class="button" type=button id='btn2' value='Login'>
+   	</form>
+   	</li>
+   </ul>
+   
+   </div>
+   
+  </div><!-- logo-txt-cover -->
+  
+  <!-- 로고 -->
+  <div class="logo-container">
+  <a href="/main" class="logo-img">
+   <img src="/images/inNUCE_logo_header.png"/> 
+  </a>
+  
+   <div class="logo-ex">
+     <span>
+     	in NUCE <br/>
+     </span>
+     
+     <span>
+     	[인누케]<br/>
+     	호두(껍데기) 안에 라는 뜻의 라틴어<br/>
+     </span>
+     
+     <span>
+     	= 한 마디로 요약하면<br/>
+     </span>
+   </div>
+
+ </div>
+ 
+ <!-- 검색 -->
+	<div class="search-container" >
+	   
+	<div class="input-keyword">
+		<div class="material-symbols-outlined">search</div>
+		<input type=text placeholder="검색어를 입력해주세요">
+	</div>
+	
+	<div class="button">
+	 	<input type=submit value='검색'>
+	</div>
+	
+	<div class="serach-myPlace">
+		<form action="javascript:void(0)">
+			<input class="myPlace" type=submit value=''>
+		</form>
+	</div>
+ 
+</div>
+
+ 
+</header>
+
+<!-- 
+이전 버전 충돌 코드입니다. 지은님 확인 후 지워주세요!
+<c:choose> 
 	<c:when  test= "${sessionScope.login_user != null}">
 	<%@ include file="./headerlogin.jsp"%>
 	</c:when>
@@ -36,6 +132,8 @@
 	<%@ include file="./headerlogout.jsp"%>
 	</c:otherwise>
 </c:choose>
+-->
+
 
 <%@ include file="./chattingroomlist.jsp"%>
 
@@ -558,12 +656,73 @@
 <footer>
  <!-- HOT WORD --> 
  <div class='word-container'>
-     <div class="title-cover"></div>
-     <div class="word-object">
-         <div class='title'>HOT WORD</div>
+
+ 	<div class="title-cover"></div> 
+  <div class="word-object">
+ 		<div class='title'>HOT WORD</div>
+  </div>
+     
+  <div class="box-cover"> 
+  
+	<div class='box'>
+ 	<div class="main-container">
+ 	
+		<div id="choice" class="tab-container current">
+		<img src="/images/inNUCE_logo.png" alter="logo">
+		카테고리를 클릭해주세요
+		</div>
+  <!-- 정치 -->
+     <div id="con-tab-0" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
-     <img src="https://via.placeholder.com/1019x462" alt="word cloud"/>
+ 	<!-- 경제 -->
+     <div id="con-tab-1" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 사회 -->
+     <div id="con-tab-2" class="tab-container">
+    <!--  <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 생활 -->
+     <div id="con-tab-3" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 세계 -->
+     <div id="con-tab-4" class="tab-container">
+<!--      <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 사설/컬럼 -->
+     <div id="con-tab-5" class="tab-container">
+<!--      <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	
+ 	</div>
+ 	
+ 	<div class="category-container">
+ 	
+	<div class="category-button">
+		
+		<!-- 정치 -->
+		<div class='tab-link' data-tab="con-tab-0" id="politics" value="100">정치</div>
+		<!-- 경제 -->	
+		<div class='tab-link' data-tab="con-tab-1" id="economy" value="101">경제</div>
+		<!-- 사회 -->
+		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
+		<!-- 생활 -->
+		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
+		<!-- 세계 -->
+		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
+		<!-- 사설/컬럼 -->
+		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
+			
+	</div>
+ 	
+ 	</div>
+	</div>
+	</div>
  </div>
+ 
+			
 </footer>
 
 

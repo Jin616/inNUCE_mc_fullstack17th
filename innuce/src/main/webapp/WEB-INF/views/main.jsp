@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,8 +30,7 @@
 <script defer src="/js/main.js"></script>
 </head>
 <body>
-<!-- HEADER -->
-<header>
+<!-- header -->
 
   <!-- 상단바 -->
 		<div class="logo-txt-cover">
@@ -122,6 +122,20 @@
  
 </header>
 
+<!-- 
+이전 버전 충돌 코드입니다. 지은님 확인 후 지워주세요!
+<c:choose> 
+	<c:when  test= "${sessionScope.login_user != null}">
+	<%@ include file="./headerlogin.jsp"%>
+	</c:when>
+	<c:otherwise>
+	<%@ include file="./headerlogout.jsp"%>
+	</c:otherwise>
+</c:choose>
+-->
+
+
+<%@ include file="./chattingroomlist.jsp"%>
 
 <!-- MAIN -->
 <main>

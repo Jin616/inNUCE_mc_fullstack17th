@@ -10,12 +10,20 @@
 		<typeAlias type="com.mc.innuce.domain.news.dto.NewsDTO" alias="newsdto"/>
 		<typeAlias type="com.mc.innuce.domain.news.dto.NewsAndPressKeyDTO" alias="newsandpresskeydto"/>
 		<typeAlias type="com.mc.innuce.domain.debate.dto.DebateRoomDTO" alias="debateroomdto"/>
+
+		<typeAlias type="com.mc.innuce.domain.debate.dto.DebateUserDTO" alias="debateuserdto"/>
+
 		
 		<!-- ji eun -->
 		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordDTO" alias="keywordDTO"/>
 		<typeAlias type="com.mc.innuce.domain.search.dto.SearchDTO" alias="searchDTO"/>
 		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordNewsDTO" alias="keywordNewsDTO"/>
 		<typeAlias type="com.mc.innuce.domain.search.dto.KeyOfKeywordAndNewsDTO" alias="keyOfKeywordAndNewsDTO"/>
+
+		
+		<typeAlias type="com.mc.innuce.domain.user.dto.UserDTO" alias="userdto"/>
+
+
 
 	</typeAliases>
 	

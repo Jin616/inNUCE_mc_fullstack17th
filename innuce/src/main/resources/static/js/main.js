@@ -1,8 +1,23 @@
-const badgeEl = document.querySelector('header .badges');
+var badgeEl = document.querySelector('header .badges');
+
+
+/*북마크 클릭 시*/
+let flag2 = false;
+
+$("main i").click(function() {
+	flag2 = !flag2;
+	
+	if(!flag2) {
+		$(this).removeClass('checked');
+	} else {
+		$(this).addClass('checked');
+	}
+})
+
 
 window.addEventListener('scroll', _.throttle(function() {
 	console.log(window.scrollY);
-	if (window.scrollY > 800) {
+	if (window.scrollY > 1000) {
 		//배지 숨기기
 		gsap.to(badgeEl, .6, {
 			opacity: 0,
@@ -44,7 +59,9 @@ let datas = new Array(6);
 let flag = false;
 
 
-for (let i = 0; i < datas.length; i++) {
+
+
+/*for (let i = 0; i < datas.length; i++) {
 	(function(i) {
 		$.ajax({
 			url: "/wordCloud",
@@ -74,10 +91,7 @@ for (let i = 0; i < datas.length; i++) {
 		});//ajax
 
 	})(i);
-}
-
-
-
+}*/
 
 
 
@@ -117,7 +131,7 @@ $('.word-container .category-container .category-button div').click(function() {
 
 });
 
-function wordclouding(data, tab_id) {
+/*function wordclouding(data, tab_id) {
 
 	let chart = anychart.tagCloud(data);
 
@@ -137,7 +151,7 @@ function wordclouding(data, tab_id) {
 
 	chart.draw();
 }
-
+*/
 
 
 

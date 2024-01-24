@@ -26,10 +26,8 @@ public class NewsAPITest {
 	
     public static void main(String[] args) throws IOException {
     	
-    	InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
-    	Properties props = new Properties();
-    	props.load(is);
-    	
+      String clientId = "Hm3VFA0ujGVH5iNMk8XU"; //애플리케이션 클라이언트 아이디
+      String clientSecret = "XVaGXy8eEK"; //애플리케이션 클라이언트 시크릿
         String text = null;
         try {
             text = URLEncoder.encode("윤석열", "UTF-8");
@@ -42,13 +40,12 @@ public class NewsAPITest {
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", props.getProperty("naverNewsId"));
-        requestHeaders.put("X-Naver-Client-Secret", props.getProperty("naverNewsSecret"));
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
 
         System.out.println(responseBody);
-        is.close();
     }
 
 

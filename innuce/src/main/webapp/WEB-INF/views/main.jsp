@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +16,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@1,700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <!-- 구글 아이콘 -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<!-- fontawesome -->
+<script src="https://kit.fontawesome.com/1ff0b3ea8a.js" crossorigin="anonymous"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/mypage.css">
 <!-- 브라우저의 초기설정을 reset -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -29,95 +38,12 @@
 <script defer src="/js/main.js"></script>
 </head>
 <body>
+
 <!-- HEADER -->
 <header>
 
-  <!-- 상단바 -->
-		<div class="logo-txt-cover">
-		<!-- 채팅바 -->
-		<div class="badges">
-			<div class="title">실시간 인기 토론방</div>
-			<div class="badge">
-				<input type=button value="채팅방1"> 
-			</div>
-			<div class="badge">
-				<input type=button value="채팅방1"> 
-			</div>
-			<div class="badge">
-				<input type=button value="채팅방1"> 
-			</div>
-			<div class="badge">
-				<input type=button value="채팅방1"> 
-			</div>
-			
-		</div>
-		
-   <form action="/main">
-   	<input id="logo-txt" type=submit value='in NUCE'> 
-   </form>
-   
-   <div class="btn-cover">
-   
-   <ul class="button">
-   	<li>
-   	<form action="javascript:void(0)">
-       <input class="button" type=button id='btn1' value='SignUp'>
-   	</form>
-   	</li>
-   	
-   	<li>
-   	<form action="javascript:void(0)">
-   		<input class="button" type=button id='btn2' value='Login'>
-   	</form>
-   	</li>
-   </ul>
-   
-   </div>
-   
-  </div><!-- logo-txt-cover -->
-  
-  <!-- 로고 -->
-  <div class="logo-container">
-  <a href="/main" class="logo-img">
-   <img src="/images/inNUCE_logo_header.png"/> 
-  </a>
-  
-   <div class="logo-ex">
-     <span>
-     	in NUCE <br/>
-     </span>
-     
-     <span>
-     	[인누케]<br/>
-     	호두(껍데기) 안에 라는 뜻의 라틴어<br/>
-     </span>
-     
-     <span>
-     	= 한 마디로 요약하면<br/>
-     </span>
-   </div>
-
- </div>
- 
- <!-- 검색 -->
-	<div class="search-container" >
-	   
-	<div class="input-keyword">
-		<div class="material-symbols-outlined">search</div>
-		<input type=text placeholder="검색어를 입력해주세요">
-	</div>
-	
-	<div class="button">
-	 	<input type=submit value='검색'>
-	</div>
-	
-	<div class="serach-myPlace">
-		<form action="javascript:void(0)">
-			<input class="myPlace" type=submit value=''>
-		</form>
-	</div>
- 
-</div>
+<%-- <jsp:include page="header/header.jsp"/> --%>
+<%@ include file ="header/header.jsp" %>
 
  
 </header>
@@ -155,7 +81,7 @@
 			
 			<div class="main-title">오늘의 키워드 뉴스</div>
 			
-			<div id="tab-1-keyword" class="tab-content current">
+		<div id="tab-1-keyword" class="tab-content current">
      	<div class='content-cover'>
         <img id="img-1" alt="images"/>
         <div class="a">
@@ -163,6 +89,9 @@
           <div id="first-2" class="main"></div>
           <div id="first-3" class="cont"><br/></div>
         </div>
+      	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -172,6 +101,9 @@
           <div id="second-2" class="main"></div>
           <div id="second-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -181,6 +113,9 @@
           <div id="third-2" class="main"></div>
           <div id="third-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -190,6 +125,9 @@
           <div id="fourth-2" class="main"></div>
           <div id="fourth-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover" id="last-c">
@@ -199,7 +137,11 @@
           <div id="fifth-2" class="main"></div>
           <div id="fifth-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
+      
       </div>
       
 			<div id="tab-2-keyword" class="tab-content">
@@ -210,6 +152,9 @@
           <div id="first-2" class="main"></div>
           <div id="first-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -219,6 +164,9 @@
           <div id="second-2" class="main"></div>
           <div id="second-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -228,6 +176,9 @@
           <div id="third-2" class="main"></div>
           <div id="third-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -237,6 +188,9 @@
           <div id="fourth-2" class="main"></div>
           <div id="fourth-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover" id="last-c">
@@ -247,6 +201,9 @@
           <div id="fifth-3" class="cont"><br/></div>
         </div>
       </div>
+            	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
 			<div id="tab-3-keyword" class="tab-content">
@@ -257,6 +214,9 @@
           <div id="first-2" class="main"></div>
           <div id="first-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -266,6 +226,9 @@
           <div id="second-2" class="main"></div>
           <div id="second-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -275,6 +238,9 @@
           <div id="third-2" class="main"></div>
           <div id="third-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover">
@@ -284,6 +250,9 @@
           <div id="fourth-2" class="main"></div>
           <div id="fourth-3" class="cont"><br/></div>
         </div>
+              	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
       <div class="content-cover" id="last-c">
@@ -294,6 +263,9 @@
           <div id="fifth-3" class="cont"><br/></div>
         </div>
       </div>
+            	<div class='bookmark-cover'>
+      		<i  class="fa-solid fa-bookmark"></i>
+      	</div>
       </div>
       
 		</div>
@@ -651,6 +623,28 @@
   <div class="box-cover"> 
   
 	<div class='box'>
+	
+	 	<div class="category-container">
+ 	
+	<div class="category-button">
+		
+		<!-- 정치 -->
+		<div class='tab-link' data-tab="con-tab-0" id="politics" value="100">정치</div>
+		<!-- 경제 -->	
+		<div class='tab-link' data-tab="con-tab-1" id="economy" value="101">경제</div>
+		<!-- 사회 -->
+		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
+		<!-- 생활 -->
+		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
+		<!-- 세계 -->
+		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
+		<!-- 사설/컬럼 -->
+		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
+			
+	</div>
+ 	
+ 	</div>
+ 	
  	<div class="main-container">
  	
 		<div id="choice" class="tab-container current">
@@ -684,26 +678,7 @@
  	
  	</div>
  	
- 	<div class="category-container">
- 	
-	<div class="category-button">
-		
-		<!-- 정치 -->
-		<div class='tab-link' data-tab="con-tab-0" id="politics" value="100">정치</div>
-		<!-- 경제 -->	
-		<div class='tab-link' data-tab="con-tab-1" id="economy" value="101">경제</div>
-		<!-- 사회 -->
-		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
-		<!-- 생활 -->
-		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
-		<!-- 세계 -->
-		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
-		<!-- 사설/컬럼 -->
-		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
-			
-	</div>
- 	
- 	</div>
+
 	</div>
 	</div>
  </div>

@@ -21,11 +21,10 @@ $(document).ready(function(){
 });//ready
 </script>
 
-
   <!-- 상단바 -->
 		<div class="logo-txt-cover">
 			
-					<!-- 채팅바 -->
+	<!-- 채팅바 -->
 <%-- 		<jsp:include page="/WEB-INF/views/header/chattingroomlist.jsp"/> --%>
 		<%@ include file ="/WEB-INF/views/header/chattingroomlist.jsp" %>
 		

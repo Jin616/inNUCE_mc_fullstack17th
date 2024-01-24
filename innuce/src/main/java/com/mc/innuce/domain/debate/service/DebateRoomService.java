@@ -17,5 +17,15 @@ public class DebateRoomService {
 		// TODO Auto-generated method stub
 		return debateRoomDAO.openDebateRoomList();
 	}
+
+	public DebateRoomDTO selectOneDebateRoom(int debate_room_key) {
+		// TODO Auto-generated method stub
+		return debateRoomDAO.selectOneDebateRoom(debate_room_key);
+	}
+
+	public int increaseParticipants(int debate_room_key) {
+		// TODO Auto-generated method stub
+		return debateRoomDAO.increaseParticipants(debate_room_key);
+	}
 	
 }

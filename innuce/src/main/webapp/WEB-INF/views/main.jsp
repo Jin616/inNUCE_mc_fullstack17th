@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,24 +29,25 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
  <!--    anyChart -->
  <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-core.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-tag-cloud.min.js"></script>
 
+
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script defer src="/js/main.js"></script>
 </head>
+
 <body>
 
 <!-- HEADER -->
 <header>
 
-<%-- <jsp:include page="header/header.jsp"/> --%>
-<%@ include file ="header/header.jsp" %>
+<%@ include file ="/WEB-INF/views/header/header.jsp" %>
 
  
 </header>
-
 
 <!-- MAIN -->
 <main>

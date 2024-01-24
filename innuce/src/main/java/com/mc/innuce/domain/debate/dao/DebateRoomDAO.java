@@ -12,4 +12,8 @@ import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
 public interface DebateRoomDAO {
 
 	List<DebateRoomDTO> openDebateRoomList();
+
+	DebateRoomDTO selectOneDebateRoom(int debate_room_key);
+
+	int increaseParticipants(int debate_room_key);
 }

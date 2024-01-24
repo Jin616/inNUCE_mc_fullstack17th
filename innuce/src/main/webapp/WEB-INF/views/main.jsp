@@ -22,22 +22,22 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script defer src="/js/main.js"></script>
 </head>
 <body>
 <!-- header -->
 
-<c:choose>
-	<c:when  test= "${sessionScope.login_user != null}">
-	<%@ include file="./headerlogin.jsp"%>
-	</c:when>
-	<c:otherwise>
-	<%@ include file="./headerlogout.jsp"%>
-	</c:otherwise>
-</c:choose>
 
-<%@ include file="./chattingroomlist.jsp"%>
+</head>
+<body>
+<!-- header -->
+<header>
+<%@ include file="./header/header.jsp"%>
+<%@ include file="./header/searchbar.jsp"%>
+<%@ include file="./header/chattingroomlist.jsp"%>
+</header>
 
 <!-- MAIN -->
 <main>

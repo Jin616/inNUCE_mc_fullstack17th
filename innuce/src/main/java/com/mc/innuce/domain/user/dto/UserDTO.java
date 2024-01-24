@@ -7,8 +7,8 @@ public class UserDTO {
 	
 	int user_key;
 	String user_id,user_pw, user_name, email, phone, gender;
-	boolean user_isdeleted;
-	String birthday, regdate,address;
+	boolean user_isdeleted,is_admin;
+	String birthday, regdate,address,deleted_time;
 	
 	//Constructor
 	public UserDTO() {
@@ -16,7 +16,7 @@ public class UserDTO {
 	}
 
 	public UserDTO(int user_key, String user_id, String user_pw, String user_name, String email, String phone,
-			String gender, boolean user_isdeleted, String birthday, String regdate, String address) {
+			String gender, boolean user_isdeleted, String deleted_time, String birthday, String regdate, String address, boolean is_admin) {
 		super();
 		this.user_key = user_key;
 		this.user_id = user_id;
@@ -29,6 +29,8 @@ public class UserDTO {
 		this.birthday = birthday;
 		this.regdate = regdate;
 		this.address = address;
+		this.deleted_time = deleted_time;
+		this.is_admin = is_admin;
 	}
 	
 	public UserDTO(String user_id, String user_pw, String user_name, String email, String phone, String gender,
@@ -110,6 +112,18 @@ public class UserDTO {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getDeleted_time() {
+		return deleted_time;
+	}
+	public void setDeleted_time(String deleted_time) {
+		this.deleted_time = deleted_time;
+	}
+	public boolean isIs_admin() {
+		return is_admin;
+	}
+	public void setIs_admin(boolean is_admin) {
+		this.is_admin = is_admin;
 	}
 	
 	

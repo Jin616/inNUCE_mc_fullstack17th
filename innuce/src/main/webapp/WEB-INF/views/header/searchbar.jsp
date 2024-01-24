@@ -22,61 +22,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/js/jquery-3.7.1.min.js"></script>
-<script defer src="/js/main.js"></script>
+
 </head>
 <body>
-<!-- HEADER -->
+<!-- 검색 -->
 <header>
-
-  <!-- 상단바 -->
-		<div class="logo-txt-cover">
-		
-   <form action="/main">
-   	<input id="logo-txt" type=submit value='in NUCE'> 
-   </form>
-   <div class="btn-cover">
-   <ul class="button">
-   	<li>
-   
-       <input class="button" type=button id='btn1' value='SignUp' onclick="location.href='registermember'">
-   	
-   	</li>
-   	<li>
-   
-   		<input class="button" type=button id='btn2' value='Login' onclick="location.href='login'">
-   	
-   	</li>
-   </ul>
-   
-   </div>
-   
-  </div><!-- logo-txt-cover -->
-  
-  <!-- 로고 -->
-  <div class="logo-container">
-  <a href="/main" class="logo-img">
-   <img src="/images/inNUCE_logo.png"/> 
-  </a>
-  
-   <div class="logo-ex">
-     <span>
-     	in NUCE <br/>
-     </span>
-     
-     <span>
-     	[인누케]<br/>
-     	호두(껍데기) 안에 라는 뜻의 라틴어<br/>
-     </span>
-     
-     <span>
-     	= 한 마디로 요약하면<br/>
-     </span>
-   </div>
-
- </div>
- 
- <!-- 검색 -->
 	<div class="search-container" >
 	   
 	<div class="input-keyword">
@@ -93,10 +43,7 @@
 			<input class="myPlace" type=submit value=''>
 		</form>
 	</div>
- 
-</div>
-
- 
+	</div>
 </header>
 </body>
 </html>

@@ -26,19 +26,21 @@
 <script defer src="/js/main.js"></script>
 <script>
 $(document).ready(function(){
-	$("#btn2").on('click', function(){ 
-	$.ajax({
-		url: "logout",
-		type: "post",
-		success: function(response){
-			location.reload(true);
-		},
-		error : function(request, e){
-			alert("코드=" + request.status + " 메시지=" + request.responseText + " 오류=" + e);
-		}
-	});//ajax
-});//on
-});
+	if(${!empty sessionScope.login_user}){
+		$("#btn2").on('click', function(){ 
+		$.ajax({
+			url: "logout",
+			type: "post",
+			success: function(response){
+				location.reload(true);
+			},
+			error : function(request, e){
+				alert("코드=" + request.status + " 메시지=" + request.responseText + " 오류=" + e);
+			}
+		});//ajax
+	});// btn2 click
+}//if
+});//ready
 </script>
 </head>
 
@@ -50,19 +52,29 @@ $(document).ready(function(){
 		<div class="logo-txt-cover">
 			
 			
-   	<input id="logo-txt" type=submit value='in NUCE'> 
+   		<input id="logo-txt" type=button  value='in NUCE' onclick="location.href='main'">  
  
    <div class="btn-cover">
    <ul class="button">
    	<li>
-   	
-       <input class="button" type=button id='btn1' value='MyPage' onclick="location.href='mypage'">
-   	
+   		<c:choose>
+   			<c:when test="${empty sessionScope.login_user}">
+   				<input class="button" type=button id='btn1' value='SignUp' onclick="location.href='registermember'">
+   			</c:when>
+   			<c:otherwise>
+   				<input class="button" type=button id='btn1' value="MyPage" onclick="location.href='mypage'">
+   			</c:otherwise>
+   		</c:choose>
    	</li>
    	<li>
-   	
-   		<input class="button" type=button id='btn2' value='Logout' >
-   	
+   		<c:choose>
+   			<c:when test="${empty sessionScope.login_user}">
+   				<input class="button" type=button id='btn2' value='Login' onclick="location.href='login'">
+   			</c:when>
+   			<c:otherwise>	
+   				<input class="button" type=button id='btn2' value='Logout' >
+   			</c:otherwise>
+   		</c:choose>	
    	</li>
    </ul>
    
@@ -90,28 +102,7 @@ $(document).ready(function(){
      	= 한 마디로 요약하면<br/>
      </span>
    </div>
-
  </div>
- 
- <!-- 검색 -->
-	<div class="search-container" >
-	   
-	<div class="input-keyword">
-		<div class="material-symbols-outlined">search</div>
-		<input type=text placeholder="검색어를 입력해주세요">
-	</div>
-	
-	<div class="button">
-	 	<input type=submit value='검색'>
-	</div>
-	
-	<div class="serach-myPlace">
-		<form action="javascript:void(0)">
-			<input class="myPlace" type=submit value=''>
-		</form>
-	</div>
- 
-</div>
 
  
 </header>

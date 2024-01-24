@@ -10,6 +10,8 @@ create table user_info(
 	user_deleted_time datetime default NULL,
 	birthday datetime NOT NULL,
 	regdate datetime NOT NULL DEFAULT now(),
-    address varchar(50) Not null
+    address varchar(50) Not null,
+    is_admin boolean NOT NULL DEFAULT false
 );
 
+select * from user_info;

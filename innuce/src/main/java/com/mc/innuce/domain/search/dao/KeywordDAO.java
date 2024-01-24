@@ -13,6 +13,6 @@ import com.mc.innuce.domain.search.dto.KeywordDTO;
 public interface KeywordDAO {
 	
 	public List<NewsDTO> getNewsList(KeywordDTO dto);
-	public long[] getNewsKeys1();
-	public long[] getNewsKeys2(String keyword);
+	public List<Long> getNewsKeys1();
+	public List<Long> getNewsKeys2(String keyword);
 }

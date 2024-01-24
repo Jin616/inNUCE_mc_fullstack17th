@@ -23,14 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+ <!--    anyChart -->
+ <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-tag-cloud.min.js"></script>
+
+
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script defer src="/js/main.js"></script>
 </head>
-<body>
-<!-- header -->
 
-
-</head>
 <body>
 <!-- header -->
 <header>
@@ -558,12 +559,73 @@
 <footer>
  <!-- HOT WORD --> 
  <div class='word-container'>
-     <div class="title-cover"></div>
-     <div class="word-object">
-         <div class='title'>HOT WORD</div>
+
+ 	<div class="title-cover"></div> 
+  <div class="word-object">
+ 		<div class='title'>HOT WORD</div>
+  </div>
+     
+  <div class="box-cover"> 
+  
+	<div class='box'>
+ 	<div class="main-container">
+ 	
+		<div id="choice" class="tab-container current">
+		<img src="/images/inNUCE_logo.png" alter="logo">
+		카테고리를 클릭해주세요
+		</div>
+  <!-- 정치 -->
+     <div id="con-tab-0" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
-     <img src="https://via.placeholder.com/1019x462" alt="word cloud"/>
+ 	<!-- 경제 -->
+     <div id="con-tab-1" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 사회 -->
+     <div id="con-tab-2" class="tab-container">
+    <!--  <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 생활 -->
+     <div id="con-tab-3" class="tab-container">
+   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 세계 -->
+     <div id="con-tab-4" class="tab-container">
+<!--      <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	<!-- 사설/컬럼 -->
+     <div id="con-tab-5" class="tab-container">
+<!--      <img src="/images/loading.gif" id="loadingimg"> -->
+     </div>
+ 	
+ 	</div>
+ 	
+ 	<div class="category-container">
+ 	
+	<div class="category-button">
+		
+		<!-- 정치 -->
+		<div class='tab-link' data-tab="con-tab-0" id="politics" value="100">정치</div>
+		<!-- 경제 -->	
+		<div class='tab-link' data-tab="con-tab-1" id="economy" value="101">경제</div>
+		<!-- 사회 -->
+		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
+		<!-- 생활 -->
+		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
+		<!-- 세계 -->
+		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
+		<!-- 사설/컬럼 -->
+		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
+			
+	</div>
+ 	
+ 	</div>
+	</div>
+	</div>
  </div>
+ 
+			
 </footer>
 
 

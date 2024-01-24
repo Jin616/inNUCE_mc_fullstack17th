@@ -3,7 +3,6 @@ package com.mc.innuce.domain.debate.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,6 +65,7 @@ public class DebateRoomController {
 		dudto.setUser_key(udto.getUser_key());
 		
 		// roomId 유효성 검사, DebateUser 테이블 중복 확인 후 결과 반환
+		// 기존에 들어가 있었으면 닫혀 있어도 0 아님
 		int dukey = debateUserService.createDebateUser(dudto);
 		
 		

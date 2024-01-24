@@ -54,11 +54,6 @@ public class OpinionController {
 		return debateMessage;
 	}
 
-	// 0119 수정해야 할 내용
-	// 이전 채팅 불러오는 기능
-	// 좋아요 기능(안할수도...)
-	// 스케쥴러를 이용한 토론방 생성, 토론방 열고 닫기 기능
-
 	// 이전 채팅 불러오기 ajax post 요청
 	@PostMapping("/debate/loadmessage/{roomId}")
 	public @ResponseBody List<DebateMessage> loadMessage(@PathVariable int roomId, int opinion_key) {

@@ -38,6 +38,8 @@
 	integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/jquery-3.7.1.min.js"></script>
+<script defer src="/js/main.js"></script>
+
 <script>
 	
 	

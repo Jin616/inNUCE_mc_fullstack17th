@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <c:set var="SignUpMyPage" value="${sessionScope.id==null ? 'SignUp' : 'MyPage' }" />
 <c:set var="loginOut" value="${sessionScope.id==null ? 'login' : 'logout' }" />
@@ -81,4 +81,4 @@
 
 
 </body>
-</html> --%>
+</html>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- 검색 -->
 	<div class="search-container" >
 	
 	<form action="/search" autocomplete="off">  
@@ -12,26 +12,19 @@
 	</div>
 	
 	<div class="button">
-	 	<input id="search-button" type=submit value='검색옵션'>
+	 	<input id="search-button" type=submit value='검색'>
 	</div>
-	
-	<ul class="search-option">
-		<li class='item'>
-		
-		 <div class="item__name">
- 		 	<input type="checkbox" />
-		 </div>
-		 
-		 <div class="item__contents"></div>
-		 
-		</li>
-	</ul>
 	
 	<div class="serach-myPlace">
-		<input class="myPlace" type=submit value=''>
+		<i class="fa-solid fa-earth-asia" style="color: #0a4e6b;">
+			<input class="myPlace" type=submit value=''>
+		</i>
 	</div>
 	
+	
 	</form>
+
+
  
 </div>
-
+	

@@ -1,0 +1,225 @@
+body {
+	color: #333333;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+main input {
+	all: unset;
+}
+
+.button {
+	cursor: pointer;
+	transition: .4s;
+}
+
+/*MAIN*/
+
+main {
+	height: 1200px;
+	position: relative;
+}
+
+main .news-container {
+	width: 1019px;
+	height: 970px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	background: rgba(160, 124, 69, 0.1);
+	margin: 70px auto;
+	position: absolute;
+	border-radius: 5px;
+}
+
+main .news-container .news-content-cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-end;
+	display: flex;
+}
+
+
+main .news-container .news-content-cover .main-title {
+	color: #333333;
+	font-size: 30px;
+	font-family: Arial;
+	font-weight: 900;
+	top: 25px;
+	left: 20px;
+	position: absolute;
+	z-index: 3;
+}
+
+main .news-container #keyword .tab-content {
+	display: none;
+}
+
+main .news-container #keyword .tab-content.current {
+	/*display: inherit;*/
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-end;
+	display: flex;
+}
+
+
+main .news-container .news-content-cover .content-cover {
+	width: 975px;
+	height: 149px;
+	border-radius: 5px;
+	background-color: rgba(203, 183, 153, 0.55);
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	margin: 10px auto;
+	position: relative;
+}
+
+main .news-container .news-content-cover .content-cover .bookmark-cover {
+	height: 100%;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+main .news-container .news-content-cover .content-cover .bookmark-cover i {
+	cursor: pointer;
+	margin: 10px 10px;
+	font-size: 30px;
+	color: rgba(164, 172, 134, 0.81);
+}
+
+
+main .news-container .news-content-cover .content-cover .bookmark-cover i.checked {
+	color: #656d4a;
+}
+
+main .news-container .news-content-cover .content-cover:hover {
+	width: 1000px;
+	height: 180px;
+	transition: .2s;
+}
+
+main .news-container .news-content-cover #last-c {
+	margin-bottom: 50px;
+}
+
+main .news-container .news-content-cover .content-cover .a {
+	width: 795px;
+	height: 100%;
+	margin: 0 auto;
+	/*align-items: flex-start; 
+	flex-direction: column;
+	position: relative; */
+	position: relative;
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+}
+
+main .news-container .news-content-cover .content-cover .a div {
+	margin: 8px 0;
+}
+
+main .news-container .news-content-cover .content-cover .a .date {
+	color: #5A6372;
+	font-size: 13px;
+	font-family: Arial;
+	font-weight: 400;
+	line-height: 17px;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .date::before {
+	content: "Posted July 11, 2017";
+}
+
+main .news-container .news-content-cover .content-cover .a .main {
+	font-size: 23px;
+	font-family: Arial;
+	font-weight: 900;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .main::before {
+	content: '"연봉 1억원, 이런 밥상이 삼시세끼 공짜" 난리난 이 회사, 어디길래?';
+}
+
+main .news-container .news-content-cover .content-cover .a .cont {
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: 500;
+	line-height: 20px;
+	word-wrap: break-word;
+}
+
+main .news-container .news-content-cover .content-cover .a .cont::before {
+	content: "매끼 1만5000원의 식사가 ‘공짜’다. 맥주도 마음껏 마실 수 있다. "
+		"또 PC방도 편하게 즐길 수 있다. 이는 문화·외식시설이 아닌 한 게임사의 직원 지원 제도들이다. "
+		"전세계 흥행에 성공한 FPS 게임 ‘배틀그라운드’를 내놓은 ‘크래프톤’의 얘기다. "
+		"최근 크래프톤은 국내외에서 눈에 띄는 매출 성장을 이뤄내며 직원 지원을 아끼지 않고 있다.";
+}
+
+main .news-container .news-content-cover .content-cover img {
+	width: 150px;
+	height: 149px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	overflow: hidden;
+}
+
+main .news-container .news-content-cover .content-cover img::before {
+	content: url("/images/article_picture1.png");
+}
+
+main .news-container .news-content-cover #tab-1-keyword #img-1:before {
+	content: url("/images/font1.png");
+}
+
+main .news-container .news-content-cover #tab-2-keyword #img-1:before {
+	content: url("/images/font2.jpg");
+}
+
+main .news-container .news-content-cover #tab-3-keyword #img-1:before {
+	content: url("/images/font6.jpg");
+}
+
+main .news-container .news-content-cover #tab-1-category #img-1:before {
+	content: url("/images/font4.jpg");
+}
+
+main .news-container .news-content-cover #tab-2-category #img-1:before {
+	content: url("/images/font5.png");
+}
+
+main .news-container .news-content-cover #tab-3-category #img-1:before {
+	content: url("/images/font6.jpg");
+}
+
+main .news-container .news-content-cover #tab-4-category #img-1:before {
+	content: url("/images/font7.jpg");
+}
+
+main .news-container .news-content-cover #tab-5-category #img-1:before {
+	content: url("/images/inNUCE_logo.png");
+}
+
+main .news-container .news-content-cover #tab-6-category #img-1:before {
+	content: url("/images/font2.jpg");
+}
+
+
+main .news-container .news-content-cover .paging {
+	display: flex;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+}
+

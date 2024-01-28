@@ -91,8 +91,8 @@ let flag = false;
 		});//ajax
 
 	})(i);
-}*/
-
+}
+*/
 
 
 
@@ -143,15 +143,15 @@ $('.word-container .category-container .category-button div').click(function() {
 	chart.angles([0]);
 
 	chart.listen("pointClick", function(e) {
-		var url = "//localhost:9079/main?search="; + e.point.get("x");
+		var url = "//localhost:9079/search?keyword=" + e.point.get("x");
 		//$(this).val() 
 		//controller ->  
-		window.open(url, "_blank");
+		window.open(url, "_self");
 	});
 
 	chart.draw();
-}
-*/
+}*/
+
 
 
 

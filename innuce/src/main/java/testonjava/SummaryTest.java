@@ -23,7 +23,7 @@ public class SummaryTest {
 
 	public static void main(String[] args) throws IOException {
     	
-    	InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
+    	InputStream is = new FileInputStream(new File("/usr/workspace_innuce/naverinform.properties"));
     	Properties props = new Properties();
     	props.load(is);
     	props.get("naverNewsId");

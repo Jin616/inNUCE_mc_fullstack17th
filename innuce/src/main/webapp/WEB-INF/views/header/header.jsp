@@ -82,5 +82,5 @@ $(document).ready(function(){
  </div>
 
 <!-- 검색바 -->
-  <jsp:include page="/WEB-INF/views/header/searchBar.jsp"/>
+  	<%@ include file ="/WEB-INF/views/header/searchBar.jsp" %>
   

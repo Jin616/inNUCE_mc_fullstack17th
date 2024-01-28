@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.mc.innuce.domain.search.dao.MemberDAO">
+
+<insert id="insertMember" parameterType="memberDTO">
+insert into members(id,pw)
+value(#{id},#{pw})
+</insert>
+
+<select id="oneMember" resultType="memberDTO" parameterType="String">
+select * from members where id=#{id}
+</select>
+
+
+
+
+</mapper>

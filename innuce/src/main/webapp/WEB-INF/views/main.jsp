@@ -46,7 +46,6 @@
 
 <%@ include file ="/WEB-INF/views/header/header.jsp" %>
 
- 
 </header>
 
 <!-- MAIN -->

@@ -407,17 +407,17 @@ main .news-container .news-content-cover .sub-menu ul.menu li:hover {
 	display: none;
 }*/
 
-/*main .news-container .news-content-cover .sub-menu ul.menu li input {
-		font-size: 20px;
+main .news-container .news-content-cover .sub-menu ul.menu li input {
+	/*	font-size: 20px;
 	padding: 11px 16px;
 	display: block;
 	font-weight: 650;
-	color: #656565;
-}*/
+	color: #656565;*/
+}
 
-/*main .news-container .news-content-cover .sub-menu ul.menu li input:hover {
+main .news-container .news-content-cover .sub-menu ul.menu li input:hover {
 	color: black;
-}*/
+}
 
 main .news-container .news-content-cover .main-title {
 	color: #333333;

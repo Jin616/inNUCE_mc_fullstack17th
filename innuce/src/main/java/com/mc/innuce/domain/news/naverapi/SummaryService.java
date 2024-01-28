@@ -32,7 +32,7 @@ public class SummaryService {
 	public SummaryService() {
 		
 		try {
-			InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
+			InputStream is = new FileInputStream(new File("/usr/workspace_innuce/naverinform.properties"));
 			Properties props = new Properties();
 			props.load(is);			
 			this.clientId = props.getProperty("naverClientID");

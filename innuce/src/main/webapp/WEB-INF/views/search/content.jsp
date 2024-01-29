@@ -64,13 +64,12 @@
 					<i class="fa-solid fa-bookmark"></i>
 				</div>
 			</div>
-
-			<div class="content-cover" id="last-c">
+			<div class="content-cover">
 				<img id="img-5" alt="images" />
 				<div class="a">
-					<div id="fifth-1" class="date"></div>
-					<div id="fifth-2" class="main"></div>
-					<div id="fifth-3" class="cont">
+					<div id="fourth-1" class="date"></div>
+					<div id="fourth-2" class="main"></div>
+					<div id="fourth-3" class="cont">
 						<br />
 					</div>
 				</div>
@@ -78,30 +77,12 @@
 					<i class="fa-solid fa-bookmark"></i>
 				</div>
 			</div>
-
-		</div>
-
-		<div id="tab-2-keyword" class="tab-content">
-			<div class='content-cover'>
-				<img id="img-1" alt="images" />
-				<div class="a">
-					<div id="first-1" class="date"></div>
-					<div id="first-2" class="main"></div>
-					<div id="first-3" class="cont">
-						<br />
-					</div>
-				</div>
-				<div class='bookmark-cover'>
-					<i class="fa-solid fa-bookmark"></i>
-				</div>
-			</div>
-
 			<div class="content-cover">
-				<img id="img-2" alt="images" />
+				<img id="img-6" alt="images" />
 				<div class="a">
-					<div id="second-1" class="date"></div>
-					<div id="second-2" class="main"></div>
-					<div id="second-3" class="cont">
+					<div id="fourth-1" class="date"></div>
+					<div id="fourth-2" class="main"></div>
+					<div id="fourth-3" class="cont">
 						<br />
 					</div>
 				</div>
@@ -109,13 +90,12 @@
 					<i class="fa-solid fa-bookmark"></i>
 				</div>
 			</div>
-
 			<div class="content-cover">
-				<img id="img-3" alt="images" />
+				<img id="img-7" alt="images" />
 				<div class="a">
-					<div id="third-1" class="date"></div>
-					<div id="third-2" class="main"></div>
-					<div id="third-3" class="cont">
+					<div id="fourth-1" class="date"></div>
+					<div id="fourth-2" class="main"></div>
+					<div id="fourth-3" class="cont">
 						<br />
 					</div>
 				</div>
@@ -123,9 +103,21 @@
 					<i class="fa-solid fa-bookmark"></i>
 				</div>
 			</div>
-
 			<div class="content-cover">
-				<img id="img-4" alt="images" />
+				<img id="img-8" alt="images" />
+				<div class="a">
+					<div id="fourth-1" class="date"></div>
+					<div id="fourth-2" class="main"></div>
+					<div id="fourth-3" class="cont">
+						<br />
+					</div>
+				</div>
+				<div class='bookmark-cover'>
+					<i class="fa-solid fa-bookmark"></i>
+				</div>
+			</div>
+			<div class="content-cover">
+				<img id="img-9" alt="images" />
 				<div class="a">
 					<div id="fourth-1" class="date"></div>
 					<div id="fourth-2" class="main"></div>
@@ -139,7 +131,7 @@
 			</div>
 
 			<div class="content-cover" id="last-c">
-				<img id="img-5" alt="images" />
+				<img id="img-10" alt="images" />
 				<div class="a">
 					<div id="fifth-1" class="date"></div>
 					<div id="fifth-2" class="main"></div>
@@ -147,82 +139,11 @@
 						<br />
 					</div>
 				</div>
-			</div>
-			<div class='bookmark-cover'>
-				<i class="fa-solid fa-bookmark"></i>
-			</div>
-		</div>
-
-		<div id="tab-3-keyword" class="tab-content">
-			<div class='content-cover'>
-				<img id="img-1" alt="images" />
-				<div class="a">
-					<div id="first-1" class="date"></div>
-					<div id="first-2" class="main"></div>
-					<div id="first-3" class="cont">
-						<br />
-					</div>
-				</div>
 				<div class='bookmark-cover'>
 					<i class="fa-solid fa-bookmark"></i>
 				</div>
 			</div>
 
-			<div class="content-cover">
-				<img id="img-2" alt="images" />
-				<div class="a">
-					<div id="second-1" class="date"></div>
-					<div id="second-2" class="main"></div>
-					<div id="second-3" class="cont">
-						<br />
-					</div>
-				</div>
-				<div class='bookmark-cover'>
-					<i class="fa-solid fa-bookmark"></i>
-				</div>
-			</div>
-
-			<div class="content-cover">
-				<img id="img-3" alt="images" />
-				<div class="a">
-					<div id="third-1" class="date"></div>
-					<div id="third-2" class="main"></div>
-					<div id="third-3" class="cont">
-						<br />
-					</div>
-				</div>
-				<div class='bookmark-cover'>
-					<i class="fa-solid fa-bookmark"></i>
-				</div>
-			</div>
-
-			<div class="content-cover">
-				<img id="img-4" alt="images" />
-				<div class="a">
-					<div id="fourth-1" class="date"></div>
-					<div id="fourth-2" class="main"></div>
-					<div id="fourth-3" class="cont">
-						<br />
-					</div>
-				</div>
-				<div class='bookmark-cover'>
-					<i class="fa-solid fa-bookmark"></i>
-				</div>
-			</div>
-
-			<div class="content-cover" id="last-c">
-				<img id="img-5" alt="images" />
-				<div class="a">
-					<div id="fifth-1" class="date"></div>
-					<div id="fifth-2" class="main"></div>
-					<div id="fifth-3" class="cont">
-						<br />
-					</div>
-				</div>
-			</div>
-			<div class='bookmark-cover'>
-				<i class="fa-solid fa-bookmark"></i>
-			</div>
 		</div>
 
 		<div class="paging">

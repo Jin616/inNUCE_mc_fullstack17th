@@ -6,8 +6,8 @@ let flag2 = false;
 
 $("main i").click(function() {
 	flag2 = !flag2;
-	
-	if(!flag2) {
+
+	if (!flag2) {
 		$(this).removeClass('checked');
 	} else {
 		$(this).addClass('checked');
@@ -152,6 +152,25 @@ $('.word-container .category-container .category-button div').click(function() {
 	chart.draw();
 }*/
 
+let nav = document.getElementsByTagName('nav');
+
+$('#earth').click(function() {
+	$(nav).toggle();
+})
 
 
+$('#myPlace').on('click', function() {
+	let check = confirm("위치 정보를 허용하시겠습니까?");
+	if (check) {
+		location = "/myLocation";
+	} else {
 
+	}
+})
+
+$('.content-cover img').on('click',function() {
+	location="/news"
+})
+$('.content-cover .a').on('click',function() {
+	location="/news"
+})

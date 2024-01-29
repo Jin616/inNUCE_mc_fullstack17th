@@ -18,13 +18,13 @@ main input {
 /*MAIN*/
 
 main {
-	height: 1200px;
+	height: 2000px;
 	position: relative;
 }
 
 main .news-container {
 	width: 1019px;
-	height: 970px;
+	height: 1825px;
 	left: 50%;
 	transform: translate(-50%, 0);
 	background: rgba(160, 124, 69, 0.1);
@@ -125,7 +125,7 @@ main .news-container .news-content-cover .content-cover .a {
 }
 
 main .news-container .news-content-cover .content-cover .a div {
-	margin: 8px 0;
+	margin: 5px 0;
 }
 
 main .news-container .news-content-cover .content-cover .a .date {

@@ -6,8 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="/js/jquery-3.7.1.min.js"></script>
+
+<jsp:include page="/WEB-INF/views/header/head.jsp"/>
+
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
+<link rel="stylesheet" type="text/css" href="/css/header_top.css">
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -156,10 +159,31 @@
 	
 </script>
 
+<script>
+$(document).ready(function(){
+	if(${!empty sessionScope.login_user}){
+		$("#btn2").on('click', function(){ 
+		$.ajax({
+			url: "logout",
+			type: "post",
+			success: function(response){
+				location.reload(true);
+			},
+			error : function(request, e){
+				alert("코드=" + request.status + " 메시지=" + request.responseText + " 오류=" + e);
+			}
+		});//ajax
+	});// btn2 click
+}//if
+});//ready
+</script>
+
 <body>
 <!--  header -->
 <header>
-<%@ include file="../header/header.jsp"%>
+	<div class="logo-txt-cover">
+   <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+  </div>
 </header>
 
 	

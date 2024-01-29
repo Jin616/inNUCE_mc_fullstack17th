@@ -23,7 +23,16 @@ public class SummaryTest {
 
 	public static void main(String[] args) throws IOException {
     	
-    	InputStream is = new FileInputStream(new File("/usr/workspace_innuce/naverinform.properties"));
+		String os = System.getProperty("os.name").toLowerCase();
+		String fileurl = "";
+		
+		if(os.contains("win")) {
+			fileurl="c:/fullstack/naverinform.properties";
+		} else {
+			fileurl="/usr/workspace_innuce/naverinform.properties";
+		}
+		
+		InputStream is = new FileInputStream(new File(fileurl));
     	Properties props = new Properties();
     	props.load(is);
     	props.get("naverNewsId");

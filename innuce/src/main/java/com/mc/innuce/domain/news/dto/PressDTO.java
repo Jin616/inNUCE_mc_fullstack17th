@@ -2,9 +2,7 @@ package com.mc.innuce.domain.news.dto;
 
 
 /**
- * 
  * @author JIN
- *
  */
 public class PressDTO {
 	

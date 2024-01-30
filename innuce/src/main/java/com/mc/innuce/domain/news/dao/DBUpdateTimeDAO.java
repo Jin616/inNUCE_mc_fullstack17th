@@ -18,6 +18,4 @@ public interface DBUpdateTimeDAO {
 
 	void updatePressUpdateTime();
 	
-	
-	
 }

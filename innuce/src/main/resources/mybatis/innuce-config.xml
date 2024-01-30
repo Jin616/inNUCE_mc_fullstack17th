@@ -8,13 +8,13 @@
 
 		<typeAlias type="com.mc.innuce.domain.news.dto.PressDTO" alias="pressdto"/>
 		<typeAlias type="com.mc.innuce.domain.news.dto.NewsDTO" alias="newsdto"/>
-		<typeAlias type="com.mc.innuce.domain.news.dto.NewsAndPressKeyDTO" alias="newsandpresskeydto"/>
 		<typeAlias type="com.mc.innuce.domain.debate.dto.DebateRoomDTO" alias="debateroomdto"/>
 		
 		<!-- ji eun -->
-		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordDTO" alias="keywordDTO"/>
-		<typeAlias type="com.mc.innuce.domain.search.dto.SearchDTO" alias="searchDTO"/>
-		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordNewsDTO" alias="keywordNewsDTO"/>
+		<!-- seo 240119 0316 alias 소문자로 수정할게요 -->
+		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordDTO" alias="keyworddto"/>
+		<typeAlias type="com.mc.innuce.domain.search.dto.SearchDTO" alias="searchdto"/>
+		<typeAlias type="com.mc.innuce.domain.search.dto.KeywordNewsDTO" alias="keywordnewsdto"/>
 
 	</typeAliases>
 	

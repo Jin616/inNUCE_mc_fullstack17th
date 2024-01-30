@@ -20,7 +20,7 @@ public class SeleniumTest {
 	
 	static String url = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=100";
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// selenium 4.6.0 버전부터 알아서 드라이버를 자동 설치 해줌 크롬드라이버 설치 불필요
 		System.out.println("드라이버를 연결 중...");
 		WebDriver driver = getDriver(url);
@@ -35,6 +35,9 @@ public class SeleniumTest {
 		
 		for(int i = 0; i < newsList.size(); i++) {
 			if(i % 2 == 0) {
+				driver.get("www.naver.com");
+				driver.get(url);
+//				Thread.sleep(2000);
 				naverUri.add(newsList.get(i).findElement(By.tagName("a")).getAttribute("href"));
 				thumbUri.add(newsList.get(i).findElement(By.tagName("img")).getAttribute("src"));
 			}

@@ -21,5 +21,9 @@ public interface NewsDAO {
 	public List<Long> getAllNewsListOnlyKey();
 	
 	public int insertListNews(List<NewsDTO> newsList);
+
+	public List<NewsDTO> selectNewsListWithKey(List<Long> keyList);
+	
+	public List<NewsDTO> selectNewsListSearchWithKeyword(String keyword);
 	
 }

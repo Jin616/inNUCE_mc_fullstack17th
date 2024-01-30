@@ -32,6 +32,7 @@ public class SummaryService {
 	public SummaryService() {
 		
 		try {
+			// properties 파일 naver 키들 담겨있음 서버 올릴때 수정 필수 !
 			InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
 			Properties props = new Properties();
 			props.load(is);			
@@ -52,16 +53,12 @@ public class SummaryService {
 	}
 	
 	public String summary(String title, String content, int count) {
-		System.out.println("=====summary=====");
 		String result = "";
-		
 		// title, content [] 제거
 		title = removeBracketsAndString(title);
 		content = removeBracketsAndString(content);
-		
 		int contentLen = content.length();
 		int titleLen = title.length();
-
 		if(contentLen < 250)
 			return content;
 		
@@ -101,10 +98,7 @@ public class SummaryService {
 				option.put("language", "ko");
 				option.put("model", "news");
 				option.put("tone", 3);
-				if(text[i].length() > 1500)
-					option.put("summaryCount", 4);
-				else
-					option.put("summaryCount", count);
+				option.put("summaryCount", count);
 	
 				JSONObject total = new JSONObject();
 				total.put("document", document);
@@ -120,9 +114,8 @@ public class SummaryService {
 					br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				} else { // 오류 발생
 					System.out.println("error!!! responseCode = " + responseCode);
-					System.out.println("error text :\n" + text[i]);
+					System.out.println(text[i]);
 					br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-					
 				}
 				
 				String inputLine;
@@ -133,26 +126,31 @@ public class SummaryService {
 				
 				br.close();
 				
-				JSONObject jsonResult = new JSONObject(response.toString());
-				result += (String)jsonResult.get("summary") + "\n";
+				if(responseCode == 200)
+					result += (String)new JSONObject(response.toString()).get("summary") + "\n";
+				else {
+					System.out.println(response.toString());
+					result += "원문참조";
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		if(result.equals(""))
+		if(result.equals("")) {
 			return content;
+		}
 		return result;
 	}
 
 	private String[] splitSentences(String content) {
-		String[] before = content.split("\\.\\n");
+		String[] before = content.split("\\.");
 		ArrayList<String> list = new ArrayList<>();
 		
 		content = content.trim();
 		for(String s : before) {
-			s.replaceAll("\\\n", "");
-			s = s.trim();
-			if(!s.equals(""))
+			s = s.replaceAll("\\\n", "");
+			s = s.strip();
+			if(!s.isEmpty())
 				list.add(s + ".");
 		}
 		
@@ -160,17 +158,10 @@ public class SummaryService {
 	}
 
 	private String removeBracketsAndString(String text) {
-		text = text.trim();
-		if(text.contains("■"))
-			text = text.substring(0, text.indexOf("■"));
+		text = text.strip();
 		if(text.contains("기자 = "))
 			text = text.substring(text.indexOf("기자 = ") + 4);
 		
-		while(text.contains("[") && text.contains("]")) {
-			int before = text.indexOf("[");
-			int after = text.indexOf("]");
-			text = text.substring(0, before) + text.substring(after + 1);
-		}
 		return text;
 	}
 }

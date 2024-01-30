@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.16.1</version>
+			<version>4.17.0</version>
 		</dependency>
 
 		<dependency>
@@ -111,7 +111,7 @@
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.23</version> <!-- 사용 중인 MySQL 버전에 따라 변경 -->
+		    <version>8.0.33</version> <!-- 사용 중인 MySQL 버전에 따라 변경 -->
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -139,9 +139,22 @@
 			<artifactId>stomp-websocket</artifactId>
 			<version>2.3.3</version>
 		</dependency>
-		
+		<!-- 코모란 https://docs.komoran.kr/firststep/installation.html?utm_source=komoran-repo&utm_medium=Referral&utm_campaign=github-demo -->
+		<dependency>
+			<groupId>com.github.shin285</groupId>
+			<artifactId>KOMORAN</artifactId>
+			<version>3.3.9</version>
+		</dependency>
+
+
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>

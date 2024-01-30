@@ -32,6 +32,7 @@ public class SentimentService {
 	public SentimentService() {
 		
 		try {
+			// properties 파일 naver 키들 담겨있음 서버 올릴때 수정 필수 !
 			InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
 			Properties props = new Properties();
 			props.load(is);			
@@ -48,9 +49,11 @@ public class SentimentService {
 	}
 	
 	public HashMap<String, String> sentiment(String sentence) {
-		System.out.println("=====sentiment=====");
 		HashMap<String, String> result = new HashMap<>();
 		
+		// 970자 초과일 경우 970자 이하까지 문장단위로 짤라줌. 
+		while(sentence.length() > 930)
+			sentence = sentence.substring(0, sentence.lastIndexOf("."));
 		try {
 			String apiURL = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
 			URL url = new URL(apiURL);

@@ -7,7 +7,7 @@
 <!-- 
 id: dao에서 메소드명
  -->
-<select id="getNewsList" resultType="newsdto" parameterType="keywordDTO">
+<select id="getNewsList" resultType="newsdto" parameterType="keyworddto">
 	select news.* from keyword_news join news using(news_key)
 	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
 </select>

@@ -26,5 +26,4 @@ public class KeywordService {
 		return keywordDAO.getNewsKeys2(keyword);
 	}
 
-
 }

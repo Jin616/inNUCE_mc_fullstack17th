@@ -46,4 +46,9 @@ public class WebConverter {
 	public long getLongNewsKey(String href) {
 		return Long.parseLong(getStringPressKey(href)+getStringNewsKey(href));
 	}
+	
+	public String get13NewsKey(String href) {
+		return getStringPressKey(href) + getStringNewsKey(href);
+	}
 }
+

@@ -15,7 +15,6 @@ import com.mc.innuce.domain.news.dao.PressDAO;
 import com.mc.innuce.domain.news.dto.PressDTO;
 
 /**
- * News와 통합해서 만드려 했으나 분할 하는 게 낫다는 판단
  * @author JIN
  * 24/01/12
  */

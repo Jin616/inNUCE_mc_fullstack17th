@@ -3,9 +3,7 @@ package com.mc.innuce.domain.news.dto;
 import java.sql.Timestamp;
 
 /**
- * 
  * @author JIN
- *
  */
 public class NewsDTO {
 	

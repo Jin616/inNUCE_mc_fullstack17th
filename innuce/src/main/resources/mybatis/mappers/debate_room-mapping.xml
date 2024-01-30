@@ -6,7 +6,7 @@
 	<select id="openDebateRoomList" resultType="debateroomdto">
 		select *
 		from debate_room
-		where debate_room_status = 1
+		where debate_room_status in (1, 2)
 	</select>
 	
 	<select id="selectOneDebateRoom" parameterType="int" resultType="debateroomdto">
@@ -18,6 +18,12 @@
 	<update id="increaseParticipants" parameterType="int">
 		update debate_room
 		set participants_num = participants_num + 1
+		where debate_room_key = #{debate_room_key}
+	</update>
+	
+	<update id="decreaseParticipants" parameterType="int">
+		update debate_room
+		set participants_num = participants_num - 1
 		where debate_room_key = #{debate_room_key}
 	</update>
 </mapper>

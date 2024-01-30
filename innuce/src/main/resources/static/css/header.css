@@ -9,10 +9,43 @@ body {
 input {
 	all: unset;
 }
+nav {
+	display: none;
+}
+
+/*input[type="checkbox"]{
+        display: none;
+      }*/
+input[type="checkbox"] {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: 1px solid #707070;
+	/*box-sizing: border-box;*/
+	position: relative;
+	top: 3.2px;
+}
+
+input[type="checkbox"]:checked::after {
+	content: '✔';
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
 
 .button {
 	cursor: pointer;
 	transition: .4s;
+}
+
+.inner {
+	width: 500px;
+	margin: 0 auto;
+	position: relative;
 }
 
 /*HEADER*/
@@ -136,14 +169,13 @@ header .btn-cover ul.button li:last-child:hover {
 }
 
 header .btn-cover ul.button li input {
-
-/*	top: 0;
-	bottom: 0;*/
+	top: 0;
+	bottom: 0;
 	font-family: Arial, sans-serif;
 	padding: 6px 15px;
 	display: block;
 	flex-direction: column;
-	
+
 
 }
 
@@ -326,20 +358,20 @@ header .search-container .serach-myPlace {
 }
 
 header .search-container .serach-myPlace i {
-	width: 45px;
-	height: 45px;
+	/*	width: 45px;
+	height: 45px;*/
 }
 
 header .search-container .serach-myPlace i.fa-solid.fa-earth-asia::before {
 	font-size: 45px;
 }
 
-header .search-container .serach-myPlace form {
+/*header .search-container .serach-myPlace form {
 	width: 100%;
 	height: 100%;
-}
+}*/
 
-header .search-container .serach-myPlace form input {
+header .search-container .serach-myPlace i input {
 	width: 100%;
 	height: 100%;
 }

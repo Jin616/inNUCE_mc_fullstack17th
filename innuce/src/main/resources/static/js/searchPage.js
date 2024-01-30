@@ -46,25 +46,9 @@ window.addEventListener('scroll', _.throttle(function() {
 */
 
 
-$('#contents__place i').click(function() {
-	
-	
-})
-let searchOption = document.getElementsByClassName('search-option');
 let nav= document.getElementsByTagName('nav');
 
 $('#earth').click(function() {
-	/*nav.css("display" ,"none");
-
-	nav.css("display" ,"block");*/
-/*	    // 현재 메인 요소의 상태를 확인하여 토글
-    if (nav.style.display == 'none') {
-        // 메인 요소가 숨겨져 있을 때, 나타나도록 변경
-        nav.style.display = 'block';
-    } else {
-        // 메인 요소가 보이고 있을 때, 숨기도록 변경
-        nav.style.display = 'none';
-    }*/
     $(nav).toggle();
 })
 

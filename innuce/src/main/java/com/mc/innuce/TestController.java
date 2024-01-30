@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpSession;
 public class TestController {
 	@Autowired
 	GeolocationService service;
-	
+
 	@RequestMapping("/main")
 	public String main() {
 		return "main";
@@ -73,18 +73,16 @@ public class TestController {
 		System.out.println(jsonArray);
 //       	return jsonArray.toString();
 	}
-	
-	
 
-		@GetMapping("/search")
-		public ModelAndView mainSearch(String keyword, HttpSession session) {
-			ModelAndView mv = new ModelAndView();
-			
-			List<NewsDTO> newsList = new ArrayList<>();
-			List<Long> newsKeyList = null; // News
+	@GetMapping("/search")
+	public ModelAndView mainSearch(String keyword, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+
+		List<NewsDTO> newsList = new ArrayList<>();
+		List<Long> newsKeyList = null; // News
 //			KeywordDTO dto = compoService.oneKeyword(keyword);
-			System.out.println("keyword :"+keyword);
-			
+		System.out.println("keyword :" + keyword);
+
 //			if (keyword == null || keyword.isEmpty()) {
 //				mv.setViewName("redirect:/main");
 //			} else {
@@ -102,9 +100,9 @@ public class TestController {
 //			} else {
 //				// keyword_content가 없음
 //				compoService.insertKeyword(dto);
-	//
+		//
 //				// db거치지않고 news_key 들고오기
-	//
+		//
 //				// db거치고 news_key 들고오기
 //				newsKeyList = compoService.getNewsKeys1();
 //			}
@@ -112,92 +110,100 @@ public class TestController {
 //		news table 에서 검색어에 해당하는 news_key들을 insert
 //		keyword_news table에 해당검색어와 여러 개의 news_key insert
 //		insert into keyword_news(news_key,keyword_key) values( , );
-			
+
 //			KeyOfKeywordAndNewsDTO kkndto = new KeyOfKeywordAndNewsDTO(dto.getKeyword_key(), newsKeyList);
 //			compoService.insertToKeywordNews(kkndto);
-	//
+		//
 //			newsList = compoService.getNewsList(dto);
 //			// news_key -> news table news_key
 //			mv.addObject("newsList", newsList);
-			mv.addObject("keyword", keyword);
-			mv.setViewName("search/searchPage");
+		mv.addObject("keyword", keyword);
+		mv.setViewName("search/searchPage");
 
-			return mv;
-		}
+		return mv;
+	}
 
-		// 검색 -> 네이버 뉴스 -> news 테이블에 해당하는 news_key가 여러 개
-	//-> keyword_news에  news_key 등록
-		
-		
-		
+	// 검색 -> 네이버 뉴스 -> news 테이블에 해당하는 news_key가 여러 개
+	// -> keyword_news에 news_key 등록
+
 //		@RequestMapping("/myPlace")
 //		String searchMyPlace() {
 //			return "";
 //			
 //		}
-	//	
-		
-		@RequestMapping("/myLocation")
-		ModelAndView myLocation(HttpServletRequest request) throws UnknownHostException {
-			ModelAndView mv = new ModelAndView();
-			String ip = "";
+	//
 
-			ip = request.getHeader("X-Forwarded-For");
+	@RequestMapping("/myLocation")
+	ModelAndView myLocation(HttpServletRequest request) throws UnknownHostException {
+		ModelAndView mv = new ModelAndView();
+		String ip = "";
 
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("Proxy-Client-IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("WL-Proxy-Client-IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("HTTP_CLIENT_IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("X-Real-IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("X-RealIP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("REMOTE_ADDR");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getRemoteAddr();
-			}
-			if(ip.equals("0:0:0:0:0:0:0:1") || ip.equals("127.0.0.1")){
-	      InetAddress address = InetAddress.getLocalHost();
-				ip = address.getHostAddress();
+		ip = request.getHeader("X-Forwarded-For");
 
-	  }
-			System.out.println("ip : "+ip);
-			String myLocation=service.test(ip);
-			
-			String r1="";
-			String r2="";
-			String r3="";
-			try {
-				JSONParser parser = new JSONParser();
-				JSONObject result = (JSONObject)parser.parse(myLocation);
-				JSONObject geoLocation = (JSONObject)result.get("geoLocation"); 
-				
-				r1 = (String)geoLocation.get("r1");
-				r2 = (String)geoLocation.get("r2");
-				r3 = (String)geoLocation.get("r3");
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			
-			mv.addObject("myLocation", myLocation);
-			mv.addObject("keyword", r1+" "+r2+" "+r3);
-			mv.setViewName("search/searchPage");
-			return mv;
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
 		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Real-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-RealIP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("REMOTE_ADDR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		if (ip.equals("0:0:0:0:0:0:0:1") || ip.equals("127.0.0.1")) {
+			InetAddress address = InetAddress.getLocalHost();
+			ip = address.getHostAddress();
+
+		}
+		System.out.println("ip : " + ip);
+		String myLocation = service.test(ip);
+
+		String r1 = "";
+		String r2 = "";
+		String r3 = "";
+		try {
+			JSONParser parser = new JSONParser();
+			JSONObject result = (JSONObject) parser.parse(myLocation);
+			JSONObject geoLocation = (JSONObject) result.get("geoLocation");
+
+			r1 = (String) geoLocation.get("r1");
+			r2 = (String) geoLocation.get("r2");
+			r3 = (String) geoLocation.get("r3");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		mv.addObject("myLocation", myLocation);
+		mv.addObject("keyword", r1 + " " + r2 + " " + r3);
+		mv.setViewName("search/searchPage");
+		return mv;
+	}
 	
-	
-	
+	@RequestMapping("/news")
+	public ModelAndView showNews() {
+		ModelAndView mv = new ModelAndView();
+//		해당 newsDTO 가져오기
+		
+		mv.setViewName("search/news");
+		
+		
+		return mv;
+		
+	}
+
 }

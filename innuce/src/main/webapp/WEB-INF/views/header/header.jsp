@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <script>
 $(document).ready(function(){
 	if(${!empty sessionScope.login_user}){
@@ -21,7 +20,6 @@ $(document).ready(function(){
 });//ready
 </script>
 
-  <!-- 상단바 -->
 		<div class="logo-txt-cover">
 			
 	<!-- 채팅바 -->
@@ -29,34 +27,10 @@ $(document).ready(function(){
 		<%@ include file ="/WEB-INF/views/header/chattingroomlist.jsp" %>
 		
 		
- 		<input id="logo-txt" type=button  value='in NUCE' onclick="location.href='main'">  
+
  
-   <div class="btn-cover">
-   <ul class="button">
-   	<li>
-   		<c:choose>
-   			<c:when test="${empty sessionScope.login_user}">
-   				<input class="button" type=button id='btn1' value='SignUp' onclick="location.href='registermember'">
-   			</c:when>
-   			<c:otherwise>
-   				<input class="button" type=button id='btn1' value="MyPage" onclick="location.href='mypage'">
-   			</c:otherwise>
-   		</c:choose>
-   	</li>
-   	<li>
-   		<c:choose>
-   			<c:when test="${empty sessionScope.login_user}">
-   				<input class="button" type=button id='btn2' value='Login' onclick="location.href='login'">
-   			</c:when>
-   			<c:otherwise>	
-   				<input class="button" type=button id='btn2' value='Logout' >
-   			</c:otherwise>
-   		</c:choose>	
-   	</li>
-   </ul>
-   
-   </div>
-   
+	<!-- 상단바 -->
+   <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div><!-- logo-txt-cover -->
   
   <!-- 로고 -->

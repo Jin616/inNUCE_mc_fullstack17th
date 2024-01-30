@@ -172,7 +172,7 @@ header .btn-cover ul.button li input {
 	top: 0;
 	bottom: 0;
 	font-family: Arial, sans-serif;
-	padding: 10px 15px;
+	padding: 6px 15px;
 	display: block;
 	flex-direction: column;
 
@@ -379,7 +379,7 @@ header .search-container .serach-myPlace i input {
 /*검색옵션*/
 nav {
 	position: relative;
-	height: 350px;
+	height: 370px;
 }
 
 .search-option {

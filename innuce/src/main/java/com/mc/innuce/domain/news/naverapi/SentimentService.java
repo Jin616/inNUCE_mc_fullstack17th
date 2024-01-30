@@ -32,7 +32,16 @@ public class SentimentService {
 	public SentimentService() {
 		
 		try {
-			InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
+			String os = System.getProperty("os.name").toLowerCase();
+			String url = "";
+			
+			if(os.contains("win")) {
+				url="c:/fullstack/naverinform.properties";
+			} else {
+				url="/usr/workspace_innuce/naverinform.properties";
+			}
+			
+			InputStream is = new FileInputStream(new File(url));
 			Properties props = new Properties();
 			props.load(is);			
 			this.clientId = props.getProperty("naverClientID");

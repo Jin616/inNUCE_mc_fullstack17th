@@ -1,0 +1,116 @@
+
+p {
+	word-wrap: break-word;
+}
+
+main {
+	height: 1200px;
+	position: relative;
+}
+
+main .news-cover {
+	width: 1119px;
+	background-color: rgba(160, 124, 69, 0.1);
+	left: 50%;
+	position: absolute;
+	padding: 80px auto;
+	transform: translate(-50%, 0);
+	border-radius: 20px;
+	margin: 100px auto;
+}
+
+main .news-cover .news-content {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main .news-cover .news-content .cover {
+	/*	background-color: aliceblue;
+	width: 1019px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;*/
+	width: 750px;
+}
+
+main .news-cover .cover .title {
+	height: 50px;
+	margin: 20px 0;
+	display: flex;
+	align-items: center;
+	font-size: 40px;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+main .news-cover .cover .image {
+	width: 750px;
+	height: 450px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main .news-cover .cover .image img {
+	width: 650px;
+	height: 100%;
+	object-fit: fill;
+}
+
+main .news-cover .cover .sub-menu {}
+
+main .news-cover .cover .sub-menu ul {
+	display: flex;
+	margin-top: 40px;
+}
+
+main .news-cover .cover .sub-menu ul li {
+	padding: 10px 15px;
+	display: inline-block;
+	color: #333;
+	font-family: Arial, sans-serif;
+	font-size: 20px;
+	font-weight: 700;
+	cursor: pointer;
+	background-color: unset;
+}
+
+main .news-cover .cover .sub-menu ul li.current {
+	background-color: rgba(203, 183, 153, 0.55);
+	color: #333;
+}
+
+main .news-cover .cover .tab-content {
+	display: none;
+	
+}
+main .news-cover .cover .tab-content .content {
+	width: 650px;
+}
+main .news-cover .cover .tab-content .content p {
+	
+}
+
+
+main .news-cover .cover .tab-content.current {
+	background-color: rgba(203, 183, 153, 0.55);
+	padding: 15px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+main .news-cover .cover .end {
+	display: flex;
+	flex-direction: row-reverse;
+	height: 80px;
+	align-items: center;
+}
+main .news-cover .cover .end input {
+	text-align: center;
+	height: 30px;
+	width: 70px;
+	border: 1px solid steelblue;
+	cursor: pointer;
+}

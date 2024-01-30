@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mc.innuce.domain.debate.dto.DebateMessage;
 import com.mc.innuce.domain.debate.dto.OpinionDTO;
+import com.mc.innuce.domain.debate.service.DebateRoomService;
 import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.debate.service.OpinionService;
 
@@ -25,6 +29,9 @@ public class OpinionController {
 
 	@Autowired
 	private DebateUserService debateUserService;
+
+	@Autowired
+	private DebateRoomService debateRoomService;
 
 	@MessageMapping("/debate/{roomId}")
 	@SendTo("/sub/debate/{roomId}")
@@ -59,7 +66,7 @@ public class OpinionController {
 	public @ResponseBody List<DebateMessage> loadMessage(@PathVariable int roomId, int opinion_key) {
 		// opinion_key로 찾은 opinion list 저장할 객체
 		List<OpinionDTO> opinionList = null;
-		
+
 		// 채팅이 전혀 없는 경우 (처음페이지를 열었을 때)
 		if (opinion_key == 0) {
 			// roomId로 헤당 방의 가장 최근 insert한 opinion_key값을 가져옴
@@ -70,35 +77,93 @@ public class OpinionController {
 			// 받아온 opinion_key는 이미 페이지에 존재하기 때문에 하나 이전의 key값부터 가져옴
 			opinionList = opinionService.selectOnePreOpinionList(opinion_key);
 		}
-		
+
 		// 만약 이전 채팅이 없다면 이전 채팅이 없다는 메시지 반환
-		if(opinionList.isEmpty()) {
+		if (opinionList.isEmpty()) {
 			List<DebateMessage> emptyMessageList = new ArrayList<DebateMessage>();
-			emptyMessageList.add(new DebateMessage(opinion_key, "system", "이전 메시지가 없습니다.", new Timestamp(System.currentTimeMillis()), 0));
+			emptyMessageList.add(new DebateMessage(opinion_key, "system", "이전 메시지가 없습니다.",
+					new Timestamp(System.currentTimeMillis()), 0));
 			return emptyMessageList;
 		}
 
 		// opinion list를 debate message list로 변환
 		// debate_user_key list로 user_id list 찾기
 		List<Integer> debateUserKeyList = new ArrayList<Integer>();
-		
+
 		opinionList.forEach((opinion) -> {
 			debateUserKeyList.add(opinion.getDebate_user_key());
 		});
-		
+
 		List<String> userIdList = debateUserService.selectUserIdList(debateUserKeyList);
 
 		// message list 객체 생성하여 가져온 정보들 넣고 반환
 		List<DebateMessage> debateMessageList = new ArrayList<DebateMessage>();
-		
-		for(int i = 0; i < opinionList.size(); i++) {
+
+		for (int i = 0; i < opinionList.size(); i++) {
 			debateMessageList.add(new DebateMessage(opinionList.get(i).getOpinion_key(), userIdList.get(i),
-					opinionList.get(i).getOpinion_contents(), opinionList.get(i).getOpinion_regdate(), opinionList.get(i).getOpinion_like()));
+					opinionList.get(i).getOpinion_contents(), opinionList.get(i).getOpinion_regdate(),
+					opinionList.get(i).getOpinion_like()));
 		}
-		
+
 		System.out.println(debateMessageList.toString());
 
 		return debateMessageList;
+	}
+
+	// 채팅방 연결시 메시지
+	@MessageMapping("/debate/connected/{roomId}")
+	@SendTo("/sub/debate/participants/{roomId}")
+	public String connectMessage(@DestinationVariable int roomId, String message) {
+
+		// 채팅방 participants_num 1 증가
+		debateRoomService.increaseParticipants(roomId);
+
+		// 채팅방 유저 수 정보 반환
+		return debateRoomUserCount(roomId);
+	}
+
+	// 채팅방 연결 해제시 메시지
+	@MessageMapping("/debate/disconnected/{roomId}")
+	@SendTo("/sub/debate/participants/{roomId}")
+	public String disconnectMessage(@DestinationVariable int roomId, String message) {
+
+		// 채팅방 participants_num 1 감소
+		debateRoomService.decreaseParticipants(roomId);
+
+		// 채팅방 유저 수 정보 반환
+		return debateRoomUserCount(roomId);
+	}
+
+	// 채팅방 나가기 메시지
+	@MessageMapping("/debate/leaveroom/{roomId}")
+	@SendTo("/sub/debate/participants/{roomId}")
+	public String leaveRoomMessage(@DestinationVariable int roomId, String message) {
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = (JSONObject) parser.parse(message);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long keystr = (Long) jsonObject.get("message");
+		int debate_user_key = keystr.intValue();
+		
+		// debate_user_status 0으로 변경
+		debateUserService.updateDebateUserStatusLeave(debate_user_key);
+
+		// 채팅방 유저 수 정보 반환
+		return debateRoomUserCount(roomId);
+	}
+
+	private String debateRoomUserCount(int roomId) {
+		// 채팅방 participants_num 가져오기
+		int connected = debateRoomService.selectOneDebateRoom(roomId).getParticipants_num();
+		// 채팅방 참여자 수를 debate_user 테이블의 해당 debate_room_key이고 status가 1인 debate_user count
+		// 가져오기
+		int participated = debateUserService.selectParticipatedUserCount(roomId);
+
+		return "{\"connected\" : \"" + connected + "\", \"participated\" : \"" + participated + "\"}";
 	}
 
 }

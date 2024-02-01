@@ -19,7 +19,7 @@
 	</select>
 	
 	<select id="selectLastOpinion" parameterType="int" resultType="int">
-		select opinion_key
+		select ifnull(max(opinion_key), 0) as opinion_key
 		from opinion
 		where debate_user_key in (select debate_user_key
 									from debate_user

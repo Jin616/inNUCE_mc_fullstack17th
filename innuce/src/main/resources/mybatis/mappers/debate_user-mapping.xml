@@ -46,14 +46,12 @@
 
 	<select id="openDebateRoomUserCountList"
 		parameterType="java.util.List" resultType="int">
-		select count(case when debate_user_status=1 then 1 end)
+		<foreach collection="openDebateRoomKeyList" item="debate_room_key" separator=" union all ">
+		select count(*)
 		from debate_user
-		where debate_room_key in (
-		<foreach collection="openDebateRoomKeyList" item="debate_room_key" separator=",">
-			#{debate_room_key}
+		where debate_room_key = #{debate_room_key}
+		and debate_user_status = 1
 		</foreach>
-		)
-		group by debate_room_key
 	</select>
 	
 	<select id="selectParticipatedUserCount" parameterType="int" resultType="int">

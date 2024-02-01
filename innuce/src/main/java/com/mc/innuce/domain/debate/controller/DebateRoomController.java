@@ -45,7 +45,6 @@ public class DebateRoomController {
 		}
 		// debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
 		List<Integer> openDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(openDebateRoomKeyList);
-		System.out.println(openDebateRoomUserCountList);
 		
 		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
 		mv.addObject("openDebateRoomList", openDebateRoomList);

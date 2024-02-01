@@ -18,4 +18,8 @@ public interface DebateRoomDAO {
 	int increaseParticipants(int debate_room_key);
 
 	int decreaseParticipants(int roomId);
+
+	List<Integer> selectExistKeywordList();
+
+	int createDebateRoom(List<Integer> newKeywordList);
 }

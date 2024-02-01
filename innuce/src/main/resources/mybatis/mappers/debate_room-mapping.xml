@@ -26,4 +26,18 @@
 		set participants_num = participants_num - 1
 		where debate_room_key = #{debate_room_key}
 	</update>
+	
+	<select id="selectExistKeywordList" resultType="int">
+		select keyword_key
+		from debate_room
+	</select>
+	
+	<insert id="createDebateRoom" parameterType="java.util.List">
+		insert into
+		debate_room(keyword_key, participants_num, debate_room_regdate, debate_room_name, debate_room_status)
+		values
+		<foreach collection="newKeywordList" item="keyword_key" separator=" , ">
+			(#{keyword_key}, 0, now(), (select keyword_content from keyword where keyword_key = #{keyword_key}), 2)
+		</foreach>
+	</insert>
 </mapper>

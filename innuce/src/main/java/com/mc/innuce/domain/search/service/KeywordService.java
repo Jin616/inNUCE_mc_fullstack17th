@@ -14,17 +14,27 @@ public class KeywordService {
 	@Autowired
 	KeywordDAO keywordDAO;
 	
-	public List<NewsDTO> getNewsList(KeywordDTO dto) {
-		return keywordDAO.getNewsList(dto);
+	public List<NewsDTO> getNewsList(int keyword_key) {
+		return keywordDAO.getNewsList(keyword_key);
+	}
+	public List<NewsDTO> getNewsListLimit(int[] limit) {
+		return keywordDAO.getNewsListLimit(limit);
 	}
 	
-	public List<Long> getNewsKeys1() {
-		return keywordDAO.getNewsKeys1();
+	public List<Long> getNewKeys(String keyword) {
+		return keywordDAO.getNewKeys(keyword);
 	}
 
 	public List<Long> getNewsKeys2(String keyword) {
 		return keywordDAO.getNewsKeys2(keyword);
 	}
+
+	public int getTotalNews(int keyword_key) {
+		return keywordDAO.getTotalNews(keyword_key);
+	}
+
+
+
 
 
 }

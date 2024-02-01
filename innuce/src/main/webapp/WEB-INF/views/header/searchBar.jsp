@@ -8,7 +8,7 @@
 	
 	<div class="input-keyword">
 		<div class="material-symbols-outlined">search</div>
-		<input id="keyword" name="keyword" type=text placeholder="검색어를 입력해주세요" required />
+		<input id="searchBar" name="keyword" type=text placeholder="검색어를 입력해주세요" required maxlength='25'/>
 	</div>
 	
 	<div class="button">

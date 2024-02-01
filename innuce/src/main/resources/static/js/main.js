@@ -1,6 +1,3 @@
-var badgeEl = document.querySelector('header .badges');
-
-
 /*북마크 클릭 시*/
 let flag2 = false;
 
@@ -14,6 +11,9 @@ $("main i").click(function() {
 	}
 })
 
+/*채팅바*/
+
+let badgeEl = document.querySelector('header .badges');
 
 window.addEventListener('scroll', _.throttle(function() {
 	console.log(window.scrollY);
@@ -152,13 +152,15 @@ $('.word-container .category-container .category-button div').click(function() {
 	chart.draw();
 }*/
 
-let nav = document.getElementsByTagName('nav');
 
+
+/*검색옵션*/
+let nav = document.getElementsByTagName('nav');
 $('#earth').click(function() {
 	$(nav).toggle();
 })
 
-
+/*위치 키워드 검색*/
 $('#myPlace').on('click', function() {
 	let check = confirm("위치 정보를 허용하시겠습니까?");
 	if (check) {
@@ -167,10 +169,27 @@ $('#myPlace').on('click', function() {
 
 	}
 })
+/* 뉴스 자세히 보기 */
+$('.content-cover img').on('click', function() {
+	location = "/news"
+})
+$('.content-cover .a').on('click', function() {
+	location = "/news"
+})
 
-$('.content-cover img').on('click',function() {
-	location="/news"
+/*검색 글자 제한*/
+let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
+let replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
+
+$('#keyword').on("focusout", function() {
+	let x = $(this).val();
+	if (x.length > 0) {
+		if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {
+			x = x.replace(replaceChar, "").replace(replaceNotFullKorean, "");
+		}
+		$(this).val(x);
+	}
+}).on("keyup",function() {
+	$(this).val($(this).val().replace(replaceChar,""));
 })
-$('.content-cover .a').on('click',function() {
-	location="/news"
-})
+

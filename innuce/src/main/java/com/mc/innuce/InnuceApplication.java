@@ -37,7 +37,7 @@ public class InnuceApplication {
 		testNewsServiceWithCopsole();
 	}
 
-	private static void testNewsServiceWithCopsole() {
+	private static void testNewsServiceWithCopsole() { 
 		Scanner sc = new Scanner(System.in);
 		while(true) {
 			String command = sc.nextLine();

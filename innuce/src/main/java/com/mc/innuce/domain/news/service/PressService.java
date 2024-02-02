@@ -18,7 +18,6 @@ public class PressService {
 
 	@Autowired
 	PressDAO pressDAO;
-	@Autowired
 	/**
 	 * 서버 실행 시 혹은 필요할 때마다 언론사 정보를 새로 받아와서 이 메서드를 실행. DB에 이미 언론사 키가 존재하고, overriding한
 	 * equals 메서드를 통해 다른 객체임이 확인 되면 updateList에, DB에 언론사 키가 없다면 insertList에

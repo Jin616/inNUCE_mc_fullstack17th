@@ -3,28 +3,99 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mc.innuce.domain.debate.dao.DebateUserDAO">
-	<select id="selectOneDebateUserByData" parameterType="debateuserdto" resultType="debateuserdto">
+	<select id="selectOneDebateUserByData"
+		parameterType="debateuserdto" resultType="debateuserdto">
 		select *
 		from debate_user
 		where user_key = #{user_key} and debate_room_key = #{debate_room_key}
 	</select>
-	
+
 	<insert id="insertDebateUser" parameterType="debateuserdto">
-		insert into debate_user(user_key, debate_room_key)
-		values (#{user_key}, #{debate_room_key})
+		insert into
+		debate_user(user_key, debate_room_key, debate_user_status, debate_user_connect_status)
+		values
+		(#{user_key}, #{debate_room_key}, 1, 0)
 	</insert>
-	
-	<select id="selectOneUserId" parameterType="int" resultType="String">
+
+	<select id="selectOneUserId" parameterType="int"
+		resultType="String">
 		select user_id
 		from user_info
-		where user_key = (select user_key from debate_user where debate_user_key = #{debate_user_key});
+		where user_key = (select
+		user_key from debate_user where debate_user_key = #{debate_user_key});
 	</select>
-	
-	<select id="selectUserIdList" parameterType="java.util.List" resultType="String">
-		<foreach collection="debateUserKeyList" item="debate_user_key" separator=" union all ">
+
+	<select id="selectUserIdList" parameterType="java.util.List"
+		resultType="String">
+		<foreach collection="debateUserKeyList" item="debate_user_key"
+			separator=" union all ">
 			select user_id
 			from user_info
-			where user_key = (select user_key from debate_user where debate_user_key = #{debate_user_key})
+			where user_key = (select
+			user_key from debate_user where debate_user_key = #{debate_user_key})
 		</foreach>
 	</select>
+
+	<update id="updateDebateUserStatusParticipated"
+		parameterType="int">
+		update debate_user
+		set debate_user_status = 1
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
+
+	<select id="openDebateRoomUserCountList"
+		parameterType="java.util.List" resultType="int">
+		<foreach collection="openDebateRoomKeyList" item="debate_room_key" separator=" union all ">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_room_key}
+		and debate_user_status = 1
+		</foreach>
+	</select>
+	
+	<select id="openDebateRoomUserConnectCountList"
+		parameterType="java.util.List" resultType="int">
+		<foreach collection="openDebateRoomKeyList" item="debate_room_key" separator=" union all ">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_room_key}
+		and debate_user_connect_status = 1
+		</foreach>
+	</select>
+	
+	<select id="selectParticipatedUserCount" parameterType="int" resultType="int">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_user_key}
+		and debate_user_status = 1
+	</select>
+	
+	<select id="selectConnectedUserCount" parameterType="int" resultType="int">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_user_key}
+		and debate_user_connect_status = 1
+	</select>
+	
+	<update id="updateDebateUserStatusLeave" parameterType="int">
+		update debate_user
+		set debate_user_status = 0
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
+	
+	<update id="updateDebateUserConnectStatusConnect" parameterType="int">
+		update debate_user
+		set debate_user_connect_status = 1
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
+	
+	<update id="updateDebateUserConnectStatusDisconnect" parameterType="int">
+		update debate_user
+		set debate_user_connect_status = 0
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
 </mapper>

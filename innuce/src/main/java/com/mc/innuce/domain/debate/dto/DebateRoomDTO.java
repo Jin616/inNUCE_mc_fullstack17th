@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class DebateRoomDTO {
 	private int debate_room_key;
 	private int keyword_key;
-	private int participants_num;
 	private Timestamp debate_room_regdate;
 	private String debate_room_name;
 	private int debate_room_status;
@@ -28,15 +27,7 @@ public class DebateRoomDTO {
 	public void setKeyword_key(int keyword_key) {
 		this.keyword_key = keyword_key;
 	}
-
-	public int getParticipants_num() {
-		return participants_num;
-	}
-
-	public void setParticipants_num(int participants_num) {
-		this.participants_num = participants_num;
-	}
-
+	
 	public Timestamp getDebate_room_regdate() {
 		return debate_room_regdate;
 	}
@@ -64,16 +55,14 @@ public class DebateRoomDTO {
 	@Override
 	public String toString() {
 		return "DebateRoomDTO [debate_room_key=" + debate_room_key + ", keyword_key=" + keyword_key
-				+ ", participants_num=" + participants_num + ", debate_room_regdate=" + debate_room_regdate
+				+ ", debate_room_regdate=" + debate_room_regdate
 				+ ", debate_room_name=" + debate_room_name + "]";
 	}
-
-	public DebateRoomDTO(int debate_room_key, int keyword_key, int participants_num, Timestamp debate_room_regdate,
+	public DebateRoomDTO(int debate_room_key, int keyword_key, Timestamp debate_room_regdate,
 			String debate_room_name, int debate_room_status) {
 		super();
 		this.debate_room_key = debate_room_key;
 		this.keyword_key = keyword_key;
-		this.participants_num = participants_num;
 		this.debate_room_regdate = debate_room_regdate;
 		this.debate_room_name = debate_room_name;
 		this.debate_room_status = debate_room_status;

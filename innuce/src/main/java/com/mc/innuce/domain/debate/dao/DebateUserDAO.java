@@ -19,4 +19,20 @@ public interface DebateUserDAO {
 
 	List<String> selectUserIdList(List<Integer> debateUserKeyList);
 
+	void updateDebateUserStatusParticipated(int debate_user_key);
+
+	List<Integer> openDebateRoomUserCountList(List<Integer> openDebateRoomKeyList);
+
+	int selectParticipatedUserCount(int roomId);
+
+	int updateDebateUserStatusLeave(int debate_user_key);
+
+	int updateDebateUserConnectStatusConnect(int debate_user_key);
+
+	int updateDebateUserConnectStatusDisconnect(int debate_user_key);
+
+	int selectConnectedUserCount(int roomId);
+
+	List<Integer> openDebateRoomUserConnectCountList(List<Integer> openDebateRoomKeyList);
+
 }

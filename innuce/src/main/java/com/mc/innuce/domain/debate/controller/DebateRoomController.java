@@ -1,5 +1,6 @@
 package com.mc.innuce.domain.debate.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,30 @@ public class DebateRoomController {
 	// 토론방 목록 메인 화면
 	@GetMapping("/debate")
 	public ModelAndView debateMain() {
-		// debate_room_status 가 1인 목록
-		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
-
 		ModelAndView mv = new ModelAndView();
-
+		
+		// debate_room_status 가 2 또는 1인 목록
+		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
+		
+		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
+			mv.setViewName("debate/debatemain");
+			return mv;
+		}
+		
+		// 위의 목록의 debate_room_key 목록 생성
+		List<Integer> openDebateRoomKeyList = new ArrayList<>();
+		for(int i = 0; i < openDebateRoomList.size(); i++) {
+			openDebateRoomKeyList.add(openDebateRoomList.get(i).getDebate_room_key());
+		}
+		
+		// debate_room_key 목록으로 해당하는 방의 실시간 참여자 수 목록 반환
+		List<Integer> openDebateRoomUserConnectCountList = debateUserService.openDebateRoomUserConnectCountList(openDebateRoomKeyList);
+		// debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
+		List<Integer> openDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(openDebateRoomKeyList);
+		
 		mv.addObject("openDebateRoomList", openDebateRoomList);
+		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
+		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
 		mv.setViewName("debate/debatemain");
 
 		return mv;

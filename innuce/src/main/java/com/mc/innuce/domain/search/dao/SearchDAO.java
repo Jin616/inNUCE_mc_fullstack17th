@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface SearchDAO {
 
 	List<Integer> selectPassedKeywordList(int createRoomCount);
-
 	
 }

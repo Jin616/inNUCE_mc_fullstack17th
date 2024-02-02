@@ -13,11 +13,11 @@ import com.mc.innuce.domain.search.dto.KeywordDTO;
 public class KeywordService {
 	@Autowired
 	KeywordDAO keywordDAO;
-	
+
 	public List<NewsDTO> getNewsList(KeywordDTO dto) {
 		return keywordDAO.getNewsList(dto);
 	}
-	
+
 	public List<Long> getNewsKeys1() {
 		return keywordDAO.getNewsKeys1();
 	}
@@ -25,6 +25,5 @@ public class KeywordService {
 	public List<Long> getNewsKeys2(String keyword) {
 		return keywordDAO.getNewsKeys2(keyword);
 	}
-
 
 }

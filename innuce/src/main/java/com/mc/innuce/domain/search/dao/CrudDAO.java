@@ -10,8 +10,11 @@ import com.mc.innuce.domain.search.dto.KeywordDTO;
 @Mapper
 public interface CrudDAO {
 	KeywordDTO oneKeyword(String keyword);
+
 	int updateKeyword(KeywordDTO dto);
+
 	int insertKeyword(KeywordDTO dto);
+
 	void insertToKeywordNews(KeyOfKeywordAndNewsDTO dto);
-	
+
 }

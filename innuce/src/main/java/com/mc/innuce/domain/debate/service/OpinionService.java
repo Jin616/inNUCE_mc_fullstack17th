@@ -38,5 +38,5 @@ public class OpinionService {
 		// TODO Auto-generated method stub
 		return opinionDAO.selectOnePreOpinionList(opinion_key);
 	}
-	
+
 }

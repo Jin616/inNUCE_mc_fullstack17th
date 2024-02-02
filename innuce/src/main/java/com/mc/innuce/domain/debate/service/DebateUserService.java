@@ -13,7 +13,7 @@ import com.mc.innuce.domain.debate.dto.DebateUserDTO;
 public class DebateUserService {
 	@Autowired
 	DebateRoomService debateRoomService;
-	
+
 	@Autowired
 	DebateUserDAO debateUserDAO;
 
@@ -23,7 +23,7 @@ public class DebateUserService {
 		int key = 0;
 		// roomId 값으로 DebateRoom 데이터를 가져와 null이면 0 반환
 		DebateRoomDTO tempdr = debateRoomService.selectOneDebateRoom(dudto.getDebate_room_key());
-		if(tempdr == null) {
+		if (tempdr == null) {
 			return key;
 		}
 		// null이 아니면
@@ -43,16 +43,16 @@ public class DebateUserService {
 		// 기존 데이터 존재하지 않으면 생성 후 dto 반환
 		else {
 			// 기존 데이터 존재하지 않고 방이 닫혀 있으면 0 반환
-			if(tempdr.getDebate_room_status() == 0) {
+			if (tempdr.getDebate_room_status() == 0) {
 				return key;
 			}
 			debateUserDAO.insertDebateUser(dudto);
 			tempdu = debateUserDAO.selectOneDebateUserByData(dudto);
 		}
-		
+
 		// key값 저장
 		key = tempdu.getDebate_user_key();
-		
+
 		return key;
 	}
 	

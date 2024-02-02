@@ -3,28 +3,27 @@ package com.mc.innuce.global.util.hreftonewsdto;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  * @author JIN
  */
 public class WebConverter {
-	
+
 	public int getIntPressKey(String href) {
 		int idx = href.indexOf("le");
 		return Integer.parseInt(href.substring(idx + 3, idx + 6));
 	}
-	
+
 	public String getStringPressKey(String href) {
 		return String.format("%03d", getIntPressKey(href));
 	}
-	
+
 	public int getIntNewsKey(String href) {
 		int idx = href.indexOf("le");
 		return Integer.parseInt(href.substring(idx + 7, idx + 17));
 	}
-	
+
 	public String getStringNewsKey(String href) {
 		return String.format("%010d", getIntNewsKey(href));
 	}
@@ -45,6 +44,10 @@ public class WebConverter {
 	}
 
 	public long getLongNewsKey(String href) {
-		return Long.parseLong(getStringPressKey(href)+getStringNewsKey(href));
+		return Long.parseLong(getStringPressKey(href) + getStringNewsKey(href));
+	}
+
+	public String get13NewsKey(String href) {
+		return getStringPressKey(href) + getStringNewsKey(href);
 	}
 }

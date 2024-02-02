@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 //@ControllerAdvice
 public class GlobalCatcher {
-	
+
 //	@ResponseStatus(HttpStatus.NOT_FOUND)
 //	@ExceptionHandler(FileNotFoundException.class)
 //	public String catcher2(Exception e,Model m) {
@@ -25,6 +25,5 @@ public class GlobalCatcher {
 ////		m.addAttribute("ex",e);
 //		return "error";
 //	}
-
 
 }

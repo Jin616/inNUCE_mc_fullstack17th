@@ -193,17 +193,16 @@ public class TestController {
 		mv.setViewName("search/searchPage");
 		return mv;
 	}
-	
+
 	@RequestMapping("/news")
 	public ModelAndView showNews() {
 		ModelAndView mv = new ModelAndView();
 //		해당 newsDTO 가져오기
-		
+
 		mv.setViewName("search/news");
-		
-		
+
 		return mv;
-		
+
 	}
 
 }

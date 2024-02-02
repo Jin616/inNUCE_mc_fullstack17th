@@ -11,8 +11,10 @@ import com.mc.innuce.domain.search.dto.KeywordDTO;
 @Repository
 @Mapper
 public interface KeywordDAO {
-	
+
 	public List<NewsDTO> getNewsList(KeywordDTO dto);
+
 	public List<Long> getNewsKeys1();
+
 	public List<Long> getNewsKeys2(String keyword);
 }

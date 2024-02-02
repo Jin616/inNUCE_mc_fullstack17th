@@ -8,10 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -19,7 +17,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 /**
- * 
+ * 네이버에서 감정분석 호출하는 서비스
  * @author JIN
  *
  */
@@ -28,14 +26,24 @@ public class SentimentService {
 
 	private String clientId;
 	private String clientSecret;
-	
+
+	// 싱글톤으로 관리되는 객체가 생성될 때 파일을 읽어서 기본 세팅값 설정
 	public SentimentService() {
-		
+
 		try {
-			// properties 파일 naver 키들 담겨있음 서버 올릴때 수정 필수 !
-			InputStream is = new FileInputStream(new File("C:/fullstack/naverinform.properties"));
+			String os = System.getProperty("os.name").toLowerCase();
+			String url = "";
+
+			if (os.contains("win")) {
+				url = "c:/fullstack/naverinform.properties";
+			} else {
+				url = "/usr/workspace_innuce/naverinform.properties";
+			}
+
+			InputStream is = new FileInputStream(new File(url));
 			Properties props = new Properties();
-			props.load(is);			
+			
+			props.load(is);
 			this.clientId = props.getProperty("naverClientID");
 			this.clientSecret = props.getProperty("naverClientSecret");
 		} catch (FileNotFoundException e) {
@@ -45,15 +53,17 @@ public class SentimentService {
 			System.out.println("SentimentService ERROR!");
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public HashMap<String, String> sentiment(String sentence) {
+		// 결과값은 맵으로 관리
 		HashMap<String, String> result = new HashMap<>();
-		
-		// 970자 초과일 경우 970자 이하까지 문장단위로 짤라줌. 
-		while(sentence.length() > 930)
+
+		// 970자 초과일 경우 970자 이하까지 문장단위로 자름.
+		while (sentence.length() > 930)
 			sentence = sentence.substring(0, sentence.lastIndexOf("."));
+		
 		try {
 			String apiURL = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
 			URL url = new URL(apiURL);
@@ -63,9 +73,6 @@ public class SentimentService {
 			con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
 			con.setRequestProperty("Content-Type", "application/json");
 
-			// post request
-			// String content = "{\"content\": \"싸늘하다. 가슴에 비수가 날아와 꽂힌다.\"}";
-
 			JSONObject json = new JSONObject();
 			json.put("content", "\"" + sentence + "\"");
 
@@ -74,7 +81,7 @@ public class SentimentService {
 			wr.write(json.toString().getBytes("utf-8"));
 			wr.flush();
 			wr.close();
-			
+
 			int responseCode = con.getResponseCode();
 			BufferedReader br;
 			if (responseCode == 200) { // 정상 호출
@@ -89,18 +96,18 @@ public class SentimentService {
 				response.append(inputLine);
 			}
 			br.close();
-			
+
 			JSONObject document = new JSONObject(response.toString()).getJSONObject("document");
-			
+
 			String sentiment = document.getString("sentiment");
 			double percent = document.getJSONObject("confidence").getBigDecimal(sentiment).doubleValue();
-			
+
 			result.put("sentiment", sentiment);
 			result.put("percent", String.valueOf(percent));
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		return result;
 	}
 

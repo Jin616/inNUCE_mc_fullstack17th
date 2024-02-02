@@ -3,13 +3,13 @@ package testonjava;
 import java.util.HashMap;
 
 public class HashMapTest {
-	
+
 	public static void main(String[] args) {
-		
+
 		HashMap<String, String> test = new HashMap<>();
-		
+
 		testPut(test);
-		
+
 		test.forEach((key, value) -> {
 			System.out.print("key is : " + key);
 			System.out.println(", value is : " + value);

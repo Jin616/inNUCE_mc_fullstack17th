@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "com.mc.innuce.domain.user.dao.UserDAO">
+  
+  <!-- 스트링으로 dto 꺼내오기 -->
+  <select id="selectOneUserByString" resultType="userdto" parameterType ="String">
+  select * from user_info where user_id =#{user_id}
+  </select>
+  
+  <!--  새로운 UserDTO 넣기 -->
+  <insert id="insertUser" parameterType="userdto">
+  insert into user_info(user_id ,user_pw, user_name,email, phone, gender, birthday, address)
+  values (#{user_id},#{user_pw},#{user_name},#{email},#{phone},#{gender},#{birthday},#{address})
+  </insert>
+  
+  <!-- UserDTO 정보 수정 -->
+  <update id="updateUser" parameterType="hashmap" >
+  update user_info set user_pw = #{user_pw}, address = #{address}, phone = #{phone}, email = #{email}
+  where user_key = #{user_key}
+  </update>
+  <!-- UserDTO 정보 삭제 -->
+  <update id="deleteUser" parameterType="hashmap" >
+  update user_info set user_isdeleted = #{user_isdeleted}, user_deleted_time = now()
+  where user_key = #{user_key}
+  </update>
+  <!--  UserDTO 삭제 시간 가져오기 -->
+   <select id="selectUserDeletedTime" resultType="String" parameterType ="integer">
+  select user_deleted_time from user_info where user_key =#{user_key}
+  </select>
+  <!-- UserDTO 회원정보 복구 -->
+  <update id="restoreUser" parameterType="integer" >
+  update user_info set user_isdeleted = false, user_deleted_time = null
+  where user_key = #{user_key}
+  </update>
+  <!--  ID 찾기 -->
+  <select id="selectUserId" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_name =#{user_name}and email =#{email} and user_isdeleted = false;
+  </select>
+  </mapper>

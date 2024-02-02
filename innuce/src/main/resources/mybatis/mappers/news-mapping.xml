@@ -16,6 +16,10 @@
 	</insert>
 	
 	<!-- select -->
+	<select id="selectOneNews">
+	select * from news where news_key = #{newsKey};
+	</select>
+	
 	<select id="countAllNews" resultType="int">
 	select count(*) from news;
 	</select>

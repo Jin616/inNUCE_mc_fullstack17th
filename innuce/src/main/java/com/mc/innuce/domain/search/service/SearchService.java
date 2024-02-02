@@ -10,6 +10,4 @@ public class SearchService {
 	@Autowired
 	SearchDAO dao;
 
-	
-	
 }

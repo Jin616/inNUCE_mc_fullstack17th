@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mc.innuce.domain.news.selenium.service.CrawlingNewsService;
@@ -16,38 +17,21 @@ public class NewsScheduler {
 	NewsService ns;
 	@Autowired
 	CrawlingNewsService cns;
+
+	private boolean isCategoryCrawllerRunning = false;
 	
 	public static List<Long> newsList = new ArrayList<>();
-	
-//	@Scheduled(cron = "0 0/30 * * * *")
-//	public void schduleUpdateNewsCategory1() {
-//		
-//		ns.insertNewsList(cns.getCategoryNews("100"));
-//	}
-	
-//	@Scheduled(cron = "0 2/10 * * * *")
-//	public void schduleUpdateNewsCategory2() {
-//		ns.insertNewsList(cns.getCategoryNews("101"));
-//	}
-//	
-//	@Scheduled(cron = "0 4/10 * * * *")
-//	public void schduleUpdateNewsCategory3() {
-//		ns.insertNewsList(cns.getCategoryNews("102"));
-//	}
-//	
-//	@Scheduled(cron = "0 7/20 * * * *")
-//	public void schduleUpdateNewsCategory4() {
-//		ns.insertNewsList(cns.getCategoryNews("103"));
-//	}
-//	
-//	@Scheduled(cron = "0 8/20 * * * *")
-//	public void schduleUpdateNewsCategory5() {
-//		ns.insertNewsList(cns.getCategoryNews("104"));
-//	}
-//	
-//	@Scheduled(cron = "0 9/20 * * * *")
-//	public void schduleUpdateNewsCategory6() {
-//		ns.insertNewsList(cns.getCategoryNews("105"));
-//	}
-	
+
+	@Scheduled(cron = "0 0/5 * * * *")
+	public void schduleUpdateNewsCategory1() {
+		
+		if(!isCategoryCrawllerRunning) {
+			isCategoryCrawllerRunning = true;
+
+			cns.getCategoryNews(new String[]{"100", "101", "102", "103", "104", "105"});
+			
+			isCategoryCrawllerRunning = false;
+		}
+	}
+
 }

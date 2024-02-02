@@ -16,7 +16,7 @@ public interface PressDAO {
 	public int insertListPress(List<PressDTO> insertList);
 
 	public int insertPress(PressDTO dto);
-	
+
 	public int updatePress(PressDTO dto);
-	
+
 }

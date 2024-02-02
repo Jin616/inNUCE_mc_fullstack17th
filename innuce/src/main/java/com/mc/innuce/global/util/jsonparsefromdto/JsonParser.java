@@ -16,20 +16,20 @@ import com.mc.innuce.domain.news.dto.PressDTO;
  * @author JIN
  *
  */
-public class JsonParser {
+public class JSONParser {
 
 	public JSONArray getJsonArrayNews(List<NewsDTO> newsList) {
 		JSONArray jarray = new JSONArray();
-		
-		for(NewsDTO news : newsList)
+
+		for (NewsDTO news : newsList)
 			jarray.put(getJson(news));
-		
+
 		return jarray;
 	}
-	
+
 	public JSONObject getJson(NewsDTO news) {
 		JSONObject json = new JSONObject();
-		
+
 		json.put("news_key", news.getNews_key());
 		json.put("press_key", news.getPress_key());
 		json.put("news_title", news.getNews_title());
@@ -49,29 +49,29 @@ public class JsonParser {
 		json.put("summ_content", news.getSumm_content());
 		json.put("summ_sentiment", news.getSumm_sentiment());
 		json.put("summ_sentimentpercent", news.getSumm_sentimentpercent());
-		
+
 		return json;
 	}
-	
+
 	public JSONArray getJsonArrayPress(List<PressDTO> pressList) {
 		JSONArray jarray = new JSONArray();
-		
-		for(PressDTO press : pressList)
+
+		for (PressDTO press : pressList)
 			jarray.put(getJson(press));
-		
+
 		return jarray;
 	}
-	
+
 	public JSONObject getJson(PressDTO press) {
 		JSONObject json = new JSONObject();
-		
+
 		json.put("press_key", press.getPress_key());
 		json.put("press_name", press.getPress_name());
 		json.put("press_logo", press.getPress_logo());
 		json.put("press_mainpage", press.getPress_mainpage());
 		json.put("press_navermain", press.getPress_navermain());
-		
+
 		return json;
 	}
-	
+
 }

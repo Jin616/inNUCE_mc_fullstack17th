@@ -1,26 +1,29 @@
 package testonjava;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Test {
 	public static void main(String[] args) {
+
+		DateTimeFormatter dfLocalDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dfUseDot = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+		System.out.println(dfUseDot.format(LocalDate.parse(LocalDate.now().toString(), dfLocalDate)));
 		
-		String str = "갤럭시 스튜디오는 갤럭시 S24 시리즈 핵심 AI 기능을 체험할 수 있는 대규모 체험 공간이다. 약 한 달간 △영등포 타임스퀘어 △신세계 센트럴시티 △삼성강남 △삼성스토어 홍대 등 4곳에서 운영된다.\r\n"
-				+ "\r\n"
-				+ "관람객들은 갤럭시 스튜디오를 방문해 갤럭시 AI가 변화시키는 새로운 일상을 체험할 수 있다.\r\n"
-				+ "\r\n"
-				+ "먼저 갤럭시 S24 시리즈에 탑재된 ‘실시간 통역(Live Translate)’ 기능을 활용해 갤럭시 팬큐레이터와 함께 서로 다른 언어로 전화하며 자유로운 의사소통을 경험할 수 있다. 또한 책·인터넷 기사·음성 파일 등 내용을 번역하고, 간단하게 요약하는 등 개선된 업무와 학업 생산성을 체험할 수 있다.\r\n"
-				+ "\r\n"
-				+ "‘서클 투 서치(Circle to Search)’ 체험존에서는 구글과의 협업으로 탄생한 검색 기능을 경험할 수 있다. 갤럭시 S24 체험폰으로 웹 서핑, 유튜브 사용 중 검색 애플리케션을 실행할 필요 없이, 화면에 동그라미를 그리기만 하면 쉽고 빠르게 원하는 정보를 확인할 수 있다. AI 기반 ‘프로비주얼 엔진(ProVisual Engine)’을 탑재한 카메라 기능도 체험할 수 있다. ‘스티키몬스터랩(SML)’의 대형 몬스터 피규어가 있는 어두운 공간에서 사진을 촬영하고, 향상된 나이토그래피 기능이 제공하는 선명한 결과물을 확인할 수 있다.\r\n"
-				+ "\r\n"
-				+ "뿐만 아니라, 착시 테마로 꾸며진 공간에서 사진을 촬영하고 생성형 AI를 기반으로 새롭게 선보이는 ‘생성형 편집(Generative Edit)’ 기능도 써볼 수 있다. 사진 내 피사체를 이동시키는 것은 물론, 크기를 조정하는 일도 가능하다. ‘AI 포토 부스(Photo Booth)’에서는 갤럭시 S24시리즈 나이토그래피 기능을 활용해 밤 하늘 테마 배경에서 인물 사진을 촬영하고, 결과물을 즉시 출력할 수 있다.\r\n"
-				+ "\r\n"
-				+ "향후 삼성전자는 ‘갤럭시 S24’ 시리즈 핵심 AI기능을 체험할 수 있는 △푸드 △도서 △패션 △펫 △게임 △여행 등을 주제로 다양한 브랜드와 협업한 체험 프로그램을 차례로 운영할 예정이다.\r\n"
-				+ "\r\n"
-				+ "임성택 삼성전자 한국총괄 부사장은 “이번 갤럭시 스튜디오는 새로운 AI폰의 시대를 여는 ‘갤럭시 S24’ 시리즈의 다양한 AI 기능을 한 차원 더 몰입해 체험할 수 있도록 기획했다”며 “모두의 핫플레이스부터 나만의 취향 공간까지 다채롭게 준비한 ‘갤럭시 스튜디오’에서 AI폰의 세계를 직접 경험해 보길 바란다”고 했다.";
-		
-		System.out.println("before len : " + str.length());
-		while(str.length() > 970)
-			str = str.substring(0, str.lastIndexOf("."));
-		
-		System.out.println("after len : " + str.length());
+		 String encodedString = "https://search.naver.com/search.naver?where=news&query=%EA%B1%B4%ED%9D%AC&sort=0&pd=3&ds=2022.01.13&de=2023.01.24&&mynews=1&office_type= 1&news_office_checked=1005";
+
+	        try {
+	            // Decode the URL-encoded string
+	            String decodedString = URLDecoder.decode(encodedString, StandardCharsets.UTF_8.toString());
+
+	            // Print the decoded string
+	            System.out.println("Decoded String: " + decodedString);
+	        } catch (UnsupportedEncodingException e) {
+	            e.printStackTrace();
+	        }
 	}
 }

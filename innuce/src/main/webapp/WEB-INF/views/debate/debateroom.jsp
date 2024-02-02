@@ -37,7 +37,7 @@
 			
 			// 채팅방 입장시 메시지 전송
 			// 실시간 참여 인원 + 1
-			stomp.send('/pub/debate/connected/' + roomId, {}, JSON.stringify({message : 'connected'}));
+			stomp.send('/pub/debate/connected/' + roomId, {}, JSON.stringify({message : debateuser}));
 		});
 		
 		// 전송 버튼 클릭 시 구독한 방으로 메시지 전송
@@ -55,7 +55,7 @@
 		// 해당 페이지를 나갈때 나가기 전 동작
 		$(window).on('beforeunload', function(){
 	        // 채팅방 페이지 나가기 메시지 전송하여 실시간 참여 인원 -1
-			stomp.send('/pub/debate/disconnected/' + roomId, {}, JSON.stringify({message : 'disconnected'}));
+			stomp.send('/pub/debate/disconnected/' + roomId, {}, JSON.stringify({message : debateuser}));
 			// stomp를 disconnect
 	        stomp.disconnect();
 	    });

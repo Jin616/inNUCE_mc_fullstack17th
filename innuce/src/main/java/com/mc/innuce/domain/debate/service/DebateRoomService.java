@@ -32,16 +32,6 @@ public class DebateRoomService {
 		return debateRoomDAO.selectOneDebateRoom(debate_room_key);
 	}
 
-	public int increaseParticipants(int debate_room_key) {
-		// TODO Auto-generated method stub
-		return debateRoomDAO.increaseParticipants(debate_room_key);
-	}
-
-	public int decreaseParticipants(int roomId) {
-		// TODO Auto-generated method stub
-		return debateRoomDAO.decreaseParticipants(roomId);
-	}
-
 //	// 10분마다 방 열리고 닫힘 업데이트
 //	@Scheduled(cron = "0 0/10 * * * *")
 //	public void updateDebateRoomStatus() {

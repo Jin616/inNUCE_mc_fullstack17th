@@ -35,6 +35,10 @@ public class DebateUserService {
 			if(tempdu.getDebate_user_status() == 0) {
 				debateUserDAO.updateDebateUserStatusParticipated(tempdu.getDebate_user_key());
 			}
+			// debate_user_connect_status가 1(이미 해당 채팅방 접속한 상태)이면 0 반환
+			if(tempdu.getDebate_user_connect_status() == 1) {
+				return key;
+			}
 		}
 		// 기존 데이터 존재하지 않으면 생성 후 dto 반환
 		else {
@@ -68,14 +72,34 @@ public class DebateUserService {
 		return debateUserDAO.openDebateRoomUserCountList(openDebateRoomKeyList);
 	}
 
+	public List<Integer> openDebateRoomUserConnectCountList(List<Integer> openDebateRoomKeyList) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.openDebateRoomUserConnectCountList(openDebateRoomKeyList);
+	}
+	
 	public int selectParticipatedUserCount(int roomId) {
 		// TODO Auto-generated method stub
 		return debateUserDAO.selectParticipatedUserCount(roomId);
 	}
 
+	public int selectConnectedUserCount(int roomId) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.selectConnectedUserCount(roomId);
+	}
+	
 	public int updateDebateUserStatusLeave(int debate_user_key) {
 		// TODO Auto-generated method stub
 		return debateUserDAO.updateDebateUserStatusLeave(debate_user_key);
 	}
-	
+
+	public int updateDebateUserConnectStatusConnect(int debate_user_key) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.updateDebateUserConnectStatusConnect(debate_user_key);
+	}
+
+	public int updateDebateUserConnectStatusDisconnect(int debate_user_key) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.updateDebateUserConnectStatusDisconnect(debate_user_key);
+	}
+
 }

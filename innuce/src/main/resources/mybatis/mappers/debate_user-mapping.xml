@@ -12,9 +12,9 @@
 
 	<insert id="insertDebateUser" parameterType="debateuserdto">
 		insert into
-		debate_user(user_key, debate_room_key, debate_user_status)
+		debate_user(user_key, debate_room_key, debate_user_status, debate_user_connect_status)
 		values
-		(#{user_key}, #{debate_room_key}, 1)
+		(#{user_key}, #{debate_room_key}, 1, 0)
 	</insert>
 
 	<select id="selectOneUserId" parameterType="int"
@@ -54,6 +54,16 @@
 		</foreach>
 	</select>
 	
+	<select id="openDebateRoomUserConnectCountList"
+		parameterType="java.util.List" resultType="int">
+		<foreach collection="openDebateRoomKeyList" item="debate_room_key" separator=" union all ">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_room_key}
+		and debate_user_connect_status = 1
+		</foreach>
+	</select>
+	
 	<select id="selectParticipatedUserCount" parameterType="int" resultType="int">
 		select count(*)
 		from debate_user
@@ -61,9 +71,30 @@
 		and debate_user_status = 1
 	</select>
 	
+	<select id="selectConnectedUserCount" parameterType="int" resultType="int">
+		select count(*)
+		from debate_user
+		where debate_room_key = #{debate_user_key}
+		and debate_user_connect_status = 1
+	</select>
+	
 	<update id="updateDebateUserStatusLeave" parameterType="int">
 		update debate_user
 		set debate_user_status = 0
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
+	
+	<update id="updateDebateUserConnectStatusConnect" parameterType="int">
+		update debate_user
+		set debate_user_connect_status = 1
+		where
+		debate_user_key = #{debate_user_key}
+	</update>
+	
+	<update id="updateDebateUserConnectStatusDisconnect" parameterType="int">
+		update debate_user
+		set debate_user_connect_status = 0
 		where
 		debate_user_key = #{debate_user_key}
 	</update>

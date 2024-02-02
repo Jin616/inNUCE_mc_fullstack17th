@@ -33,7 +33,7 @@ public class DebateRoomController {
 		// debate_room_status 가 2 또는 1인 목록
 		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
 		
-		if(openDebateRoomList == null) {
+		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
 			mv.setViewName("debate/debatemain");
 			return mv;
 		}
@@ -43,11 +43,15 @@ public class DebateRoomController {
 		for(int i = 0; i < openDebateRoomList.size(); i++) {
 			openDebateRoomKeyList.add(openDebateRoomList.get(i).getDebate_room_key());
 		}
+		
+		// debate_room_key 목록으로 해당하는 방의 실시간 참여자 수 목록 반환
+		List<Integer> openDebateRoomUserConnectCountList = debateUserService.openDebateRoomUserConnectCountList(openDebateRoomKeyList);
 		// debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
 		List<Integer> openDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(openDebateRoomKeyList);
 		
-		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
 		mv.addObject("openDebateRoomList", openDebateRoomList);
+		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
+		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
 		mv.setViewName("debate/debatemain");
 		
 		return mv;

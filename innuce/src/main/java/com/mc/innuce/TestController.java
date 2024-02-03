@@ -234,7 +234,7 @@ public class TestController {
 //		List<KeywordDTO> keywords = new ArrayList<>();
 		KeywordDTO dto = null;
 		int keywordKey = 0;
-		
+
 		List<String> placeList = new ArrayList<>();
 		placeList.add(r1);
 		placeList.add(r2);
@@ -279,7 +279,7 @@ public class TestController {
 
 //	paging
 		Map<String, Object> map = new HashMap<>();
-		
+
 		limit[0] = (pageNum - 1) * pageCount;
 		limit[1] = pageCount;
 

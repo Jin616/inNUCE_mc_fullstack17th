@@ -18,18 +18,21 @@ public class NewsScheduler {
 	@Autowired
 	CrawlingNewsService cns;
 
-	private boolean isCategoryCrawllerRunning = false;
+	private boolean isCategoryCrawllerRunning = true; // default false !
 	
 	public static List<Long> newsList = new ArrayList<>();
 
-	@Scheduled(cron = "0 0/5 * * * *")
+	@Scheduled(cron = "0 0/1 * * * *")
 	public void schduleUpdateNewsCategory1() {
 		
+		System.out.println("category crawller 호출");
 		if(!isCategoryCrawllerRunning) {
+			System.out.println("category crawller 실행");
 			isCategoryCrawllerRunning = true;
 
 			cns.getCategoryNews(new String[]{"100", "101", "102", "103", "104", "105"});
 			
+			System.out.println("category crawller 종료");
 			isCategoryCrawllerRunning = false;
 		}
 	}

@@ -343,12 +343,15 @@ public class CrawlingNewsService {
 		while (true) {
 			try {
 				driver.get(url);
+				System.out.println("getLimitPagePerCategory\n" + url);
 				sleep(1000);
 
 				limitPage = Integer
 						.parseInt(driver.findElement(By.id("paging")).findElement(By.tagName("strong")).getText());
+				System.out.println(limitPage);
 				break;
 			} catch (Exception e) {
+				e.printStackTrace();
 				driver.get(url);
 				sleep(1000);
 			}

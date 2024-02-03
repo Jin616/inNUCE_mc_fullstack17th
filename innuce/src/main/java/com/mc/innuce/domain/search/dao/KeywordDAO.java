@@ -22,8 +22,13 @@ public interface KeywordDAO {
 	public List<String> getCategoryContent(String number);
 	
 	KeywordDTO oneKeyword(String keyword);
+//	choi
 	int updateKeyword(String keyword);
 	int insertKeyword(String keyword);
+//	seo
+	int updateKeyword(KeywordDTO dto);
+	int insertKeyword(KeywordDTO dto);
+	
 	void insertKeywordNews(KeysDTO keysDTO);
 	
 //	public List<Long> getNewsKeys2(String keyword);

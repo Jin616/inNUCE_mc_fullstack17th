@@ -42,19 +42,25 @@ select news_key from news where news_content like concat('%',#{place },'%')
 select news_content from news where news_category=#{number };
 </select>
 
+<update id="updateKeyword" parameterType="String">
+update keyword
+set keyword_recent_time=now()
+where keyword_key=#{keyword}
+</update>
+
 <select id="oneKeyword" parameterType="String" resultType="Keyworddto">
 select * from keyword where keyword_content=#{keyword}
 </select>
 
-<update id="updateKeyword" parameterType="String">
+<update id="updateKeyword" parameterType="keyworddto">
 update keyword
-set keyword_recent_time= now()
-where keyword_content=#{keyword}
+set keyword_recent_time=now()
+where keyword_key=#{keyword_key}
 </update>
 
-<insert id="insertKeyword" parameterType="String" >
+<insert id="insertKeyword" parameterType="keyworddto" >
 insert into keyword(keyword_content,keyword_recent_time) 
-values(#{keyword_content}, now());
+values(#{keyword_content}, #{keyword_recent_time});
 </insert>
 
 

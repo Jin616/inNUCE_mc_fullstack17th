@@ -16,7 +16,7 @@ import com.mc.innuce.domain.news.dto.PressDTO;
  * @author JIN
  *
  */
-public class JSONParser {
+public class JsonParser {
 
 	public JSONArray getJsonArrayNews(List<NewsDTO> newsList) {
 		JSONArray jarray = new JSONArray();

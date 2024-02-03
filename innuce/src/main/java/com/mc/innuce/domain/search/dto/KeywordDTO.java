@@ -18,7 +18,11 @@ public class KeywordDTO {
 	public KeywordDTO(String keyword) {
 		this.keyword_content = keyword;
 	}
-
+	
+	public KeywordDTO(int keyword_key) {
+		this.keyword_key=keyword_key;
+	}
+	
 	public int getKeyword_key() {
 		return keyword_key;
 	}
@@ -66,5 +70,4 @@ public class KeywordDTO {
 		return Objects.equals(keyword_content, other.keyword_content) && keyword_key == other.keyword_key
 				&& Objects.equals(keyword_recent_time, other.keyword_recent_time);
 	}
-
 }

@@ -81,11 +81,29 @@ if(country=='KR') {
 
 
 
+/* 뉴스 자세히 보기 */
+$('.content img').on('click', function() {
+	location = "/news"
+})
+$('.content .a').on('click', function() {
+	location = "/news"
+})
 
+/*검색 글자 제한*/
+let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
+let replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
 
-
-
-
+$('#searchBar').on("focusout", function() {
+	let x = $(this).val();
+	if (x.length > 0) {
+		if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {
+			x = x.replace(replaceChar, "").replace(replaceNotFullKorean, "");
+		}
+		$(this).val(x);
+	}
+}).on("keyup",function() {
+	$(this).val($(this).val().replace(replaceChar,""));
+})
 
 
 

@@ -538,6 +538,9 @@ nav {
 	cursor: pointer;
 }
 
+
+
+
 /*MAIN*/
 
 /*키워드*/
@@ -693,7 +696,7 @@ main .news-container .news-content-cover .content-cover:hover {
 	transition: .2s;
 }
 
-main .news-container .news-content-cover #last-c {
+main .news-container .news-content-cover .content-cover:nth-last-child(1) {
 	margin-bottom: 20px;
 }
 

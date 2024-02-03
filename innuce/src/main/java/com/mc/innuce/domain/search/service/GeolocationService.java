@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mc.innuce.domain.search.dao.CrudDAO;
+import com.mc.innuce.domain.search.dao.KeywordDAO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.geoloaction.NaverInfo;
 import com.mc.innuce.domain.search.geoloaction.NaverService;
@@ -20,7 +20,7 @@ import com.mc.innuce.domain.search.geoloaction.NaverService;
 public class GeolocationService implements NaverService {
 
 	@Autowired
-	CrudDAO dao;
+	KeywordDAO dao;
 	
 	//secretKey 암호화하기
 	public static String makeSignature(String subURL , String timeStamp, String accessKey, String secretKey) throws Exception {

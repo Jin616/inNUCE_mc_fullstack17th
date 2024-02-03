@@ -7,11 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-	$(document).ready(function(){
-		
-	});
-</script>
 </head>
 <body>
 	<div class="open_debate_list">
@@ -31,7 +26,7 @@
 						<td>${room.count }</td>
 						<td><a href="/debate/${room.current.debate_room_key }">${room.current.debate_room_name }</a></td>
 						<td>${room.current.debate_room_regdate }</td>
-						<td>${room.current.participants_num }</td>
+						<td>${openDebateRoomUserConnectCountList[room.index]}</td>
 						<td>${openDebateRoomUserCountList[room.index]}</td>
 					</tr>
 				</c:forEach>

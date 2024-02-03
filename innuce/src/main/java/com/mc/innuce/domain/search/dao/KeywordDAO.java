@@ -27,4 +27,10 @@ public interface KeywordDAO {
 	void insertKeywordNews(KeysDTO keysDTO);
 	
 //	public List<Long> getNewsKeys2(String keyword);
+
+	public List<NewsDTO> getNewsList(KeywordDTO dto);
+
+	public List<Long> getNewsKeys1();
+
+	public List<Long> getNewsKeys2(String keyword);
 }

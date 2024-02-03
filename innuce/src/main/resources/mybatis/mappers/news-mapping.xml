@@ -6,7 +6,7 @@
 
 	<!-- insert -->
 	<insert id="insertListNews" parameterType="java.util.List">
-		<foreach collection="list" item="p" separator="," open="insert into news values " close=";">
+		<foreach collection="list" item="p" separator="," open="insert ignore into news values " close=";">
 			(#{p.news_key}, #{p.press_key}, #{p.news_title}, #{p.news_content}, #{p.news_writendate},
 			#{p.news_updatedate}, #{p.news_pulldate}, #{p.news_writer}, #{p.news_uri}, #{p.news_originuri},
 			#{p.news_deleted}, #{p.news_deleteddate}, #{p.news_deletedcode}, #{p.news_category},
@@ -16,14 +16,29 @@
 	</insert>
 	
 	<!-- select -->
+	<select id="selectOneNews">
+	select * from news where news_key = #{newsKey};
+	</select>
+	
 	<select id="countAllNews" resultType="int">
 	select count(*) from news;
+	</select>
+	
+	<select id="selectNewsListWithKey" resultType="newsdto" parameterType="java.util.List">
+	select * from news where in (
+	<foreach collection="list" item="n" separator=",">#{n}</foreach>
+	);
 	</select>
 	
 	<select id="getAllNewsListOnlyKey" resultType="long">
 	select news_key from news;
 	</select>
-	<!-- update -->
 	
+	<select id="selectNewsListSearchWithKeyword" resultType="newsdto">
+	select * from news
+	where news_title like concat("%",#{keyword},"%")
+	or news_content like concat("%",#{keyword},"%")
+	</select>
+	<!-- update -->
 	
 </mapper>

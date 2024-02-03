@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mc.innuce.domain.debate.dto.DebateMessage;
 import com.mc.innuce.domain.debate.dto.OpinionDTO;
-import com.mc.innuce.domain.debate.service.DebateRoomService;
 import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.debate.service.OpinionService;
 
@@ -29,9 +28,6 @@ public class OpinionController {
 
 	@Autowired
 	private DebateUserService debateUserService;
-
-	@Autowired
-	private DebateRoomService debateRoomService;
 
 	@MessageMapping("/debate/{roomId}")
 	@SendTo("/sub/debate/{roomId}")
@@ -71,15 +67,18 @@ public class OpinionController {
 		if (opinion_key == 0) {
 			// roomId로 헤당 방의 가장 최근 insert한 opinion_key값을 가져옴
 			opinion_key = opinionService.selectLastOpinion(roomId);
-			// 채팅 가져오기
-			opinionList = opinionService.selectPreOpinionList(opinion_key);
+			
+			if(opinion_key != 0) {
+				// 채팅 가져오기
+				opinionList = opinionService.selectPreOpinionList(opinion_key);
+			}
 		} else {
 			// 받아온 opinion_key는 이미 페이지에 존재하기 때문에 하나 이전의 key값부터 가져옴
 			opinionList = opinionService.selectOnePreOpinionList(opinion_key);
 		}
 
 		// 만약 이전 채팅이 없다면 이전 채팅이 없다는 메시지 반환
-		if (opinionList.isEmpty()) {
+		if (opinionList == null || opinionList.isEmpty()) {
 			List<DebateMessage> emptyMessageList = new ArrayList<DebateMessage>();
 			emptyMessageList.add(new DebateMessage(opinion_key, "system", "이전 메시지가 없습니다.",
 					new Timestamp(System.currentTimeMillis()), 0));
@@ -114,9 +113,10 @@ public class OpinionController {
 	@MessageMapping("/debate/connected/{roomId}")
 	@SendTo("/sub/debate/participants/{roomId}")
 	public String connectMessage(@DestinationVariable int roomId, String message) {
-
-		// 채팅방 participants_num 1 증가
-		debateRoomService.increaseParticipants(roomId);
+		int debate_user_key = parseDebateUserKey(message);
+		
+		// debate_user_connect_status 1으로 변경
+		debateUserService.updateDebateUserConnectStatusConnect(debate_user_key);
 
 		// 채팅방 유저 수 정보 반환
 		return debateRoomUserCount(roomId);
@@ -126,9 +126,10 @@ public class OpinionController {
 	@MessageMapping("/debate/disconnected/{roomId}")
 	@SendTo("/sub/debate/participants/{roomId}")
 	public String disconnectMessage(@DestinationVariable int roomId, String message) {
-
-		// 채팅방 participants_num 1 감소
-		debateRoomService.decreaseParticipants(roomId);
+		int debate_user_key = parseDebateUserKey(message);
+		
+		// debate_user_connect_status 0으로 변경
+		debateUserService.updateDebateUserConnectStatusDisconnect(debate_user_key);
 
 		// 채팅방 유저 수 정보 반환
 		return debateRoomUserCount(roomId);
@@ -138,6 +139,16 @@ public class OpinionController {
 	@MessageMapping("/debate/leaveroom/{roomId}")
 	@SendTo("/sub/debate/participants/{roomId}")
 	public String leaveRoomMessage(@DestinationVariable int roomId, String message) {
+		int debate_user_key = parseDebateUserKey(message);
+		
+		// debate_user_status 0으로 변경
+		debateUserService.updateDebateUserStatusLeave(debate_user_key);
+
+		// 채팅방 유저 수 정보 반환
+		return debateRoomUserCount(roomId);
+	}
+
+	private int parseDebateUserKey(String message) {
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObject = null;
 		try {
@@ -148,17 +159,12 @@ public class OpinionController {
 		}
 		Long keystr = (Long) jsonObject.get("message");
 		int debate_user_key = keystr.intValue();
-		
-		// debate_user_status 0으로 변경
-		debateUserService.updateDebateUserStatusLeave(debate_user_key);
-
-		// 채팅방 유저 수 정보 반환
-		return debateRoomUserCount(roomId);
+		return debate_user_key;
 	}
 
 	private String debateRoomUserCount(int roomId) {
 		// 채팅방 participants_num 가져오기
-		int connected = debateRoomService.selectOneDebateRoom(roomId).getParticipants_num();
+		int connected = debateUserService.selectConnectedUserCount(roomId);
 		// 채팅방 참여자 수를 debate_user 테이블의 해당 debate_room_key이고 status가 1인 debate_user count
 		// 가져오기
 		int participated = debateUserService.selectParticipatedUserCount(roomId);

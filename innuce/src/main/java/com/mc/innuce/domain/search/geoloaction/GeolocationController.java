@@ -42,7 +42,7 @@ public class GeolocationController {
 	@ResponseBody
 	String toIp(String url) throws Exception {
 		String ip = InetAddress.getByName(url).getHostAddress();
-		System.out.println("geoToip: "+ip);
+		System.out.println("geoToip: " + ip);
 		return "{\"ip\" : \"" + ip + "\"}";
 	}
 //	IPv4 vs IPv6
@@ -54,6 +54,5 @@ public class GeolocationController {
 //	각 주소 체계는 호환이 안된다.
 //	IPv6 : 보안 강화 / 전세계인이 사용 가능 / 일관된 헤더(효율적인 라우팅)
 //	  / 서버 없이도 자체 IP 주소를 할당
-
 
 }

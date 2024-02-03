@@ -42,7 +42,7 @@ public class ParsingKomoran {
 //			analyzeList에서 문자열 token의 빈도를 계산합니다. 
 			if (token.length() >= 2) {
 				int num = Collections.frequency(analyzeList, token);
-				if(num>=2) {
+				if (num >= 2) {
 					listHash.put(token, num);
 				}
 			}

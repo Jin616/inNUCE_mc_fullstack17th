@@ -15,17 +15,20 @@ import com.mc.innuce.domain.search.dto.KeysDTO;
 public class KeywordService {
 	@Autowired
 	KeywordDAO keywordDAO;
-	
-	public List<NewsDTO> getNewsList(Map<String,Integer> map) {
+
+	public List<NewsDTO> getNewsList(Map<String, Integer> map) {
 		return keywordDAO.getNewsList(map);
 	}
+
 	public List<NewsDTO> getNewsListLimit(Map<String, Object> map) {
 		return keywordDAO.getNewsListLimit(map);
 	}
+
 //	키워드기반 검색
 	public List<Long> getNewKeys(String keyword) {
 		return keywordDAO.getNewKeys(keyword);
 	}
+
 //	위치기반 검색
 	public List<Long> getNewKeys2(String place) {
 		return keywordDAO.getNewKeys2(place);
@@ -39,21 +42,20 @@ public class KeywordService {
 		return keywordDAO.getTotalNews(keyword_key);
 	}
 
-	
 	public KeywordDTO oneKeyword(String keyword) {
 		return keywordDAO.oneKeyword(keyword);
 	}
+
 	public int updateKeyword(String keyword) {
 		return keywordDAO.updateKeyword(keyword);
 	}
+
 	public int insertKeyword(String keyword) {
 		return keywordDAO.insertKeyword(keyword);
 	}
+
 	public void insertKeywordNews(KeysDTO keysDTO) {
 		keywordDAO.insertKeywordNews(keysDTO);
 	}
-
-
-
 
 }

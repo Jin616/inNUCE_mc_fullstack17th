@@ -28,20 +28,9 @@ public class GeolocationService implements NaverService {
 		String space = " ";					// one space
 		String newLine = "\n";					// new line
 		String method = "GET";					// method
-//		String url = "/photos/puppy.jpg?query1=&query2";	// https://localhost:9070+url
-//		String timestamp = "{timestamp}";			// current timestamp (epoch)
-//		String accessKey = "{accessKey}";			// access key id (from portal or Sub Account)
-//		String secretKey = "{secretKey}";
 
-		String message = new StringBuilder()
-			.append(method)
-			.append(space)
-			.append(subURL)
-			.append(newLine)
-			.append(timeStamp)
-			.append(newLine)
-			.append(accessKey)
-			.toString();
+		String message = new StringBuilder().append(method).append(space).append(subURL).append(newLine)
+				.append(timeStamp).append(newLine).append(accessKey).toString();
 
 		SecretKeySpec signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
 		Mac mac = Mac.getInstance("HmacSHA256");
@@ -50,44 +39,43 @@ public class GeolocationService implements NaverService {
 		byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
 		String encodeBase64String = Base64.getEncoder().encodeToString(rawHmac);
 
-	  return encodeBase64String;
+		return encodeBase64String;
 	}
 
 	@Override
 	public String test(String ip) {
-		
+
 		String result = null;
 
 		try {
-			
+
 //			url -> ip주소
 //			InetAddress inet = InetAddress.getByName("www.naver.com");
 //			String ip = inet.getHostAddress();
 //			System.out.println("ip주소 : "+ip);
-			
+
 //			121.186.56.92
-			
-			String subURL = "/geolocation/v2/geoLocation?ip="+"121.186.56.92"+"&ext=t&responseFormatType=json";
+
+			String subURL = "/geolocation/v2/geoLocation?ip=" + ip + "&ext=t&responseFormatType=json";
 
 			String timeStamp = String.valueOf(System.currentTimeMillis());
 			String accessKey = NaverInfo.geo_Access_Key_ID;
 			String secretKey = NaverInfo.geo_Secret_Key;
 
-			String signKey=makeSignature(subURL,timeStamp,accessKey,secretKey);
-			
-			String apiURL = "https://geolocation.apigw.ntruss.com"+subURL;
+			String signKey = makeSignature(subURL, timeStamp, accessKey, secretKey);
+
+			String apiURL = "https://geolocation.apigw.ntruss.com" + subURL;
 			URL url = new URL(apiURL);
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("x-ncp-apigw-timestamp", timeStamp);
 			conn.setRequestProperty("x-ncp-iam-access-key", accessKey);
-			//secretKey 암호화하기
+			// secretKey 암호화하기
 			conn.setRequestProperty("x-ncp-apigw-signature-v2", signKey);
-			
+
 			conn.setDoOutput(true);
 
-		
 			BufferedReader br = null;
 			int responseCode = conn.getResponseCode();
 			if (responseCode == 200) { // 정상 호출
@@ -112,9 +100,9 @@ public class GeolocationService implements NaverService {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	
+
 		return result;
-		
+
 	}
 
 	public KeywordDTO oneKeyword(String place) {

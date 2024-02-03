@@ -22,5 +22,5 @@ public interface OpinionDAO {
 	List<OpinionDTO> selectPreOpinionList(int opinion_key);
 
 	List<OpinionDTO> selectOnePreOpinionList(int opinion_key);
-	
+
 }

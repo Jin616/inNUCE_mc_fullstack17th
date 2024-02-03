@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-  
 <mapper namespace="com.mc.innuce.domain.search.dao.KeywordDAO">
 <!-- 
 id: dao에서 메소드명
@@ -13,11 +11,7 @@ id: dao에서 메소드명
 	where keyword_key = #{keyword_key}
 	order by news_writendate desc
 </select>
-<!-- paging -->
-<!-- java.util.Map
-Map<String,String> map
-map.put("keyword_key", "건희")
-map.put("num1", ) -->
+
 <select id="getNewsListLimit" resultType="newsdto" parameterType="java.util.Map">
 	select news.* from keyword_news join news using(news_key)
 	where 
@@ -25,8 +19,6 @@ map.put("num1", ) -->
 	keyword_key = #{key}
 	</foreach>
 	order by news_writendate desc limit #{num1},#{num2}
-<!-- 	<foreach collection="array" item="num" separator=",">#{num}</foreach> -->
-<!-- 	limit #{num1}, 10 -->
 </select>
 
  <!-- 검색 시 뉴스 개수 -->
@@ -34,42 +26,16 @@ map.put("num1", ) -->
 	select count(*) from keyword_news 
 	where keyword_key = #{keyword_key}
 </select>
-<!-- (select keyword_key from keyword where keyword_content = #{keyword } ) -->
-
-<!-- <select id="getNewKeys" resultType="newsdto">
-	select * from news join keyword_news using(news_key)
-	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
-</select> -->
 
 <select id="getNewKeys" resultType="Long" parameterType="String">
 select news_key from news where news_title like concat('%',#{keyword },'%')
 </select>
 
-<!-- <insert id="insertKeywordNews" parameterType="String">
-	<selectKey id="getNewKeys" resultTpye="Long" keyProperty="keyword" order="BEFORE">
-		select news_key from news where news_title like concat('%',#{keyword },'%')
-	</selectKey>
-	insert into keyword_news(keyword_key,news_key)
-	values (#{keyword_key},#{news_key})
-</insert> -->
 
 <select id="getNewKeys2" resultType="Long" parameterType="String">
 select news_key from news where news_content like concat('%',#{place },'%') 
 </select>
 
-<!-- <select id="getNewsKeys2" resultType="long" parameterType="String">
-	select news.news_key from keyword_news as kn join news using(news_key)
-	where keyword_key = (select keyword_key from keyword where keyword_content = #{keyword })
-</select>
- -->
- 
- <!-- 키워드 뉴스 가져오기 -->
-<!--  <select id="getNewsList" resultType="newsdto" parameterType="int">
-	select n.* from keyword_news kn join news n using(news_key) join keyword k using(keyword_key)
-	where kn.keyword_key = #{keyword_key}
-	order by k.search_count desc, n.news_writendate desc
-	limit 0,5
-</select> -->
 
 <!-- wordCloud  -->
 <select id="getCategoryContent" resultType="String" parameterType="String">
@@ -91,12 +57,6 @@ insert into keyword(keyword_content,keyword_recent_time)
 values(#{keyword_content}, now());
 </insert>
 
-<!-- <insert id="insertKeywordNews" parameterType="keyOfKeywordAndNewsdto" >
-	insert into keyword_news(keyword_key,news_key) values 
-	<foreach collection="array" item="num" separator=",">
-	(#{num.keyword_key},#{num.newsKeyList})
-	</foreach>
-</insert> -->
 
 
 <insert id="insertKeywordNews" parameterType="keysdto" >

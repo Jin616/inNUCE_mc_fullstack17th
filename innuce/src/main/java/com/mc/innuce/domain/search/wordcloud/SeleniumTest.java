@@ -28,8 +28,10 @@ public class SeleniumTest {
 	public Map<String,Object> descriptionToMap(String num) {
 		// selenium 4.6.0 버전부터 알아서 드라이버를 자동 설치 해줌 크롬드라이버 설치 불필요
 		num = "10"+num;
+		
 		System.out.println(num);
 		String number="";
+		
 		for (int i = 0; i < sid.length; i++) {
 			if(num.equals(sid[i])) {
 				number=sid[i];

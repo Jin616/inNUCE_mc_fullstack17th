@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
+import com.mc.innuce.domain.search.dto.KeysDTO;
 
 @Service
 public class ComponentService {
@@ -19,41 +20,48 @@ public class ComponentService {
 	@Autowired
 	SearchService searchService;
 	@Autowired
-	CRUDService crudService;
-	@Autowired
 	NewsService newsService;
+	@Autowired
+	WordCloudService cloudService;
+	@Autowired
+	GeolocationService geoService;
+	
 
 	public KeywordDTO oneKeyword(String keyword) {
-		return crudService.oneKeyword(keyword);
+		return keywordService.oneKeyword(keyword);
 	}
 
 	public int updateKeyword(String keyword) {
-		return crudService.updateKeyword(keyword);
+		return keywordService.updateKeyword(keyword);
 	}
 
 	public int insertKeyword(String keyword) {
-		return crudService.insertKeyword(keyword);
+		return keywordService.insertKeyword(keyword);
 	}
 
 //  키워드가 없을때 news_key가져오기
 	public List<Long> getNewKeys(String keyword) {
 		return keywordService.getNewKeys(keyword);
 	}
+//	위치 검색 시 news_key
+	public List<Long> getNewKeys2(String place) {
+		return keywordService.getNewKeys2(place);
+	}
 
 //	키워드가 있을때 news_key가져오기
 //	public List<Long> getNewsKeys2(String keyword) {
 //		return keywordService.getNewsKeys2(keyword);
 //	}
-	public void insertKeywordNews(List<Map<String, Object>> keysList) {
-		crudService.insertKeywordNews(keysList);
+	public void insertKeywordNews(KeysDTO keysDTO) {
+		keywordService.insertKeywordNews(keysDTO);
 	}
 
-	public List<NewsDTO> getNewsList(int keyword_key) {
-		return keywordService.getNewsList(keyword_key);
+	public List<NewsDTO> getNewsList(Map<String,Integer> map) {
+		return keywordService.getNewsList(map);
 	}
 
-	public List<NewsDTO> getNewsListLimit(int[] limit) {
-		return keywordService.getNewsListLimit(limit);
+	public List<NewsDTO> getNewsListLimit(Map<String, Object> map) {
+		return keywordService.getNewsListLimit(map);
 	}
 
 	public int getTotalNews(int keyword_key) {
@@ -65,4 +73,12 @@ public class ComponentService {
 		return searchService.getNewsContent();
 	}
 
+	public HashMap<String, Integer> getCategoryContent(String num) {
+		return cloudService.getCategoryContent(num);
+	}
+
+
+
+
+	
 }

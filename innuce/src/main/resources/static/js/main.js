@@ -11,6 +11,11 @@ $("main i").click(function() {
 	}
 })
 
+
+/*placeSearch 에 관한 alert*/
+
+
+
 /*채팅바*/
 
 let badgeEl = document.querySelector('header .badges');
@@ -57,11 +62,8 @@ $('#category ul.menu li').click(function() {
 /*wordcloud-category*/
 let datas = new Array(6);
 let flag = false;
-
-
-
-
-/*for (let i = 0; i < datas.length; i++) {
+/*DB*/
+for (let i = 0; i < datas.length; i++) {
 	(function(i) {
 		$.ajax({
 			url: "/wordCloud",
@@ -92,20 +94,6 @@ let flag = false;
 
 	})(i);
 }
-*/
-
-
-
-/*	let tab_0 = {"politics":$('#politics').attr('value')};
-	let tab_1 = {"economy":$('#economy').attr('value')};
-	let tab_2 = {"society":$('#society').attr('value')};
-	let tab_3 = {"life":$('#life').attr('value')};
-	let tab_4 = {"world":$('#world').attr('value')};
-	let tab_5 = {"edit-col":$('#edit-col').attr('value')};*/
-
-
-
-
 
 
 $('.word-container .category-container .category-button div').click(function() {
@@ -131,7 +119,7 @@ $('.word-container .category-container .category-button div').click(function() {
 
 });
 
-/*function wordclouding(data, tab_id) {
+function wordclouding(data, tab_id) {
 
 	let chart = anychart.tagCloud(data);
 
@@ -150,7 +138,7 @@ $('.word-container .category-container .category-button div').click(function() {
 	});
 
 	chart.draw();
-}*/
+}
 
 
 
@@ -181,7 +169,7 @@ $('.content-cover .a').on('click', function() {
 let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
 let replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
 
-$('#keyword').on("focusout", function() {
+$('#searchBar').on("focusout", function() {
 	let x = $(this).val();
 	if (x.length > 0) {
 		if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {

@@ -3,7 +3,6 @@ package com.mc.innuce;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
-import com.mc.innuce.domain.search.geoloaction.GeolocationService;
 import com.mc.innuce.domain.search.service.ComponentService;
-import com.mc.innuce.domain.search.wordcloud.ParsingKomoran;
+import com.mc.innuce.domain.search.service.GeolocationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,14 +41,7 @@ public class TestController {
 
 	@RequestMapping("/main")
 	public String main() {
-		
-		List<String> contentList =service.getNewsContent();
-		
-		
-		
-		
-		
-		
+
 		return "main";
 	}
 
@@ -58,8 +50,9 @@ public class TestController {
 			throws IOException {
 
 		System.out.println(num);
-		ParsingKomoran pk = new ParsingKomoran();
-		HashMap<String, Integer> crawlerData = pk.parsingData(num);
+//		ParsingKomoran pk = new ParsingKomoran();
+//		HashMap<String, Integer> crawlerData = pk.parsingDataWithSelenium(num);
+		HashMap<String, Integer> crawlerData = service.getCategoryContent(num);
 
 //     	System.out.println("DataController(wordCloud): "+crawlerData.toString());
 		JSONArray jsonArray = new JSONArray();
@@ -95,14 +88,15 @@ public class TestController {
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {
 		ModelAndView mv = new ModelAndView();
 
+		int pageCount = 10;
+		int totalCount = 0;
+		int[] limit = new int[2];
 		List<NewsDTO> newsList = new ArrayList<>();
-		List<Long> newsKeyList = new ArrayList<>(); // News
+		List<Integer> keywordKeyList = new ArrayList<>(); // News
 //		List<KeywordDTO> keywords = new ArrayList<>();
-		List<Map<String, Object>> keysList = new ArrayList<>();
 		KeywordDTO dto = null;
-		System.out.println("keyword :" + keyword);
 //	keyword에 " "이 있을 때만 코모란을 돌리자
-		
+
 		Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 		String path = System.getProperty("user.dir");
 
@@ -112,110 +106,73 @@ public class TestController {
 		KomoranResult komoranResult = komoran.analyze(keyword);
 
 		List<String> analyzeList = komoranResult.getMorphesByTags("NNP", "NNG", "NNB");
-		int keywordKey=0;
-		
+		int keywordKey = 0;
+
 		for (String token : analyzeList) {
 			System.out.println("===" + token + "===");
 			dto = service.oneKeyword(token);
-			System.out.println("keywordDTO :" + dto);
-			
+
 			if (dto != null) {
 				// token이 있으면 - update +
 				service.updateKeyword(token);
-				System.out.println("keyword update완료");
+				keywordKeyList.add(dto.getKeyword_key());
+				keywordKey = dto.getKeyword_key();
 
 			} else {
 				// token이 없으면 - insert
 				service.insertKeyword(token);
-				System.out.println("keyword에 keyword insert완료");
-				// token 을 keyword_news에 insert + news에서 news_key를 같이
-//				select keyword_key from keyword where keyword_content = '석열'; - int
+
 				dto = service.oneKeyword(token);
-			}
-			keywordKey = dto.getKeyword_key();
-			System.out.println("keyword_key : " + keywordKey);
-//				select news_key from news where news_title like '%석열%'; - list
-			System.out.println(token + "에 해당하는 news_key : " + service.getNewKeys(token));
-			
-			for (Long l : service.getNewKeys(token)) {
-				newsKeyList.add(l);
-			}
+				keywordKeyList.add(dto.getKeyword_key());
+				keywordKey = dto.getKeyword_key();
 
+				System.out.println("news_key : " + service.getNewKeys(token));
+
+				KeysDTO keys = new KeysDTO(keywordKey, service.getNewKeys(token));
+
+				service.insertKeywordNews(keys);
+				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
+			}
+			totalCount += service.getTotalNews(keywordKey);
 		} // for (String token : analyzeList)
-		System.out.println("newsKeyList : " + newsKeyList);
-		
-
-		for (Long newsKey : newsKeyList) {
-			Map<String, Object> data = new HashMap<>();
-			data.put("keyword_key", keywordKey);
-			data.put("news_key", newsKey);
-			keysList.add(data);
-		}
-
-		System.out.println("keyList : " + keysList);
-
-		service.insertKeywordNews(keysList);
-		System.out.println("keyword_news에 keyword:[news_Key] insert완료");
-
 
 //	paging
-	
-		int pageCount = 10;
-		int[] limit = new int[2];
+
+		Map<String, Object> map = new HashMap<>();
+
 		limit[0] = (pageNum - 1) * pageCount;
-		limit[1] = limit[0]+pageCount;
-		int totalCount = service.getTotalNews(keywordKey);
-		
-		int remain = totalCount % pageCount;
-		int share = totalCount/pageCount;
-		
-		if(remain!=0 && pageNum==share+1) {
-			limit[1] = limit[0]+remain;
+		limit[1] = pageCount;
+
+		map.put("keyword_key", keywordKeyList);
+
+		map.put("num1", limit[0]);
+		map.put("num2", limit[1]);
+		System.out.println("totalCount : " + totalCount);
+
+		if (totalCount >= 400) {
+			totalCount = 400;
 		}
-		System.out.println("totalCount : "+totalCount);
-		
-		if(totalCount >= 400) {
-			totalCount=400;
-		}
-		
-		System.out.println("totalCount : "+totalCount);
-		System.out.println("pageCount : "+pageCount);
+
+		System.out.println("totalCount : " + totalCount);
+		System.out.println("pageCount : " + pageCount);
 		mv.addObject("totalCount", totalCount);
-		mv.addObject("pageCount",pageCount);
+		mv.addObject("pageCount", pageCount);
 //	키워드에 해당하는 news 가져오기
-		newsList = service.getNewsList(dto.getKeyword_key()).subList(limit[0], limit[1]);
-		System.out.println("newsList 10개 : "+newsList);
-		
+//		/////////////////////////////////////////////////////
+		newsList = service.getNewsListLimit(map);
+
 		mv.addObject("newsList", newsList);
-		
+
 		mv.addObject("keyword", keyword);
 		mv.setViewName("search/searchPage");
 
 		return mv;
 	}
-	/*
-	 * @GetMapping("/search") public ModelAndView mainSearch(String keyword,
-	 * HttpSession session,
-	 * 
-	 * @RequestParam(value = "pageNum", required = false) int pageNum) {
-	 * ModelAndView mv = new ModelAndView();
-	 * 
-	 * 
-	 * 
-	 * return mv; }
-	 */
-	// 검색 -> 네이버 뉴스 -> news 테이블에 해당하는 news_key가 여러 개
-	// -> keyword_news에 news_key 등록
-
-//		@RequestMapping("/myPlace")
-//		String searchMyPlace() {
-//			return "";
-//			
-//		}
-	//
 
 	@RequestMapping("/myLocation")
-	ModelAndView myLocation(HttpServletRequest request) throws UnknownHostException {
+	ModelAndView myLocation(HttpServletRequest request,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
+
 		ModelAndView mv = new ModelAndView();
 		String ip = "";
 
@@ -268,12 +225,92 @@ public class TestController {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+
+		int pageCount = 10;
+		int totalCount = 0;
+		int[] limit = new int[2];
+		List<Integer> keywordKeyList = new ArrayList<>();
+		List<NewsDTO> newsList = new ArrayList<>();
+//		List<KeywordDTO> keywords = new ArrayList<>();
+		KeywordDTO dto = null;
+		int keywordKey = 0;
+		
+		List<String> placeList = new ArrayList<>();
+		placeList.add(r1);
+		placeList.add(r2);
+
+		for (String place : placeList) {
+
+			if (place.equals("") || place.equals(" ") || place == null) {
+				mv.addObject("placeMassage", "위치정보가 확인이 안됩니다.");
+				mv.setViewName("main");
+				return mv;
+			}
+			System.out.println("===" + place + "===");
+			dto = service.oneKeyword(place);
+			System.out.println("keywordDTO :" + dto);
+
+			if (dto != null) {
+				// place이 있으면 - update +
+				service.updateKeyword(place);
+				keywordKeyList.add(dto.getKeyword_key());
+				keywordKey = dto.getKeyword_key();
+
+			} else {
+				// place이 없으면 - insert
+				service.insertKeyword(place);
+
+				dto = service.oneKeyword(place);
+				keywordKeyList.add(dto.getKeyword_key());
+				keywordKey = dto.getKeyword_key();
+				// place 을 keyword_news에 insert + news에서 news_key를 같이
+//				select keyword_key from keyword where keyword_content = '석열'; - int
+
+				System.out.println("news_key : " + service.getNewKeys2(place));
+
+				KeysDTO keys = new KeysDTO(keywordKey, service.getNewKeys2(place));
+
+				service.insertKeywordNews(keys);
+				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
+			}
+			totalCount += service.getTotalNews(keywordKey);
+
+		} // for (String place : analyzeList)
+
+//	paging
+		Map<String, Object> map = new HashMap<>();
+		
+		limit[0] = (pageNum - 1) * pageCount;
+		limit[1] = pageCount;
+
+		map.put("keyword_key", keywordKeyList);
+
+		map.put("num1", limit[0]);
+		map.put("num2", limit[1]);
+
+		System.out.println("totalCount : " + totalCount);
+
+		if (totalCount >= 400) {
+			totalCount = 400;
+		}
+
+		System.out.println("totalCount : " + totalCount);
+		System.out.println("pageCount : " + pageCount);
+		mv.addObject("totalCount", totalCount);
+		mv.addObject("pageCount", pageCount);
+		newsList = service.getNewsListLimit(map);
+//	키워드에 해당하는 news 가져오기
+//		newsList = service.getNewsList(dto.getKeyword_key()).subList(limit[0], limit[1]);
 		System.out.println("myLocation : " + myLocation);
 		System.out.println("r1 r2 r3 : " + r1 + r2 + r3);
-		mv.addObject("myLocation", myLocation);
+
+//		mv.addObject("myLocation", myLocation);
+		mv.addObject("newsList", newsList);
 		mv.addObject("keyword", r1 + " " + r2 + " " + r3);
+
 		mv.setViewName("search/searchPage");
 		return mv;
+
 	}
 
 	@RequestMapping("/news")

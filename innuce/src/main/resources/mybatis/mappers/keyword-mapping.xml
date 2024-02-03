@@ -14,15 +14,24 @@ id: dao에서 메소드명
 	order by news_writendate desc
 </select>
 <!-- paging -->
-<select id="getNewsListLimit" resultType="newsdto" parameterType="int">
-	select news.* from keyword_news kn join news n using(news_key)
-	where kn.keyword_key = #{keyword_key}
-	order by n.news_writendate desc
-	limit <foreach collection="array" item="num" separator=",">#{num}</foreach>
+<!-- java.util.Map
+Map<String,String> map
+map.put("keyword_key", "건희")
+map.put("num1", ) -->
+<select id="getNewsListLimit" resultType="newsdto" parameterType="java.util.Map">
+	select news.* from keyword_news join news using(news_key)
+	where 
+	<foreach collection="keyword_key" item="key" separator=" or ">
+	keyword_key = #{key}
+	</foreach>
+	order by news_writendate desc limit #{num1},#{num2}
+<!-- 	<foreach collection="array" item="num" separator=",">#{num}</foreach> -->
+<!-- 	limit #{num1}, 10 -->
 </select>
+
  <!-- 검색 시 뉴스 개수 -->
 <select id="getTotalNews" resultType="int">
-	select count(*) from keyword_news join news using(news_key)
+	select count(*) from keyword_news 
 	where keyword_key = #{keyword_key}
 </select>
 <!-- (select keyword_key from keyword where keyword_content = #{keyword } ) -->
@@ -34,6 +43,18 @@ id: dao에서 메소드명
 
 <select id="getNewKeys" resultType="Long" parameterType="String">
 select news_key from news where news_title like concat('%',#{keyword },'%')
+</select>
+
+<!-- <insert id="insertKeywordNews" parameterType="String">
+	<selectKey id="getNewKeys" resultTpye="Long" keyProperty="keyword" order="BEFORE">
+		select news_key from news where news_title like concat('%',#{keyword },'%')
+	</selectKey>
+	insert into keyword_news(keyword_key,news_key)
+	values (#{keyword_key},#{news_key})
+</insert> -->
+
+<select id="getNewKeys2" resultType="Long" parameterType="String">
+select news_key from news where news_content like concat('%',#{place },'%') 
 </select>
 
 <!-- <select id="getNewsKeys2" resultType="long" parameterType="String">
@@ -49,6 +70,41 @@ select news_key from news where news_title like concat('%',#{keyword },'%')
 	order by k.search_count desc, n.news_writendate desc
 	limit 0,5
 </select> -->
+
+<!-- wordCloud  -->
+<select id="getCategoryContent" resultType="String" parameterType="String">
+select news_content from news where news_category=#{number };
+</select>
+
+<select id="oneKeyword" parameterType="String" resultType="Keyworddto">
+select * from keyword where keyword_content=#{keyword}
+</select>
+
+<update id="updateKeyword" parameterType="String">
+update keyword
+set keyword_recent_time= now()
+where keyword_content=#{keyword}
+</update>
+
+<insert id="insertKeyword" parameterType="String" >
+insert into keyword(keyword_content,keyword_recent_time) 
+values(#{keyword_content}, now());
+</insert>
+
+<!-- <insert id="insertKeywordNews" parameterType="keyOfKeywordAndNewsdto" >
+	insert into keyword_news(keyword_key,news_key) values 
+	<foreach collection="array" item="num" separator=",">
+	(#{num.keyword_key},#{num.newsKeyList})
+	</foreach>
+</insert> -->
+
+
+<insert id="insertKeywordNews" parameterType="keysdto" >
+	insert into keyword_news(keyword_key,news_key) values 
+	<foreach collection="newsKeyList" item="newsKeyList" separator=",">
+		(#{keyword_key },#{newsKeyList })
+	</foreach>
+</insert>
 
 
 </mapper>

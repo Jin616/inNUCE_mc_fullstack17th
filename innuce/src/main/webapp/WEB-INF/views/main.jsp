@@ -15,16 +15,12 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <script defer src="/js/main.js"></script>
+
 </head>
 
 <body>
 
 
-<%-- <%
-List<NewsDTO> list = (List<NewsDTO>)request.getAttribute("newsList");
-
-for(NewsDTO news : list) {
-%> --%>
 
 
 <!-- HEADER -->
@@ -316,11 +312,11 @@ for(NewsDTO news : list) {
 		<!-- 사회 -->
 		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
 		<!-- 생활 -->
-		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
+		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활/문화</div>
 		<!-- 세계 -->
 		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
 		<!-- 사설/컬럼 -->
-		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
+		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">IT/과학</div>
 			
 	</div>
  	
@@ -369,6 +365,12 @@ for(NewsDTO news : list) {
 
 
 
+<script>
 
+let msg = "<c:out value='${placeMassage}'/>";
+if(msg != ""){
+	alert(msg);
+}
+</script>
 </body>
 </html>

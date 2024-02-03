@@ -16,7 +16,7 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Component
 public class ParsingKomoran {
-	public HashMap<String, Integer> parsingData(String number) {
+	public HashMap<String, Integer> parsingDataWithSelenium(String number) {
 
 		Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 		String path = System.getProperty("user.dir");
@@ -27,6 +27,7 @@ public class ParsingKomoran {
 		komoran.setUserDic(path + "/src/main/resources/static/dictionary/dic.user");
 
 		String dataSource = new NaverCrawler().crawler(number);
+		
 //		System.out.println(dataSource);
 //		입력 텍스트에 대한 형태소 분석을 수행
 		KomoranResult komoranResult = komoran.analyze(dataSource);

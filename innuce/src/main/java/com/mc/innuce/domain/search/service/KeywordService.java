@@ -19,22 +19,19 @@ public class KeywordService {
 	@Autowired
 	KeywordDAO keywordDAO;
 
-	public List<NewsDTO> getNewsList(Map<String, Integer> map) {
-		return keywordDAO.getNewsList(map);
-	}
 
 	public List<NewsDTO> getNewsListLimit(Map<String, Object> map) {
 		return keywordDAO.getNewsListLimit(map);
 	}
 
 //	키워드기반 검색
-	public List<Long> getNewKeys(String keyword) {
-		return keywordDAO.getNewKeys(keyword);
+	public List<Long> getNewsKeys(String keyword) {
+		return keywordDAO.getNewsKeys(keyword);
 	}
 
 //	위치기반 검색
-	public List<Long> getNewKeys2(String place) {
-		return keywordDAO.getNewKeys2(place);
+	public List<Long> getNewsKeys2(String place) {
+		return keywordDAO.getNewsKeys2(place);
 	}
 	
 	
@@ -55,32 +52,10 @@ public class KeywordService {
 	public int updateKeyword(String keyword) {
 		return keywordDAO.updateKeyword(keyword);
 	}
-
-	
-//	seo
-	public int updateKeyword(KeywordDTO dto) {
-		return keywordDAO.updateKeyword(dto);
-	}
-
-	public int insertKeyword(String keyword, LocalDate dateStart) {
-		KeywordDTO dto = new KeywordDTO();
-
-		dto.setKeyword_content(keyword);
-		dto.setKeyword_recent_time(Timestamp.valueOf(dateStart.atStartOfDay()));
-
-		return insertKeyword(dto);
-	}
 	public int insertKeyword(String keyword) {
-		KeywordDTO dto = new KeywordDTO();
-
-		dto.setKeyword_content(keyword);
-		dto.setKeyword_recent_time(Timestamp.valueOf(LocalDateTime.now()));
-
-		return insertKeyword(dto);
+		return keywordDAO.insertKeyword(keyword);
 	}
-	public int insertKeyword(KeywordDTO dto) {
-		return keywordDAO.insertKeyword(dto);
-	}
+	
 
 	public void insertKeywordNews(KeysDTO keysDTO) {
 		keywordDAO.insertKeywordNews(keysDTO);

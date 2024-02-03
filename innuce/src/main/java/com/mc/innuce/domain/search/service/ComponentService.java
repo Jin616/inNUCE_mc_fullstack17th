@@ -40,12 +40,12 @@ public class ComponentService {
 	}
 
 //  키워드가 없을때 news_key가져오기
-	public List<Long> getNewKeys(String keyword) {
-		return keywordService.getNewKeys(keyword);
+	public List<Long> getNewsKeys(String keyword) {
+		return keywordService.getNewsKeys(keyword);
 	}
 //	위치 검색 시 news_key
-	public List<Long> getNewKeys2(String place) {
-		return keywordService.getNewKeys2(place);
+	public List<Long> getNewsKeys2(String place) {
+		return keywordService.getNewsKeys2(place);
 	}
 
 //	키워드가 있을때 news_key가져오기
@@ -54,10 +54,6 @@ public class ComponentService {
 //	}
 	public void insertKeywordNews(KeysDTO keysDTO) {
 		keywordService.insertKeywordNews(keysDTO);
-	}
-
-	public List<NewsDTO> getNewsList(Map<String,Integer> map) {
-		return keywordService.getNewsList(map);
 	}
 
 	public List<NewsDTO> getNewsListLimit(Map<String, Object> map) {

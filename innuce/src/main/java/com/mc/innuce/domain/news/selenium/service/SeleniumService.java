@@ -27,8 +27,8 @@ public class SeleniumService {
 	@Autowired
 	PressService ps;
 	@Autowired
-	KeywordService keywordService;
-	
+	KeywordService cruds;
+
 	Map<String, HashSet<String>> searchingKeywordMap = new HashMap<>();
 
 	// 삭제 예정
@@ -40,11 +40,11 @@ public class SeleniumService {
 	public void searchBack(String keyword, String ds, String de) {
 
 		// keyworddto 생성 및 불러오기
-		KeywordDTO dto = keywordService.oneKeyword(keyword);
+		KeywordDTO dto = cruds.oneKeyword(keyword);
 
 		if (dto == null) {
-			keywordService.insertKeyword(keyword);
-			dto = keywordService.oneKeyword(keyword);
+			cruds.insertKeyword(keyword);
+			dto = cruds.oneKeyword(keyword);
 		}
 
 		// recentDate 설정

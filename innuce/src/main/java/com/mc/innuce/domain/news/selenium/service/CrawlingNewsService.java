@@ -42,6 +42,8 @@ public class CrawlingNewsService {
 	SummaryService summaryService;
 	@Autowired
 	SentimentService sentimentService;
+//	@Autowired
+//	CRUDService crudService;
 
 	WebConverter conv = new WebConverter();
 

@@ -14,7 +14,7 @@ import com.mc.innuce.domain.news.selenium.service.CrawlingPressService;
 import com.mc.innuce.domain.news.selenium.service.SeleniumService;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.news.service.PressService;
-import com.mc.innuce.global.util.jsonparsefromdto.JsonParser;
+import com.mc.innuce.global.util.jsonparsefromdto.JSONParser;
 
 @RestController
 public class SeleniumController {
@@ -30,7 +30,7 @@ public class SeleniumController {
 	@Autowired
 	SeleniumService ss;
 
-	JsonParser jp = new JsonParser();
+	JSONParser jp = new JSONParser();
 	
 	/**
 	 * 크롤러 호출하는 mapping
@@ -52,7 +52,7 @@ public class SeleniumController {
 		// String jsonResultString = ss.search(keyword, sort, pressopt, press, periodopt, ds, de);
 		// ss.searchBack(keyword, ds, de);
 		List<NewsDTO> list = cns.getSearchNewsDefault(ss.search(keyword, sort, pressopt, press, periodopt, ds, de));
-		return new JsonParser().getJsonArrayNews(list).toString();
+		return new JSONParser().getJsonArrayNews(list).toString();
 	}
 
 	// 아래는 test code

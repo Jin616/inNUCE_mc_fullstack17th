@@ -14,11 +14,12 @@ import com.mc.innuce.domain.search.dto.KeysDTO;
 @Mapper
 public interface KeywordDAO {
 	
-	public List<NewsDTO> getNewsList(Map<String,Integer> map);
 	public List<NewsDTO> getNewsListLimit(Map<String,Object> map);
 	public int getTotalNews(int keyword_key);
-	public List<Long> getNewKeys(String keyword);
-	public List<Long> getNewKeys2(String place);
+	
+	public List<Long> getNewsKeys(String keyword);
+	
+	public List<Long> getNewsKeys2(String place);
 	public List<String> getCategoryContent(String number);
 	
 	KeywordDTO oneKeyword(String keyword);
@@ -26,11 +27,7 @@ public interface KeywordDAO {
 	int insertKeyword(String keyword);
 	void insertKeywordNews(KeysDTO keysDTO);
 	
-//	public List<Long> getNewsKeys2(String keyword);
 
-	public List<NewsDTO> getNewsList(KeywordDTO dto);
 
-	public List<Long> getNewsKeys1();
 
-	public List<Long> getNewsKeys2(String keyword);
 }

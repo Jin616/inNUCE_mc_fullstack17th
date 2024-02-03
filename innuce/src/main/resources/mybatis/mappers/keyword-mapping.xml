@@ -6,11 +6,6 @@
 id: dao에서 메소드명
  -->
  <!-- 검색 시 뉴스들 가져오기 -->
-<select id="getNewsList" resultType="newsdto" parameterType="int">
-	select news.* from keyword_news join news using(news_key)
-	where keyword_key = #{keyword_key}
-	order by news_writendate desc
-</select>
 
 <select id="getNewsListLimit" resultType="newsdto" parameterType="java.util.Map">
 	select news.* from keyword_news join news using(news_key)
@@ -27,12 +22,12 @@ id: dao에서 메소드명
 	where keyword_key = #{keyword_key}
 </select>
 
-<select id="getNewKeys" resultType="Long" parameterType="String">
+<select id="getNewsKeys" resultType="Long" parameterType="String">
 select news_key from news where news_title like concat('%',#{keyword },'%')
 </select>
 
 
-<select id="getNewKeys2" resultType="Long" parameterType="String">
+<select id="getNewsKeys2" resultType="Long" parameterType="String">
 select news_key from news where news_content like concat('%',#{place },'%') 
 </select>
 
@@ -42,22 +37,22 @@ select news_key from news where news_content like concat('%',#{place },'%')
 select news_content from news where news_category=#{number };
 </select>
 
+<!-- crud -->
+
 <select id="oneKeyword" parameterType="String" resultType="Keyworddto">
 select * from keyword where keyword_content=#{keyword}
 </select>
 
 <update id="updateKeyword" parameterType="String">
 update keyword
-set keyword_recent_time= now()
+set keyword_recent_time=now()
 where keyword_content=#{keyword}
 </update>
 
 <insert id="insertKeyword" parameterType="String" >
-insert into keyword(keyword_content,keyword_recent_time) 
+insert ignore into keyword(keyword_content,keyword_recent_time) 
 values(#{keyword_content}, now());
 </insert>
-
-
 
 <insert id="insertKeywordNews" parameterType="keysdto" >
 	insert into keyword_news(keyword_key,news_key) values 

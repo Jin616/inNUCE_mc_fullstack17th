@@ -126,9 +126,9 @@ public class TestController {
 				keywordKeyList.add(dto.getKeyword_key());
 				keywordKey = dto.getKeyword_key();
 
-				System.out.println("news_key : " + service.getNewKeys(token));
+				System.out.println("news_key : " + service.getNewsKeys(token));
 
-				KeysDTO keys = new KeysDTO(keywordKey, service.getNewKeys(token));
+				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys(token));
 
 				service.insertKeywordNews(keys);
 				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
@@ -266,9 +266,9 @@ public class TestController {
 				// place 을 keyword_news에 insert + news에서 news_key를 같이
 //				select keyword_key from keyword where keyword_content = '석열'; - int
 
-				System.out.println("news_key : " + service.getNewKeys2(place));
+				System.out.println("news_key : " + service.getNewsKeys2(place));
 
-				KeysDTO keys = new KeysDTO(keywordKey, service.getNewKeys2(place));
+				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys2(place));
 
 				service.insertKeywordNews(keys);
 				System.out.println("keyword_news에 keyword:[news_Key] insert완료");

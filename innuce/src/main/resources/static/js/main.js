@@ -136,7 +136,7 @@ function wordclouding(data, tab_id) {
 	chart.angles([0]);
 
 	chart.listen("pointClick", function(e) {
-		var url = "//localhost:9079/search?keyword=" + e.point.get("x");
+		var url = "//27.96.131.135:8080/search?keyword=" + e.point.get("x");
 		//$(this).val() 
 		//controller ->  
 		window.open(url, "_self");

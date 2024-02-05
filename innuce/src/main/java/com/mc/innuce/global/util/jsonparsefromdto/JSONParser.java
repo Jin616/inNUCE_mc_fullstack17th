@@ -14,7 +14,6 @@ import com.mc.innuce.domain.news.dto.PressDTO;
  * JSONObject json = new JSONParse().getJSON(dto);
  * JSONArray jarray = new JSONParse().getJSONArray(dtolist);
  * @author JIN
- *
  */
 public class JSONParser {
 

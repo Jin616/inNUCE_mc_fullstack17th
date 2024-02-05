@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 10;
+	private static final int MAX_POOL_SIZE = 2;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
-	static {
-		for (int i = 0; i < MAX_POOL_SIZE; i++)
-			webDriverPool.offer(createNewWebDriver());
-	}
+//	static {
+//		for (int i = 0; i < MAX_POOL_SIZE; i++)
+//			webDriverPool.offer(createNewWebDriver());
+//	}
 
 	public static WebDriver createNewWebDriver() {
 		ChromeOptions chromeOptions = new ChromeOptions();
@@ -50,11 +50,12 @@ public class WebDriverPool {
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-
+		System.out.println("대여");
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
+		System.out.println("반환");
 		webDriverPool.offer(webDriver);
 	}
 

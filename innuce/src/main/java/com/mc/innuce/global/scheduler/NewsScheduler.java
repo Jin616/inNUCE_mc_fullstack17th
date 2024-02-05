@@ -22,19 +22,19 @@ public class NewsScheduler {
 	
 	public static List<Long> newsList = new ArrayList<>();
 
-	@Scheduled(cron = "0 0/1 * * * *")
-	public void schduleUpdateNewsCategory1() {
-		
-		System.out.println("category crawller 호출");
-		if(!isCategoryCrawllerRunning) {
-			System.out.println("category crawller 실행");
-			isCategoryCrawllerRunning = true;
-
-			cns.crawllingCategoryNews();
-			
-			System.out.println("category crawller 종료");
-			isCategoryCrawllerRunning = false;
-		}
-	}
+//	@Scheduled(cron = "0 0/1 * * * *")
+//	public void schduleUpdateNewsCategory1() {
+//		
+//		System.out.println("category crawller 호출");
+//		if(!isCategoryCrawllerRunning) {
+//			System.out.println("category crawller 실행");
+//			isCategoryCrawllerRunning = true;
+//
+//			cns.crawllingCategoryNews();
+//			
+//			System.out.println("category crawller 종료");
+//			isCategoryCrawllerRunning = false;
+//		}
+//	}
 
 }

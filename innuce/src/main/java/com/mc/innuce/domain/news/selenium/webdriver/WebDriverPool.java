@@ -20,10 +20,10 @@ public class WebDriverPool {
 	private static final int MAX_POOL_SIZE = 2;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
-//	static {
-//		for (int i = 0; i < MAX_POOL_SIZE; i++)
-//			webDriverPool.offer(createNewWebDriver());
-//	}
+	static {
+		for (int i = 0; i < MAX_POOL_SIZE; i++)
+			webDriverPool.offer(createNewWebDriver());
+	}
 
 	public static WebDriver createNewWebDriver() {
 		ChromeOptions chromeOptions = new ChromeOptions();

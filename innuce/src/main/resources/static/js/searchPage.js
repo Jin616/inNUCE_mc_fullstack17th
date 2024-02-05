@@ -1,6 +1,3 @@
-var badgeEl = document.querySelector('header .badges');
-
-
 /*북마크 클릭 시*/
 let flag2 = false;
 
@@ -15,13 +12,23 @@ $("main i").click(function() {
 })
 
 
+/*채팅바*/
+/*to top*/
+
+let badgeEl = document.querySelector('header .badges');
+let toTopEl = document.querySelector('#to-top');
+
 window.addEventListener('scroll', _.throttle(function() {
 	console.log(window.scrollY);
-	if (window.scrollY > 1000) {
+	if (window.scrollY > 500) {
 		//배지 숨기기
 		gsap.to(badgeEl, .6, {
 			opacity: 0,
 			display: 'none'
+		});
+		// 버튼 보이기
+		gsap.to(toTopEl, .2, {
+			x: 0
 		});
 	} else {
 		//배지 보이기
@@ -29,8 +36,20 @@ window.addEventListener('scroll', _.throttle(function() {
 			opacity: 1,
 			display: 'block'
 		});
+		// 버튼 숨기기
+		gsap.to(toTopEl, .2, {
+			x: 100
+		});
 	}
 }, 300));
+// _.throttle(함수,시간)
+// 상단으로 가기
+
+toTopEl.addEventListener('click', function() {
+	gsap.to(window, .7, {
+		scrollTo: 0
+	})
+});
 // _.throttle(함수,시간)
 
 /*키워드*/

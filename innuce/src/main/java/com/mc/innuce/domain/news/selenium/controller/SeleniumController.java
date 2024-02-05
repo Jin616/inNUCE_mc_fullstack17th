@@ -75,6 +75,5 @@ public class SeleniumController {
 	public void down() {
 		cns.crawllingCategoryNews();
 		
-		
 	}
 }

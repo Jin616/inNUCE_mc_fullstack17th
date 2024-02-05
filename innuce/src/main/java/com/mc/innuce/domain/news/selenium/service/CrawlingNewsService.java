@@ -8,8 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,23 +48,106 @@ public class CrawlingNewsService {
 	@Autowired
 	CRUDService crudService;
 
-	WebConverter conv = new WebConverter();
-
+	private WebConverter conv = new WebConverter();
+	private Set<String> dbHash = new HashSet<>();
+	private Queue<NewsTemVO> manageNewsParsingTaskQueue = new LinkedList<>();
+	
 	// https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1='category'#&date=%2000:00:00&page=22
 	final private String naverNewsMainURI = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=";
 	final private String prePage = "#&date=%2000:00:00&page=";
 
 	// https://search.naver.com/search.naver?where=news&sm=tab_jum&query='keyword'(+'keyword)
-	final private String naverSearchDefaultUrl = "https://search.naver.com/search.naver?where=news&sm=tab_jum&query=";
 
 	// https://search.naver.com/search.naver?where=news&sort=1&pd=3&
 	final private String naverSearchURI = "https://search.naver.com/search.naver?where=news&sort=1&pd=3&";
 	// query=?&ds=2024.01.19&de=2024.01.19
 
-	// 하루에 최대로 긁을 기사, 관심도 순으로 긁을 뉴스 기사 개수
+	// 하루 단위로 최대로 긁을 기사, 관심도 순으로 긁을 뉴스 기사 개수
 	final private int limitCrawlingSearchSortDay = 1000;
 	final private int limitCrawlingSearchSortInterest = 20;
 
+	final private int THREAD_LIMIT = 4;
+	
+	// 미리 정해둔 수만큼 병렬로 뉴스 파싱 처리
+	public void manageNewsParsingTask() {
+		
+	}
+	
+	// 네이버 페이지 변경(02-02)으로 인한 새롭게 작성된 카테고리 크롤링 코드
+	public void crawllingCategoryNews() {
+		String[] categorys = {"100", "101", "102", "103", "104", "105"};
+		
+		if(dbHash.isEmpty()) {
+			dbHash = initHashSetFromNewsKey();
+			System.out.println(printColor("dbHash", "red") + "를 초기화 합니다.");
+			System.out.println("dbHash size : " + printColor("" + dbHash.size(), "green"));
+		}
+		
+		for(String category : categorys) {
+			List<NewsTemVO> newsVOList = getNewsTemVOListPerCategory(category);
+			int insertSize = insertNewsFromVo(newsVOList);
+			System.out.println(printColor(category, "green") + " VO size is " + printColor("" + newsVOList.size(), "green"));
+			System.out.println(printColor(category, "green") + " insert size is " + printColor("" + insertSize, "green"));
+		}
+	}
+	
+	public List<NewsTemVO> getNewsTemVOListPerCategory(String category) {
+		WebDriver driver = WebDriverPool.getWebDriver();
+		
+		String url = "https://news.naver.com/section/" + category;
+		List<NewsTemVO> resultList = new ArrayList<>();
+		// 작업 진행될 때까지 반복
+		while(true) {
+			driver.get(url);
+			sleep(1000);
+			
+
+			try {
+				// 기사 더보기 버튼 display option none이 될때까지 반복해서 누름
+				while(driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed()) {
+					driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).click();
+					sleep(500);
+				}				
+			} catch (Exception e) {
+				System.out.println("기사 더 보기 버튼 에러");
+				e.printStackTrace();
+				continue;
+			}
+			
+			// 중간에 페이지 갱신으로 인해 초기화 된 경우 롤백하기 위한 try-catch
+			// 직전 코드가 끝나고 초기화 됐을 경우 뉴스 기사 개수 일정 미만일 경우 반복
+			// WebElement 요소들 추출하다가 에러 뜰 경우 페이지가 초기화 된 경우임으로 마찬가지로 반복
+			try {
+				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
+						.stream().filter(e -> e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
+				if(newsElementList.size() < 100)
+					continue;
+				
+				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장.
+				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음.
+				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감.
+				for(WebElement e : newsElementList) {
+					String href = e.getAttribute("href");
+					// 수정 필요 썸네일이 없는경우...;?
+					String thumburl = e.findElement(By.tagName("img")).getAttribute("src");
+					
+					if(dbHash.add(conv.get13NewsKey(href)))
+						resultList.add(new NewsTemVO(href, thumburl));
+					
+				}
+				
+				break; // 정상 진행 되었다면 while 탈출
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue; // 에러 잡혔다는 건 페이지 초기화 되었다는 뜻이므로 while 반복
+			}
+		}
+		
+		System.out.println("resultList size " + resultList.size());
+		releaseDriver(driver);
+		return resultList;
+	}
+	
 	public List<NewsDTO> getSearchNews(String keyword) {
 		LocalDate de = LocalDate.now(); // 검색 끝 날짜 de
 		// 기본 날짜 검색으로는 7일의 텀까지 db에 저장
@@ -70,8 +155,6 @@ public class CrawlingNewsService {
 
 		return getSearchNews(keyword, ds, de);
 	}
-
-	// public List<NewsDTO> getSearchNewsSort(String keyword, )
 
 	public List<NewsDTO> getSearchNewsDefault(String url) {
 		WebDriver driver = WebDriverPool.getWebDriver();
@@ -150,17 +233,6 @@ public class CrawlingNewsService {
 		return resultList;
 	}
 
-	private List<WebElement> filterSuitableNewsElements(List<WebElement> list) {
-		return list.stream()
-				.filter(e -> e.findElements(By.className("dsc_thumb")).size() == 1
-						&& e.findElement(By.className("info_group")).findElements(By.tagName("a")).size() == 2) // 네이버 뉴스가 있고 썸네일이 있는경우 필터
-				.filter(e -> !e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
-					.getAttribute("href").contains("sports") && // 스포츠 뉴스 필터
-					!e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
-					.getAttribute("href").contains("sid=106")) // 연예란 필터
-				.collect(Collectors.toList());
-	}
-
 	public List<NewsDTO> getSearchNews(String keyword, LocalDate ds, LocalDate de) {
 		// 추후 에러 발생시키면서 날짜값 설정 잘못됐다고 알려줘야 함
 		if (ds.isAfter(de)) {
@@ -200,6 +272,7 @@ public class CrawlingNewsService {
 		return null;
 	}
 
+	// 현재 사용하지 않음
 	private List<String> searchNews(WebDriver driver, String keyword, LocalDate date) {
 		driver.get(naverSearchURI + parseQueryWithDate(keyword, date));
 
@@ -239,15 +312,152 @@ public class CrawlingNewsService {
 		return null;
 	}
 
-	private void sleep(int i) {
-		try {
-			Thread.sleep(i);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
+	
+
+	public int insertNewsFromVo(List<NewsTemVO> voList) {
+		WebDriver driver = WebDriverPool.getWebDriver();
+		List<NewsDTO> resultList = new ArrayList<>();
+		int resultSize = 0;
+
+		for (int i = 0; i < voList.size(); i++) {
+			// 100번째 마다 실행
+			if (i % 100 == 49) {
+				driver = reload(driver);
+			}
+			
+			System.out.print(printColor(String.format("%04d", i + 1), "green") + "/" + printColor(String.format("%04d", voList.size()) + " : ", "gray"));
+			resultList.add(parseNewsToNewsDTO(driver, voList.get(i).getUrl(), voList.get(i).getThumburl()));
+			if (resultList.size() > 50) {
+				resultSize += newsService.insertNewsList(resultList);
+				resultList = new ArrayList<>();
+			}
 		}
+
+		if (resultList.size() > 0)
+			resultSize += resultList.size();
+		
+		releaseDriver(driver);
+
+		return resultSize;
 	}
 
+	public NewsDTO parseNewsToNewsDTO(WebDriver newsdriver, String href, String thumbnailuri) {
+		NewsDTO news = new NewsDTO();
+		newsdriver.get(href);
+		System.out.println(href);
+		news.setNews_key(conv.getLongNewsKey(href));
+		news.setPress_key(conv.getIntPressKey(href));
+		news.setNews_title(newsdriver.findElement(By.id("title_area")).getText());
+
+		String content = newsdriver.findElement(By.id("dic_area")).getText();
+
+		List<WebElement> tem = newsdriver.findElements(By.tagName("strong"));
+		for (WebElement replaceText : tem)
+			content = content.replace(replaceText.getText(), "");
+
+		tem = newsdriver.findElements(By.className("img_desc"));
+		for (WebElement replaceText : tem)
+			content = content.replace(replaceText.getText(), "");
+
+		news.setNews_content(content.strip());
+
+		news.setNews_writendate(conv.getStringToTimestamp(
+				newsdriver.findElement(By.className("_ARTICLE_DATE_TIME")).getAttribute("data-date-time")));
+		List<WebElement> updatediv = newsdriver.findElements(By.className("_ARTICLE_MODIFY_DATE_TIME"));
+
+		if (updatediv.size() == 0)
+			news.setNews_updatedate(null);
+		else
+			news.setNews_updatedate(conv.getStringToTimestamp(updatediv.get(0).getAttribute("data-modify-date-time")));
+		news.setNews_pulldate(new Timestamp(System.currentTimeMillis()));
+
+		List<WebElement> writer = newsdriver.findElements(By.className("byline_s"));
+		if (writer.size() == 0)
+			news.setNews_writer("원문 참조");
+		else
+			news.setNews_writer(writer.get(0).getText());
+
+		news.setNews_uri(href);
+		news.setNews_originuri(newsdriver.findElement(By.className("media_end_head_origin_link")).getAttribute("href"));
+		news.setNews_deleted(false);
+		news.setNews_deleteddate(null);
+		news.setNews_deletedcode(0);
+		try {
+			news.setNews_category(
+					newsdriver.findElement(By.className("is_active")).findElement(By.tagName("span")).getText());
+		} catch (Exception e) {
+			news.setNews_category("미정");
+		}
+		news.setNews_thumbnailuri(thumbnailuri);
+		List<WebElement> imgdiv = newsdriver.findElements(By.id("img1"));
+		if (imgdiv.size() == 0)
+			news.setNews_thumbnailuri2(null);
+		else
+			news.setNews_thumbnailuri2(newsdriver.findElement(By.id("img1")).getAttribute("src"));
+
+		news.setSumm_content(summaryService.summary(news.getNews_title(), news.getNews_content()));
+		if (news.getSumm_content() == null)
+			news.setSumm_content("원문참조");
+
+		if (!news.getSumm_content().equals("원문참조")) {
+			HashMap<String, String> sentimentMap = sentimentService.sentiment(news.getSumm_content());
+			news.setSumm_sentiment(sentimentMap.get("sentiment"));
+			if (news.getSumm_sentiment().equals("") || news.getSumm_sentiment() == null)
+				news.setSumm_sentiment("원문참조");
+
+			news.setSumm_sentimentpercent(sentimentMap.get("percent"));
+			if (news.getSumm_sentimentpercent().equals("") || news.getSumm_sentimentpercent() == null)
+				news.setSumm_sentimentpercent("원문참조");
+		} else {
+			news.setSumm_sentiment("");
+			news.setSumm_sentimentpercent("");
+		}
+		return news;
+	}
+
+	private List<WebElement> filterSuitableNewsElements(List<WebElement> list) {
+		return list.stream()
+				.filter(e -> e.findElements(By.className("dsc_thumb")).size() == 1
+						&& e.findElement(By.className("info_group")).findElements(By.tagName("a")).size() == 2) // 네이버 뉴스가 있고 썸네일이 있는경우 필터
+				.filter(e -> !e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
+					.getAttribute("href").contains("sports") // 스포츠 뉴스 필터
+					&& !e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
+					.getAttribute("href").contains("sid=106")) // 연예란 필터
+				.collect(Collectors.toList());
+	}
+	
+	private HashSet<String> initHashSetFromNewsKey() {
+		HashSet<String> dbHash = new HashSet<>();
+		for (long i : newsService.getAllNewsListOnlyKey())
+			dbHash.add(String.format("%013d", i));
+		return dbHash;
+	}
+	
+	private void releaseDriver(WebDriver driver) {
+		driver = reload(driver);
+		WebDriverPool.releaseWebDriver(driver);
+	}
+	
+	private WebDriver reload(WebDriver driver) {
+		driver.quit();
+		driver = WebDriverPool.createNewWebDriver();
+		return driver;
+	}
+
+	private Map<String, String> colorMap = Map.of(
+        "reset", "\u001B[0m",
+        "red", "\u001B[31m",
+        "green", "\u001B[32m",
+        "yellow", "\u001B[33m",
+        "blue", "\u001B[34m",
+        "gray", "\u001B[90m",
+        "darkgray", "\u001B[2m"
+    );
+	
+	private String printColor(String str, String color) {
+		return colorMap.get(color) + str + colorMap.get("reset");
+	}
+	
 	// 특정 페이지에서 특정 요소까지 스크롤을 내림
 	private void scrollToElement(WebDriver driver, WebElement element) {
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
@@ -259,14 +469,20 @@ public class CrawlingNewsService {
 
 		return "query=" + keyword + "&ds=" + now.format(formatter) + "&de=" + now.format(formatter);
 	}
-
-	/**
-	 * 요청한 카테고리 배열을 받아서 db에 뉴스까지 집어 넣는 메서드
-	 * 
-	 * @param categorys
-	 */
-	// String[] categorys = {"100", "101", "102", "103", "104", "105"};
+	
+	private void sleep(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
+	}
+	
+	// 2024-02-02
+	// 네이버 페이지 구성 변경으로 인해 죽은 코드들 고이 잠들다.
 	public void getCategoryNews(String[] categorys) {
+		// String[] categorys = {"100", "101", "102", "103", "104", "105"};
 		Long before = System.currentTimeMillis();
 		// category 별로 최대 페이지를 저장할 map
 		Map<String, Integer> categoryPageLimits = new HashMap<>();
@@ -308,33 +524,7 @@ public class CrawlingNewsService {
 		after = System.currentTimeMillis();
 		System.out.println("size : " + insertSize + ", inserting time : " + (after - before));
 	}
-
-	public int insertNewsFromVo(List<NewsTemVO> voList) {
-		WebDriver driver = WebDriverPool.getWebDriver();
-		List<NewsDTO> resultList = new ArrayList<>();
-		int resultSize = 0;
-
-		for (int i = 0; i < voList.size(); i++) {
-			// 100번째 마다 실행
-			if (i % 100 == 49) {
-				driver = reload(driver);
-			}
-
-			resultList.add(parseNewsToNewsDTO(driver, voList.get(i).getUrl(), voList.get(i).getThumburl()));
-			if (resultList.size() > 50) {
-				resultSize += newsService.insertNewsList(resultList);
-				resultList = new ArrayList<>();
-			}
-		}
-
-		if (resultList.size() > 0)
-			resultSize += newsService.insertNewsList(resultList);
-
-		releaseDriver(driver);
-
-		return resultSize;
-	}
-
+	
 	public int getLimitPagePerCategory(String category) {
 		WebDriver driver = WebDriverPool.getWebDriver();
 		int limitPage;
@@ -360,12 +550,7 @@ public class CrawlingNewsService {
 		releaseDriver(driver);
 		return limitPage;
 	}
-
-	private void releaseDriver(WebDriver driver) {
-		driver = reload(driver);
-		WebDriverPool.releaseWebDriver(driver);
-	}
-
+	
 	public List<NewsTemVO> getCategoryNews(List<String> pageUrlList) {
 		// searchall = 1, 중복페이지 만나면 스킵 option = 0 - 구현예정
 		WebDriver driver = WebDriverPool.getWebDriver();
@@ -430,7 +615,7 @@ public class CrawlingNewsService {
 					// 특정 페이지에서 일정 이상 반복되면 탈출
 					retryCount++;
 					if (retryCount > maxRetryCount) {
-						printRed(url + "faild... pass");
+						printColor(url + "faild... pass", "red");
 						break;
 					}
 				}
@@ -445,94 +630,4 @@ public class CrawlingNewsService {
 		releaseDriver(driver);
 		return voList;
 	}
-
-	private WebDriver reload(WebDriver driver) {
-		driver.quit();
-		driver = WebDriverPool.createNewWebDriver();
-		return driver;
-	}
-
-	private void printRed(String str) {
-		String redColor = "\u001B[31m";
-		String resetColor = "\u001B[0m";
-		System.out.printf("%serror page : %s -> \ntry move page : %s\n", redColor, str, resetColor);
-	}
-
-	private HashSet<String> initHashSetFromNewsKey() {
-		HashSet<String> dbHash = new HashSet<>();
-		for (long i : newsService.getAllNewsListOnlyKey())
-			dbHash.add(String.format("%013d", i));
-		return dbHash;
-	}
-
-	public NewsDTO parseNewsToNewsDTO(WebDriver newsdriver, String href, String thumbnailuri) {
-		NewsDTO news = new NewsDTO();
-		newsdriver.get(href);
-		System.out.println(href);
-		news.setNews_key(conv.getLongNewsKey(href));
-		news.setPress_key(conv.getIntPressKey(href));
-		news.setNews_title(newsdriver.findElement(By.id("title_area")).getText());
-
-		String content = newsdriver.findElement(By.id("dic_area")).getText();
-
-		List<WebElement> tem = newsdriver.findElements(By.tagName("strong"));
-		for (WebElement replaceText : tem)
-			content = content.replace(replaceText.getText(), "");
-
-		tem = newsdriver.findElements(By.className("img_desc"));
-		for (WebElement replaceText : tem)
-			content = content.replace(replaceText.getText(), "");
-
-		news.setNews_content(content.strip());
-
-		news.setNews_writendate(conv.getStringToTimestamp(
-				newsdriver.findElement(By.className("_ARTICLE_DATE_TIME")).getAttribute("data-date-time")));
-		List<WebElement> updatediv = newsdriver.findElements(By.className("_ARTICLE_MODIFY_DATE_TIME"));
-
-		if (updatediv.size() == 0)
-			news.setNews_updatedate(null);
-		else
-			news.setNews_updatedate(conv.getStringToTimestamp(updatediv.get(0).getAttribute("data-modify-date-time")));
-		news.setNews_pulldate(new Timestamp(System.currentTimeMillis()));
-
-		List<WebElement> writer = newsdriver.findElements(By.className("byline_s"));
-		if (writer.size() == 0)
-			news.setNews_writer("원문 참조");
-		else
-			news.setNews_writer(writer.get(0).getText());
-
-		news.setNews_uri(href);
-		news.setNews_originuri(newsdriver.findElement(By.className("media_end_head_origin_link")).getAttribute("href"));
-		news.setNews_deleted(false);
-		news.setNews_deleteddate(null);
-		news.setNews_deletedcode(0);
-		news.setNews_category(
-				newsdriver.findElement(By.className("is_active")).findElement(By.tagName("span")).getText());
-		news.setNews_thumbnailuri(thumbnailuri);
-		List<WebElement> imgdiv = newsdriver.findElements(By.id("img1"));
-		if (imgdiv.size() == 0)
-			news.setNews_thumbnailuri2(null);
-		else
-			news.setNews_thumbnailuri2(newsdriver.findElement(By.id("img1")).getAttribute("src"));
-
-		news.setSumm_content(summaryService.summary(news.getNews_title(), news.getNews_content()));
-		if (news.getSumm_content() == null)
-			news.setSumm_content("원문참조");
-
-		if (!news.getSumm_content().equals("원문참조")) {
-			HashMap<String, String> sentimentMap = sentimentService.sentiment(news.getSumm_content());
-			news.setSumm_sentiment(sentimentMap.get("sentiment"));
-			if (news.getSumm_sentiment().equals("") || news.getSumm_sentiment() == null)
-				news.setSumm_sentiment("원문참조");
-
-			news.setSumm_sentimentpercent(sentimentMap.get("percent"));
-			if (news.getSumm_sentimentpercent().equals("") || news.getSumm_sentimentpercent() == null)
-				news.setSumm_sentimentpercent("원문참조");
-		} else {
-			news.setSumm_sentiment("");
-			news.setSumm_sentimentpercent("");
-		}
-		return news;
-	}
-
 }

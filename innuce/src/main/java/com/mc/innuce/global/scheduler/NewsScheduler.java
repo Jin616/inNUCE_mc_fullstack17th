@@ -18,7 +18,7 @@ public class NewsScheduler {
 	@Autowired
 	CrawlingNewsService cns;
 
-	private boolean isCategoryCrawllerRunning = true; // default false !
+	private boolean isCategoryCrawllerRunning = false; // default false !
 	
 	public static List<Long> newsList = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class NewsScheduler {
 			System.out.println("category crawller 실행");
 			isCategoryCrawllerRunning = true;
 
-			cns.getCategoryNews(new String[]{"100", "101", "102", "103", "104", "105"});
+			cns.crawllingCategoryNews();
 			
 			System.out.println("category crawller 종료");
 			isCategoryCrawllerRunning = false;

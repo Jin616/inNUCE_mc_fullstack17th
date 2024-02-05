@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 10;
+	private static final int MAX_POOL_SIZE = 2;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	static {
@@ -50,11 +50,12 @@ public class WebDriverPool {
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-
+		System.out.println("대여");
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
+		System.out.println("반환");
 		webDriverPool.offer(webDriver);
 	}
 

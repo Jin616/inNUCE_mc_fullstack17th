@@ -1,4 +1,4 @@
-package com.mc.innuce;
+package com.mc.innuce.domain.search;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +34,9 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Controller
 public class TestController {
+
+	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+
 	@Autowired
 	GeolocationService geoService;
 	@Autowired
@@ -45,28 +48,37 @@ public class TestController {
 		return "main";
 	}
 
-	@GetMapping("/wordCloud")
-	public @ResponseBody void wordCloud(@RequestParam String num, HttpServletResponse res, HttpServletRequest req)
-			throws IOException {
+	@RequestMapping("/main/chatbot")
+	@ResponseBody
+	public String executeChatbot(@RequestParam String request) {
 
-		System.out.println(num);
+		return null;
+	}
+
+	@GetMapping("/wordCloud")
+	public @ResponseBody List<String> wordCloud(HttpServletResponse res, HttpServletRequest req) throws IOException {
+
+//		System.out.println(num);
 //		ParsingKomoran pk = new ParsingKomoran();
 //		HashMap<String, Integer> crawlerData = pk.parsingDataWithSelenium(num);
-		HashMap<String, Integer> crawlerData = service.getCategoryContent(num);
+		String[] strArr = { "0", "1", "2", "3", "4", "5" };
+		List<String> list= new ArrayList<>();
+		for (String string : strArr) {
+			HashMap<String, Integer> crawlerData = service.getCategoryContent(string);
 
 //     	System.out.println("DataController(wordCloud): "+crawlerData.toString());
-		JSONArray jsonArray = new JSONArray();
-		// 명사들을 하나씩
-		for (String token : crawlerData.keySet()) {
-			JSONObject informationObject = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
+			// 명사들을 하나씩
+			for (String token : crawlerData.keySet()) {
+				JSONObject informationObject = new JSONObject();
 
 //           {"x": "token"}
-			informationObject.put("x", token);
+				informationObject.put("x", token);
 //           { value: 80 }
-			informationObject.put("value", crawlerData.get(token));
+				informationObject.put("value", crawlerData.get(token));
 //						{"x": "token", value: 80}
-			jsonArray.put(informationObject);
-		}
+				jsonArray.put(informationObject);
+			}
 //       jsonArray = {
 //       		{"x": "token", value: 80},
 //       		{"x": "token", value: 80},
@@ -74,13 +86,19 @@ public class TestController {
 //       		{"x": "token", value: 80}
 //       }
 
-		// printwriter 과 print 를 사용하여 값을 response 로 값을 전달함
-		// pw 로 값을 전달하면 값이 response body 에 들어가서 보내짐
-		res.setContentType("application/json;charset=utf-8");// 한글을 정상적으로 출력
-		PrintWriter pw = res.getWriter();
-		pw.print(jsonArray.toString());
-		System.out.println(jsonArray);
+			// printwriter 과 print 를 사용하여 값을 response 로 값을 전달함
+			// pw 로 값을 전달하면 값이 response body 에 들어가서 보내짐
+//			res.setContentType("application/json;charset=utf-8");// 한글을 정상적으로 출력
+//			PrintWriter pw = res.getWriter();
+			list.add(jsonArray.toString());
+			
+//			pw.print(jsonArray.toString());
+			System.out.println(jsonArray);
 //       	return jsonArray.toString();
+		}
+		
+		System.out.println("result List : "+list.size());
+		return list;
 	}
 
 	@GetMapping("/search")
@@ -97,7 +115,7 @@ public class TestController {
 		KeywordDTO dto = null;
 //	keyword에 " "이 있을 때만 코모란을 돌리자
 
-		Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+
 		String path = System.getProperty("user.dir");
 
 		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");

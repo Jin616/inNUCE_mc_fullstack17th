@@ -14,7 +14,7 @@
 
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/main.css">
-<script defer src="/js/main.js"></script>
+
 
 </head>
 
@@ -363,7 +363,10 @@
 			
 </footer>
 
-
+ <!--TO TOP BUTTON-->
+ <div id="to-top">
+   <div class="material-icons">arrow_upward</div>
+ </div>
 
 <script>
 
@@ -372,5 +375,6 @@ if(msg != ""){
 	alert(msg);
 }
 </script>
+<script defer src="/js/main.js"></script>
 </body>
 </html>

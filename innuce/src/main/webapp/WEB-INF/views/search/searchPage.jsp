@@ -38,6 +38,10 @@
 <%@ include file ="/WEB-INF/views/search/content.jsp" %>
 </main>
 
+ <!--TO TOP BUTTON-->
+ <div id="to-top">
+   <div class="material-icons">arrow_upward</div>
+ </div>
 
 </body>
 </html>

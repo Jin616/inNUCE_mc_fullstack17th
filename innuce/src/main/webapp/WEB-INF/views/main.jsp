@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.mc.innuce.domain.news.dto.NewsDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -13,9 +15,13 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <script defer src="/js/main.js"></script>
+
 </head>
 
 <body>
+
+
+
 
 <!-- HEADER -->
 <header>
@@ -25,12 +31,13 @@
 </header>
 
 <!-- nav -->
-<nav stype="display: none;">
+<nav>
 <%@ include file ="/WEB-INF/views/nav/nav.jsp" %>
 </nav>
 
 <!-- MAIN -->
 <main>
+	<div class="total-container">
 	<!-- 키워드 -->
 	<div class="news-container">
 	
@@ -62,196 +69,67 @@
 			<div class="main-title">오늘의 키워드 뉴스</div>
 			
 		<div id="tab-1-keyword" class="tab-content current">
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+      			
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      			
       	</div>
-      </div>
+      </c:forEach>
       
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
       
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      </div>
+      </div> <!-- tab-1-keyword -->
       
 			<div id="tab-2-keyword" class="tab-content">
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index }' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
       	</div>
-      </div>
+      </c:forEach>
+      </div> <!-- tab-2-keyword -->
       
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-            	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
       
 			<div id="tab-3-keyword" class="tab-content">
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
+			
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+      			
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
       	</div>
-      </div>
+      </c:forEach>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-              	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-            	<div class='bookmark-cover'>
-      		<i  class="fa-solid fa-bookmark"></i>
-      	</div>
-      </div>
+      </div> <!-- tab-3-keyword -->
       
 		</div>
 		
 	</div>
-	
+
 	<!-- 카테고리 -->
 	<div class="news-container">
 		<div class="news-content-cover" id="category">
@@ -299,294 +177,113 @@
 				<div class="main-title">오늘의 카테고리 뉴스</div>
 				<div id="tab-1-category" class="tab-content current">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      	</div>
+      </c:forEach>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
       </div>
       
 				<div id="tab-2-category" class="tab-content">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      	</div>
+      </c:forEach>
+      </div><!-- 2 -->
       
 				<div id="tab-3-category" class="tab-content">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      	</div>
+      </c:forEach>
+      </div><!-- 3 -->
       
 				<div id="tab-4-category" class="tab-content">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      	</div>
+      </c:forEach>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      </div>
+      </div><!-- 4 -->
 				<div id="tab-5-category" class="tab-content">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
+      	</div>
+      </c:forEach>
+      </div> <!-- 5 -->
       
 				<div id="tab-6-category" class="tab-content">
 				
-     	<div class='content-cover'>
-        <img id="img-1" alt="images"/>
-        <div class="a">
-          <div id="first-1" class="date"></div>
-          <div id="first-2" class="main"></div>
-          <div id="first-3" class="cont"><br/></div>
-        </div>
-      </div>
       
-      <div class="content-cover">
-      <img id="img-2" alt="images"/>
-        <div class="a">
-          <div id="second-1" class="date"></div>
-          <div id="second-2" class="main"></div>
-          <div id="second-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-3" alt="images"/>
-        <div class="a">
-          <div id="third-1" class="date"></div>
-          <div id="third-2" class="main"></div>
-          <div id="third-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover">
-      <img id="img-4" alt="images"/>
-        <div class="a">
-          <div id="fourth-1" class="date"></div>
-          <div id="fourth-2" class="main"></div>
-          <div id="fourth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      
-      <div class="content-cover" id="last-c">
-      <img id="img-5" alt="images"/>
-        <div class="a">
-          <div id="fifth-1" class="date"></div>
-          <div id="fifth-2" class="main"></div>
-          <div id="fifth-3" class="cont"><br/></div>
-        </div>
-      </div>
-      </div>
+      <c:forEach var="index" begin='1' end='5'>
+      	<div class='content-cover'>
+      		<img id='img-${index}' alt='images' />
+      		<div class='a'>
+      			<div id='${index }-1' class='date'></div>
+      			<div id='${index }-2' class='main'></div>
+      			<div id='${index }-3' class='cont'><br/></div>
+      			<div class='bookmark-cover'>
+      				<i class='fa-solid fa-bookmark'></i>
+      			</div>
+      		</div>
+      	</div>
+      </c:forEach>
+      </div><!-- 6 -->
 			
 			
 		</div>
 	</div>
+	
+</div>	
 </main>
 
 
@@ -615,11 +312,11 @@
 		<!-- 사회 -->
 		<div class='tab-link' data-tab="con-tab-2" id="society" value="102">사회</div>
 		<!-- 생활 -->
-		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활</div>
+		<div class='tab-link' data-tab="con-tab-3" id="life" value="103">생활/문화</div>
 		<!-- 세계 -->
 		<div class='tab-link' data-tab="con-tab-4" id="world" value="104">세계</div>
 		<!-- 사설/컬럼 -->
-		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">사설/컬럼</div>
+		<div class='tab-link' data-tab="con-tab-5" id="edit-col" value="105">IT/과학</div>
 			
 	</div>
  	
@@ -668,6 +365,12 @@
 
 
 
+<script>
 
+let msg = "<c:out value='${placeMassage}'/>";
+if(msg != ""){
+	alert(msg);
+}
+</script>
 </body>
 </html>

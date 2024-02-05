@@ -28,7 +28,6 @@ import com.mc.innuce.domain.news.naverapi.SentimentService;
 import com.mc.innuce.domain.news.naverapi.SummaryService;
 import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
-import com.mc.innuce.domain.search.service.CRUDService;
 import com.mc.innuce.global.util.hreftonewsdto.WebConverter;
 
 /**
@@ -45,8 +44,8 @@ public class CrawlingNewsService {
 	SummaryService summaryService;
 	@Autowired
 	SentimentService sentimentService;
-	@Autowired
-	CRUDService crudService;
+//	@Autowired
+//	CRUDService crudService;
 
 	private WebConverter conv = new WebConverter();
 	private Set<String> dbHash = new HashSet<>();

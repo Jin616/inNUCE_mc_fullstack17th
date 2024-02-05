@@ -1,31 +1,33 @@
-package com.mc.innuce.domain.search.geoloaction;
+package com.mc.innuce.domain.search.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mc.innuce.domain.search.dao.KeywordDAO;
+import com.mc.innuce.domain.search.dto.KeywordDTO;
+import com.mc.innuce.domain.search.geoloaction.NaverInfo;
+import com.mc.innuce.domain.search.geoloaction.NaverService;
 @Service("geolocationService")
 public class GeolocationService implements NaverService {
 
-	// secretKey 암호화하기
-	public static String makeSignature(String subURL, String timeStamp, String accessKey, String secretKey)
-			throws Exception {
-
-		String space = " "; // one space
-		String newLine = "\n"; // new line
-		String method = "GET"; // method
-//		String url = "/photos/puppy.jpg?query1=&query2";	// https://localhost:9070+url
-//		String timestamp = "{timestamp}";			// current timestamp (epoch)
-//		String accessKey = "{accessKey}";			// access key id (from portal or Sub Account)
-//		String secretKey = "{secretKey}";
+	@Autowired
+	KeywordDAO dao;
+	
+	//secretKey 암호화하기
+	public static String makeSignature(String subURL , String timeStamp, String accessKey, String secretKey) throws Exception {
+		
+		String space = " ";					// one space
+		String newLine = "\n";					// new line
+		String method = "GET";					// method
 
 		String message = new StringBuilder().append(method).append(space).append(subURL).append(newLine)
 				.append(timeStamp).append(newLine).append(accessKey).toString();
@@ -101,5 +103,9 @@ public class GeolocationService implements NaverService {
 
 		return result;
 
+	}
+
+	public KeywordDTO oneKeyword(String place) {
+		return dao.oneKeyword(place);
 	}
 }

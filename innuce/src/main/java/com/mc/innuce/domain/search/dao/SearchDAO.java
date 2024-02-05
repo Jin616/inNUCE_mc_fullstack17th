@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface SearchDAO {
 
+	List<String> getNewsContent();
+
 	List<Integer> selectPassedKeywordList(int createRoomCount);
 	
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.news.service.PressService;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
-import com.mc.innuce.domain.search.service.CRUDService;
+import com.mc.innuce.domain.search.service.KeywordService;
 
 @Service
 public class SeleniumService {
@@ -27,7 +27,7 @@ public class SeleniumService {
 	@Autowired
 	PressService ps;
 	@Autowired
-	CRUDService cruds;
+	KeywordService cruds;
 
 	Map<String, HashSet<String>> searchingKeywordMap = new HashMap<>();
 

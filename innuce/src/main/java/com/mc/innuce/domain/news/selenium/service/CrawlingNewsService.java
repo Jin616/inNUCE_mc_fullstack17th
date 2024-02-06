@@ -46,7 +46,9 @@ public class CrawlingNewsService {
 	SentimentService sentimentService;
 //	@Autowired
 //	CRUDService crudService;
-
+	@Autowired
+	WebDriverPool dp;
+	
 	private WebConverter conv = new WebConverter();
 	private Set<String> dbHash = new HashSet<>();
 	private Queue<NewsTemVO> manageNewsParsingTaskQueue = new LinkedList<>();
@@ -72,16 +74,24 @@ public class CrawlingNewsService {
 		
 	}
 	
+	/**
+	 *  CATEGORY LOGIC START
+	 *  서버 실행 시 dbHash 초기화
+	 *  카테고리마다 카테고리별 페이지로 이동 후 db에 없는 NewsTemVO를 크롤링
+	 *  크롤링한 newsVOList에 대해 각 news 페이지로 이동, NewsDTO로 파싱 후 db에 저장
+	 */
+	
 	// 네이버 페이지 변경(02-02)으로 인한 새롭게 작성된 카테고리 크롤링 코드
 	public void crawllingCategoryNews() {
 		String[] categorys = {"100", "101", "102", "103", "104", "105"};
 		
+		// dbHash 초기화
 		if(dbHash.isEmpty()) {
 			dbHash = initHashSetFromNewsKey();
 			System.out.println(printColor("dbHash", "red") + "를 초기화 합니다.");
 			System.out.println("dbHash size : " + printColor("" + dbHash.size(), "green"));
 		}
-		
+		 
 		for(String category : categorys) {
 			List<NewsTemVO> newsVOList = getNewsTemVOListPerCategory(category);
 			int insertSize = insertNewsFromVo(newsVOList);
@@ -90,16 +100,18 @@ public class CrawlingNewsService {
 		}
 	}
 	
+	// 카테고리 페이지에서 VOList를 파싱하는 메소드
 	public List<NewsTemVO> getNewsTemVOListPerCategory(String category) {
 		WebDriver driver = WebDriverPool.getWebDriver();
 		
 		String url = "https://news.naver.com/section/" + category;
 		List<NewsTemVO> resultList = new ArrayList<>();
-		// 작업 진행될 때까지 반복
+		
+		// 작업이 끝까지 진행될 때까지 반복
+		// 페이지 리로딩 없이 정상 실행 되었다면 반복 없이 break 문을 만나 종료
 		while(true) {
 			driver.get(url);
 			sleep(1000);
-			
 
 			try {
 				// 기사 더보기 버튼 display option none이 될때까지 반복해서 누름
@@ -114,21 +126,18 @@ public class CrawlingNewsService {
 			}
 			
 			// 중간에 페이지 갱신으로 인해 초기화 된 경우 롤백하기 위한 try-catch
-			// 직전 코드가 끝나고 초기화 됐을 경우 뉴스 기사 개수 일정 미만일 경우 반복
 			// WebElement 요소들 추출하다가 에러 뜰 경우 페이지가 초기화 된 경우임으로 마찬가지로 반복
 			try {
+				// img 태그가 있긴 있지만 없어서 에러난 경우를 대비해 비어있는 거를 거르고 모음
 				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
 						.stream().filter(e -> !e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
 				System.out.println(printColor(""+newsElementList.size(), "red"));
-				if(newsElementList.size() < 100) {
-					continue;
-				}
-				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장.
-				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음.
-				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감.
+				
+				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장
+				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음
+				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감
 				for(WebElement e : newsElementList) {
 					String href = e.getAttribute("href");
-					// 수정 필요 썸네일이 없는경우...;?
 					String thumburl = e.findElement(By.tagName("img")).getAttribute("src");
 					
 					if(dbHash.add(conv.get13NewsKey(href)))
@@ -143,11 +152,12 @@ public class CrawlingNewsService {
 			}
 		}
 		
-		System.out.println("resultList size " + resultList.size());
 		releaseDriver(driver);
 		return resultList;
 	}
+	// CATEGORY LOGIC END
 	
+	// search logic start
 	public List<NewsDTO> getSearchNews(String keyword) {
 		LocalDate de = LocalDate.now(); // 검색 끝 날짜 de
 		// 기본 날짜 검색으로는 7일의 텀까지 db에 저장
@@ -211,7 +221,6 @@ public class CrawlingNewsService {
 				}
 
 				if (newsVOList.size() + resultList.size() < returnDefaultSize && retryCount < maxRetry) {
-					System.out.println("check3");
 					newsVOList = new ArrayList<>();
 					continue;
 				}
@@ -312,22 +321,22 @@ public class CrawlingNewsService {
 		return null;
 	}
 
-	
-
+	// vo 객체를 dto로 파싱 후 db에 insert 하는 메소드
 	public int insertNewsFromVo(List<NewsTemVO> voList) {
 		WebDriver driver = WebDriverPool.getWebDriver();
 		List<NewsDTO> resultList = new ArrayList<>();
 		int resultSize = 0;
 
 		for (int i = 0; i < voList.size(); i++) {
-			// 100번째 마다 실행
-			if (i % 100 == 49) {
+			// 램 용량 최적화를 위한 10번 페이지 이동마다 드라이버 초기화
+			if (i % 10 == 9) {
 				driver = reload(driver);
 			}
 			
-			System.out.print(printColor(String.format("%04d", i + 1), "green") + "/" + printColor(String.format("%04d", voList.size()) + " : ", "gray"));
+			System.out.print(printColor(String.format("%04d", i + 1), "green") + "/" + printColor(String.format("%04d", voList.size()), "gray") + " : ");
 			resultList.add(parseNewsToNewsDTO(driver, voList.get(i).getUrl(), voList.get(i).getThumburl()));
-			if (resultList.size() > 50) {
+			// 램 용량 최적화를 위한 10번의 객체 생성마다 resultList db에 insert 및 초기화
+			if (resultList.size() > 9) {
 				resultSize += newsService.insertNewsList(resultList);
 				resultList = new ArrayList<>();
 			}
@@ -433,11 +442,13 @@ public class CrawlingNewsService {
 		return dbHash;
 	}
 	
+	// WebDriverPool에 드라이버 반환
 	private void releaseDriver(WebDriver driver) {
 		driver = reload(driver);
 		WebDriverPool.releaseWebDriver(driver);
 	}
 	
+	// driver에서 quit()을 호출함으로써 메모리 확보 후 새로 생성한 객체를 반환해줌.
 	private WebDriver reload(WebDriver driver) {
 		driver.quit();
 		driver = WebDriverPool.createNewWebDriver();

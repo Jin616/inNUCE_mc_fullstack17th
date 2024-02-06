@@ -39,7 +39,7 @@ public class SummaryService {
 			if (os.contains("win")) {
 				url = "c:/fullstack/naverinform.properties";
 			} else {
-				url = "/usr/workspace_innuce/naverinform.properties";
+				url = "/usr/properties/naverinform.properties";
 			}
 
 			InputStream is = new FileInputStream(new File(url));
@@ -120,15 +120,17 @@ public class SummaryService {
 				wr.close();
 
 				int responseCode = con.getResponseCode();
-				BufferedReader br;
+				BufferedReader br = null;
 				if (responseCode == 200) { // 정상 호출
 					br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				} else if(responseCode == 401) {
+					System.out.println("!!!인증 오류!!! id : " + clientId + ", key : " + clientSecret);
 				} else { // 오류 발생
 					System.out.println("error!!! responseCode = " + responseCode);
-					System.out.println(text[i]);
-					br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 				}
 
+				if(br == null)
+					br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 				String inputLine;
 				StringBuffer response = new StringBuffer();
 

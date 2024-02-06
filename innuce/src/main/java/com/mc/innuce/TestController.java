@@ -49,6 +49,8 @@ public class TestController {
 	public @ResponseBody void wordCloud(@RequestParam String num, HttpServletResponse res, HttpServletRequest req)
 			throws IOException {
 
+		// test code
+		long start = System.currentTimeMillis();
 		System.out.println(num);
 //		ParsingKomoran pk = new ParsingKomoran();
 //		HashMap<String, Integer> crawlerData = pk.parsingDataWithSelenium(num);
@@ -81,6 +83,8 @@ public class TestController {
 		pw.print(jsonArray.toString());
 		System.out.println(jsonArray);
 //       	return jsonArray.toString();
+		long end = System.currentTimeMillis();
+		System.out.println("wordCloud : " + (end - start));
 	}
 
 	@GetMapping("/search")

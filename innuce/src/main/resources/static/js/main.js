@@ -14,8 +14,6 @@ $("main i").click(function() {
 
 /*placeSearch 에 관한 alert*/
 
-
-
 /*채팅바*/
 
 let badgeEl = document.querySelector('header .badges');
@@ -84,7 +82,6 @@ for (let i = 0; i < datas.length; i++) {
 				} else {
 					datas[i] = JSON.parse(JSON.stringify(response));
 				}
-
 			},
 			error: function() {
 				alert("정상적이지 않은 요청입니다. 다시 시도해주세요");

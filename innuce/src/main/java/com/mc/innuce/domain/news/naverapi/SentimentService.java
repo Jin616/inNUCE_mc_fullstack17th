@@ -37,7 +37,7 @@ public class SentimentService {
 			if (os.contains("win")) {
 				url = "c:/fullstack/naverinform.properties";
 			} else {
-				url = "/usr/workspace_innuce/naverinform.properties";
+				url = "/usr/properties/naverinform.properties";
 			}
 
 			InputStream is = new FileInputStream(new File(url));

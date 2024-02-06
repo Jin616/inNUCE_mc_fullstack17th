@@ -17,7 +17,6 @@ public class InnuceApplication {
 
 		SpringApplication.run(InnuceApplication.class, args);
 		
-		
 	}
 	
 }

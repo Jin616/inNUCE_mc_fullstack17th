@@ -14,8 +14,6 @@ $("main i").click(function() {
 
 /*placeSearch 에 관한 alert*/
 
-
-
 /*채팅바*/
 /*to top*/
 

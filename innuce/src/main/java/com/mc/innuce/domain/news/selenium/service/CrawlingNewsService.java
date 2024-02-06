@@ -118,10 +118,11 @@ public class CrawlingNewsService {
 			// WebElement 요소들 추출하다가 에러 뜰 경우 페이지가 초기화 된 경우임으로 마찬가지로 반복
 			try {
 				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
-						.stream().filter(e -> e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
-				if(newsElementList.size() < 100)
+						.stream().filter(e -> !e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
+				System.out.println(printColor(""+newsElementList.size(), "red"));
+				if(newsElementList.size() < 100) {
 					continue;
-				
+				}
 				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장.
 				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음.
 				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감.

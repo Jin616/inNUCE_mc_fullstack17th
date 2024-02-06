@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 2;
+	private static final int MAX_POOL_SIZE = 5;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	static {

@@ -22,6 +22,7 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 public class WordCloudService {
 	@Autowired
 	KeywordDAO dao;
+
 	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 	
 	

@@ -58,22 +58,4 @@ public class SeleniumController {
 		return new JSONParser().getJsonArrayNews(list).toString();
 	}
 
-	// 아래는 test code
-	@GetMapping("test/press")
-	@ResponseBody
-	public String updatePress() {
-		return jp.getJsonArrayPress(cps.getPressInform()).toString();
-	}
-
-	@GetMapping("test/newscount")
-	@ResponseBody
-	public String count() {
-		return String.valueOf(ns.countAllNews());
-	}
-
-	@GetMapping("test/pageDown")
-	public void down() {
-		cns.crawllingCategoryNews();
-		
-	}
 }

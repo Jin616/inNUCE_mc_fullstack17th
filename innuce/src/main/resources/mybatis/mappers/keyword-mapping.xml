@@ -34,7 +34,8 @@ select news_key from news where news_content like concat('%',#{place },'%')
 
 <!-- wordCloud  -->
 <select id="getCategoryContent" resultType="String" parameterType="String">
-select news_content from news where news_category=#{number };
+select news_content from news where news_category=#{number } and news_writendate &gt;= date_add(now(), interval -1 day)
+order by news_writendate
 </select>
 
 <!-- crud -->

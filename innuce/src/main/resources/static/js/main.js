@@ -15,16 +15,22 @@ $("main i").click(function() {
 /*placeSearch 에 관한 alert*/
 
 /*채팅바*/
+/*to top*/
 
 let badgeEl = document.querySelector('header .badges');
+let toTopEl = document.querySelector('#to-top');
 
 window.addEventListener('scroll', _.throttle(function() {
 	console.log(window.scrollY);
-	if (window.scrollY > 1000) {
+	if (window.scrollY > 500) {
 		//배지 숨기기
 		gsap.to(badgeEl, .6, {
 			opacity: 0,
 			display: 'none'
+		});
+		// 버튼 보이기
+		gsap.to(toTopEl, .2, {
+			x: 0
 		});
 	} else {
 		//배지 보이기
@@ -32,9 +38,20 @@ window.addEventListener('scroll', _.throttle(function() {
 			opacity: 1,
 			display: 'block'
 		});
+		// 버튼 숨기기
+		gsap.to(toTopEl, .2, {
+			x: 100
+		});
 	}
 }, 300));
 // _.throttle(함수,시간)
+// 상단으로 가기
+
+toTopEl.addEventListener('click', function() {
+	gsap.to(window, .7, {
+		scrollTo: 0
+	})
+});
 
 /*키워드*/
 $('#keyword ul.menu li').click(function() {
@@ -60,37 +77,26 @@ $('#category ul.menu li').click(function() {
 /*wordcloud-category*/
 let datas = new Array(6);
 let flag = false;
-/*DB*/
-for (let i = 0; i < datas.length; i++) {
-	(function(i) {
-		$.ajax({
-			url: "/wordCloud",
-			data: { "num": i },
-			type: "get",
-			dataType: "json",
-			success: function(response) {
-				if (i == 0) {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				} else if (i == 1) {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				} else if (i == 2) {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				} else if (i == 3) {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				} else if (i == 4) {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				} else {
-					datas[i] = JSON.parse(JSON.stringify(response));
-				}
-			},
-			error: function() {
-				alert("정상적이지 않은 요청입니다. 다시 시도해주세요");
-				location.reload();
-			}
-		});//ajax
 
-	})(i);
-}
+/*DB*/
+
+$.ajax({
+	url: "/wordCloud",
+	type: "get",
+	dataType: "json",
+	success: function(response) {
+		console.log(response);
+		let arr = response;
+		for (let i = 0; i < arr.length; i++) {
+			datas[i] = JSON.parse(arr[i]);
+			console.log(datas[i]);
+		}
+
+	},
+	error: function() {
+		alert("정상적이지 않은 요청입니다. 다시 시도해주세요");
+	}
+});//ajax
 
 
 $('.word-container .category-container .category-button div').click(function() {
@@ -128,7 +134,7 @@ function wordclouding(data, tab_id) {
 	chart.angles([0]);
 
 	chart.listen("pointClick", function(e) {
-		var url = "//localhost:9079/search?keyword=" + e.point.get("x");
+		var url = "//27.96.131.135:8080/search?keyword=" + e.point.get("x");
 		//$(this).val() 
 		//controller ->  
 		window.open(url, "_self");
@@ -174,7 +180,7 @@ $('#searchBar').on("focusout", function() {
 		}
 		$(this).val(x);
 	}
-}).on("keyup",function() {
-	$(this).val($(this).val().replace(replaceChar,""));
+}).on("keyup", function() {
+	$(this).val($(this).val().replace(replaceChar, ""));
 })
 

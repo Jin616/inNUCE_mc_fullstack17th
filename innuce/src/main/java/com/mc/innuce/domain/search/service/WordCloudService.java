@@ -23,10 +23,17 @@ public class WordCloudService {
 	@Autowired
 	KeywordDAO dao;
 
-	public HashMap<String, Integer> parsingData(String number) {
+	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+	
+	
+	
+	public Map<String,HashMap<String,Integer>> map = new HashMap<>();
+	
+	public void parsingData(String number) {
+
 		String[] sid = { "정치", "경제", "사회", "생활/문화", "세계", "IT/과학" };
 
-		Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+		
 		String path = System.getProperty("user.dir");
 //		System.out.println(path);
 //		D:\fullstack\workspace_innuce\innuce
@@ -36,29 +43,9 @@ public class WordCloudService {
 
 //		String dataSource = new NaverCrawler().crawler(number);
 
-		switch (number) {
-		case "0":
-			number = sid[0];
-			break;
-		case "1":
-			number = sid[1];
-			break;
-		case "2":
-			number = sid[2];
-			break;
-		case "3":
-			number = sid[3];
-			break;
-		case "4":
-			number = sid[4];
-			break;
-		case "5":
-			number = sid[5];
-			break;
-		}
-
-		System.out.println(number);
-		List<String> dataSource = dao.getCategoryContent(number);
+//		System.out.println(number);
+		List<String> dataSource = dao.getCategoryContent(sid[Integer.parseInt(number)]);
+//		System.out.println(number+" "+dataSource.size());
 //		System.out.println("sql 실행 결과 : " + dataSource);
 		Map<String, Object> dataMap = new HashMap<>();
 
@@ -102,12 +89,26 @@ public class WordCloudService {
 			}
 		}
 //		System.out.println("listHash" + listHash);
-		return listHash;
+		map.put(number, listHash);
+//		System.out.println(map.get(number));
+//		System.out.println(map.size());
 	}
 
 	public HashMap<String, Integer> getCategoryContent(String num) {
 
-		return parsingData(num);
+		if(map.isEmpty()) {
+			initCloud();
+		}
+	System.out.println("getCategoryContent"+" "+map.get(num));	
+		return map.get(num);
+	}
+
+	public void initCloud() {
+		String[] strArr = {"0","1","2","3","4","5"};
+		
+		for (String string : strArr) {
+			parsingData(string);
+		}
 	}
 
 }

@@ -12,6 +12,7 @@
 
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/searchPage.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/main_top.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 

@@ -89,7 +89,6 @@ public class UserService {
 	// 회원탈퇴
 	public void deleteuser(UserDTO dto) {
 		int user_key = dto.getUser_key();
-
 		boolean is_deleted = true;
 		HashMap<String, Object> map = new HashMap<String , Object>();
 		map.put("user_key",user_key);
@@ -119,7 +118,7 @@ public class UserService {
 		Duration diff = Duration.between(start, end);
 
 		// 언제까지 복구 가능인지 기준
-		int max_diff = 2;
+		int max_diff = 10;
 		long diffMin = diff.toMinutes();
 		System.out.println(diffMin);
 		if (diffMin >= max_diff) {

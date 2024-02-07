@@ -778,7 +778,7 @@ public class UserController {
 			result += "</tbody></table>";
 			
 			
-			// 각각의 회원 탈퇴 버튼 눌렀을떄의 ajax script를 html에 붙이기
+			// 각각의 회원 탈퇴 복구 눌렀을떄의 ajax script를 html에 붙이기
 			if (pagenum != page_count) {
 				for (int i = 0; i < user_in_page; i++) {
 					result += "<script>"
@@ -792,7 +792,7 @@ public class UserController {
 							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
 							+ "type : 'post',"
 							+ "success : function(response){"
-							+"alert('회원삭제가 완료되었습니다');"
+							+"alert('회원복구가 완료되었습니다');"
 							+"location.reload(true)"
 							+"}"//success
 							+ "})"// ajax
@@ -805,7 +805,7 @@ public class UserController {
 				for (int i = 0; i < user_in_last_page; i++) {
 					result += "<script>"
 							+ "$('#button"+i+"').on('click',function(){"
-							+ "result = window.confirm('정말로 복구유저를 삭제하시겠습니까?');"
+							+ "result = window.confirm('정말로 해당유저를 복구하시겠습니까?');"
 							+ "if(result ==true){"
 							// 정말로 삭제한다고 했을때 ajax 부르기
 							+ "$.ajax({"
@@ -814,7 +814,7 @@ public class UserController {
 							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
 							+ "type : 'post',"
 							+ "success : function(response){"
-							+"alert('회원삭제가 완료되었습니다');"
+							+"alert('회원복구가 완료되었습니다');"
 							+"location.reload(true)"
 							+"}"//success
 							+ "})"// ajax

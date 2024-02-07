@@ -2,9 +2,7 @@ package com.mc.innuce.domain.news.dto;
 
 /**
  * 뉴스들을 파싱하기 전 필요한 임시 데이터를 저장하는 vo 객체 클래스
- * 
  * @author JIN
- *
  */
 public class NewsTemVO {
 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 10;
+	private static final int MAX_POOL_SIZE = 1;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	static {
@@ -34,8 +34,10 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--disable-dev-shm-usage"); // 공유 메모리 사용 비활성화
 		chromeOptions.addArguments("--disable-gpu"); // gpu 사용 x
 		chromeOptions.addArguments("--disable-popup-blocking"); // 팝업 무시
-		chromeOptions.addArguments("--headless");
+		//chromeOptions.addArguments("--headless");
+		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
+		chromeOptions.addArguments("--disable-features=NetworkService"); // test option
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 		WebDriver driver = new ChromeDriver(chromeOptions);
 
@@ -50,11 +52,12 @@ public class WebDriverPool {
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-
+		System.out.println("driver rent");
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
+		System.out.println("driver return");
 		webDriverPool.offer(webDriver);
 	}
 

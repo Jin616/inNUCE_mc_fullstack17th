@@ -2,6 +2,8 @@ package com.mc.innuce.domain.news.selenium.controller;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +14,7 @@ import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.selenium.service.CrawlingNewsService;
 import com.mc.innuce.domain.news.selenium.service.CrawlingPressService;
 import com.mc.innuce.domain.news.selenium.service.SeleniumService;
+import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.news.service.PressService;
 import com.mc.innuce.global.util.jsonparsefromdto.JSONParser;
@@ -53,19 +56,6 @@ public class SeleniumController {
 		// ss.searchBack(keyword, ds, de);
 		List<NewsDTO> list = cns.getSearchNewsDefault(ss.search(keyword, sort, pressopt, press, periodopt, ds, de));
 		return new JSONParser().getJsonArrayNews(list).toString();
-	}
-
-	// 아래는 test code
-	@GetMapping("test/press")
-	@ResponseBody
-	public String updatePress() {
-		return jp.getJsonArrayPress(cps.getPressInform()).toString();
-	}
-
-	@GetMapping("test/newscount")
-	@ResponseBody
-	public String count() {
-		return String.valueOf(ns.countAllNews());
 	}
 
 }

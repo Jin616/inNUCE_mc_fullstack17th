@@ -94,7 +94,9 @@
 					</div>
 
 					<div class="end">
-						<a class="original" href="${News.news_originuri }">기사 원문</a>
+						<a class="original" href="${News.news_originuri }">
+							<div>기사 원문</div>
+						</a>
 					</div>
 
 				</div>

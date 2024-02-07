@@ -10,8 +10,11 @@
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
+<link rel="stylesheet" type="text/css" href="/css/header.css">
+<link rel="stylesheet" type="text/css" href="/css/mypage.css">
 <script defer src="/js/main.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <style>
 
 </style>
@@ -30,7 +33,13 @@
 		else{
 			
 			 $("#info_change").on('click',function(){
-			 
+			 	
+				 // 좌측 네비게이터 바에 css 바꾸기
+				 $("#info_change").attr("clicked","yes");
+				 $("#my_scrap").attr("clicked","none");
+				 $("#my_chatting").attr("clicked","none");
+				 $("#delete").attr("clicked","none");
+				 
 				var user_pw_length = '${sessionScope.login_user.user_pw}'.length;
 				var user_pw_hide = '*'.repeat(user_pw_length)
 				// 마이페이지 내용 바꾸기
@@ -39,10 +48,10 @@
 				"<div class='info_text'>내 아이디</div>"+
 				"<input class ='user_info_input' type='text' name='user_id' id='user_id'  value='${sessionScope.login_user.getUser_id()}' readonly><br>"+
 				"<div class='info_text'>이메일</div>"+
-				"<input class ='user_info_input' type='email' name='email' id='email'  placeholder='${sessionScope.login_user.getEmail()}'><br>"+
+				"<input class ='user_info_input' type='email' name='email' id='email'  value ='${sessionScope.login_user.getEmail()}' readonly><br>"+
 				"<div class='info_text'>핸드폰 번호</div>"+
 				"<input class ='user_info_input'  type='tel' name='phone' id='phone'  placeholder='${sessionScope.login_user.getPhone()}'><br>"+
-				"<div class='info_text'>비밀번호 </div> "+
+				"<div class='info_text'>비밀번호 (8자리 이상, 문자 숫자 특수기호 포함) </div> "+
 				"<input class ='user_info_input'  id = 'user_pw' type='password' name ='user_pw' placeholder='${sessionScope.login_user.getUser_pw()}'><br>"+
 				"<div class='info_text'>비밀번호 재확인 </div> "+
 				"<input class ='user_info_input'  id='user_pw_re' type='password'  defaultValue='${sessionScope.login_user.getUser_pw()}' ><br>"+
@@ -71,7 +80,8 @@
 				// 수정하기 버튼 눌렀을 때
 				$("#changeButton").on('click',function(ev){
 					let phoneRegex =  new RegExp("01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}");  
-					let emailRegex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');	
+					let emailRegex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+					var pwRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 					// 비밀번호와 비밀번호 재확인 값이 다른경우
 					if($("#user_pw").val() !=$("#user_pw_re").val()){
 						alert("같은 비밀번호를 입력해주세요");
@@ -84,12 +94,19 @@
 						$("#phone").focus();
 						ev.preventDefault();
 					}//else if
+					// 비밀번호 형식이 다른경우
+					else if($("#user_pw").val().trim().length != 0 && ! pwRegex.test($("#user_pw").val())){
+						alert("비밀번호 양식을 지켜주세요");
+						$("#user_pw").focus();
+						ev.preventDefault();
+					}
 					// 이메일 형식이 다른경우
 					else if($("#email").val().trim().length != 0 && ! emailRegex.test($("#email").val()) ){
 						alert("올바른 이메일 형식을 입력해 주세요");
 						$("#email").focus();
 						ev.preventDefault();
 					}//else if
+					
 					else{
 						$.ajax({ 
 							url : "infochange",
@@ -107,6 +124,13 @@
 			
 			// 회원탈퇴 버튼 눌렀을때
 			$("#delete").on('click',function(){
+				
+				 // 좌측 네비게이터 바에 css 바꾸기
+				 $("#info_change").attr("clicked","none");
+				 $("#my_scrap").attr("clicked","none");
+				 $("#my_chatting").attr("clicked","none");
+				 $("#delete").attr("clicked","yes");
+				 
 				// 마이페이지 내용 바꾸기
 				$("#myPage_main").html(
 					"<div> 정말로 회원을 탈퇴하시겠습니까? </div>"+
@@ -133,18 +157,19 @@
 <!--  header -->
 <header>
 	<div class="logo-txt-cover">
+	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
-  <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 
 </header>
 
 <!--  좌측 네비바 -->
 <div id = "myPage_navigater" >
-	<button id="info_change">  회원 정보 수정</button><hr >
-	<button id="my_scrap"> 스크랩한 기사 </button><hr >
-	<button id="my_chatting"> 참여중인 채팅방</button><hr >
-	<button id="delete"> 회원 탈퇴</button><hr >
+	<button id="info_change" clicked="none">  회원 정보 수정</button>
+	<button id="my_scrap" clicked="none"> 스크랩한 기사 </button>
+	<button id="my_chatting" clicked="none"> 참여중인 채팅방</button>
+	<button id="delete" clicked="none"> 회원 탈퇴</button>
 </div>
 <!--  마이페이지 내용 -->
 <div id = "myPage_main" > </div>

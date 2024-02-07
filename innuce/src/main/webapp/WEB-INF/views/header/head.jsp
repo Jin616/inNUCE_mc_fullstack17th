@@ -1,4 +1,4 @@
-
+<title>inNUCE </title>
 <!-- ICON -->
 <link rel="icon" href="/images/inNUCE_logo.png" />
 <!-- 구글 폰트 -->

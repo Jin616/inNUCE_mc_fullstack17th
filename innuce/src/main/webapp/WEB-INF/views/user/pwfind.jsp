@@ -11,8 +11,7 @@
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 <script>
 window.onload = function(){
@@ -21,6 +20,8 @@ window.onload = function(){
 		if($("#user_id").val().length ==0){
 			alert("아이디를 입력해주세요")
 		}
+		
+		
 		//이름 입력 안된경우
 		else if($("#user_name").val().length ==0){
 			alert("이름을 입력해주세요")
@@ -30,6 +31,7 @@ window.onload = function(){
 			alert("이메일을 입력해주세요")
 		}
 		else{
+			
 			$.ajax({
 				type : 'post',
 				url : 'pwfindresult',
@@ -45,7 +47,8 @@ window.onload = function(){
 			})//ajax
 		}// else
 	})// pw_find_button click
-
+	
+	
 }// window onload
 </script>
 </head>
@@ -55,9 +58,10 @@ window.onload = function(){
 	<div class="logo-txt-cover">
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
-<div id="pw_find_main">
+<div id="pw_find_box">
 아이디<br>
 <input class="mypage_input" type = 'text' id="user_id" name="user_id" ><br>
 이름<br>

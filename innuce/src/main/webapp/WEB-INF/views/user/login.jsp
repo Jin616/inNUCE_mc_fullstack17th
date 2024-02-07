@@ -11,8 +11,8 @@
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
-<!-- css/js -->
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 
 <script>
@@ -24,14 +24,14 @@
 		$("#loginButton").on('click',function(ev) {
 			
 			// 아이디나 패스워드 공란
-			if($('#user_id').val().length ==0 || $('#user_pw').val().length ==0) {
+			if($('#login_user_id').val().length ==0 || $('#login_user_pw').val().length ==0) {
 				alert("아이디/비밀번호를 입력해 주세요.");
 			}//if
 			else{
 			$.ajax({
 				type : 'post',
 				url : 'loginresult',
-				data : { 'user_id' : $("#user_id").val(), 'user_pw' : $("#user_pw").val() },
+				data : { 'user_id' : $("#login_user_id").val(), 'user_pw' : $("#login_user_pw").val() },
 				dataType: 'json',
 				success : function(response){			
 						if(response.login_result == "로그인 성공."){
@@ -40,7 +40,7 @@
 						}//if
 						// 회원 탈퇴한지 10분이 안 지났을경우
 						else if(response.login_result == "회원 복구 페이지로 이동합니다"){
-							$("#login_main").html(
+							$("#login_box").html(
 									"<div> 회원 복구를 진행하시겠습니까? </div>"+
 									"<input id='restore_button' type='button' value = '회원 복구'>"
 							) // html
@@ -81,28 +81,28 @@
 	<div class="logo-txt-cover">
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
 
-<div id ="login_main">
-	<div class="input">
+<div id ="login_box">
+	<div class="login_input_box">
 		<div class="id">
 			<div class="text">아이디</div>
-			<input class ="mypage_input" id="user_id" name="user_id" type="text">
+			<input class ="login_input" id="login_user_id" name="user_id" type="text">
 		</div>
 
 		<div class="pw">
 			<div class="text">비밀번호</div>
-			<input class ="mypage_input" id="user_pw" name="user_pw" type="password">
+			<input class ="login_input" id="login_user_pw" name="user_pw" type="password">
 		</div>
-
+		
 	</div>
-
-	<div class="button">
+	<div class="login_button">
 		<input id="loginButton" type="button" value="로그인">&nbsp;&nbsp;
 		<input id="idpw_search_button" type="button" value="아이디/비밀번호 찾기">
 	</div>
- </div>
+</div>
 </body>
 
 </html>

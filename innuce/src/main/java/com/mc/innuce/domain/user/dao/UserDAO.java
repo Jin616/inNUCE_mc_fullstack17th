@@ -36,4 +36,55 @@ public interface UserDAO {
 
 	// 아이디 찾기 기능
 	List<UserDTO> selectUserId(HashMap<String, String> map);
+	
+	// 비밀번호 변경 기능
+	int changePw (HashMap map);
+	
+	// 아이디와 이메일을 가지고 UserDTO를 페이징해서 가져오기
+	List<UserDTO> selectPagingUserDTO(HashMap map);
+	
+	// 관리자 화면에서 UserDTO 수 가져오기
+	int selectAllUser();
+	
+	// 관리자 화면에서 id 가지고 회원 숫자 찾기
+	int selectAllUserById(String user_id);
+	
+	// 관리자 화면에서 이름 가지고 회원 숫자 찾기
+	int selectAllUserByName(String user_name);
+	
+	// 관리자 화면에서 모든 유저를 페이징해서 가져오기
+	List<UserDTO> selectAllUserPagingList(HashMap map);
+	
+	// 관리자 화면에서 id으로 페이징된 유저 가져오기
+	List<UserDTO> selectAllUserPagingListById(HashMap map);
+	
+	// 관리자 화면에서 이름으로 페이징된 유저 가져오기
+	List<UserDTO> selectAllUserPagingListByUserName(HashMap map);
+		
+	// 관리자 화면에서 탈퇴한 UserDTO 수
+	int selectAllDeletedUser();
+	
+	// 관리자 화면에서 아이디를 기준으로 탈퇴 유저 수 가져오기
+	int selectAllDeletedUserById(String user_id);
+	
+	// 관리자 화면에서 이름을 기준으로 탈퇴 유저 수 가져오기
+	int selectAllDeletedUserByName(String user_name);
+
+	// 관리자 화면에서 모든 탈퇴 유저들 페이징해서 가져오기
+	List<UserDTO> selectAllDeletedUserPagingList(HashMap map);
+	
+	// 관리자 화면에서  아이디를 기준으로 탈퇴 유저들 페이징해서 가져오기
+	List<UserDTO> selectAllDeletedUserPagingListById(HashMap map);
+
+	// 관리자 화면에서  이름을 기준으로 탈퇴 유저들 페이징해서 가져오기
+	List<UserDTO> selectAllDeletedUserPagingListByName(HashMap map);
+	
+	
+	
+
+
+	
+	
+
+	
 }

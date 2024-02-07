@@ -116,6 +116,7 @@ public class CrawlingNewsService {
 			try {
 				// 기사 더보기 버튼 display option none이 될때까지 반복해서 누름
 				while(driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed()) {
+					System.out.println(printColor("more...", "gray"));
 					driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).click();
 					sleep(500);
 				}				
@@ -128,10 +129,12 @@ public class CrawlingNewsService {
 			// 중간에 페이지 갱신으로 인해 초기화 된 경우 롤백하기 위한 try-catch
 			// WebElement 요소들 추출하다가 에러 뜰 경우 페이지가 초기화 된 경우임으로 마찬가지로 반복
 			try {
+				System.out.println(printColor("start finding newsElementList", "gray"));
 				// img 태그가 있긴 있지만 없어서 에러난 경우를 대비해 비어있는 거를 거르고 모음
 				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
 						.stream().filter(e -> !e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
-				System.out.println(printColor(""+newsElementList.size(), "red"));
+				System.out.println(printColor("success finding newsElementList", "gray"));
+				System.out.println("size is " + printColor(""+newsElementList.size(), "red"));
 				
 				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장
 				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음
@@ -140,14 +143,23 @@ public class CrawlingNewsService {
 					String href = e.getAttribute("href");
 					String thumburl = e.findElement(By.tagName("img")).getAttribute("src");
 					
-					if(dbHash.add(conv.get13NewsKey(href)))
+					System.out.print(String.format("%04d input : ", newsElementList.indexOf(e)));
+					
+					if(dbHash.add(conv.get13NewsKey(href))) {
+						System.out.println(printColor("true", "green"));
 						resultList.add(new NewsTemVO(href, thumburl));
+					} else {
+						System.out.println(printColor("false", "red"));
+					}
 					
 				}
 				
 				break; // 정상 진행 되었다면 while 탈출
 			} catch (Exception e) {
+				System.out.println(printColor("This error may have occurred due to a forced page move.", "red"));
+				System.out.println(printColor(driver.getCurrentUrl(), "red"));
 				e.printStackTrace();
+				reload(driver);
 				continue; // 에러 잡혔다는 건 페이지 초기화 되었다는 뜻이므로 while 반복
 			}
 		}

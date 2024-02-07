@@ -20,22 +20,103 @@
   update user_info set user_pw = #{user_pw}, address = #{address}, phone = #{phone}, email = #{email}
   where user_key = #{user_key}
   </update>
+  
   <!-- UserDTO 정보 삭제 -->
   <update id="deleteUser" parameterType="hashmap" >
   update user_info set user_isdeleted = #{user_isdeleted}, user_deleted_time = now()
   where user_key = #{user_key}
   </update>
+  
   <!--  UserDTO 삭제 시간 가져오기 -->
    <select id="selectUserDeletedTime" resultType="String" parameterType ="integer">
   select user_deleted_time from user_info where user_key =#{user_key}
   </select>
+  
   <!-- UserDTO 회원정보 복구 -->
   <update id="restoreUser" parameterType="integer" >
   update user_info set user_isdeleted = false, user_deleted_time = null
   where user_key = #{user_key}
   </update>
+  
   <!--  ID 찾기 -->
   <select id="selectUserId" resultType="userdto" parameterType ="hashmap">
   select * from user_info where user_name =#{user_name}and email =#{email} and user_isdeleted = false;
+  </select>
+  
+  <!--  비밀번호 수정하기 -->
+  <update id="changePw" parameterType="hashmap" >
+  update user_info set user_pw = #{user_pw} where user_key = #{user_key};
+  </update>
+  
+  <!-- 페이징 해서 특정 이름, 이메일에 해당하는 UserDTO 가져오기 -->
+  <select id="selectPagingUserDTO" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_name =#{user_name} and email =#{email}
+  order by regdate desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+  <!-- 모든 유저 수 가져오기 -->
+  <select id="selectAllUser" resultType="integer" >
+  select count(*) from user_info where user_isdeleted = false;
+  </select>
+  
+  <!-- id 가지고 모든 유저 수 가져오기 -->
+  <select id="selectAllUserById" resultType="integer" parameterType="String">
+  select count(*) from user_info where user_isdeleted = false and user_id = #{user_id};
+  </select>
+  
+  <!-- 이름 가지고 모든 유저 수 가져오기 -->
+  <select id="selectAllUserByName" resultType="integer" parameterType="String">
+  select count(*) from user_info where user_isdeleted = false and user_name = #{user_name};
+  </select>
+  
+  <!-- 페이징 해서 모든 가입된 UserDTO 가져오기 -->
+  <select id="selectAllUserPagingList" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = false
+  order by regdate desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+  <!-- 페이징 해서 id로 모든 가입된 UserDTO 가져오기 -->
+  <select id="selectAllUserPagingListById" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = false and user_id =#{user_id}
+  order by regdate desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+  <!-- 페이징 해서 이름으로 모든 가입된 UserDTO 가져오기 -->
+  <select id="selectAllUserPagingListByUserName" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = false and user_name = #{user_name}
+  order by regdate desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+   <!-- 모든 탈퇴 유저 수 가져오기 -->
+  <select id="selectAllDeletedUser" resultType="integer" >
+  select count(*) from user_info where user_isdeleted = true;
+  </select>
+  
+   <!-- 모든 탈퇴유저 수 아이디를 기준으로  가져오기 -->
+  <select id="selectAllDeletedUserById" resultType="integer" >
+  select count(*) from user_info where user_isdeleted = true and user_id =#{user_id};
+  </select>
+  
+   <!-- 모든 탈퇴유저 수 이름 기준으로  가져오기 -->
+  <select id="selectAllDeletedUserByName" resultType="integer" >
+  select count(*) from user_info where user_isdeleted = true and user_name =#{user_name};
+  </select>
+  
+  <!-- 페이징 해서 모든 탈퇴한 UserDTO 가져오기 -->
+  <select id="selectAllDeletedUserPagingList" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = true
+  order by user_deleted_time desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+  <!-- 페이징 해서 아이디를 기준으로 탈퇴한 UserDTO 가져오기 -->
+  <select id="selectAllDeletedUserPagingListById" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = true and user_id =#{user_id}
+  order by user_deleted_time desc limit #{starting_point},#{user_in_page} ;
+  </select>
+  
+   <!-- 페이징 해서 아이디를 기준으로 탈퇴한 UserDTO 가져오기 -->
+  <select id="selectAllDeletedUserPagingListByName" resultType="userdto" parameterType ="hashmap">
+  select * from user_info where user_isdeleted = true and user_name =#{user_name}
+  order by user_deleted_time desc limit #{starting_point},#{user_in_page} ;
   </select>
   </mapper>

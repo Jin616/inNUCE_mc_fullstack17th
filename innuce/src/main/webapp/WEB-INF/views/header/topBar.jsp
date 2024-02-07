@@ -11,6 +11,9 @@
 		<c:when test="${empty sessionScope.login_user}">
 			<input class="button" type=button id='btn1' value='SignUp' onclick="location.href='registermember'">
 		</c:when>
+		<c:when test="${!empty sessionScope.login_user && sessionScope.login_user.is_admin == true }">
+			<input class="button" type=button id='btn1' value="AdminPage" onclick="location.href='adminpage'">
+		</c:when>
 		<c:otherwise>
 			<input class="button" type=button id='btn1' value="MyPage" onclick="location.href='mypage'">
 		</c:otherwise>
@@ -22,7 +25,18 @@
 			<input class="button" type=button id='btn2' value='Login' onclick="location.href='login'">
 		</c:when>
 		<c:otherwise>	
-			<input class="button" type=button id='btn2' value='Logout' >
+			<input class="button" type=button id='btn2' value='Logout'>
+			<script> $("#btn2").on('click',function(){
+				$.ajax({ 
+					url : "logout",
+					type : 'post',
+					success : function(response){
+						alert("로그아웃 되었습니다.")
+						location.reload(true)
+					}//success
+				});//ajax
+			})</script>
+			
 		</c:otherwise>
 	</c:choose>	
 	</li>

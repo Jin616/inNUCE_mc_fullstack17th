@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아이디 비밀번호 찾기 </title>
+<title>아이디 찾기 결과 </title>
 <!-- ICON -->
 <link rel="icon" href="/images/inNUCE_logo.png" />
 <!-- 구글 폰트 -->
@@ -38,32 +38,18 @@
 	integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/jquery-3.7.1.min.js"></script>
-<script>
-window.onload = function(){
-	
-	let id_find_button = document.getElementById("id_find_button")
-	let pw_find_button = document.getElementById("pw_find_button")
-	// 아이디 찾기 버튼 눌렀을때
-	$("#id_find_button").on("click",function(){
-		location.href ="idfind"
-	})//id_find_button click
-	
-	$("#pw_find_button").on("click",function(){
-		location.href ="pwfind"
-	})//pw_find_button click
-}// onload
-</script>
 </head>
+<body>
 <body>
 <!--  header -->
 <header>
 <%@ include file="../header/header.jsp"%>
 </header>
-<div id="find_box">
-<div class="button">
-		<input id="id_find_button" type="button" value="아이디 찾기">&nbsp;&nbsp;
-		<input id="pw_find_button" type="button" value="비밀번호 찾기">
+
+<div id= "idfindresult_box">
+${html_result}
 </div>
-</div>
+
+
 </body>
 </html>

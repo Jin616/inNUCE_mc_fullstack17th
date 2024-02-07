@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
 
+import com.mc.innuce.global.config.Config;
+
 /**
  * Chrome 브라우저로 Selenium WebDriver 인스턴스를 관리하기 위한 Pool
  * 
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 1;
+	private static final int MAX_POOL_SIZE = 4;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	static {
@@ -37,7 +39,6 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--headless");
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
-		chromeOptions.addArguments("--disable-features=NetworkService"); // test option
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 		WebDriver driver = new ChromeDriver(chromeOptions);
 
@@ -52,12 +53,12 @@ public class WebDriverPool {
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-		System.out.println("driver rent");
+		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver rent");
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
-		System.out.println("driver return");
+		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver return");
 		webDriverPool.offer(webDriver);
 	}
 

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.mc.innuce.InnuceApplication;
 import com.mc.innuce.domain.news.selenium.service.CrawlingNewsService;
 import com.mc.innuce.domain.news.service.NewsService;
+import com.mc.innuce.global.config.Config;
 
 @Component
 public class NewsScheduler {
@@ -21,11 +23,15 @@ public class NewsScheduler {
 	private boolean isCategoryCrawllerRunning = false; // default false !
 	
 	public static List<Long> newsList = new ArrayList<>();
-
+	
+	private int callCount = 0;
+	
 	@Scheduled(cron = "0 0/1 * * * *")
 	public void schduleUpdateNewsCategory1() {
 		
-		if(!isCategoryCrawllerRunning) {
+		//if (!isCategoryCrawllerRunning) {
+		if (Config.CURRENT_OS.equals("linux") && !isCategoryCrawllerRunning) {
+			System.out.println("callCount : " + ++callCount);
 			System.out.println("category crawller 실행");
 			isCategoryCrawllerRunning = true;
 

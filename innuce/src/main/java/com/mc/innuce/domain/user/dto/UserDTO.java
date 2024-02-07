@@ -6,15 +6,17 @@ import org.springframework.stereotype.Component;
 public class UserDTO {
 
 	int user_key;
-	String user_id, user_pw, user_name, email, phone, gender;
-	boolean user_isdeleted, is_admin;
-	String birthday, regdate, address, deleted_time;
 
-	// Constructor
+	String user_id,user_pw, user_name, email, phone, gender;
+	boolean user_isdeleted,is_admin;
+	String birthday, regdate,address,user_deleted_time;
+	
+	//Constructor
+
 	public UserDTO() {
 		super();
 	}
-
+	
 	public UserDTO(int user_key, String user_id, String user_pw, String user_name, String email, String phone,
 			String gender, boolean user_isdeleted, String deleted_time, String birthday, String regdate, String address,
 			boolean is_admin) {
@@ -30,7 +32,7 @@ public class UserDTO {
 		this.birthday = birthday;
 		this.regdate = regdate;
 		this.address = address;
-		this.deleted_time = deleted_time;
+		this.user_deleted_time = deleted_time;
 		this.is_admin = is_admin;
 	}
 
@@ -137,11 +139,11 @@ public class UserDTO {
 	}
 
 	public String getDeleted_time() {
-		return deleted_time;
+		return user_deleted_time;
 	}
 
 	public void setDeleted_time(String deleted_time) {
-		this.deleted_time = deleted_time;
+		this.user_deleted_time = deleted_time;
 	}
 
 	public boolean isIs_admin() {

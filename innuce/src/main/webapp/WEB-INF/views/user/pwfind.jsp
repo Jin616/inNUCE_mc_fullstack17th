@@ -30,6 +30,7 @@ window.onload = function(){
 			alert("이메일을 입력해주세요")
 		}
 		else{
+			
 			$.ajax({
 				type : 'post',
 				url : 'pwfindresult',
@@ -57,7 +58,7 @@ window.onload = function(){
   </div>
 </header>
 
-<div id="pw_find_main">
+<div id="pw_find_box">
 아이디<br>
 <input class="mypage_input" type = 'text' id="user_id" name="user_id" ><br>
 이름<br>

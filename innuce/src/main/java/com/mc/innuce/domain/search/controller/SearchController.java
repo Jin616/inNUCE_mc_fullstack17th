@@ -333,6 +333,7 @@ public class SearchController {
 }
 
 ////////////////////////////////////////////////////
+//debate와의 연결부분
 //@GetMapping("/main/debate")
 //public ModelAndView showDebateRoom(
 //@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {

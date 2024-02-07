@@ -20,7 +20,6 @@ public class PressScheduler {
 
 	private LocalDate updatePressLocalDate = LocalDate.now();
 	
-<<<<<<< Updated upstream
 	@Scheduled(cron = "0 0 * * * *")
 	public void scheduleUpdatePressDaily() {
 		
@@ -31,16 +30,5 @@ public class PressScheduler {
 			updatePressLocalDate = LocalDate.now();
 		}
 	}
-=======
-//	@Scheduled(cron = "0 0 * * * *")
-//	public void scheduleUpdatePressDaily() {
-//		
-//		if(updatePressLocalDate.isBefore(LocalDate.now())) {
-//			ps.updatePressTable(cps.getPressInform());
-//			
-//			updatePressLocalDate = LocalDate.now();
-//		}
-//	}
->>>>>>> Stashed changes
 
 }

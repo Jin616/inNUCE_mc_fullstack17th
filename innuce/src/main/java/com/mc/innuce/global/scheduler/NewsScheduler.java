@@ -23,7 +23,6 @@ public class NewsScheduler {
 	private boolean isCategoryCrawllerRunning = false; // default false !
 	
 	public static List<Long> newsList = new ArrayList<>();
-<<<<<<< Updated upstream
 	
 	private int callCount = 0;
 	
@@ -42,21 +41,5 @@ public class NewsScheduler {
 			System.out.println("category crawller 종료");
 		}
 	}
-=======
-
-//	@Scheduled(cron = "0 0/1 * * * *")
-//	public void schduleUpdateNewsCategory1() {
-//		
-//		if(!isCategoryCrawllerRunning) {
-//			System.out.println("category crawller 실행");
-//			isCategoryCrawllerRunning = true;
-//
-//			cns.crawllingCategoryNews();
-//			
-//			isCategoryCrawllerRunning = false;
-//			System.out.println("category crawller 종료");
-//		}
-//	}
->>>>>>> Stashed changes
 
 }

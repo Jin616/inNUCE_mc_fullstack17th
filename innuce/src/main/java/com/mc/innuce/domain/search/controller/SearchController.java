@@ -1,143 +1,80 @@
-package com.mc.innuce.domain.search;
+package com.mc.innuce.domain.search.controller;
 
-import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
-import com.mc.innuce.domain.debate.dto.DebateUserDTO;
-import com.mc.innuce.domain.debate.service.DebateRoomService;
-import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.news.dto.NewsDTO;
-import com.mc.innuce.domain.search.chatbot.ChatbotService;
 import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
+import com.mc.innuce.domain.search.dto.SearchDTO;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
 import com.mc.innuce.domain.user.dto.UserDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Controller
-public class TestController {
+public class SearchController {
 
-	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
 	@Autowired
-	GeolocationService geoService;
+	private GeolocationService geoService;
 	@Autowired
-	ComponentService service;
-	@Autowired
-	ChatbotService chatbotService;
-
+	private ComponentService service;
+	
+	private String ip = "";
+	private String agent = "";
+	
+	final int PAGECOUNT = 10;
+	
 	@RequestMapping("/main")
-	public String main() {
+	public String main(HttpServletRequest request, HttpSession session) {
 
 		return "main";
 	}
 
-	@RequestMapping("/main/chatbot")
-	public String executeChatbot() {
-		return "chatbot/chatbotAjaxInput";
-	}
-
-	@RequestMapping("/main/chatbotProcess")
-	@ResponseBody
-	public String executeChatbot1(String chotbot) {
-		String result = chatbotService.test(chotbot);
-
-		System.out.println("변경전=" + result);
-
-		org.json.JSONObject json = new org.json.JSONObject(result);
-
-		JSONArray bubbles = (JSONArray) json.get("bubbles");
-		JSONObject bubble = (JSONObject) bubbles.get(0);
-		bubble.remove("information");
-		result = json.toString();
-
-		return result;
-	}
-
-	@GetMapping("/wordCloud")
-	public @ResponseBody List<String> wordCloud(HttpServletResponse res, HttpServletRequest req) throws IOException {
-
-//		System.out.println(num);
-//		ParsingKomoran pk = new ParsingKomoran();
-//		HashMap<String, Integer> crawlerData = pk.parsingDataWithSelenium(num);
-		String[] strArr = { "0", "1", "2", "3", "4", "5" };
-		List<String> list = new ArrayList<>();
-		for (String string : strArr) {
-			HashMap<String, Integer> crawlerData = service.getCategoryContent(string);
-
-//     	System.out.println("DataController(wordCloud): "+crawlerData.toString());
-			JSONArray jsonArray = new JSONArray();
-			// 명사들을 하나씩
-			for (String token : crawlerData.keySet()) {
-				JSONObject informationObject = new JSONObject();
-
-//           {"x": "token"}
-				informationObject.put("x", token);
-//           { value: 80 }
-				informationObject.put("value", crawlerData.get(token));
-//						{"x": "token", value: 80}
-				jsonArray.put(informationObject);
-			}
-//       jsonArray = {
-//       		{"x": "token", value: 80},
-//       		{"x": "token", value: 80},
-//       		{"x": "token", value: 80},
-//       		{"x": "token", value: 80}
-//       }
-
-			// printwriter 과 print 를 사용하여 값을 response 로 값을 전달함
-			// pw 로 값을 전달하면 값이 response body 에 들어가서 보내짐
-//			res.setContentType("application/json;charset=utf-8");// 한글을 정상적으로 출력
-//			PrintWriter pw = res.getWriter();
-			list.add(jsonArray.toString());
-
-//			pw.print(jsonArray.toString());
-//			System.out.println(jsonArray);
-//       	return jsonArray.toString();
-		}
-
-//		System.out.println("result List : "+list.size());
-		return list;
-	}
-
 	@GetMapping("/search")
-	public ModelAndView mainSearch(String keyword, HttpSession session,
+	public ModelAndView mainSearch(String keyword,HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {
-		ModelAndView mv = new ModelAndView();
 
-		int pageCount = 10;
+		if (agent.equals("") || agent.equals(" ") || agent == null) {
+			agent=getDevice(request);
+		}
+		
+		System.out.println("기기: "+agent);
+		
+		ModelAndView mv = new ModelAndView();
+//UserDTO userDTO = new UserDTO();a
+//session.getAttribute("login_user", userDTO);
+
+
 		int totalCount = 0;
 		int[] limit = new int[2];
 		List<NewsDTO> newsList = new ArrayList<>();
-		List<Integer> keywordKeyList = new ArrayList<>(); // News
-//		List<KeywordDTO> keywords = new ArrayList<>();
-		KeywordDTO dto = null;
+		List<Integer> keywordKeyList = new ArrayList<>();
 
-//	keyword에 " "이 있을 때만 코모란을 돌리자
+		KeywordDTO kDTO = null;
+		UserDTO uDTO = null;
+		SearchDTO sDTO = null;
+//	keyword에 " "이 있을 때만 코모란을 돌리자? x
 
 		String path = System.getProperty("user.dir");
 
@@ -147,42 +84,56 @@ public class TestController {
 		KomoranResult komoranResult = komoran.analyze(keyword);
 
 		List<String> analyzeList = komoranResult.getMorphesByTags("NNP", "NNG", "NNB");
+		
+		if(session.getAttribute("login_user") != null) {
+			uDTO=(UserDTO) session.getAttribute("login_user");
+		}
+
 		int keywordKey = 0;
 
 		for (String token : analyzeList) {
 			System.out.println("===" + token + "===");
-			dto = service.oneKeyword(token);
+			kDTO = service.oneKeyword(token);
 
-			if (dto != null) {
-				// token이 있으면 - update +
+			if (kDTO != null) {
+				// token이 있으면
+				// Keyword 테이블
 				service.updateKeyword(token);
-				keywordKeyList.add(dto.getKeyword_key());
-				keywordKey = dto.getKeyword_key();
-
+				keywordKeyList.add(kDTO.getKeyword_key());
+				keywordKey = kDTO.getKeyword_key();
+				
+				// Search 테이블
+				int i=service.updateSearch(keywordKey);
+				System.out.println(i+" updateSearch 완료");
 			} else {
 				// token이 없으면 - insert
+				// Keyword 테이블
 				service.insertKeyword(token);
 
-				dto = service.oneKeyword(token);
-				keywordKeyList.add(dto.getKeyword_key());
-				keywordKey = dto.getKeyword_key();
-
-//				System.out.println("news_key : " + service.getNewsKeys(token));
-
+				kDTO = service.oneKeyword(token);
+				keywordKeyList.add(kDTO.getKeyword_key());
+				keywordKey = kDTO.getKeyword_key();
+				
 				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys(token));
-
 				service.insertKeywordNews(keys);
-//				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
+				
+				// Search 테이블
+				sDTO = new SearchDTO(keywordKey,agent);
+				System.out.println("searchDTO "+sDTO);
+				int i=service.insertSearch(sDTO);
+				System.out.println(i+" insertSearch 완료");
+				
+		
 			}
 			totalCount += service.getTotalNews(keywordKey);
 		} // for (String token : analyzeList)
 
 //	paging
-
 		Map<String, Object> map = new HashMap<>();
 
-		limit[0] = (pageNum - 1) * pageCount;
-		limit[1] = pageCount;
+
+		limit[0] = (pageNum - 1) * PAGECOUNT;
+		limit[1] = PAGECOUNT;
 
 		map.put("keyword_key", keywordKeyList);
 
@@ -195,9 +146,9 @@ public class TestController {
 		}
 
 		System.out.println("totalCount : " + totalCount);
-		System.out.println("pageCount : " + pageCount);
+		System.out.println("pageCount : " + PAGECOUNT);
 		mv.addObject("totalCount", totalCount);
-		mv.addObject("pageCount", pageCount);
+		mv.addObject("pageCount", PAGECOUNT);
 //	키워드에 해당하는 news 가져오기
 //		/////////////////////////////////////////////////////
 		newsList = service.getNewsListLimit(map);
@@ -210,44 +161,21 @@ public class TestController {
 		return mv;
 	}
 
+	private String getDevice(HttpServletRequest request) {
+		agent=request.getHeader("USER-AGENT");
+		return agent;
+	}
+
 	@RequestMapping("/myLocation")
 	ModelAndView myLocation(HttpServletRequest request,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
 
 		ModelAndView mv = new ModelAndView();
-		String ip = "";
 
-		ip = request.getHeader("X-Forwarded-For");
+		if (ip.equals("") || ip.equals(" ") || ip == null) {
+			ip = getIp(request);
+		}
 
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("X-Real-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("X-RealIP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("REMOTE_ADDR");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		if (ip.equals("0:0:0:0:0:0:0:1") || ip.equals("127.0.0.1")) {
-			InetAddress address = InetAddress.getLocalHost();
-			ip = address.getHostAddress();
-
-		}
 		System.out.println("ip : " + ip);
 		String myLocation = geoService.test(ip);
 
@@ -267,9 +195,7 @@ public class TestController {
 			// TODO: handle exception
 		}
 
-		int pageCount = 10;
 		int totalCount = 0;
-		int[] limit = new int[2];
 		List<Integer> keywordKeyList = new ArrayList<>();
 		List<NewsDTO> newsList = new ArrayList<>();
 //		List<KeywordDTO> keywords = new ArrayList<>();
@@ -312,7 +238,6 @@ public class TestController {
 				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys2(place));
 
 				service.insertKeywordNews(keys);
-				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
 			}
 			totalCount += service.getTotalNews(keywordKey);
 
@@ -321,24 +246,25 @@ public class TestController {
 //	paging
 		Map<String, Object> map = new HashMap<>();
 
-		limit[0] = (pageNum - 1) * pageCount;
-		limit[1] = pageCount;
+		int[] limit = new int[2];
+
+		limit[0] = (pageNum - 1) * PAGECOUNT;
+		limit[1] = PAGECOUNT;
 
 		map.put("keyword_key", keywordKeyList);
 
 		map.put("num1", limit[0]);
 		map.put("num2", limit[1]);
 
-		System.out.println("totalCount : " + totalCount);
 
 		if (totalCount >= 100) {
 			totalCount = 100;
 		}
 
 		System.out.println("totalCount : " + totalCount);
-		System.out.println("pageCount : " + pageCount);
+		System.out.println("pageCount : " + PAGECOUNT);
 		mv.addObject("totalCount", totalCount);
-		mv.addObject("pageCount", pageCount);
+		mv.addObject("pageCount", PAGECOUNT);
 		newsList = service.getNewsListLimit(map);
 //	키워드에 해당하는 news 가져오기
 //		newsList = service.getNewsList(dto.getKeyword_key()).subList(limit[0], limit[1]);
@@ -352,6 +278,42 @@ public class TestController {
 		mv.setViewName("search/searchPage");
 		return mv;
 
+	}
+
+	private String getIp(HttpServletRequest request) throws UnknownHostException {
+
+		ip = request.getHeader("X-Forwarded-For");
+
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Real-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-RealIP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("REMOTE_ADDR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		if (ip.equals("0:0:0:0:0:0:0:1") || ip.equals("127.0.0.1")) {
+			InetAddress address = InetAddress.getLocalHost();
+			ip = address.getHostAddress();
+
+		}
+		return ip;
 	}
 
 	@RequestMapping("/news")

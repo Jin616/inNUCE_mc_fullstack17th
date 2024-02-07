@@ -14,6 +14,27 @@ public class SearchDTO {
 	private Timestamp search_time;
 	private int search_age;
 	private char search_gender;
+	
+
+	public SearchDTO() {
+		super();
+	}
+
+	public SearchDTO(int keyword_key, int user_key, String client_key, int search_age, char search_gender) {
+		super();
+		this.keyword_key = keyword_key;
+		this.user_key = user_key;
+		this.client_key = client_key;
+		this.search_age = search_age;
+		this.search_gender = search_gender;
+	}
+	
+
+	public SearchDTO(int keyword_key, String client_key) {
+		super();
+		this.keyword_key = keyword_key;
+		this.client_key = client_key;
+	}
 
 	public int getSearch_key() {
 		return search_key;

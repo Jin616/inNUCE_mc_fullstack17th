@@ -79,10 +79,12 @@ public class WordCloudService {
 //			analyzeList에서 문자열 token의 빈도를 계산합니다. 
 			if (token.length() >= 2) {
 				int num = Collections.frequency(analyzeList, token);
-				if (num >= 3) {
+				if (num >= 2) {
 					listHash.put(token, num);
 				}
 			}
+//			if(listHash.size())
+			
 		}
 		map.put(number, listHash);
 	}

@@ -38,7 +38,7 @@ public class MailService {
 		// 이메일 내용
 		String email_content =
 				"<h3>요청하신 인증 번호입니다.</h3>"
-				+"<img src= 'http://27.96.131.135:8080/images/inNUCE_logo.png'>"
+				+"<img src= 'http://27.96.131.135:8080/images/inNUCE_logo.png'><br>"
 				+"<span> [인누케]<br/> 호두(껍데기) 안에 라는 뜻의 라틴어<br/> </span>"
 				+" <span> = 한 마디로 요약하면<br/> </span>"
 				+ "<h2>"+ number_key + "</h2>"
@@ -71,11 +71,12 @@ public class MailService {
 		// 이메일 내용
 		String email_content =
 				"<h3>발급된 임시비밀번호입니다.</h3>"
-				+"<img src= 'http://27.96.131.135:8080/images/inNUCE_logo.png'>"
+				+"<img src= 'http://27.96.131.135:8080/images/inNUCE_logo.png'><br>"
 				+"<span> [인누케]<br/> 호두(껍데기) 안에 라는 뜻의 라틴어<br/> </span>"
 				+" <span> = 한 마디로 요약하면<br/> </span>"
 				+ "<h2>"+ number_key + "</h2>"
-				+ "<div> 해당 비밀번호를 통해 로그인 후 비밀번호를 변경해주세요.</div>";
+				+ "<div> 해당 비밀번호를 통해 로그인 후 비밀번호를 변경해주세요.</div>"
+				+"<a href='http://27.96.131.135:8080/login'>로그인 페이지로 이동</a>";
 		
         try {
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

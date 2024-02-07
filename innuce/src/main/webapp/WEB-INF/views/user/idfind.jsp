@@ -40,7 +40,9 @@ $("#id_find_button").on('click',function(){
 	<div class="logo-txt-cover">
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
+
 <div id="id_find_box">
 이름<br>
 <input class="mypage_input" type = 'text' id="user_name" name="user_name" ><br>

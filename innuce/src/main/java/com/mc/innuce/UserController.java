@@ -277,8 +277,8 @@ public class UserController {
 			user_in_last_page = id_list_length % user_in_page;
 		}
 		// 총 페이지 숫자
-		int page_count = id_list_length / user_in_page;
-
+		int page_count = id_list_length / user_in_page +1;
+	
 		// sql 쿼리시 limit x,y 절에서 시작해야될 포인트(x)
 		int starting_point = (pagenum - 1) * user_in_page;
 		// 해당 pagenum에 user_in_page 만큼 user_id들을 담고있는 리스트

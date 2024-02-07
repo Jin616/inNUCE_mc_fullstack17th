@@ -9,8 +9,8 @@
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-<link rel="stylesheet" type="text/css" href="/css/header_top.css">
 <script src="/js/jquery-3.7.1.min.js"></script>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -228,10 +228,9 @@
 <header>
 	<div class="logo-txt-cover">
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
-   
-   
   </div>
-</header>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
+</header>>
 
 	
 	<div id ="register_box" >

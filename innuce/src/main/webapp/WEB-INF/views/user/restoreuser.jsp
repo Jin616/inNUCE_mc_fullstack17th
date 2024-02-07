@@ -11,9 +11,9 @@
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
-<!-- css / js -->
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
+
 <script defer src="/js/main.js"></script>
 
 <script>
@@ -54,7 +54,10 @@ $(document).ready(function() {
 <body>
 <!--  header -->
 <header>
-<%@ include file="../header/header.jsp"%>
+	<div class="logo-txt-cover">
+   <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+  </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 <div id ="restore_main">
 	

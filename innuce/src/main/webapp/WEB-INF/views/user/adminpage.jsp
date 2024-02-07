@@ -9,11 +9,12 @@
 <title>마이페이지</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
-
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
+
 <script defer src="/js/main.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+
 <style>
 
 </style>
@@ -101,8 +102,8 @@
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
-  </div>
-
+  	</div>
+	<%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
 <!--  좌측 네비바 -->

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
+import com.mc.innuce.domain.search.dto.SearchDTO;
 import com.mc.innuce.domain.search.dto.KeysDTO;
+import com.mc.innuce.domain.search.dto.KeysOfSearchDTO;
 
 @Service
 public class ComponentService {
@@ -77,6 +79,15 @@ public class ComponentService {
 		// TODO Auto-generated method stub
 		return newsService.selectOne(newsKey);
 	}
+
+	public int updateSearch(int keywordKey) {
+		return searchService.updateSearch(keywordKey);
+	}
+
+	public int insertSearch(SearchDTO sDTO) {
+		return searchService.insertSearch(sDTO);		
+	}
+
 
 
 

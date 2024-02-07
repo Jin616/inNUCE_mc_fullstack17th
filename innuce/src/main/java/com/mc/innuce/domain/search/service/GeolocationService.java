@@ -1,6 +1,7 @@
 package com.mc.innuce.domain.search.service;
 
 import java.io.BufferedReader;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,11 +17,10 @@ import com.mc.innuce.domain.search.dao.KeywordDAO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.geoloaction.NaverInfo;
 import com.mc.innuce.domain.search.geoloaction.NaverService;
-@Service("geolocationService")
+
+@Service
 public class GeolocationService implements NaverService {
 
-	@Autowired
-	KeywordDAO dao;
 	
 	//secretKey 암호화하기
 	public static String makeSignature(String subURL , String timeStamp, String accessKey, String secretKey) throws Exception {
@@ -84,7 +84,7 @@ public class GeolocationService implements NaverService {
 				System.out.println("error!!!!!!! responseCode= " + responseCode);
 				br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 			}
-			String inputLine;
+			String inputLine="";
 
 			if (br != null) {
 				StringBuffer response = new StringBuffer();
@@ -105,7 +105,4 @@ public class GeolocationService implements NaverService {
 
 	}
 
-	public KeywordDTO oneKeyword(String place) {
-		return dao.oneKeyword(place);
-	}
 }

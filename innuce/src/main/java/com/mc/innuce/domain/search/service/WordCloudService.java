@@ -25,9 +25,8 @@ public class WordCloudService {
 
 	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 	
-	
-	
 	public Map<String,HashMap<String,Integer>> map = new HashMap<>();
+	
 	
 	public void parsingData(String number) {
 
@@ -44,30 +43,34 @@ public class WordCloudService {
 //		String dataSource = new NaverCrawler().crawler(number);
 
 //		System.out.println(number);
-		List<String> dataSource = dao.getCategoryContent(sid[Integer.parseInt(number)]);
-//		System.out.println(number+" "+dataSource.size());
-//		System.out.println("sql 실행 결과 : " + dataSource);
+		List<String> dataSource = new ArrayList<>();
 		Map<String, Object> dataMap = new HashMap<>();
 
 		List<Map<String, Object>> dataList = new ArrayList<>();
 
 		Map<String, Object> resultMap = new HashMap<>();
+		String eachDescription = "";
 //	{"result",[{"description":content.getText()},
 //	{"description":content.getText()},
 //	{"description":content.getText()},
 //	{"description":content.getText()} ...]}
+		
+		dataSource = dao.getCategoryContent(sid[Integer.parseInt(number)]);
 		for (String s : dataSource) {
 			dataMap.put("description", s);
+			System.out.println("description : "+dataMap.get("description"));
+			eachDescription += s;
 		}
 		dataList.add(dataMap);
 		resultMap.put("result", dataList);
 
-		String eachDescription = "";
+	
 
-		List<Map<String, Object>> items = (List<Map<String, Object>>) resultMap.get("result");
-		for (Map<String, Object> item : items) {
-			eachDescription += item.get("description");
-		}
+//		List<Map<String, Object>> items = (List<Map<String, Object>>) resultMap.get("result");
+//		
+//		for (Map<String, Object> item : items) {
+//			eachDescription += item.get("description");
+//		}
 
 //		System.out.println(dataSource);
 //		입력 텍스트에 대한 형태소 분석을 수행
@@ -83,7 +86,7 @@ public class WordCloudService {
 //			analyzeList에서 문자열 token의 빈도를 계산합니다. 
 			if (token.length() >= 2) {
 				int num = Collections.frequency(analyzeList, token);
-				if (num >= 2) {
+				if (num >= 3) {
 					listHash.put(token, num);
 				}
 			}
@@ -94,13 +97,13 @@ public class WordCloudService {
 //		System.out.println(map.size());
 	}
 
-	public HashMap<String, Integer> getCategoryContent(String num) {
+	public HashMap<String, Integer> getCategoryContent(String category) {
 
 		if(map.isEmpty()) {
 			initCloud();
 		}
-	System.out.println("getCategoryContent"+" "+map.get(num));	
-		return map.get(num);
+//	System.out.println("getCategoryContent"+" "+map.get(category));	
+		return map.get(category);
 	}
 
 	public void initCloud() {

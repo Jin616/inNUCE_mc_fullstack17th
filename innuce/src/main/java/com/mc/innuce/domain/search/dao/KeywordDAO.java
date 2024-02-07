@@ -20,7 +20,7 @@ public interface KeywordDAO {
 	public List<Long> getNewsKeys(String keyword);
 	
 	public List<Long> getNewsKeys2(String place);
-	public List<String> getCategoryContent(String number);
+	public List<String> getCategoryContent(String category);
 	
 	KeywordDTO oneKeyword(String keyword);
 	int updateKeyword(String keyword);

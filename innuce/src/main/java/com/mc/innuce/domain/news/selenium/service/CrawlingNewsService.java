@@ -28,6 +28,7 @@ import com.mc.innuce.domain.news.naverapi.SentimentService;
 import com.mc.innuce.domain.news.naverapi.SummaryService;
 import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
+import com.mc.innuce.global.config.Config;
 import com.mc.innuce.global.util.hreftonewsdto.WebConverter;
 
 /**
@@ -57,8 +58,6 @@ public class CrawlingNewsService {
 	final private String naverNewsMainURI = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=";
 	final private String prePage = "#&date=%2000:00:00&page=";
 
-	// https://search.naver.com/search.naver?where=news&sm=tab_jum&query='keyword'(+'keyword)
-
 	// https://search.naver.com/search.naver?where=news&sort=1&pd=3&
 	final private String naverSearchURI = "https://search.naver.com/search.naver?where=news&sort=1&pd=3&";
 	// query=?&ds=2024.01.19&de=2024.01.19
@@ -67,7 +66,7 @@ public class CrawlingNewsService {
 	final private int limitCrawlingSearchSortDay = 1000;
 	final private int limitCrawlingSearchSortInterest = 20;
 
-	final private int THREAD_LIMIT = 4;
+	private int moreCategoryNewsClickCountLimit = 100;
 	
 	// 미리 정해둔 수만큼 병렬로 뉴스 파싱 처리
 	public void manageNewsParsingTask() {
@@ -80,7 +79,6 @@ public class CrawlingNewsService {
 	 *  카테고리마다 카테고리별 페이지로 이동 후 db에 없는 NewsTemVO를 크롤링
 	 *  크롤링한 newsVOList에 대해 각 news 페이지로 이동, NewsDTO로 파싱 후 db에 저장
 	 */
-	
 	// 네이버 페이지 변경(02-02)으로 인한 새롭게 작성된 카테고리 크롤링 코드
 	public void crawllingCategoryNews() {
 		String[] categorys = {"100", "101", "102", "103", "104", "105"};
@@ -112,12 +110,14 @@ public class CrawlingNewsService {
 		while(true) {
 			driver.get(url);
 			sleep(1000);
-
+			
+			int clickCount = 0;
 			try {
 				// 기사 더보기 버튼 display option none이 될때까지 반복해서 누름
-				while(driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed()) {
-					System.out.println(printColor("more...", "gray"));
+				while(driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed() 
+						&& clickCount++ < moreCategoryNewsClickCountLimit) {
 					driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).click();
+					
 					sleep(500);
 				}				
 			} catch (Exception e) {
@@ -130,28 +130,40 @@ public class CrawlingNewsService {
 			// WebElement 요소들 추출하다가 에러 뜰 경우 페이지가 초기화 된 경우임으로 마찬가지로 반복
 			try {
 				System.out.println(printColor("start finding newsElementList", "gray"));
+				
 				// img 태그가 있긴 있지만 없어서 에러난 경우를 대비해 비어있는 거를 거르고 모음
 				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
 						.stream().filter(e -> !e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
+				
 				System.out.println(printColor("success finding newsElementList", "gray"));
 				System.out.println("size is " + printColor(""+newsElementList.size(), "red"));
-				
+
+				// dbHash에 중복된 개수를 카운팅
+				int falseCount = 0;
+				int falseCountLimit = 200;
 				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장
 				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음
 				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감
-				for(WebElement e : newsElementList) {
+				for (WebElement e : newsElementList) {
 					String href = e.getAttribute("href");
 					String thumburl = e.findElement(By.tagName("img")).getAttribute("src");
 					
 					System.out.print(String.format("%04d input : ", newsElementList.indexOf(e)));
 					
-					if(dbHash.add(conv.get13NewsKey(href))) {
+					if (dbHash.add(conv.get13NewsKey(href))) {
 						System.out.println(printColor("true", "green"));
 						resultList.add(new NewsTemVO(href, thumburl));
+						falseCount--;
 					} else {
 						System.out.println(printColor("false", "red"));
+						falseCount++;
 					}
 					
+					// dbHash에 일정 이상의 중복된 값이 들어가려고 시도되면 추가 탐색 종료
+					if (falseCount >= falseCountLimit) {
+						System.out.println("중복된 값 일정 이상이므로 종료");
+						break;
+					}
 				}
 				
 				break; // 정상 진행 되었다면 while 탈출
@@ -159,7 +171,7 @@ public class CrawlingNewsService {
 				System.out.println(printColor("This error may have occurred due to a forced page move.", "red"));
 				System.out.println(printColor(driver.getCurrentUrl(), "red"));
 				e.printStackTrace();
-				reload(driver);
+				driver = reload(driver);
 				continue; // 에러 잡혔다는 건 페이지 초기화 되었다는 뜻이므로 while 반복
 			}
 		}
@@ -212,6 +224,7 @@ public class CrawlingNewsService {
 				for (WebElement e : filterList) {
 					String href = e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
 							.getAttribute("href");
+					
 					if (dbHash.add(conv.get13NewsKey(href))) {
 						String thumburl = e.findElement(By.className("dsc_thumb")).findElement(By.tagName("img"))
 								.getAttribute("src");
@@ -355,7 +368,7 @@ public class CrawlingNewsService {
 		}
 
 		if (resultList.size() > 0)
-			resultSize += resultList.size();
+			resultSize += newsService.insertNewsList(resultList);
 		
 		releaseDriver(driver);
 
@@ -462,8 +475,19 @@ public class CrawlingNewsService {
 	
 	// driver에서 quit()을 호출함으로써 메모리 확보 후 새로 생성한 객체를 반환해줌.
 	private WebDriver reload(WebDriver driver) {
-		driver.quit();
-		driver = WebDriverPool.createNewWebDriver();
+		int count = 1;
+		
+		while(true) {
+			try {
+				if(driver != null)
+					driver.quit();
+				driver = WebDriverPool.createNewWebDriver();
+				break;
+			} catch (Exception e) {
+				System.out.println(printColor("ERROR", "red") + " : CrawlingNewsService.reload - retry count : " + printColor(String.format("%03d", count++), "red"));
+				e.printStackTrace();
+			}
+		}
 		return driver;
 	}
 

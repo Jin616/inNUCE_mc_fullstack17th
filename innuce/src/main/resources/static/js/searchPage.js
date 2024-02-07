@@ -101,12 +101,13 @@ if(country=='KR') {
 
 
 /* 뉴스 자세히 보기 */
-$('.content img').on('click', function() {
-	location = "/news"
+/*$('.content img').on('click', function() {
+	
+	location = "/news/newskey"
 })
 $('.content .a').on('click', function() {
 	location = "/news"
-})
+})*/
 
 /*검색 글자 제한*/
 let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>in NUCE</title>
+<title>inNUCE</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 
@@ -40,27 +40,25 @@
 				<div class="cover">
 
 					<div class="title">
-						<p>title</p>
+						<p>${News.news_title }</p>
 					</div>
 
 					<div class="image">
-						<img alt="이미지" src="/images/font1.png">
+						<img alt="이미지" src="${News.news_thumbnailuri2 }">
 					</div>
 					<!-- 탭버튼 -->
 					<div class="sub-menu" id="change">
 						<ul class='menu'>
-							<li class="tab-link current" data-tab="tab-1">짧은 요약</li>
-							<li class="tab-link" data-tab="tab-2">긴 요약</li>
-							<li class="tab-link" data-tab="tab-3">기사 전문</li>
+							<!-- <li class="tab-link current" data-tab="tab-1">짧은 요약</li> -->
+							<li class="tab-link current" data-tab="tab-1">기사 요약</li>
+							<li class="tab-link" data-tab="tab-2">기사 전문</li>
 						</ul>
 						
 						
 						<div id="tab-1" class="tab-content current">
 	
 							<div class="content">
-								<p>예년에 비해 부진한 성과를 거둔 게임업계가 체질개선에 나설 것이라는 관측이 나오고 있던 와중에 긴장감을 더하는 소식이 전해진다. 지난해 말부터 글로벌 게임기업에서 연이어 전해지는 인력감축 소식에 게임업계의 이목이
-								집중되고 있다. 오랜 기간 소송을 거치며 천신만고 끝에 액티비전블리자드를 품에 안은 마이크로소프트(MS)는 최근
-								</p>
+								<p>${News.summ_content }</p>
 							</div>
 	
 						</div>
@@ -68,18 +66,12 @@
 						<div id="tab-2" class="tab-content">
 	
 							<div class="content">
-								<p>
-															아울러 삼성전자가 글로벌 스마트폰 시장에서 2위로 내려 앉은 상황과도 무관하지 않다는 해석이 나온다. 삼성전자는 지난해 수년 만에 처음으로 애플에 밀려 글로벌 선두 업체라는 명성을 빼앗겼다. 여기에 중국에서는 샤오미, 화웨이 등 현지 기업들에도 밀리는 처지다. 이제 바이두와의 협력으로 중국 내 소비자들에게 관심을 끌 수 있을지 여부가 주목된다.
-
-바이두 입장에서도 긍정적일 것이라는 관측이다. 이번 삼성전자와 협력은 자사 AI의 활용 기회가 될 수 있다는 판단이다.
-
-한편 시장조사기관 IDC에 따르면 삼성전자는 지난해 글로벌 스마트폰 시장에서 19.4%의 점유율을 기록한 것으로 나타난다. 이는 20.1%의 애플에 이은 2위다. 삼성전자의 스마트폰 출하량은 약 2억 2660만 대로 전년 대비 13.6% 역성장한 것으로 추정된다.
-								</p>
+								<p>${News.news_content }</p>
 							</div>
 	
 						</div>
 	
-						<div id="tab-3" class="tab-content">
+		<!-- 				<div id="tab-3" class="tab-content">
 	
 							<div class="content">
 							<p>
@@ -98,11 +90,11 @@
 							</p>
 							</div>
 	
-						</div>
+						</div> -->
 					</div>
 
 					<div class="end">
-						<input type=button value="원문보기">
+						<a class="original" href="${News.news_originuri }">기사 원문</a>
 					</div>
 
 				</div>

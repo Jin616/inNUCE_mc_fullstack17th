@@ -1,7 +1,6 @@
 package com.mc.innuce.domain.search;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,16 +13,23 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
+import com.mc.innuce.domain.debate.dto.DebateUserDTO;
+import com.mc.innuce.domain.debate.service.DebateRoomService;
+import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.domain.search.chatbot.ChatbotService;
 import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
+import com.mc.innuce.domain.user.dto.UserDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +47,8 @@ public class TestController {
 	GeolocationService geoService;
 	@Autowired
 	ComponentService service;
+	@Autowired
+	ChatbotService chatbotService;
 
 	@RequestMapping("/main")
 	public String main() {
@@ -49,10 +57,25 @@ public class TestController {
 	}
 
 	@RequestMapping("/main/chatbot")
-	@ResponseBody
-	public String executeChatbot(@RequestParam String request) {
+	public String executeChatbot() {
+		return "chatbot/chatbotAjaxInput";
+	}
 
-		return null;
+	@RequestMapping("/main/chatbotProcess")
+	@ResponseBody
+	public String executeChatbot1(String chotbot) {
+		String result = chatbotService.test(chotbot);
+
+		System.out.println("변경전=" + result);
+
+		org.json.JSONObject json = new org.json.JSONObject(result);
+
+		JSONArray bubbles = (JSONArray) json.get("bubbles");
+		JSONObject bubble = (JSONObject) bubbles.get(0);
+		bubble.remove("information");
+		result = json.toString();
+
+		return result;
 	}
 
 	@GetMapping("/wordCloud")
@@ -62,7 +85,7 @@ public class TestController {
 //		ParsingKomoran pk = new ParsingKomoran();
 //		HashMap<String, Integer> crawlerData = pk.parsingDataWithSelenium(num);
 		String[] strArr = { "0", "1", "2", "3", "4", "5" };
-		List<String> list= new ArrayList<>();
+		List<String> list = new ArrayList<>();
 		for (String string : strArr) {
 			HashMap<String, Integer> crawlerData = service.getCategoryContent(string);
 
@@ -91,13 +114,13 @@ public class TestController {
 //			res.setContentType("application/json;charset=utf-8");// 한글을 정상적으로 출력
 //			PrintWriter pw = res.getWriter();
 			list.add(jsonArray.toString());
-			
+
 //			pw.print(jsonArray.toString());
-			System.out.println(jsonArray);
+//			System.out.println(jsonArray);
 //       	return jsonArray.toString();
 		}
-		
-		System.out.println("result List : "+list.size());
+
+//		System.out.println("result List : "+list.size());
 		return list;
 	}
 
@@ -113,8 +136,8 @@ public class TestController {
 		List<Integer> keywordKeyList = new ArrayList<>(); // News
 //		List<KeywordDTO> keywords = new ArrayList<>();
 		KeywordDTO dto = null;
-//	keyword에 " "이 있을 때만 코모란을 돌리자
 
+//	keyword에 " "이 있을 때만 코모란을 돌리자
 
 		String path = System.getProperty("user.dir");
 
@@ -144,12 +167,12 @@ public class TestController {
 				keywordKeyList.add(dto.getKeyword_key());
 				keywordKey = dto.getKeyword_key();
 
-				System.out.println("news_key : " + service.getNewsKeys(token));
+//				System.out.println("news_key : " + service.getNewsKeys(token));
 
 				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys(token));
 
 				service.insertKeywordNews(keys);
-				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
+//				System.out.println("keyword_news에 keyword:[news_Key] insert완료");
 			}
 			totalCount += service.getTotalNews(keywordKey);
 		} // for (String token : analyzeList)
@@ -167,8 +190,8 @@ public class TestController {
 		map.put("num2", limit[1]);
 		System.out.println("totalCount : " + totalCount);
 
-		if (totalCount >= 400) {
-			totalCount = 400;
+		if (totalCount >= 100) {
+			totalCount = 100;
 		}
 
 		System.out.println("totalCount : " + totalCount);
@@ -308,8 +331,8 @@ public class TestController {
 
 		System.out.println("totalCount : " + totalCount);
 
-		if (totalCount >= 400) {
-			totalCount = 400;
+		if (totalCount >= 100) {
+			totalCount = 100;
 		}
 
 		System.out.println("totalCount : " + totalCount);
@@ -332,10 +355,13 @@ public class TestController {
 	}
 
 	@RequestMapping("/news")
-	public ModelAndView showNews() {
+	public ModelAndView showNews(String newsKey) {
 		ModelAndView mv = new ModelAndView();
 //		해당 newsDTO 가져오기
+		NewsDTO dto = service.oneNews(newsKey);
 
+		mv.addObject("News", dto);
+		System.out.println(dto);
 		mv.setViewName("search/news");
 
 		return mv;
@@ -343,3 +369,60 @@ public class TestController {
 	}
 
 }
+
+////////////////////////////////////////////////////
+//@GetMapping("/main/debate")
+//public ModelAndView showDebateRoom(
+//@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {
+//ModelAndView mv = new ModelAndView();
+//
+////debate_room_status 가 2 또는 1인 목록
+//List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
+//
+//if (openDebateRoomList == null || openDebateRoomList.isEmpty()) {
+//mv.setViewName("debate/debatemain");
+//return mv;
+//}
+//
+////위의 목록의 debate_room_key 목록 생성
+//List<Integer> openDebateRoomKeyList = new ArrayList<>();
+//for (int i = 0; i < openDebateRoomList.size(); i++) {
+//openDebateRoomKeyList.add(openDebateRoomList.get(i).getDebate_room_key());
+//}
+//
+////debate_room_key 목록으로 해당하는 방의 실시간 참여자 수 목록 반환
+//List<Integer> openDebateRoomUserConnectCountList = debateUserService
+//.openDebateRoomUserConnectCountList(openDebateRoomKeyList);
+////debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
+//List<Integer> openDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(openDebateRoomKeyList);
+//
+//mv.addObject("openDebateRoomList", openDebateRoomList);
+//mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
+//mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
+//mv.setViewName("debate/debate");
+//
+//int pageCount = 6;
+//int totalCount = 0;
+//int[] limit = new int[2];
+//Map<String, Object> map = new HashMap<>();
+//limit[0] = (pageNum - 1) * pageCount;
+//limit[1] = pageCount;
+//
+////map.put("keyword_key", keywordKeyList);
+//
+//map.put("num1", limit[0]);
+//map.put("num2", limit[1]);
+//
+////System.out.println("totalCount : " + totalCount);
+//
+//if (totalCount >= 100) {
+//totalCount = 100;
+//}
+//totalCount = 15;
+////System.out.println("totalCount : " + totalCount);
+////System.out.println("pageCount : " + pageCount);
+//mv.addObject("totalCount", totalCount);
+//mv.addObject("pageCount", pageCount);
+//
+//return mv;
+//}

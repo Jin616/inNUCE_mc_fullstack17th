@@ -58,7 +58,7 @@ public class WordCloudService {
 		dataSource = dao.getCategoryContent(sid[Integer.parseInt(number)]);
 		for (String s : dataSource) {
 			dataMap.put("description", s);
-			System.out.println("description : "+dataMap.get("description"));
+			// System.out.println("description : "+dataMap.get("description"));
 			eachDescription += s;
 		}
 		dataList.add(dataMap);

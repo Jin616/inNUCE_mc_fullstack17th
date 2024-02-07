@@ -71,7 +71,7 @@ public class MailService {
 		// 이메일 내용
 		String email_content =
 				"<h3>발급된 임시비밀번호입니다.</h3>"
-				+"<img src= '/images/inNUCE_logo.png'>"
+				+"<img src= 'http://27.96.131.135:8080/images/inNUCE_logo.png'>"
 				+"<span> [인누케]<br/> 호두(껍데기) 안에 라는 뜻의 라틴어<br/> </span>"
 				+" <span> = 한 마디로 요약하면<br/> </span>"
 				+ "<h2>"+ number_key + "</h2>"

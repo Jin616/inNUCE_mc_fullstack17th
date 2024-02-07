@@ -40,7 +40,7 @@
 						}//if
 						// 회원 탈퇴한지 10분이 안 지났을경우
 						else if(response.login_result == "회원 복구 페이지로 이동합니다"){
-							$("#login_main").html(
+							$("#login_box").html(
 									"<div> 회원 복구를 진행하시겠습니까? </div>"+
 									"<input id='restore_button' type='button' value = '회원 복구'>"
 							) // html

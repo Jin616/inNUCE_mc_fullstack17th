@@ -271,10 +271,10 @@
       			<div id='${index }-1' class='date'></div>
       			<div id='${index }-2' class='main'></div>
       			<div id='${index }-3' class='cont'><br/></div>
-      			<div class='bookmark-cover'>
-      				<i class='fa-solid fa-bookmark'></i>
-      			</div>
       		</div>
+     			<div class='bookmark-cover'>
+     				<i class='fa-solid fa-bookmark'></i>
+     			</div>
       	</div>
       </c:forEach>
       </div><!-- 6 -->

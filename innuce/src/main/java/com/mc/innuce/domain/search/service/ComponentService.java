@@ -69,8 +69,13 @@ public class ComponentService {
 		return searchService.getNewsContent();
 	}
 
-	public HashMap<String, Integer> getCategoryContent(String num) {
-		return cloudService.getCategoryContent(num);
+	public HashMap<String, Integer> getCategoryContent(String category) {
+		return cloudService.getCategoryContent(category);
+	}
+
+	public NewsDTO oneNews(String newsKey) {
+		// TODO Auto-generated method stub
+		return newsService.selectOne(newsKey);
 	}
 
 

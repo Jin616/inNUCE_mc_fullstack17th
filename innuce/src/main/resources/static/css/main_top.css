@@ -1,19 +1,25 @@
-body {
+/*body {
 	color: #333333;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.4;
-	font-family: 'Malgun Gothic', sans-serif;
-}
 
-input {
+}*/
+
+/*input {
 	all: unset;
 }
-
+*/
 p {
 	word-wrap: break-word;
 }
-
+a {
+	text-decoration: none;
+	color: #303038;
+}
+a:visted {
+	color: #485563;	
+}
 .button {
 	cursor: pointer;
 	transition: .4s;
@@ -96,6 +102,7 @@ main .news-cover .news-content .cover .tab-content {
 	align-content: center;
 	justify-content: center;
 	align-items: center;
+	font-family: 'Malgun Gothic', sans-serif;
 }
 
 main .news-cover .news-content .tab-content .content {

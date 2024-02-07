@@ -1,15 +1,17 @@
-
 p {
 	word-wrap: break-word;
 
 }
+
 a {
 	text-decoration: none;
 	color: #303038;
 }
+
 a:visted {
 	color: #485563;
 }
+
 main {
 	/*height: 1200px;*/
 	position: relative;
@@ -44,7 +46,7 @@ main .news-cover .news-content .cover {
 }
 
 main .news-cover .cover .title {
-/*	height: 50px;*/
+	/*	height: 50px;*/
 	margin: 50px 0;
 	display: flex;
 	align-items: center;
@@ -91,17 +93,19 @@ main .news-cover .cover .sub-menu ul li.current {
 
 main .news-cover .cover .tab-content {
 	display: none;
-	
+
 }
+
 main .news-cover .cover .tab-content .content {
 	width: 650px;
 }
+
 main .news-cover .cover .tab-content .content p {
 	line-height: 150%;
 	white-space: pre-wrap;
-  font-size: 1em;
-  letter-spacing: -0.3px;
-  color: #303038;
+	font-size: 1em;
+	letter-spacing: -0.3px;
+	color: #303038;
 }
 
 
@@ -112,36 +116,47 @@ main .news-cover .cover .tab-content.current {
 	align-items: center;
 	justify-content: center;
 }
+
 main .news-cover .cover .end {
 	display: flex;
 	flex-direction: row-reverse;
 	height: 80px;
 	align-items: center;
 }
-main .news-cover .cover .end a {
+
+main .news-cover .cover .end .original {
 	color: aliceblue;
 	box-sizing: border-box;
-	height: 30px;
-	width: 70px;
+	height: 40px;
+	width: 80px;
 	/*border: 1px solid steelblue;*/
 	background-color: steelblue;
-	border-radius: 10px;
+	border-radius: 5px;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
+main .news-cover .cover .end .original div {
+	font-weight: 600;
+}
+
 /*SCROLL TO TOP*/
 #to-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 9;
-  width: 42px;
-  height: 42px;
-  background-color: #333;
-  color: #fff;
-  border: 2px solid #fff;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	z-index: 9;
+	width: 42px;
+	height: 42px;
+	background-color: #333;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
 }

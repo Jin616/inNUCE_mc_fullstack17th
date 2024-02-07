@@ -7,25 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아이디찾기 </title>
-<!-- ICON -->
-<link rel="icon" href="/images/inNUCE_logo.png" />
-<!-- 구글 폰트 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@1,700&family=Nanum+Gothic:wght@400;700&display=swap"
-	rel="stylesheet">
-<!-- 구글 아이콘 -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-	rel="stylesheet" />
+
+<jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
 <!-- css -->
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 
 <script>

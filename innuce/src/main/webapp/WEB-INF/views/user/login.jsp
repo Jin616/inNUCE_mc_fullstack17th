@@ -7,12 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로그인 </title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
 <!-- css/js -->
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 
 <script>
@@ -80,8 +79,8 @@
 <header>
 	<div class="logo-txt-cover">
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
-   
   </div>
+  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
 

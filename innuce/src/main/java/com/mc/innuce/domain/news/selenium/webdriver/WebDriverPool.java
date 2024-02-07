@@ -34,7 +34,7 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--disable-dev-shm-usage"); // 공유 메모리 사용 비활성화
 		chromeOptions.addArguments("--disable-gpu"); // gpu 사용 x
 		chromeOptions.addArguments("--disable-popup-blocking"); // 팝업 무시
-		//chromeOptions.addArguments("--headless");
+		chromeOptions.addArguments("--headless");
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
 		chromeOptions.addArguments("--disable-features=NetworkService"); // test option

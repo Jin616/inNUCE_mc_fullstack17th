@@ -51,16 +51,17 @@
 		<div class="total-container">
 			<div class="room-container">
 				<div class="inner">
-					<c:forEach items="${openDebateRoomList}" varStatus="room">
+					<c:forEach begin="${(page - 1) * pageCount }" end="${page * pageCount - 1 }" items="${openDebateRoomList}" varStatus="room">
 						<div class='content'>
 						
-							<a class="img-cover" href="/main/debate/${room.current.debate_room_key }">
+							<a class="img-cover" href="/debate/${room.current.debate_room_key }">
 								<i class="fa-regular fa-comments"></i>
 							</a> 
 							
-							<a class='a' href="/main/debate/${room.current.debate_room_key }">
+							<a class='a' href="/debate/${room.current.debate_room_key }">
 								<p id='${room.count }-1' class='room-name'>${room.current.debate_room_name }</p>
-								<p id='${room.count }-2' class='room-description'>채팅방 설명입니다.</p>
+								<p id='${room.count }-2' class='room-description'>실시간 참여자 수 : ${openDebateRoomUserConnectCountList[room.index]}</p>
+								<p id='${room.count }-3' class='room-description'>전체 참여자 수 : ${openDebateRoomUserCountList[room.index]}</p>
 							</a>
 							
 						</div>
@@ -82,7 +83,7 @@
 				for (int i = 1; i <= totalPage; i++) {
 				%>
 		
-				<a href="javascript:void(0)"><%=i%></a>&nbsp;
+				<a href="/debate?page=<%=i%>"><%=i%></a>&nbsp;
 				<%
 				}
 				%>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
@@ -27,14 +28,14 @@ public class DebateRoomController {
 
 	// 토론방 목록 메인 화면
 	@GetMapping("/debate")
-	public ModelAndView debateMain() {
+	public ModelAndView debateMain(@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 		ModelAndView mv = new ModelAndView();
 		
 		// debate_room_status 가 2 또는 1인 목록
 		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
 		
 		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
-			mv.setViewName("debate/debatemain");
+			mv.setViewName("main/debate");
 			return mv;
 		}
 		
@@ -52,7 +53,10 @@ public class DebateRoomController {
 		mv.addObject("openDebateRoomList", openDebateRoomList);
 		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
 		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
-		mv.setViewName("debate/debatemain");
+		mv.addObject("page", page);
+		mv.addObject("pageCount", 10);
+		mv.addObject("totalCount", openDebateRoomList.size());
+		mv.setViewName("main/debate");
 
 		return mv;
 	}

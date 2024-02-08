@@ -32,7 +32,12 @@ public class DebateRoomController {
 		ModelAndView mv = new ModelAndView();
 		
 		// debate_room_status 가 2 또는 1인 목록
-		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
+		List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList((page - 1) * 10);
+		int totalCount = debateRoomService.openDebateRoomCount();
+		
+		mv.addObject("page", page);
+		mv.addObject("pageCount", 10);
+		mv.addObject("totalCount", totalCount);
 		
 		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
 			mv.setViewName("main/debate");
@@ -53,9 +58,6 @@ public class DebateRoomController {
 		mv.addObject("openDebateRoomList", openDebateRoomList);
 		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
 		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
-		mv.addObject("page", page);
-		mv.addObject("pageCount", 10);
-		mv.addObject("totalCount", openDebateRoomList.size());
 		mv.setViewName("main/debate");
 
 		return mv;

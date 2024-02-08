@@ -3,8 +3,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mc.innuce.domain.debate.dao.DebateRoomDAO">
-	<select id="openDebateRoomList" resultType="debateroomdto">
+	<select id="openDebateRoomList" parameterType="int" resultType="debateroomdto">
 		select *
+		from debate_room
+		where debate_room_status in (1, 2)
+		limit #{num}, 10
+	</select>
+	
+	<select id="openDebateRoomCount" resultType="int">
+		select count(*)
 		from debate_room
 		where debate_room_status in (1, 2)
 	</select>

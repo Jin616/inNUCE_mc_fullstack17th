@@ -11,11 +11,13 @@ import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
 @Mapper
 public interface DebateRoomDAO {
 
-	List<DebateRoomDTO> openDebateRoomList();
+	List<DebateRoomDTO> openDebateRoomList(int num);
 
 	DebateRoomDTO selectOneDebateRoom(int debate_room_key);
 
 	List<Integer> selectExistKeywordList();
 
 	int createDebateRoom(List<Integer> newKeywordList);
+
+	int openDebateRoomCount();
 }

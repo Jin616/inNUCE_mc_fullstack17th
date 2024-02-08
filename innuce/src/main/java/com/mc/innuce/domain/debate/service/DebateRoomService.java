@@ -22,9 +22,9 @@ public class DebateRoomService {
 
 	private static final int CREATE_ROOM_COUNT = 1; // 방 생성 검색 수 기준
 
-	public List<DebateRoomDTO> openDebateRoomList() {
+	public List<DebateRoomDTO> openDebateRoomList(int num) {
 		// TODO Auto-generated method stub
-		return debateRoomDAO.openDebateRoomList();
+		return debateRoomDAO.openDebateRoomList(num);
 	}
 
 	public DebateRoomDTO selectOneDebateRoom(int debate_room_key) {
@@ -54,6 +54,11 @@ public class DebateRoomService {
 		if(!newKeywordList.isEmpty()) {
 			debateRoomDAO.createDebateRoom(newKeywordList);
 		}
+	}
+
+	public int openDebateRoomCount() {
+		// TODO Auto-generated method stub
+		return debateRoomDAO.openDebateRoomCount();
 	}
 
 }

@@ -1,3 +1,4 @@
+<%@page import="org.openqa.selenium.Alert"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -51,7 +52,8 @@
 		<div class="total-container">
 			<div class="room-container">
 				<div class="inner">
-					<c:forEach begin="${(page - 1) * pageCount }" end="${page * pageCount - 1 }" items="${openDebateRoomList}" varStatus="room">
+					<c:if test="${totalCount != 0}">
+					<c:forEach items="${openDebateRoomList}" varStatus="room">
 						<div class='content'>
 						
 							<a class="img-cover" href="/debate/${room.current.debate_room_key }">
@@ -62,17 +64,24 @@
 								<p id='${room.count }-1' class='room-name'>${room.current.debate_room_name }</p>
 								<p id='${room.count }-2' class='room-description'>실시간 참여자 수 : ${openDebateRoomUserConnectCountList[room.index]}</p>
 								<p id='${room.count }-3' class='room-description'>전체 참여자 수 : ${openDebateRoomUserCountList[room.index]}</p>
+								<p id='${room.count }-3' class='room-description'>생성일자 : ${room.current.debate_room_regdate}</p>
 							</a>
 							
 						</div>
 					</c:forEach>
+					</c:if>
+					<c:if test="${totalCount == 0}">
+						<div class='content'>
+							<p> 채팅방이 존재하지 않습니다. </p>
+						</div>
+					</c:if>
 				</div>
 				
 				<div class="paging">
 				<%
 				int pageCount = (Integer) request.getAttribute("pageCount");
 				int totalCount = (Integer) request.getAttribute("totalCount");
-		
+				
 				int totalPage = 0;
 				if (totalCount % pageCount == 0) {
 					totalPage = totalCount / pageCount;

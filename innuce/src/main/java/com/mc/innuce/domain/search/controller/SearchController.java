@@ -44,8 +44,7 @@ public class SearchController {
 	private String agent = "";
 
 	final int PAGECOUNT = 10;
-	private List<NewsDTO> newsList = new ArrayList<>();
-	private List<Integer> keywordKeyList = new ArrayList<>();
+
 
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request, HttpSession session) {
@@ -68,7 +67,9 @@ public class SearchController {
 		int totalCount = 0;
 		int keywordKey = 0;
 		int[] limit = new int[2];
-
+		List<NewsDTO> newsList = new ArrayList<>();
+		List<Integer> keywordKeyList = new ArrayList<>();
+		
 		KeywordDTO kDTO = null;
 		UserDTO uDTO = null;
 		SearchDTO sDTO = null;

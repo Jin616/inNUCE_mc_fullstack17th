@@ -38,10 +38,13 @@ window.onload = function(){
 </header>
 
 <div id="find_box">
-<div class="button">
-		<input id="id_find_button" type="button" value="아이디 찾기">&nbsp;&nbsp;
-		<input id="pw_find_button" type="button" value="비밀번호 찾기">
+
+	<div class="button">
+			<input id="id_find_button" type="button" value="아이디 찾기">&nbsp;&nbsp;
+			<input id="pw_find_button" type="button" value="비밀번호 찾기">
+	</div>
+
 </div>
-</div>
+
 </body>
 </html>

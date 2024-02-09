@@ -61,8 +61,11 @@
 			}//else
 		})//login_button click
 		
-		$("#idpw_search_button").on("click",function(){
-			location.href = "idpwfind";
+		$("#id_search_button").on("click",function(){
+			location.href = "idfind";
+		})
+		$("#pw_search_button").on("click",function(){
+			location.href = "pwfind";
 		})
 		
 		
@@ -105,7 +108,10 @@
 	
 	<div class="login_button">
 		<input id="loginButton" type="button" value="로그인">&nbsp;&nbsp;
-		<input id="idpw_search_button" type="button" value="아이디/비밀번호 찾기">
+		<div class='idpw-cover'>
+			<input id="id_search_button" type="button" value="아이디 찾기">
+			<input id="pw_search_button" type="button" value="비밀번호 찾기">
+		</div>
 	</div>
 </div>
 

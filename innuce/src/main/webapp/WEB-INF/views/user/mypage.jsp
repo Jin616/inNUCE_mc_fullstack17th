@@ -59,6 +59,15 @@
 <header>
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+	
+	<div id = "myPage_navigater" >
+		<div class='title'>마이페이지</div>
+		<button id="info_change" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 정보 수정</button>
+		<button id="my_scrap" clicked="none"><i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사 </button>
+		<button id="my_chatting" clicked="none"><i class="fa-regular fa-comments"></i>&nbsp;참여중인 채팅방</button>
+		<button id="delete" clicked="none"> 회원 탈퇴</button>
+	</div>
+	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
   </div>
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
@@ -66,12 +75,7 @@
 </header>
 
 <!--  좌측 네비바 -->
-<div id = "myPage_navigater" >
-	<button id="info_change" clicked="none">  회원 정보 수정</button>
-	<button id="my_scrap" clicked="none"> 스크랩한 기사 </button>
-	<button id="my_chatting" clicked="none"> 참여중인 채팅방</button>
-	<button id="delete" clicked="none"> 회원 탈퇴</button>
-</div>
+
 <!--  마이페이지 내용 -->
 <div id = "myPage_main" > </div>
 

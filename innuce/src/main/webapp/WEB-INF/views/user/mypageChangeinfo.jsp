@@ -120,38 +120,49 @@
 <header>
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+	<!--  좌측 네비바 -->
+	<div id = "myPage_navigater" >
+		<div class='title'>마이페이지</div>
+		<button id="info_change" clicked="yes"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 정보 수정</button>
+		<button id="my_scrap" clicked="none"><i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사 </button>
+		<button id="my_chatting" clicked="none"><i class="fa-regular fa-comments"></i>&nbsp;참여중인 채팅방</button>
+		<button id="delete" clicked="none"> 회원 탈퇴</button>
+	</div>
+	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
   </div>
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 
 </header>
 
-<!--  좌측 네비바 -->
-<div id = "myPage_navigater" >
-	<button id="info_change" clicked="yes">  회원 정보 수정</button>
-	<button id="my_scrap" clicked="none"> 스크랩한 기사 </button>
-	<button id="my_chatting" clicked="none"> 참여중인 채팅방</button>
-	<button id="delete" clicked="none"> 회원 탈퇴</button>
-</div>
-<!--  마이페이지 내용 -->
-<div id = "myPage_main" >
 
-<div id ='user_info'> 
-	<div class='info_text'>내 아이디</div>
-	<input class ='user_info_input' type='text' name='user_id' id='user_id'  value='${sessionScope.login_user.getUser_id()}' readonly><br>	<div class='info_text'>이메일</div>
-	<input class ='user_info_input' type='email' name='email' id='email'  value ='${sessionScope.login_user.getEmail()}' readonly><br>
-	<div class='info_text'>핸드폰 번호</div>
-	<input class ='user_info_input'  type='tel' name='phone' id='phone'  placeholder='${sessionScope.login_user.getPhone()}'><br>
-	<div class='info_text'>비밀번호 (8자리 이상, 문자 숫자 특수기호 포함) </div> 
-	<input class ='user_info_input'  id = 'user_pw' type='password' name ='user_pw' placeholder='${sessionScope.login_user.getUser_pw()}'><br>
-	<div class='info_text'>비밀번호 재확인 </div> 
-	<input class ='user_info_input'  id='user_pw_re' type='password'  defaultValue='${sessionScope.login_user.getUser_pw()}' ><br>
-	<div  class='info_text'>주소 </div> 
-	<input class ='user_info_input'  type='text' name='address' id='address' placeholder='${sessionScope.login_user.getAddress()}' defaultValue='${sessionScope.login_user.getAddress()}'> 
-	 <input id= 'address_search_button' type='button' value='주소찾기'><br>
-	<input id= 'changeButton' type='button' value='수정하기'>
-"</div>"
-</div>
+<!--  마이페이지 내용 -->
+<main>
+	<div id = "myPage_main" >
+	
+		<div id ='user_info'> 
+			<div class='info_text' style="margin-top: 20px">내 아이디</div>
+				<input class ='user_info_input' type='text' name='user_id' id='user_id'  value='${sessionScope.login_user.getUser_id()}' readonly><br>	
+				<div class='info_text'>이메일</div>
+				<input class ='user_info_input' type='email' name='email' id='email'  value ='${sessionScope.login_user.getEmail()}' readonly><br>
+				<div class='info_text'>핸드폰 번호</div>
+				<input class ='user_info_input'  type='tel' name='phone' id='phone'  placeholder='${sessionScope.login_user.getPhone()}'><br>
+				<div class='info_text'>비밀번호 (8자리 이상, 문자 숫자 특수기호 포함) </div> 
+				<input class ='user_info_input'  id = 'user_pw' type='password' name ='user_pw' placeholder='${sessionScope.login_user.getUser_pw()}'><br>
+				<div class='info_text'>비밀번호 재확인 </div> 
+				<input class ='user_info_input'  id='user_pw_re' type='password'  defaultValue='${sessionScope.login_user.getUser_pw()}' ><br>
+				<div  class='info_text'>주소 </div> 
+				<div>
+					<input class ='user_info_input'  type='text' name='address' id='address' placeholder='${sessionScope.login_user.getAddress()}' defaultValue='${sessionScope.login_user.getAddress()}'> 
+					&nbsp;&nbsp;&nbsp;<input id= 'address_search_button' type='button' value='주소찾기'><br>
+				</div>
+				<div class='change-cover'>
+					<input id='changeButton' style='font-size: 30px' type='button' value='S a v e'>
+				</div>
+		</div>
+		
+	</div>
+</main>
 
 
 </body>

@@ -16,24 +16,6 @@ body {
 	font-size: 45px;
 }
 
-.user_info_input {
-	width: 453px;
-	height: 14px;
-	background: rgba(160, 123, 68, 0.10999999940395355);
-	padding: 10px 10px;
-	margin: 5px;
-	opacity: 1;
-	position: relative;
-	top: 0px;
-	left: 0px;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
-	overflow: hidden;
-}
-
-
 .login_input {
 	width: 453px;
 	height: 64px;
@@ -49,8 +31,6 @@ body {
 	border-radius: 5px;
 	overflow: hidden;
 }
-
-
 .login_input::placeholder {
 	color: #A07C45;
 	font-size: 18px;
@@ -71,11 +51,8 @@ body {
 
 
 #loginButton,
-#changeButton,
 #deleteButton,
 #restore_button,
-#idpw_search_button,
-#id_find_button,
 #pw_find_button,
 #back_button,
 .admin_button {
@@ -90,8 +67,33 @@ body {
 	cursor: pointer;
 }
 
-.mypage_button,
-#address_search_button {
+.idpw-cover {
+	width: 453px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#id_search_button,
+#pw_search_button {
+	width: 220px;
+	height: 64px;
+	font-size: 18px;
+	border-radius: 5px;
+	background: rgba(160, 124, 69, 0.58);
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: 600;
+	cursor: pointer;
+}
+#id_search_button {
+	margin-right: 6.5px;
+}
+#pw_search_button {
+	margin-left: 6.5px;
+}
+
+.mypage_button {
 	width: 120px;
 	height: 40px;
 	background-color: rgba(160, 124, 69, 0.58);
@@ -115,44 +117,128 @@ body {
 	font-size: 18px;
 	font-weight: 600;
 }
+#pw_find_button,
+#id_find_button {
+		width: 250px;
+	height: 40px;
+	font-size: 18px;
+	border-radius: 5px;
+	background: rgba(160, 124, 69, 0.58);
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 20px;
+}
+#changeButton {
+	margin-top: 70px;
+	width: 400px;
+	height: 60px;
+	font-size: 18px;
+	border-radius: 5px;
+	background: rgba(160, 124, 69, 0.58);
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: 600;
+	cursor: pointer;
+}
+#address_search_button {
+	width: 120px;
+	height: 54px;
+	background-color: rgba(160, 124, 69, 0.58);
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: 600;
+	border-radius: 5px;
+	cursor: pointer;
+}
 
+/* mypage */
+.user_info_input {
+	width: 453px;
+	height: 35px;
+	background: rgba(160, 123, 68, 0.10999999940395355);
+	padding: 10px 10px;
+	opacity: 1;
+	margin: 5px 0;
+	/*position: relative;
+	top: 0px;
+	left: 0px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	overflow: hidden;*/
+}
 #myPage_navigater {
+	background-color: rgba(216, 203, 184, 1);
+	position: fixed;
+	top: 310px;
 	width: 200px;
-	height: 700px;
 	display: inline-block;
 	vertical-align: middle;
+	border: 2px solid rgba(160, 124, 69, 1);
+}
+#myPage_navigater .title {
+	margin-top: 30px;
+	margin-bottom: 20px;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 900;
+	font-size: 30px;
+	text-align: center;
 }
 
 #myPage_navigater>button {
 	width: 200px;
 	height: 50px;
-	background: rgba(160, 123, 68, 0.10999999940395355);
 	border: none;
+	background-color: rgba(216, 203, 184, 1);
+	font-size: 20px;
+	color: #5A6372;
+	font-weight: 700;
+	margin: 10px 0;
 }
 
 #myPage_navigater>button:hover {
-	width: 200px;
-	height: 50px;
-	background: rgba(216, 203, 184, 1);
-	;
-	border: none;
+	color: #333;
 }
 
 #myPage_navigater>button[clicked="yes"] {
-	width: 200px;
+/*	width: 200px;
 	height: 50px;
 	background: rgba(216, 203, 184, 1);
 	border: none;
-	font-weight: bold;
+	font-weight: bold;*/
+	color: #333;
+}
+main {
+	position: relative;
+	height: 700px;
+}
+main #myPage_main {
+	margin-top: 20px;
+	margin-left: 70px;
+	width: 700px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+main #myPage_main #user_info {
+}
+main #myPage_main #user_info .change-cover {
 }
 
 #myPage_main,
 #adminPage_main {
-	display: inline-block;
+/*	display: inline-block;
 	vertical-align: middle;
 	align-items: center;
-	width: 70%;
-	height: 700px;
+	width: 70%;*/
+
 }
 
 #a_tags_box {
@@ -286,14 +372,22 @@ tbody tr:hover {
 
 /* idfind.jsp */
 #id_find_box {
-	width: 1119px;
-	background-color: rgba(160, 124, 69, 0.1);
+	width: 580px;
+	height: 410px;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, .15);
 	left: 50%;
 	position: absolute;
-	padding: 80px auto;
 	transform: translate(-50%, 0);
-	border-radius: 20px;
+	border-radius: 5px;
 	margin: 50px auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	padding: 80px auto;
+	text-align: center;
 
 }
 
@@ -311,34 +405,46 @@ tbody tr:hover {
 
 /* idpwfind.jsp */
 #find_box {
-	width: 1119px;
-	background-color: rgba(160, 124, 69, 0.1);
+	width: 580px;
+	height: 410px;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, .15);
 	left: 50%;
 	position: absolute;
-	padding: 80px auto;
 	transform: translate(-50%, 0);
-	border-radius: 20px;
+	border-radius: 5px;
 	margin: 50px auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	padding: 80px auto;
 	text-align: center;
 }
 
 /* pwfind.jsp */
 #pw_find_box {
-	width: 1119px;
-	background-color: rgba(160, 124, 69, 0.1);
+	width: 580px;
+	height: 410px;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, .15);
 	left: 50%;
 	position: absolute;
-	padding: 80px auto;
 	transform: translate(-50%, 0);
-	border-radius: 20px;
+	border-radius: 5px;
 	margin: 50px auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	padding: 80px auto;
+	text-align: center;
 }
 
 /* idfind/ idfindresult/ idpwfind / pwfind .jsp */
-#id_find_box,
-#idfindresult_box,
-#pw_find_box,
-#find_box {
+#idfindresult_box {
 	width: 1119px;
 	background-color: rgba(160, 124, 69, 0.1);
 	left: 50%;

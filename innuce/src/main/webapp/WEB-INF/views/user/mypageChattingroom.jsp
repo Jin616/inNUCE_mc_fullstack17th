@@ -140,7 +140,7 @@
 						success : function(response){
 							
 							// 페이지 내용 바꾸기
-							$("#myPage_main").html("잘갔네요")//html
+							$("main #myPage_main").html("잘갔네요")//html
 							
 							
 						}//success
@@ -158,10 +158,12 @@
 				 $("#delete").attr("clicked","yes");
 				 
 				// 마이페이지 내용 바꾸기
-				$("#myPage_main").html(
-					"<div> 정말로 회원을 탈퇴하시겠습니까? </div>"+
-					"<div> 회원 탈퇴 후 2분내로 로그인 하시면 복구하실 수 있습니다.</div> "+
-					"<input id= 'deleteButton' type='button' value='탈퇴하기' >"
+				$("main #myPage_main").html(
+					"<div class='delete-cover'>"+	
+					"<div class='question'> 정말로 회원을 탈퇴하시겠습니까? </div><br>"+
+					"<div class='explain'> 회원 탈퇴 후 2분내로 로그인 하시면 복구하실 수 있습니다.</div><br> "+
+					"<div class='deleteButton-cover'><input id='deleteButton' type='button' value='탈퇴하기' /></div>"+
+					"</div>"
 				)//html
 				// 탈퇴하기 버튼 눌렀을때
 				$("#deleteButton").on('click',function(){
@@ -184,21 +186,28 @@
 <header>
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+	<!--  좌측 네비바 -->
+	<div id = "myPage_navigater" >
+		<div class='title'>마이페이지</div>
+		<button id="info_change" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 정보 수정</button>
+		<button id="my_scrap" clicked="none"><i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사 </button>
+		<button id="my_chatting" clicked="yes"><i class="fa-regular fa-comments"></i>&nbsp;참여중인 채팅방</button>
+		<button id="delete" clicked="none"> 회원 탈퇴</button>
+	</div>
+	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
   </div>
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 
 </header>
 
-<!--  좌측 네비바 -->
-<div id = "myPage_navigater" >
-	<button id="info_change" clicked="none">  회원 정보 수정</button>
-	<button id="my_scrap" clicked="none"> 스크랩한 기사 </button>
-	<button id="my_chatting" clicked="none"> 참여중인 채팅방</button>
-	<button id="delete" clicked="none"> 회원 탈퇴</button>
-</div>
+
 <!--  마이페이지 내용 -->
-<div id = "myPage_main" > </div>
+<main>
+
+<div id="myPage_main"></div>
+
+</main>
 
 </body>
 </html>

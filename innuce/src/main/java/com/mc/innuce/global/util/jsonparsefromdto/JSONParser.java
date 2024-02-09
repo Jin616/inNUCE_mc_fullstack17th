@@ -25,7 +25,7 @@ public class JSONParser {
 
 		return jarray;
 	}
-
+	
 	public JSONObject getJson(NewsDTO news) {
 		JSONObject json = new JSONObject();
 

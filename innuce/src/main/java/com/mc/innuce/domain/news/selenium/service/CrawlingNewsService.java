@@ -8,10 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,8 +26,9 @@ import com.mc.innuce.domain.news.naverapi.SentimentService;
 import com.mc.innuce.domain.news.naverapi.SummaryService;
 import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
-import com.mc.innuce.global.config.Config;
+import com.mc.innuce.global.scheduler.NewsScheduler;
 import com.mc.innuce.global.util.hreftonewsdto.WebConverter;
+import com.mc.innuce.global.util.sqltojava.SqlConverter;
 
 /**
  * 크롤링 전반에 대한 서비스 뉴스 카테고리, 키워드 검색 크롤링 지원
@@ -52,12 +51,13 @@ public class CrawlingNewsService {
 	
 	private WebConverter conv = new WebConverter();
 	private Set<String> dbHash = new HashSet<>();
-	private Queue<NewsTemVO> manageNewsParsingTaskQueue = new LinkedList<>();
+	//private Queue<NewsTemVO> manageNewsParsingTaskQueue = new LinkedList<>();
 	
 	// https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1='category'#&date=%2000:00:00&page=22
 	final private String naverNewsMainURI = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=";
 	final private String prePage = "#&date=%2000:00:00&page=";
-
+	final private String naverCategoryURI = "https://news.naver.com/section/";
+	
 	// https://search.naver.com/search.naver?where=news&sort=1&pd=3&
 	final private String naverSearchURI = "https://search.naver.com/search.naver?where=news&sort=1&pd=3&";
 	// query=?&ds=2024.01.19&de=2024.01.19
@@ -65,8 +65,67 @@ public class CrawlingNewsService {
 	// 하루 단위로 최대로 긁을 기사, 관심도 순으로 긁을 뉴스 기사 개수
 	final private int limitCrawlingSearchSortDay = 1000;
 	final private int limitCrawlingSearchSortInterest = 20;
-
-	private int moreCategoryNewsClickCountLimit = 100;
+	
+	private void initDBHash() {
+		if(dbHash.isEmpty()) {
+			dbHash = initHashSetFromNewsKey();
+			System.out.println("init " + printColor("dbHash", "red"));
+			System.out.println("dbHash size : " + printColor("" + dbHash.size(), "green"));
+		}
+	}
+	
+	// 뉴스 카테고리 페이지에서 헤드라인만 추출하는 
+	public void crawlerHeadlineNews(String category, String categoryNumString) {
+		initDBHash();
+		
+		WebDriver driver = WebDriverPool.getWebDriver();
+		List<NewsTemVO> resultVOList = new ArrayList<>();
+		List<NewsDTO> resultDTOList = new ArrayList<>();
+		String url = naverCategoryURI + categoryNumString;
+		// _SECTION_HEADLINE
+		while(true) {
+			try {
+				driver.get(url);
+				sleep(1000);
+				
+				List<WebElement> newsElementList = driver.findElements(By.className("_SECTION_HEADLINE"));
+				List<WebElement> newsFilterList = new ArrayList<>();
+				
+				System.out.println("headline list size " + newsElementList.size());
+				for(WebElement e : newsElementList)
+					if(e.findElements(By.className("sa_thumb_link")).size() == 1)
+						newsFilterList.add(e);
+				
+				System.out.println("filter headline list size " + newsElementList.size());
+				
+				SqlConverter sc = new SqlConverter();
+				for (WebElement e : newsFilterList) {
+					String href = e.findElement(By.className("sa_thumb_link")).getAttribute("href");
+					String thumburl = e.findElement(By.tagName("img")).getAttribute("src");
+					NewsDTO dto = new NewsDTO();
+					
+					dto.setNews_pulldate(sc.localDateToTimestamp(LocalDate.now()));
+					dto.setNews_category(category);
+					dto.setNews_key(conv.getLongNewsKey(href));
+					resultDTOList.add(dto);
+					
+					if (dbHash.add(conv.get13NewsKey(href)))
+						resultVOList.add(new NewsTemVO(href, thumburl));
+				}
+				
+				break;
+			} catch (Exception e) {
+				System.out.println(printColor("ERROR HEADLINE", "red"));
+				e.printStackTrace();
+				driver = WebDriverPool.createNewWebDriver();
+				continue;
+			}
+		}
+		releaseDriver(driver);
+		
+		insertNewsFromVo(resultVOList);
+		newsService.insertNewsHeadline(resultDTOList);
+	}
 	
 	// 미리 정해둔 수만큼 병렬로 뉴스 파싱 처리
 	public void manageNewsParsingTask() {
@@ -81,17 +140,12 @@ public class CrawlingNewsService {
 	 */
 	// 네이버 페이지 변경(02-02)으로 인한 새롭게 작성된 카테고리 크롤링 코드
 	public void crawllingCategoryNews() {
+		initDBHash();
 		String[] categorys = {"100", "101", "102", "103", "104", "105"};
 		
-		// dbHash 초기화
-		if(dbHash.isEmpty()) {
-			dbHash = initHashSetFromNewsKey();
-			System.out.println(printColor("dbHash", "red") + "를 초기화 합니다.");
-			System.out.println("dbHash size : " + printColor("" + dbHash.size(), "green"));
-		}
-		 
-		for(String category : categorys) {
+		for (String category : categorys) {
 			List<NewsTemVO> newsVOList = getNewsTemVOListPerCategory(category);
+			
 			int insertSize = insertNewsFromVo(newsVOList);
 			System.out.println(printColor(category, "green") + " VO size is " + printColor("" + newsVOList.size(), "green"));
 			System.out.println(printColor(category, "green") + " insert size is " + printColor("" + insertSize, "green"));
@@ -102,19 +156,21 @@ public class CrawlingNewsService {
 	public List<NewsTemVO> getNewsTemVOListPerCategory(String category) {
 		WebDriver driver = WebDriverPool.getWebDriver();
 		
-		String url = "https://news.naver.com/section/" + category;
+		String url = naverCategoryURI + category;
 		List<NewsTemVO> resultList = new ArrayList<>();
 		
+		// 100, 50, 50, 25 ...
+		int moreCategoryNewsClickCountLimit = 25 * (1 + 3 / (NewsScheduler.categoryCrawlerCallCount + 1));
 		// 작업이 끝까지 진행될 때까지 반복
 		// 페이지 리로딩 없이 정상 실행 되었다면 반복 없이 break 문을 만나 종료
-		while(true) {
+		while (true) {
 			driver.get(url);
 			sleep(1000);
 			
 			int clickCount = 0;
 			try {
 				// 기사 더보기 버튼 display option none이 될때까지 반복해서 누름
-				while(driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed() 
+				while (driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed() 
 						&& clickCount++ < moreCategoryNewsClickCountLimit) {
 					driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).click();
 					
@@ -132,15 +188,20 @@ public class CrawlingNewsService {
 				System.out.println(printColor("start finding newsElementList", "gray"));
 				
 				// img 태그가 있긴 있지만 없어서 에러난 경우를 대비해 비어있는 거를 거르고 모음
-				List<WebElement> newsElementList = driver.findElements(By.className("sa_thumb_link"))
-						.stream().filter(e -> !e.findElements(By.tagName("img")).isEmpty()).collect(Collectors.toList());
+				List<WebElement> originElementList = driver.findElements(By.className("sa_thumb_link"));
+				
+				List<WebElement> newsElementList = new ArrayList<>();
+				for (WebElement e : originElementList)
+					if(!e.findElements(By.tagName("img")).isEmpty())
+						newsElementList.add(e);
 				
 				System.out.println(printColor("success finding newsElementList", "gray"));
 				System.out.println("size is " + printColor(""+newsElementList.size(), "red"));
 
 				// dbHash에 중복된 개수를 카운팅
 				int falseCount = 0;
-				int falseCountLimit = 200;
+				// 250, 150, 100, 100, 50 ....
+				int falseCountLimit = 50 * (1 + 4 / (NewsScheduler.categoryCrawlerCallCount + 1));
 				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장
 				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음
 				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감
@@ -153,7 +214,8 @@ public class CrawlingNewsService {
 					if (dbHash.add(conv.get13NewsKey(href))) {
 						System.out.println(printColor("true", "green"));
 						resultList.add(new NewsTemVO(href, thumburl));
-						falseCount--;
+						if(falseCount > 0)
+							falseCount--;
 					} else {
 						System.out.println(printColor("false", "red"));
 						falseCount++;
@@ -165,7 +227,6 @@ public class CrawlingNewsService {
 						break;
 					}
 				}
-				
 				break; // 정상 진행 되었다면 while 탈출
 			} catch (Exception e) {
 				System.out.println(printColor("This error may have occurred due to a forced page move.", "red"));
@@ -449,6 +510,7 @@ public class CrawlingNewsService {
 		return news;
 	}
 
+	// 네이버에서 키워드로 검색할때 조건에 맞는 기사를 필터링 하는 메소드
 	private List<WebElement> filterSuitableNewsElements(List<WebElement> list) {
 		return list.stream()
 				.filter(e -> e.findElements(By.className("dsc_thumb")).size() == 1
@@ -677,4 +739,5 @@ public class CrawlingNewsService {
 		releaseDriver(driver);
 		return voList;
 	}
+
 }

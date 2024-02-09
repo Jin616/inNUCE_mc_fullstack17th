@@ -6,12 +6,18 @@
 
 	<!-- insert -->
 	<insert id="insertListNews" parameterType="java.util.List">
-		<foreach collection="list" item="p" separator="," open="insert ignore into news values " close=";">
-			(#{p.news_key}, #{p.press_key}, #{p.news_title}, #{p.news_content}, #{p.news_writendate},
-			#{p.news_updatedate}, #{p.news_pulldate}, #{p.news_writer}, #{p.news_uri}, #{p.news_originuri},
-			#{p.news_deleted}, #{p.news_deleteddate}, #{p.news_deletedcode}, #{p.news_category},
-			#{p.news_thumbnailuri}, #{p.news_thumbnailuri2}, #{p.summ_content}, #{p.summ_sentiment},
-			#{p.summ_sentimentpercent})
+		<foreach collection="list" item="n" separator="," open="insert ignore into news values " close=";">
+			(#{n.news_key}, #{n.press_key}, #{n.news_title}, #{n.news_content}, #{n.news_writendate},
+			#{n.news_updatedate}, #{n.news_pulldate}, #{n.news_writer}, #{n.news_uri}, #{n.news_originuri},
+			#{n.news_deleted}, #{n.news_deleteddate}, #{n.news_deletedcode}, #{n.news_category},
+			#{n.news_thumbnailuri}, #{n.news_thumbnailuri2}, #{n.summ_content}, #{n.summ_sentiment},
+			#{n.summ_sentimentpercent})
+		</foreach>
+	</insert>
+	
+	<insert id="insertNewsHeadline" parameterType="java.util.List"> 
+		<foreach collection="list" item="n" separator="," open="insert ignore into news_headline values" close=";">
+			(#{n.news_key}, now(), #{n.news_category})
 		</foreach>
 	</insert>
 	
@@ -38,6 +44,13 @@
 	select * from news
 	where news_title like concat("%",#{keyword},"%")
 	or news_content like concat("%",#{keyword},"%")
+	</select>
+	
+	<select id="selectHeadLineNews" resultType="newsdto">
+	select * from news where news_key in
+	(select news_key from news_headline
+	where news_category = #{category} order by news_pulldate desc) limit 5;
+	
 	</select>
 	<!-- update -->
 	

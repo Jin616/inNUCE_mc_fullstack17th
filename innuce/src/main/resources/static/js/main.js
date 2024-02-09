@@ -72,6 +72,7 @@ $('#category ul.menu li').click(function() {
 
 	$(this).addClass('current');
 	$("#" + tab_id).addClass('current');
+
 })
 
 /*wordcloud-category*/
@@ -160,13 +161,13 @@ $('#myPlace').on('click', function() {
 
 	}
 })
-/* 뉴스 자세히 보기 */
-$('.content-cover img').on('click', function() {
+/* 뉴스 자세히 보기 */ // 0208 category ajax 안으로 이관 했습니다. seo
+/*$('.content-cover img').on('click', function() {
 	location = "/news"
 })
 $('.content-cover .a').on('click', function() {
 	location = "/news"
-})
+})*/
 
 /*검색 글자 제한*/
 let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi;
@@ -186,3 +187,71 @@ $('#searchBar').on("focusout", function() {
 	/*$(this).val($(this).val().replace(replaceNotFullKorean,""));*/
 })
 
+
+
+/* 02-08 seo category ajax start*/
+$.ajax({
+	url: "/headline",
+	type: "get",
+	dataType: "json",
+	success: function(response) {
+		//let arr = JSON.parse(response);
+		//console.log(arr);
+
+		for (let i = 0; i < 6; i++) { // categoryidx
+			for (let j = 0; j < 5; j++) { // listidx
+				// categoryidx-listidx-(a|img|date|main|cont)
+				let news = response[i][j];
+				// 인덱스 보정
+				let categoryidx = i + 1;
+				let listidx = j + 1;
+
+				$('#' + categoryidx + '-' + listidx + '-a').attr('href', 'news/' + news.news_key);
+				$('#' + categoryidx + '-' + listidx + '-img').attr('src',
+					news.news_thumbnailuri2 == null ? news.news_thumbnailuri : news.news_thumbnailuri2);
+
+				// Posted July 11, 2017
+				let date = new Date(news.news_writendate);
+				// 'ko-KR'
+				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+				console.log(formattedDate);
+				$('#' + categoryidx + '-' + listidx + '-date').text("Posted " + formattedDate);
+
+				$('#' + categoryidx + '-' + listidx + '-main').attr('href', 'news/' + news.news_key);
+				$('#' + categoryidx + '-' + listidx + '-main').text(news.news_title);
+				$('#' + categoryidx + '-' + listidx + '-main').css({
+					'color': 'black',
+					'text-decoration': 'none'
+				});
+
+				let summ = news.summ_content;
+				summ = summ.length > 150 ? summ.slice(0, 150) + '...' : summ;
+				$('#' + categoryidx + '-' + listidx + '-cont').attr('href', 'news/' + news.news_key);
+				$('#' + categoryidx + '-' + listidx + '-cont').text(summ);
+				$('#' + categoryidx + '-' + listidx + '-cont').css({
+					'color': 'black',
+					'text-decoration': 'none'
+				});
+
+			}
+		}
+	},
+	error: function() {
+		alert("정상적이지 않은 요청입니다. 다시 시도해주세요");
+	}
+});
+
+$('.tab-link').click(function() {
+	$('.tab-link').css({
+		'font-size': '20px',
+		'color': '#5A6372'
+	});
+	$('.tab-link.current').css({
+		'font-size': '25px',
+		'color': 'black'
+	});
+});
+
+
+
+/* category ajax end*/

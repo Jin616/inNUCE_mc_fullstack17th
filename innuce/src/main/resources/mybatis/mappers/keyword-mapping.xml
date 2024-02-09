@@ -5,8 +5,7 @@
 	<!-- id: dao에서 메소드명 -->
 	<!-- 검색 시 뉴스들 가져오기 -->
 
-	<select id="getNewsListLimit" resultType="newsdto"
-		parameterType="java.util.Map">
+	<select id="getNewsListLimit" resultType="newsdto" parameterType="java.util.Map">
 		select news.* from keyword_news join news using(news_key)
 		where
 		<foreach collection="keyword_key" item="key" separator=" or ">
@@ -21,16 +20,14 @@
 		where keyword_key = #{keyword_key}
 	</select>
 
-	<select id="getNewsKeys" resultType="Long"
-		parameterType="String">
+	<select id="getNewsKeys" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_title like concat('%',#{keyword },'%')
 		limit 100
 	</select>
 
 
-	<select id="getNewsKeys2" resultType="Long"
-		parameterType="String">
+	<select id="getNewsKeys2" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_content like concat('%',#{place },'%')
 		limit 100
@@ -38,8 +35,7 @@
 
 
 	<!-- wordCloud -->
-	<select id="getCategoryContent" resultType="String"
-		parameterType="String">
+	<select id="getCategoryContent" resultType="String" parameterType="String">
 		select news_content from news where news_category=#{category } and
 		news_writendate &gt;= date_add(now(), interval -1 day)
 		order by news_writendate
@@ -47,8 +43,7 @@
 
 	<!-- crud -->
 
-	<select id="oneKeyword" parameterType="String"
-		resultType="Keyworddto">
+	<select id="oneKeyword" parameterType="String" resultType="keyworddto">
 		select * from keyword where keyword_content=#{keyword}
 	</select>
 
@@ -65,11 +60,14 @@
 
 	<insert id="insertKeywordNews" parameterType="keysdto">
 		insert into keyword_news(keyword_key,news_key) values
-		<foreach collection="newsKeyList" item="newsKeyList"
-			separator=",">
+		<foreach collection="newsKeyList" item="newsKeyList" separator=",">
 			(#{keyword_key },#{newsKeyList })
 		</foreach>
 	</insert>
+
+<!-- <delete id="deleteKeyword" parameterType="String">
+	delete from keyword
+</delete> -->
 
 
 </mapper>

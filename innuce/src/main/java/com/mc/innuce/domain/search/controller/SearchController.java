@@ -39,12 +39,12 @@ public class SearchController {
 	private GeolocationService geoService;
 	@Autowired
 	private ComponentService service;
-	
+
 	private String ip = "";
 	private String agent = "";
-	
+
 	final int PAGECOUNT = 10;
-	
+
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request, HttpSession session) {
 
@@ -52,21 +52,19 @@ public class SearchController {
 	}
 
 	@GetMapping("/search")
-	public ModelAndView mainSearch(String keyword,HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {
+	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
 
-		if (agent.equals("") || agent.equals(" ") || agent == null) {
-			agent=getDevice(request);
+		if (ip.equals("") || ip.equals(" ") || ip == null) {
+			ip = getIp(request);
 		}
-		
-		System.out.println("기기: "+agent);
-		
-		ModelAndView mv = new ModelAndView();
-//UserDTO userDTO = new UserDTO();a
-//session.getAttribute("login_user", userDTO);
 
+		System.out.println("기기: " + ip);
+
+		ModelAndView mv = new ModelAndView();
 
 		int totalCount = 0;
+		int keywordKey = 0;
 		int[] limit = new int[2];
 		List<NewsDTO> newsList = new ArrayList<>();
 		List<Integer> keywordKeyList = new ArrayList<>();
@@ -74,63 +72,119 @@ public class SearchController {
 		KeywordDTO kDTO = null;
 		UserDTO uDTO = null;
 		SearchDTO sDTO = null;
-//	keyword에 " "이 있을 때만 코모란을 돌리자? x
 
+//		if (keyword.isEmpty() || keyword.isBlank()) {
+//			mv.addObject("keyword", "\"" + keyword + "\"" + "에 대한 검색결과가 없습니다.");
+//			mv.addObject("newsList", newsList);
+//			mv.addObject("totalCount", totalCount);
+//			mv.addObject("pageCount", PAGECOUNT);
+//
+//			mv.setViewName("search/searchPage");
+//			return mv;
+//		}
+
+//	keyword에 " "이 있을 때만 코모란을 돌리자? x
 		String path = System.getProperty("user.dir");
 
 		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
-		komoran.setUserDic(path + "/src/main/resources/static/dictionary/dic.user");
 
 		KomoranResult komoranResult = komoran.analyze(keyword);
 
-		List<String> analyzeList = komoranResult.getMorphesByTags("NNP", "NNG", "NNB");
-		
-		if(session.getAttribute("login_user") != null) {
-			uDTO=(UserDTO) session.getAttribute("login_user");
+//		일반명사NNG
+//		고유명사NNP
+		List<String> analyzeList = komoranResult.getMorphesByTags("NNP", "NNG");
+
+//		코모란이 인식x : 영단어 
+		if (analyzeList.isEmpty()) {
+			analyzeList.add(keyword);
 		}
 
-		int keywordKey = 0;
-
 		for (String token : analyzeList) {
-			System.out.println("===" + token + "===");
-			kDTO = service.oneKeyword(token);
 
-			if (kDTO != null) {
-				// token이 있으면
-				// Keyword 테이블
-				service.updateKeyword(token);
-				keywordKeyList.add(kDTO.getKeyword_key());
-				keywordKey = kDTO.getKeyword_key();
-				
-				// Search 테이블
-				int i=service.updateSearch(keywordKey);
-				System.out.println(i+" updateSearch 완료");
-			} else {
-				// token이 없으면 - insert
-				// Keyword 테이블
-				service.insertKeyword(token);
+			if (token.length() >= 2) {
 
-				kDTO = service.oneKeyword(token);
-				keywordKeyList.add(kDTO.getKeyword_key());
-				keywordKey = kDTO.getKeyword_key();
-				
-				KeysDTO keys = new KeysDTO(keywordKey, service.getNewsKeys(token));
-				service.insertKeywordNews(keys);
-				
-				// Search 테이블
-				sDTO = new SearchDTO(keywordKey,agent);
-				System.out.println("searchDTO "+sDTO);
-				int i=service.insertSearch(sDTO);
-				System.out.println(i+" insertSearch 완료");
-				
-		
+				List<Long> newsKeyList = service.getNewsKeys(token);
+
+				if (newsKeyList.isEmpty() || newsKeyList == null) {
+					mv.addObject("noneKeyword", "\"" + keyword + "\"" + "에 대한 검색결과가 없습니다.");
+					mv.addObject("totalCount", totalCount);
+					mv.addObject("pageCount", PAGECOUNT);
+					mv.addObject("newsList", newsList);
+
+					mv.setViewName("search/searchPage");
+
+					return mv;
+				} else {
+
+					System.out.println("===" + token + "===");
+					kDTO = service.oneKeyword(token);
+					// keyword | keyword_news 테이블
+					if (kDTO != null) {
+						// token이 있으면
+						// Keyword 테이블
+						service.updateKeyword(token);
+						System.out.println("updateKeyword 완료");
+						keywordKeyList.add(kDTO.getKeyword_key());
+						keywordKey = kDTO.getKeyword_key();
+
+					} else {
+						// token이 없으면 - insert
+						// Keyword 테이블
+						service.insertKeyword(token);
+						System.out.println("insertKeyword 완료");
+						kDTO = service.oneKeyword(token);
+						keywordKeyList.add(kDTO.getKeyword_key());
+						keywordKey = kDTO.getKeyword_key();
+
+						KeysDTO keys = new KeysDTO(keywordKey, newsKeyList);
+
+						service.insertKeywordNews(keys);
+						System.out.println("insertKeywordNews 완료");
+
+					}
+					System.out.println("keyword_key : "+keywordKey);
+					// Search 테이블 - 유저에 따라 insert | update
+					if (session.getAttribute("login_user") != null) {
+						// userDTO가 존재
+						uDTO = (UserDTO) session.getAttribute("login_user");
+						// keyword_key / userKey / ip / age / gender 를 search 에 저장.
+						sDTO = new SearchDTO(keywordKey, uDTO.getUser_key(), ip);
+
+						SearchDTO oneSearchDTO = service.oneSearch(sDTO);
+						System.out.println("oneSearch 완료"+oneSearchDTO);
+						if (oneSearchDTO != null) {
+							int i = service.updateSearch2(sDTO);
+							System.out.println(i + "userDTO가 존재o k-u-c 존재o updateSearch완료");
+						} else {
+							int i = service.insertSearch(sDTO);
+							System.out.println(i + "userDTO가 존재o k-u-c 존재x insertSearch완료");
+						}
+
+					} else {
+						// userDTO가 존재 x
+						sDTO = new SearchDTO(keywordKey, ip);
+
+						SearchDTO oneSearchDTO = service.oneSearch2(sDTO);
+						System.out.println("oneSearch2 완료"+oneSearchDTO);
+						if (oneSearchDTO != null) {
+							// ip == clinet_key 가 존재
+							int i = service.updateSearch(sDTO);
+							System.out.println(i + "userDTO가 존재x k-c 존재o updateSearch완료");
+						} else {
+							// client_key 존재 x
+							int i = service.insertSearch2(sDTO);
+							System.out.println(i + "userDTO가 존재x k-c 존재x insertSearch2완료");
+						}
+					}
+
+					totalCount += service.getTotalNews(keywordKey);
+				}
 			}
-			totalCount += service.getTotalNews(keywordKey);
 		} // for (String token : analyzeList)
 
+		
 //	paging
 		Map<String, Object> map = new HashMap<>();
-
 
 		limit[0] = (pageNum - 1) * PAGECOUNT;
 		limit[1] = PAGECOUNT;
@@ -145,24 +199,23 @@ public class SearchController {
 			totalCount = 100;
 		}
 
+//	키워드에 해당하는 news 가져오기
+		newsList = service.getNewsListLimit(map);
+
 		System.out.println("totalCount : " + totalCount);
 		System.out.println("pageCount : " + PAGECOUNT);
 		mv.addObject("totalCount", totalCount);
 		mv.addObject("pageCount", PAGECOUNT);
-//	키워드에 해당하는 news 가져오기
-//		/////////////////////////////////////////////////////
-		newsList = service.getNewsListLimit(map);
-
 		mv.addObject("newsList", newsList);
-
 		mv.addObject("keyword", keyword);
 		mv.setViewName("search/searchPage");
 
 		return mv;
+
 	}
 
 	private String getDevice(HttpServletRequest request) {
-		agent=request.getHeader("USER-AGENT");
+		agent = request.getHeader("USER-AGENT");
 		return agent;
 	}
 
@@ -256,7 +309,6 @@ public class SearchController {
 		map.put("num1", limit[0]);
 		map.put("num2", limit[1]);
 
-
 		if (totalCount >= 100) {
 			totalCount = 100;
 		}
@@ -265,15 +317,16 @@ public class SearchController {
 		System.out.println("pageCount : " + PAGECOUNT);
 		mv.addObject("totalCount", totalCount);
 		mv.addObject("pageCount", PAGECOUNT);
-		newsList = service.getNewsListLimit(map);
 //	키워드에 해당하는 news 가져오기
-//		newsList = service.getNewsList(dto.getKeyword_key()).subList(limit[0], limit[1]);
-		System.out.println("myLocation : " + myLocation);
-		System.out.println("r1 r2 r3 : " + r1 + r2 + r3);
+		newsList = service.getNewsListLimit(map);
 
-//		mv.addObject("myLocation", myLocation);
+		if (newsList.isEmpty()) {
+			mv.addObject("keyword", "\"" + r1 + " " + r2 + " " + r3 + "\"" + "에 대한 검색결과가 없습니다.");
+		} else {
+			mv.addObject("keyword", "\"" + r1 + " " + r2 + " " + r3 + "\"");
+		}
+
 		mv.addObject("newsList", newsList);
-		mv.addObject("keyword", r1 + " " + r2 + " " + r3);
 
 		mv.setViewName("search/searchPage");
 		return mv;
@@ -332,60 +385,3 @@ public class SearchController {
 
 }
 
-////////////////////////////////////////////////////
-//debate와의 연결부분
-//@GetMapping("/main/debate")
-//public ModelAndView showDebateRoom(
-//@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) {
-//ModelAndView mv = new ModelAndView();
-//
-////debate_room_status 가 2 또는 1인 목록
-//List<DebateRoomDTO> openDebateRoomList = debateRoomService.openDebateRoomList();
-//
-//if (openDebateRoomList == null || openDebateRoomList.isEmpty()) {
-//mv.setViewName("debate/debatemain");
-//return mv;
-//}
-//
-////위의 목록의 debate_room_key 목록 생성
-//List<Integer> openDebateRoomKeyList = new ArrayList<>();
-//for (int i = 0; i < openDebateRoomList.size(); i++) {
-//openDebateRoomKeyList.add(openDebateRoomList.get(i).getDebate_room_key());
-//}
-//
-////debate_room_key 목록으로 해당하는 방의 실시간 참여자 수 목록 반환
-//List<Integer> openDebateRoomUserConnectCountList = debateUserService
-//.openDebateRoomUserConnectCountList(openDebateRoomKeyList);
-////debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
-//List<Integer> openDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(openDebateRoomKeyList);
-//
-//mv.addObject("openDebateRoomList", openDebateRoomList);
-//mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
-//mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
-//mv.setViewName("debate/debate");
-//
-//int pageCount = 6;
-//int totalCount = 0;
-//int[] limit = new int[2];
-//Map<String, Object> map = new HashMap<>();
-//limit[0] = (pageNum - 1) * pageCount;
-//limit[1] = pageCount;
-//
-////map.put("keyword_key", keywordKeyList);
-//
-//map.put("num1", limit[0]);
-//map.put("num2", limit[1]);
-//
-////System.out.println("totalCount : " + totalCount);
-//
-//if (totalCount >= 100) {
-//totalCount = 100;
-//}
-//totalCount = 15;
-////System.out.println("totalCount : " + totalCount);
-////System.out.println("pageCount : " + pageCount);
-//mv.addObject("totalCount", totalCount);
-//mv.addObject("pageCount", pageCount);
-//
-//return mv;
-//}

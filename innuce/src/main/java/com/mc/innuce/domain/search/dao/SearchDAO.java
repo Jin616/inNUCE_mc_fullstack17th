@@ -1,4 +1,5 @@
 package com.mc.innuce.domain.search.dao;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,10 +16,16 @@ public interface SearchDAO {
 
 	List<Integer> selectPassedKeywordList(int createRoomCount);
 
-	int updateSearch(int keywordKey);
+	int updateSearch(SearchDTO sDTO);
+
+	int updateSearch2(SearchDTO sDTO);
 
 	int insertSearch(SearchDTO sDTO);
 
+	int insertSearch2(SearchDTO sDTO);
 
-	
+	SearchDTO oneSearch(SearchDTO sDTO);
+
+	SearchDTO oneSearch2(SearchDTO sDTO);
+
 }

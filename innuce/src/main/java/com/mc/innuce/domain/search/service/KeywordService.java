@@ -61,4 +61,8 @@ public class KeywordService {
 		keywordDAO.insertKeywordNews(keysDTO);
 	}
 
+	public int deleteKeyword(String token) {
+		return keywordDAO.deleteKeyword(token);
+	}
+
 }

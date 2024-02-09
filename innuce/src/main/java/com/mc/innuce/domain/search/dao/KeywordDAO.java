@@ -26,6 +26,7 @@ public interface KeywordDAO {
 	int updateKeyword(String keyword);
 	int insertKeyword(String keyword);
 	void insertKeywordNews(KeysDTO keysDTO);
+	public int deleteKeyword(String token);
 	
 
 

@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main_top.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 
+
 <script defer src="/js/searchPage.js"></script>
 
 </head>

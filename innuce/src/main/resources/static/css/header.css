@@ -157,6 +157,7 @@ header .btn-cover ul.button li {
 	height: 36px;
 	box-sizing: border-box;
 	margin: 12px;
+	font-weight: 600;
 }
 
 header .btn-cover ul.button li:first-child {

@@ -463,7 +463,9 @@ nav {
 	padding-top: 20px;
 }
 
-.main-menu .item .item__contents .contents__media>ul>li ul {}
+.main-menu .item .item__contents .contents__media>ul>li ul {
+
+}
 
 .main-menu .item .item__contents .contents__media>ul>li ul li {
 	padding: 3px 0;
@@ -585,10 +587,6 @@ main .news-container .news-content-cover .sub-menu ul.menu li {
 	cursor: pointer;
 }
 
-main .news-container .news-content-cover .sub-menu ul.menu li:hover {
-	color: #333;
-
-}
 
 /*main .news-container .news-content-cover .sub-menu ul.menu li::before {
 	content: "";

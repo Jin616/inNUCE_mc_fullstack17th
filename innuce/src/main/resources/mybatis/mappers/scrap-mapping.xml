@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.innuce.domain.user.dao.ScrapDAO">
+
+<!-- 스크랩 하고 정보 넣기 -->
+<insert id="scrapNews" parameterType="hashMap" >
+	insert into scrap (user_key ,news_key, scrap_time) values (#{user_key},#{news_key},now());
+</insert>
+
+
+ <!-- 모든 user_key를 기준으로 스크랩한 기사 수 가져오기 -->
+ <select id="countMyTotalScrap" resultType="integer" parameterType="integer" >
+ select count(*) from scrap where user_key = #{user_key};
+ </select>
+ 
+ <!-- user_key를 기준으로 모든 스크랩한 기사 가져오기 -->
+ <select id="getMyAllScrap" resultType="newsdto" parameterType="integer" >
+select * from news where news_key in(
+	select news_key from scrap
+    where user_key = #{user_key} order by scrap_time asc
+    );
+ </select>
+ 
+  <!-- 모든 user_key를 기준으로 해당 news title이 포함된 스크랩한 기사 수 가져오기 -->
+ <select id="countMyTotalScrapByTitle" resultType="integer" parameterType="hashMap" >
+ with my_scrap as(
+ 	select * from news where news_key in(
+	select news_key from scrap
+    where user_key = #{user_key} order by scrap_time asc
+    )
+ )
+ select count(*) from my_scrap where news_title like concat('%',#{news_title},'%');
+ </select>
+ 
+  <!-- 모든 user_key를 기준으로 해당 news content가 포함된 스크랩한 기사 수 가져오기 -->
+ <select id="countMyTotalScrapByContent" resultType="integer" parameterType="hashMap" >
+ with my_scrap as(
+ 	select * from news where news_key in(
+	select news_key from scrap
+    where user_key = #{user_key} order by scrap_time asc
+    )
+ )
+ select count(*) from my_scrap where news_content like concat('%',#{news_content},'%');
+ </select>
+ 
+   <!-- 모든 user_key를 기준으로 해당 news title이 포함된 스크랩한 newsdto 리스트 가져오기 -->
+ <select id="getMyAllScrapByTitle" resultType="newsdto" parameterType="hashMap" >
+ with my_scrap as(
+ 	select * from news where news_key in(
+	select news_key from scrap
+    where user_key = #{user_key} order by scrap_time asc
+    )
+ )
+ select * from my_scrap where news_title like concat('%',#{news_title},'%');
+ </select>
+ 
+   <!-- 모든 user_key를 기준으로 해당 news content가 포함된 스크랩한 newsdto 리스트 가져오기 -->
+ <select id="getMyAllScrapByContent" resultType="newsdto" parameterType="hashMap" >
+ with my_scrap as(
+ 	select * from news where news_key in(
+	select news_key from scrap
+    where user_key = #{user_key} order by scrap_time asc
+    )
+ )
+ select * from my_scrap where news_content like concat('%',#{news_content},'%');
+ </select>
+ 
+ <!-- 스크랩 취소하기 -->
+<delete id="cancelScrapNews" parameterType="hashMap" >
+	delete from scrap where user_key = #{user_key} and news_key = #{news_key};
+</delete>
+ 
+ 
+ 
+ </mapper>

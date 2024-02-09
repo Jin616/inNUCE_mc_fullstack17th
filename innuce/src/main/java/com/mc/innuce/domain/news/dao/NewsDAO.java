@@ -27,6 +27,9 @@ public interface NewsDAO {
 	public List<NewsDTO> selectNewsListSearchWithKeyword(String keyword);
 
 	public NewsDTO selectOneNews(String newsKey);
+	
+	// news key로 NewsDTO 가져오기 (김)
+	public NewsDTO selectSingleNews(long news_key);
 
 	public List<NewsDTO> selectHeadLineNews(String category);
 

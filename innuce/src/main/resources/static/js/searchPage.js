@@ -1,4 +1,5 @@
 /*북마크 클릭 시*/
+/*
 let flag2 = false;
 
 $("main i").click(function() {
@@ -10,7 +11,7 @@ $("main i").click(function() {
 		$(this).addClass('checked');
 	}
 })
-
+*/
 
 /*채팅바*/
 /*to top*/

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import com.mc.innuce.domain.user.dao.UserDAO;
 import com.mc.innuce.domain.user.dto.MailDTO;
 import com.mc.innuce.domain.user.dto.UserDTO;
 
-import jakarta.activation.FileDataSource;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 

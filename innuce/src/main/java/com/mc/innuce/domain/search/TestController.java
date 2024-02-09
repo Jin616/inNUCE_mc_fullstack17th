@@ -19,17 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
-import com.mc.innuce.domain.debate.dto.DebateUserDTO;
-import com.mc.innuce.domain.debate.service.DebateRoomService;
-import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.search.chatbot.ChatbotService;
 import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
-import com.mc.innuce.domain.user.dto.UserDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,6 +45,9 @@ public class TestController {
 	ComponentService service;
 	@Autowired
 	ChatbotService chatbotService;
+	// 0208 seo
+	@Autowired
+	NewsService newsService;
 
 	@RequestMapping("/main")
 	public String main() {
@@ -354,11 +353,12 @@ public class TestController {
 
 	}
 
-	@RequestMapping("/news")
-	public ModelAndView showNews(String newsKey) {
+	// 0208 seo 수정합니다.
+	@RequestMapping("/news/{newsKey}")
+	public ModelAndView showNews(@PathVariable String newsKey) {
 		ModelAndView mv = new ModelAndView();
 //		해당 newsDTO 가져오기
-		NewsDTO dto = service.oneNews(newsKey);
+		NewsDTO dto = newsService.selectOne(newsKey);
 
 		mv.addObject("News", dto);
 		System.out.println(dto);

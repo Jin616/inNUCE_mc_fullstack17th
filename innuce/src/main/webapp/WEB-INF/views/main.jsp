@@ -173,111 +173,33 @@
 					</li>
 				</ul>
 			</div>
-			
-				<div class="main-title">오늘의 카테고리 뉴스</div>
-				<div id="tab-1-category" class="tab-content current">
-				
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
-      </c:forEach>
+
+	<!-- 0208 seo modify 중복된 코드 리팩토링 -->
+	<!-- index 주의... 하려다 id 중복되는 거보고 전체 수정합니다. -->
+	<!-- css 보고 클래스로만 css 입히신 거 같아서 id 바꿔서 테스트 해보고 바꿔둡니다. -->
+	<!-- 바꿀라고 했는데 어디서 하드코딩 되었는지 찾을 수가 없어서 인덱스 꼬인 상태로 둡니다... -->
+		<div class="main-title">오늘의 카테고리 뉴스</div>
+		<c:forEach var="tabindex" begin='1' end='6'>
+		<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
+		
+	      <c:forEach var="index" begin='1' end='5'>
+	      	<div class='content-cover'>
+	      		<a id='${tabindex }-${index}-a'>
+	      			<img id='${tabindex }-${index}-img' alt='images' />
+	      		</a>
+	      		<div class='a'>
+	      			<div id='${tabindex }-${index }-date' class='date'></div>
+	      			<a id='${tabindex }-${index }-main' class='main'></a>
+	      			<a id='${tabindex }-${index }-cont' class='cont'><br/></a>
+	      		</div>
+	     			<div class='bookmark-cover'>
+	     				<i class='fa-solid fa-bookmark'></i>
+	     			</div>
+	      	</div>
+	      </c:forEach>
       
       </div>
-      
-				<div id="tab-2-category" class="tab-content">
-				
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
       </c:forEach>
-      </div><!-- 2 -->
-      
-				<div id="tab-3-category" class="tab-content">
-				
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
-      </c:forEach>
-      </div><!-- 3 -->
-      
-				<div id="tab-4-category" class="tab-content">
-				
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
-      </c:forEach>
-      
-      </div><!-- 4 -->
-				<div id="tab-5-category" class="tab-content">
-				
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
-      </c:forEach>
-      </div> <!-- 5 -->
-      
-				<div id="tab-6-category" class="tab-content">
-				
-      
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark'></i>
-     			</div>
-      	</div>
-      </c:forEach>
-      </div><!-- 6 -->
 			
 			
 		</div>

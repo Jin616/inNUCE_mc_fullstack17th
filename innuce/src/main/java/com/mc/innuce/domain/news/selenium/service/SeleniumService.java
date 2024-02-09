@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.news.service.PressService;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.service.KeywordService;
+import com.mc.innuce.global.util.jsonparsefromdto.JSONParser;
 
 @Service
 public class SeleniumService {

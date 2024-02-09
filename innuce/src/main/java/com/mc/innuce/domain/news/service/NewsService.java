@@ -2,11 +2,13 @@ package com.mc.innuce.domain.news.service;
 
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.news.dao.NewsDAO;
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.global.util.jsonparsefromdto.JSONParser;
 
 /**
  * @author JIN
@@ -47,4 +49,23 @@ public class NewsService {
 	public NewsDTO selectOne(String newsKey) {
 		return newsdao.selectOneNews(newsKey);
 	}
+
+	// 카테고리 별 뉴스를 넘겨주는 
+	public JSONObject getHeadlineNews() {
+		JSONObject result = new JSONObject();
+		JSONParser parser = new JSONParser();
+
+		String[] categorys = {"정치", "경제", "사회", "생활", "IT", "세계"};
+		
+		for(int i = 0; i < categorys.length; i++)
+			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
+		
+		return result;
+	}
+
+	// 카테고리별 헤드라인 뉴스를 insert 하는
+	public void insertNewsHeadline(List<NewsDTO> list) {
+		newsdao.insertNewsHeadline(list);
+	}
+	
 }

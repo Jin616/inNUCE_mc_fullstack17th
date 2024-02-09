@@ -28,4 +28,8 @@ public interface NewsDAO {
 
 	public NewsDTO selectOneNews(String newsKey);
 
+	public List<NewsDTO> selectHeadLineNews(String category);
+
+	public void insertNewsHeadline(List<NewsDTO> list);
+
 }

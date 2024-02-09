@@ -142,6 +142,10 @@ public class UserController {
 		session.setAttribute("login_user", dto);
 		return "user/registermember";
 	}
+	@RequestMapping("/registerResult")
+	public String registerResult() {
+		return "user/registerResult";
+	}
 
 	// 로그아웃 (김)
 	@RequestMapping("/logout")

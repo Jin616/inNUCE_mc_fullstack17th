@@ -207,8 +207,8 @@
 		var register_result = "${register_result}";
 		
 		if (register_result == "정상 회원가입이 되었습니다"){
-			alert(register_result)
-			location.href ="/main";
+		/* 	alert(register_result) */
+			location.href ="/registerResult";
 		}
 		else if(register_result.length == 0){
 			
@@ -233,31 +233,63 @@
 </header>>
 
 	
-	<div id ="register_box" >
+<div id ="register_box" >
+
+	<div class="title"><p>in NUCE 회원가입<p></div>
 	
-		<form action= "registerresult" method ="post">
-		아이디<br><input class="mypage_input" type= text name= "user_id" id="user_id">
-		<input class = "mypage_button" id='id_check_button' type = 'button' value ='아이디 중복 체크'><br>
-		이름<br><input class="mypage_input" type= text name= "user_name" id="user_name"><br>
-		비밀번호 (8자리 이상, 문자 숫자 특수기호 포함)<br> <input class="mypage_input" id = "user_pw" type="password" name ="user_pw"><br>
-		비밀번호 재확인<br> <input class="mypage_input" id="user_pw_re" type="password"><br>
-		핸드폰 번호 (01X-XXXX-XXXX 형식)<br><input class="mypage_input" type='tel' name="phone" id="phone"> <br>
-		e-mail<br><input class="mypage_input"  type=email name="email" id="email">
-		<input class = "mypage_button" id='email_check_button' type = 'button' value ='인증번호 요청'><br>
-		인증번호<br><input class="mypage_input"  type=text name="email_auth_check" id="email_check_num">
-		<input class = "mypage_button" id='email_auth_check_button' type = 'button' value ='인증번호 확인'><br>
-		생년월일 <br><input type="date" name="birthday" id="birthday"> <br>
-		성별<br> <select  name="gender"  id="gender" >
-		<option value="M">남자</option>
-		<option value="F">여자</option>
-		</select> <br>
-		주소<br> <input class="mypage_input" type="text" name="address_number" id="address_number" placeholder="우편번호">
-		<input class = "mypage_button"id ="address_search_button" type ="button" value ="우편번호찾기"><br>
-		<input class="mypage_input" type="text" name="address_doro" id="address_doro" placeholder="도로명주소"><br>
-		<input class="mypage_input" type="text" name="address_specific" id="address_specific" placeholder="상세주소"><br>
-		<input type="submit" value="확인"  id="submit">
+		<form action="registerresult" method ="post">
+		
+		<div class="wrapper">
+			<div>
+			아이디<br><input class="mypage_input" type= text name= "user_id" id="user_id">
+			
+			&nbsp;<input class="mypage_button" id='id_check_button' type='button' value ='아이디 중복 체크' style="margin-right:20px"><br><br>
+			
+			</div>
+			이름<br><input class="mypage_input" type= text name= "user_name" id="user_name"><br>
+			
+			비밀번호 (8자리 이상, 문자 숫자 특수기호 포함)<br> <input class="mypage_input" id = "user_pw" type="password" name ="user_pw"><br>
+			
+			비밀번호 재확인<br> <input class="mypage_input" id="user_pw_re" type="password"><br>
+			
+			핸드폰 번호 (01X-XXXX-XXXX 형식)<br><input class="mypage_input" type='tel' name="phone" id="phone"> <br>
+			
+			<div>
+			e-mail<br><input class="mypage_input"  type=email name="email" id="email">
+			
+			&nbsp;<input class = "mypage_button" id='email_check_button' type = 'button' value ='인증번호 요청'><br>
+			</div>
+			<br>
+			<div>
+			인증번호<br><input class="mypage_input"  type=text name="email_auth_check" id="email_check_num">
+			
+			&nbsp;<input class = "mypage_button" id='email_auth_check_button' type = 'button' value ='인증번호 확인'><br>
+			</div>
+			
+			<div>
+			생년월일 <br>
+			<input type="date" name="birthday" id="birthday"> 
+			</div><br>
+			
+			성별<br> 
+			<select  name="gender"  id="gender" >
+				<option value="M">남자</option>
+				<option value="F">여자</option>
+			</select> <br>
+			<div style="margin:2px 0;">
+			주소<br> <input class="mypage_input" type="text" name="address_number" id="address_number" placeholder="우편번호">
+			&nbsp;<input class = "mypage_button"id ="address_search_button" type ="button" value ="우편번호찾기"><br>
+			</div>
+			<input class="mypage_input" type="text" name="address_doro" id="address_doro" placeholder="도로명주소"><br>
+			<input class="mypage_input" type="text" name="address_specific" id="address_specific" placeholder="상세주소"><br>
+			
+		</div>
+		
+		<div class="submit-container">
+			<input type="submit" value="회 원 가 입"  id="submit">
+		</div>
 		</form>
-	</div>
+</div>
 	
 
 </body>

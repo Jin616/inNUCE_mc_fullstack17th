@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로그인 </title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
@@ -86,23 +85,30 @@
 
 
 <div id ="login_box">
+	<div class="title"><p>in NUCE 로그인<p></div>
 	<div class="login_input_box">
 		<div class="id">
-			<div class="text">아이디</div>
-			<input class ="login_input" id="login_user_id" name="user_id" type="text">
+			<div class="text"></div>
+			<input class ="login_input" id="login_user_id" name="user_id" type="text" placeholder="ID" required maxlength='25'>
 		</div>
 
 		<div class="pw">
-			<div class="text">비밀번호</div>
-			<input class ="login_input" id="login_user_pw" name="user_pw" type="password">
+			<div class="text"></div>
+			<input class ="login_input" id="login_user_pw" name="user_pw" type="password" placeholder="Password" required maxlength='25'>
 		</div>
 		
 	</div>
+	
+	<div class="checkbox-cover">
+	<input type="checkbox">&nbsp;아이디 저장
+	</div>
+	
 	<div class="login_button">
 		<input id="loginButton" type="button" value="로그인">&nbsp;&nbsp;
 		<input id="idpw_search_button" type="button" value="아이디/비밀번호 찾기">
 	</div>
 </div>
+
 </body>
 
 </html>

@@ -44,6 +44,8 @@ public class SearchController {
 	private String agent = "";
 
 	final int PAGECOUNT = 10;
+	private List<NewsDTO> newsList = new ArrayList<>();
+	private List<Integer> keywordKeyList = new ArrayList<>();
 
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request, HttpSession session) {
@@ -66,8 +68,6 @@ public class SearchController {
 		int totalCount = 0;
 		int keywordKey = 0;
 		int[] limit = new int[2];
-		List<NewsDTO> newsList = new ArrayList<>();
-		List<Integer> keywordKeyList = new ArrayList<>();
 
 		KeywordDTO kDTO = null;
 		UserDTO uDTO = null;
@@ -207,13 +207,13 @@ public class SearchController {
 			mv.addObject("newsList", newsList);
 			mv.addObject("keyword", keyword);
 		}
-		
+
 		System.out.println("totalCount : " + totalCount);
 		System.out.println("pageCount : " + PAGECOUNT);
 		mv.addObject("totalCount", totalCount);
 		mv.addObject("pageCount", PAGECOUNT);
 		mv.setViewName("search/searchPage");
-		
+
 		return mv;
 
 	}
@@ -322,8 +322,11 @@ public class SearchController {
 		mv.addObject("totalCount", totalCount);
 		mv.addObject("pageCount", PAGECOUNT);
 //	키워드에 해당하는 news 가져오기
-		newsList = service.getNewsListLimit(map);
 
+		if (newsList.isEmpty()) {
+			newsList = service.getNewsListLimit(map);
+		}
+		
 		if (newsList.isEmpty()) {
 			mv.addObject("noneKeyword", "\"" + r1 + " " + r2 + " " + r3 + "\"" + "에 대한 검색결과가 없습니다.");
 		} else {

@@ -34,7 +34,7 @@ window.addEventListener('scroll', _.throttle(function() {
 		//배지 보이기
 		gsap.to(badgeEl, .6, {
 			opacity: 1,
-			display: 'block'
+			display: 'flex'
 		});
 		// 버튼 숨기기
 		gsap.to(toTopEl, .2, {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
 	color: #333333;
 	font-size: 16px;
@@ -534,7 +535,7 @@ nav {
 .main-menu .item .item__contents .contents__place i:hover {
 	cursor: pointer;
 }
-SCROLL TO TOP
+/*SCROLL TO TOP*/
 #to-top {
   position: fixed;
   bottom: 30px;

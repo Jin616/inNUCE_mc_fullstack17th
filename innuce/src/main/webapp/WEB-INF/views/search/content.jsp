@@ -1,14 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="news-cover">
 
+<div class="news-cover">
 	<div class="news-content">
 		<div class="cover">
 
 			<div class="main-title">
-				<p>"${keyword }"</p>
+				<p>${keyword }</p>
+				<p>${noneKeyword }</p>
 			</div>
 	
 			<div id="tab-1-keyword" class="tab-content">
@@ -39,30 +40,31 @@
 
 
 
-		<div class="paging">
-		<%
-		int pageCount = (Integer) request.getAttribute("pageCount");
-		int totalCount = (Integer) request.getAttribute("totalCount");
-
-		int totalPage = 0;
-		if (totalCount % pageCount == 0) {
-			totalPage = totalCount / pageCount;
-		} else {
-			totalPage = totalCount / pageCount + 1;
-		}
+			<div class="paging">
+			<%
+			int pageCount = (Integer) request.getAttribute("pageCount");
+			int totalCount = (Integer) request.getAttribute("totalCount");
 		
-		for (int i = 1; i <= totalPage; i++) {
-		%>
+			int totalPage = 0;
+			if (totalCount % pageCount == 0) {
+				totalPage = totalCount / pageCount;
+			} else {
+				totalPage = totalCount / pageCount + 1;
+			}
+			
+			for (int i = 1; i <= totalPage; i++) {
+			%>
+		
+			<a href="/search?keyword=${keyword }&pageNum=<%=i%>"><%=i%></a>&nbsp;
+			<%
+			}
+			%>
+			</div>
 
-		<a href="/search?keyword=${keyword }&pageNum=<%=i%>"><%=i%></a>&nbsp;
-		<%
-		}
-		%>
 
 
 
+
+		</div>
 	</div>
-</div>
-
-
 </div>

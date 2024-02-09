@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 
+
 </head>
 
 <body>
@@ -121,6 +122,7 @@
      			<div class='bookmark-cover'>
      				<i class='fa-solid fa-bookmark'></i>
      			</div>
+     			
       	</div>
       </c:forEach>
       

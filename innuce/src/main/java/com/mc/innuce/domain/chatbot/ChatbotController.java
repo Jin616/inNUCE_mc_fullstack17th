@@ -1,4 +1,4 @@
-package com.mc.innuce.domain.search.chatbot;
+package com.mc.innuce.domain.chatbot;
 
 import java.io.IOException;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.search.geoloaction.NaverService;
@@ -16,13 +17,8 @@ import com.mc.innuce.domain.search.geoloaction.NaverService;
 public class ChatbotController {
 
 	@Autowired
-	@Qualifier("chatbotService")
-	NaverService service;
+	ChatbotService chatbotService;
 	
-//	@Autowired
-//	@Qualifier("ttsservice")
-//	NaverService ttsService;
-
 	@RequestMapping("/chatbotInput")
 	ModelAndView input() {
 		ModelAndView mv = new ModelAndView();
@@ -35,7 +31,7 @@ public class ChatbotController {
 	@RequestMapping("/chatbotOutput")
 	ModelAndView output(String request) throws IOException {
 
-		String result = service.test(request);
+		String result = chatbotService.test(request);
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result", result);
@@ -43,36 +39,29 @@ public class ChatbotController {
 		mv.setViewName("chatbot/output");
 
 		return mv;
+	
 	}
 
-//	@RequestMapping("/chatbotajaxstart")
-//	String ajaxStart() {
-//
-//		return "chatbot/chatbotajax";
-//	}
+	@RequestMapping("/main/chatbot")
+	public String executeChatbot() {
+		return "chatbot/chatbotAjaxInput";
+	}
 
-//	@RequestMapping("/chatbotajaxprocess")
-//	@ResponseBody
-//	String ajaxProcess(String request) {
-//
-//		String response = service.test(request);
-//
-//		return response;
-//	}
+	@RequestMapping("/main/chatbotProcess")
+	@ResponseBody
+	public String executeChatbot1(String chotbot) {
+		String result = chatbotService.test(chotbot);
 
-//	@RequestMapping("/chatbottts")
-//	@ResponseBody
-//	String tts(String response) {
-//		String mp3filename=ttsService.test(response);
-//		
-//		return "{\"mp3\": \""+mp3filename+"\"}";
-//	}
+		System.out.println("변경전=" + result);
+
+		JSONObject json = new JSONObject(result);
+
+		JSONArray bubbles = (JSONArray) json.get("bubbles");
+		JSONObject bubble = (JSONObject) bubbles.get(0);
+		bubble.remove("information");
+		result = json.toString();
+
+		return result;
+	}
 
 }
-
-/*
- * 
- * bubbles[0].type : text -> 기본답변 bubbles[0].data.cover.type : image -> 이미지답변
- * bubbles[0].data.cover.type : text -> 멀티링크답변
- * 
- */

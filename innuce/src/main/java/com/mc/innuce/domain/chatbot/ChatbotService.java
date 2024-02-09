@@ -1,4 +1,4 @@
-package com.mc.innuce.domain.search.chatbot;
+package com.mc.innuce.domain.chatbot;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

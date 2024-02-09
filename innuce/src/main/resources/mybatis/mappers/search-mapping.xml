@@ -3,12 +3,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mc.innuce.domain.search.dao.SearchDAO">
-	<select id="selectPassedKeywordList" parameterType="int" resultType="int">
+
+	<select id="selectPassedKeywordList" parameterType="int"
+		resultType="int">
 		select keyword_key
 		from (select keyword_key, count(*) as num
-				from search
-				where search_time &gt;= date_add(now(), interval -1 day)
-				group by keyword_key) as oneday
+		from search
+		where search_time &gt;= date_add(now(), interval -1 day)
+		group by keyword_key) as oneday
 		where oneday.num &gt;= #{createRoomCount};
 	</select>
+	
+	<select id="oneSearch" parameterType="searchdto" resultType="searchdto">
+		select * from search where keyword_key=#{keyword_key} and user_key=#{user_key } and client_key=#{client_key}
+	</select>
+	<select id="oneSearch2" parameterType="searchdto" resultType="searchdto">
+		select * from search where keyword_key=#{keyword_key} and client_key=#{client_key}
+	</select>
+
+	<insert id="insertSearch" parameterType="searchdto">
+		insert into search (keyword_key,user_key,client_key,search_time) 
+		values (#{keyword_key}, #{user_key}, #{client_key}, now())
+	</insert>
+	<insert id="insertSearch2" parameterType="searchdto">
+		insert into search (keyword_key,client_key,search_time) 
+		values (#{keyword_key}, #{client_key}, now())
+	</insert>
+
+	<update id="updateSearch" parameterType="searchdto">
+		update search set
+		search_time=now() where keyword_key=#{keyword_key} and client_key=#{client_key }
+	</update>
+	
+	<update id="updateSearch2" parameterType="searchdto">
+		update search set
+		search_time=now() where keyword_key=#{keyword_key} and user_key=#{user_key } and client_key=#{client_key}
+	</update>
+
+
 </mapper>

@@ -22,7 +22,7 @@
 
 		
 		<typeAlias type="com.mc.innuce.domain.user.dto.UserDTO" alias="userdto"/>
-
+		<typeAlias type="com.mc.innuce.domain.user.dto.ScrapDTO" alias="scrapdto"/>
 	</typeAliases>
 	
 </configuration> 

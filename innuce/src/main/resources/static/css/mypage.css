@@ -220,3 +220,205 @@ tbody tr:hover {
  	border-bottom-left-radius: 10px;
  	border-bottom-right-radius: 10px;
 }
+
+/* mypageScrap.jsp */
+#mypage_scrap_main {
+	display: inline-block;
+	vertical-align: middle;
+	align-items: center;
+	width : 70%;
+	height: 700px;
+	position: relative;
+}
+
+#mypage_scrap_main .news-cover {
+	width: 1019px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	background: rgba(160, 124, 69, 0.1);
+	margin: 70px auto;
+	padding: 20px auto;
+	position: absolute;
+	border-radius: 5px;
+
+}
+
+#mypage_scrap_main .news-cover .news-content {
+	width: 100%;
+
+	/*justify-content: flex-end;*/
+	/*	justify-content: center;
+	align-items: center;
+	display: flex;*/
+}
+
+#mypage_scrap_main .news-cover .news-content .cover {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	/*	justify-content: center;
+	align-items: center;
+*/
+
+}
+
+#mypage_scrap_main .news-cover .news-content .cover>div {
+	margin: 20px 0;
+}
+
+#mypage_scrap_main .news-cover .news-content .cover .main-title {
+	/*	position: absolute;
+	height: 70px;
+	width: 100%;
+	
+	padding: 20px 0;
+	display: flex;
+	align-items: start;*/
+	margin-bottom: 0px;
+
+}
+
+#mypage_scrap_main .news-cover .news-content .cover .main-title p {
+
+	font-size: 40px;
+	font-family: Arial;
+	font-weight: 900;
+	z-index: 3;
+	margin: 0 20px;
+}
+
+
+
+#mypage_scrap_main .news-cover .news-content .cover .tab-content {
+	width: 100%;
+	/*	width: 100%;
+
+	flex-direction: column;
+	justify-content: flex-end;
+*/
+	/*	position: relative;*/
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Malgun Gothic', sans-serif;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content {
+
+	/*	
+	height: 800px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	margin: 10px auto;
+	position: relative;*/
+	display: flex;
+	width: 975px;
+	height: 180px;
+	background-color: rgba(203, 183, 153, 0.55);
+	border-radius: 5px;
+	align-content: center;
+	justify-content: center;
+	margin: 10px auto;
+	position: relative;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content>div {}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content:hover {
+	width: 1000px;
+	height: 200px;
+	transition: .2;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content:nth-last-child(1) {
+	margin-bottom: 20px;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .img-cover {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 10px;
+	cursor: pointer;
+}
+
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content img {
+	width: 150px;
+	height: 149px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	/*overflow: hidden;*/
+	object-fit: scale-down;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content:hover img {
+	width: 160px;
+	height: 159px;
+	transition: .2s;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .a {
+	width: 795px;
+	margin: 0 auto;
+	position: relative;
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .a div {
+	margin: 5px 0;
+
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .a .date {
+	font-size: 13px;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .a .main {
+	font-size: 23px;
+	font-weight: 900;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .a .cont {
+	font-size: 20px;
+	font-weight: 500;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-all
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .bookmark-cover {
+	height: 100%;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .bookmark-cover i {
+	cursor: pointer;
+	margin: 10px 10px;
+	font-size: 30px;
+	color: rgba(164, 172, 134, 0.81);
+}
+
+
+#mypage_scrap_main .news-cover .news-content .tab-content .content .bookmark-cover i.checked {
+	color: #656d4a;
+}
+
+#mypage_scrap_main .news-cover .news-content .paging {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+

@@ -110,21 +110,23 @@ $('.content .a').on('click', function() {
 })*/
 
 /*검색 글자 제한*/
-let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
-let replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
+let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi;
+let replaceNotFullKorean = /[ㅏ-ㅣ]/gi;
+
 
 $('#searchBar').on("focusout", function() {
 	let x = $(this).val();
 	if (x.length > 0) {
 		if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {
-			x = x.replace(replaceChar, "").replace(replaceNotFullKorean, "");
+			x = x.replace(replaceNotFullKorean, "");
+			x = x.replace(replaceChar, "");
 		}
-		$(this).val(x);
+		console.log($(this).val(x));
 	}
 }).on("keyup",function() {
 	$(this).val($(this).val().replace(replaceChar,""));
+	/*$(this).val($(this).val().replace(replaceNotFullKorean,""));*/
 })
-
 
 
 

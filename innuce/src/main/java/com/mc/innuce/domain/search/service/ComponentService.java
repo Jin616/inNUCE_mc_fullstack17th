@@ -27,7 +27,6 @@ public class ComponentService {
 	WordCloudService cloudService;
 	@Autowired
 	GeolocationService geoService;
-	
 
 	public KeywordDTO oneKeyword(String keyword) {
 		return keywordService.oneKeyword(keyword);
@@ -45,6 +44,7 @@ public class ComponentService {
 	public List<Long> getNewsKeys(String keyword) {
 		return keywordService.getNewsKeys(keyword);
 	}
+
 //	위치 검색 시 news_key
 	public List<Long> getNewsKeys2(String place) {
 		return keywordService.getNewsKeys2(place);
@@ -80,16 +80,32 @@ public class ComponentService {
 		return newsService.selectOne(newsKey);
 	}
 
-	public int updateSearch(int keywordKey) {
-		return searchService.updateSearch(keywordKey);
+	public int updateSearch(SearchDTO sDTO) {
+		return searchService.updateSearch(sDTO);
+	}
+
+	public int updateSearch2(SearchDTO sDTO) {
+		return searchService.updateSearch2(sDTO);
 	}
 
 	public int insertSearch(SearchDTO sDTO) {
-		return searchService.insertSearch(sDTO);		
+		return searchService.insertSearch(sDTO);
 	}
 
+	public int insertSearch2(SearchDTO sDTO) {
+		return searchService.insertSearch2(sDTO);
+	}
 
+	public int deleteKeyword(String token) {
+		return keywordService.deleteKeyword(token);
+	}
 
+	public SearchDTO oneSearch(SearchDTO sDTO) {
+		return searchService.oneSearch(sDTO);
+	}
 
+	public SearchDTO oneSearch2(SearchDTO sDTO) {
+		return searchService.oneSearch2(sDTO);
+	}
 
 }

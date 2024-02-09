@@ -72,18 +72,18 @@ header .badges {
 	right: -250px;
 	position: absolute;
 	width: 200px;
-	height: 400px;
 	background-color: rgba(164, 172, 134, 0.81);
 	border-radius: 10px;
 	box-shadow: 10px 10px 22px rgba(0, 0, 0, .15);
-	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	display: block;
+	justify-content: center;
+	align-items: center;
+	
 }
 
 header .badges .badge {
-	margin: 12px auto;
+	margin: 6px 0;
 	border-radius: 10px;
 	width: 150px;
 	height: 70px;
@@ -96,7 +96,17 @@ header .badges .badge {
 	background-color: #656d4a;
 	font-weight: 600;
 	color: #eee;
+	cursor: pointer;
 }
+header .badges a{
+	display: flex;
+	color: #22333b;
+	justify-content: center;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+
 
 header .badges .badge:hover {
 	/*background-color: rgba(187, 225, 195, 0.71);*/

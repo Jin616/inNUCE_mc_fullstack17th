@@ -435,7 +435,7 @@ public class CrawlingNewsService {
 	public NewsDTO parseNewsToNewsDTO(WebDriver newsdriver, String href, String thumbnailuri) {
 		NewsDTO news = new NewsDTO();
 		newsdriver.get(href);
-		System.out.println(href);
+		
 		news.setNews_key(conv.getLongNewsKey(href));
 		news.setPress_key(conv.getIntPressKey(href));
 		news.setNews_title(newsdriver.findElement(By.id("title_area")).getText());

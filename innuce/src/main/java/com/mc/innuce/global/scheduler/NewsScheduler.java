@@ -1,14 +1,10 @@
 package com.mc.innuce.global.scheduler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mc.innuce.domain.news.selenium.service.CrawlingNewsService;
-import com.mc.innuce.domain.news.selenium.service.SeleniumService;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.global.config.Config;
 
@@ -26,7 +22,7 @@ public class NewsScheduler {
 	public static int categoryCrawlerCallCount = 0;
 	public static int headlineCrawlerCallCount = 0;
 	
-	@Scheduled(cron = "0 0/1 * * * *")
+	@Scheduled(cron = "0 0/20 * * * *")
 	public void schduleUpdateNewsCategory() {
 		
 //		if (!isCategoryCrawlerRunning) {
@@ -43,7 +39,7 @@ public class NewsScheduler {
 	}
 
 	// 한시간 마다 실행
-	@Scheduled(cron = "0 0 * * * *")
+	@Scheduled(cron = "30 0 * * * *")
 	public void scheduleUpdateNewsHeadline() {
 		
 //		if (!isHeadlineCrawlerRunning) {

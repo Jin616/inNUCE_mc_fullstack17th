@@ -40,8 +40,20 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-		WebDriver driver = new ChromeDriver(chromeOptions);
-
+		
+		WebDriver driver;
+		int retryCount = 0;
+		while (true) {
+			try {
+				driver = new ChromeDriver(chromeOptions);
+				Thread.sleep(500);
+				
+				break;
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("retryCount : " + ++retryCount);
+			}
+		}
 		return driver;
 	}
 	
@@ -50,15 +62,19 @@ public class WebDriverPool {
 		
 		try {
 			driver = webDriverPool.take();
+			
+			if(driver == null) {
+				System.out.println("uh, where is my driver? show me the driver");
+				driver = createNewWebDriver();
+			}
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver rent");
+		
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
-		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver return");
 		webDriverPool.offer(webDriver);
 	}
 

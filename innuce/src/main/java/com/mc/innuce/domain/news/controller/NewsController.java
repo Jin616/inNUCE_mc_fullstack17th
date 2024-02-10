@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
 
 @RestController
@@ -19,6 +20,8 @@ public class NewsController {
 
 	@Autowired
 	NewsService ns;
+	@Autowired
+	WebDriverPool pool;
 	
 	@GetMapping("headline")
 	@ResponseBody
@@ -58,5 +61,15 @@ public class NewsController {
 			WebDriver driver = new ChromeDriver(chromeOptions);
 			driver.quit();
 		}
+	}
+	
+	@GetMapping("/testshowdriver")
+	public void showPool() {
+		pool.showStatusWebDriverPool();
+	}
+	
+	@GetMapping("/testinitpool")
+	public void initPool() {
+		pool.initWebDriverPool();
 	}
 }

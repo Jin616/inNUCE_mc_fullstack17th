@@ -29,8 +29,8 @@ public class NewsScheduler {
 	@Scheduled(cron = "0 0/1 * * * *")
 	public void schduleUpdateNewsCategory() {
 		
-		if (!isCategoryCrawlerRunning) {
-//		if (Config.CURRENT_OS.equals("linux") && !isCategoryCrawlerRunning) {
+//		if (!isCategoryCrawlerRunning) {
+		if (Config.CURRENT_OS.equals("linux") && !isCategoryCrawlerRunning) {
 			System.out.println("categoryCrawlerCallCount : " + ++categoryCrawlerCallCount);
 			System.out.println("category crawller 실행");
 			isCategoryCrawlerRunning = true;
@@ -45,8 +45,9 @@ public class NewsScheduler {
 	// 한시간 마다 실행
 	@Scheduled(cron = "0 0 * * * *")
 	public void scheduleUpdateNewsHeadline() {
-		if (!isHeadlineCrawlerRunning) {
-		//if (Config.CURRENT_OS.equals("linux") && !isHeadlineCrawlerRunning) {
+		
+//		if (!isHeadlineCrawlerRunning) {
+		if (Config.CURRENT_OS.equals("linux") && !isHeadlineCrawlerRunning) {
 			System.out.println("headlineCrawlerCallCount : " + ++headlineCrawlerCallCount);
 			System.out.println("headline crawller 실행");
 			String[] categorys = {"정치", "경제", "사회", "생활", "IT", "세계"};

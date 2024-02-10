@@ -161,13 +161,6 @@ $('#myPlace').on('click', function() {
 
 	}
 })
-/* 뉴스 자세히 보기 */ // 0208 category ajax 안으로 이관 했습니다. seo
-/*$('.content-cover img').on('click', function() {
-	location = "/news"
-})
-$('.content-cover .a').on('click', function() {
-	location = "/news"
-})*/
 
 /*검색 글자 제한*/
 let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi;

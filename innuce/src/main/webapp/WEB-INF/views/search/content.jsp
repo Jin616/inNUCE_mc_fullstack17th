@@ -94,6 +94,22 @@ window.onload = function(){
 		}//success
 	})//ajax
 	}//else
+		
+	let noneKeyword = '${noneKeyword }';	
+	
+	if(!noneKeyword) {
+		
+	} else {
+		console.log(noneKeyword);
+		$("#noResult").html(
+		"<ul style='list-style-type: circle; margin-top: 80px;'>"
+		+"<li	stlye='margin: 5px 0;'>단어의 철자가 정확한지 확인해 보세요.</li>"
+		+"<li	stlye='margin: 5px 0;'>한글을 영어로 혹은 영어를 한글로 입력했는지 확인해 보세요.</li>"
+		+"<li	stlye='margin: 5px 0;'>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</li>"
+		+"<li	stlye='margin: 5px 0;'>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</li>"
+		+"</ul>"
+		)//html
+	}
 	
 }//onload
 </script>
@@ -109,6 +125,7 @@ window.onload = function(){
 				<p>${keyword }</p>
 				<p>${noneKeyword }</p>
 			</div>
+			<p id='noResult'></p>
 	
 			<div id="tab-1-keyword" class="tab-content">
 			
@@ -139,7 +156,7 @@ window.onload = function(){
 
 
 			<div class="paging">
-			<%
+<%-- 			<%
 			int pageCount = (Integer) request.getAttribute("pageCount");
 			int totalCount = (Integer) request.getAttribute("totalCount");
 		
@@ -150,18 +167,24 @@ window.onload = function(){
 				totalPage = totalCount / pageCount + 1;
 			}
 			
-			for (int i = 1; i <= totalPage; i++) {
+			/* for (int i = 1; i <= totalPage; i++) { */
 			%>
-		
-			<a href="/search?keyword=${keyword }&pageNum=<%=i%>"><%=i%></a>&nbsp;
 			<%
-			}
-			%>
+			/* } */
+			%> --%>
+			<c:if test="${pageMaker.prev }">
+				<a href="/search?keyword=${keyword }&pageNum=${pageMaker.startPage-1 } ">이전</a>&nbsp;
+			</c:if>
+			
+			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="i">
+				<a class="movePage" href="/search?keyword=${keyword }&pageNum=${i }">${i }</a>&nbsp;
+			</c:forEach>
+      <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+        <a href="/search?keyword=${keyword }&pageNum=${pageMaker.endPage+1 } ">다음</a>
+      </c:if>       
+			
 			</div>
-
-
-
-
+	
 
 		</div>
 	</div>

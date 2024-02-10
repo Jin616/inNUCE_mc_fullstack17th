@@ -39,7 +39,7 @@ public class NewsScheduler {
 	}
 
 	// 한시간 마다 실행
-	@Scheduled(cron = "0 0 * * * *")
+	@Scheduled(cron = "30 0 * * * *")
 	public void scheduleUpdateNewsHeadline() {
 		
 //		if (!isHeadlineCrawlerRunning) {

@@ -185,6 +185,12 @@ public class SearchController {
 				} // token >= 2
 			}// newsKeyList is null or isEmpty
 		} // for (String token : analyzeList)
+		
+		
+		if(totalCount>=250) {
+			totalCount=250;
+		}
+		
 		System.out.println(totalCount + " : totalCount");
 		PageMaker pageMaker = new PageMaker(pageNum,totalCount);
 		
@@ -314,6 +320,10 @@ public class SearchController {
 		} // for (String place : analyzeList)
 
 //	paging
+		
+		if(totalCount>=250) {
+			totalCount=250;
+		}
 		PageMaker pageMaker = new PageMaker(pageNum,totalCount);
 		
 		Map<String, Object> map = new HashMap<>();
@@ -329,7 +339,7 @@ public class SearchController {
 		map.put("num2", limit[1]);
 
 		System.out.println("totalCount : " + totalCount);
-
+		
 //	키워드에 해당하는 news 가져오기
 
 		if (newsList.isEmpty()) {

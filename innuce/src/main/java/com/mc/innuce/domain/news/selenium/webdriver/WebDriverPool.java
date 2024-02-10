@@ -1,5 +1,6 @@
 package com.mc.innuce.domain.news.selenium.webdriver;
 
+import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -40,8 +41,20 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-		WebDriver driver = new ChromeDriver(chromeOptions);
-
+		
+		WebDriver driver;
+		int retryCount = 0;
+		while (true) {
+			try {
+				driver = new ChromeDriver(chromeOptions);
+				Thread.sleep(500);
+				
+				break;
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("retryCount : " + ++retryCount);
+			}
+		}
 		return driver;
 	}
 	
@@ -50,16 +63,66 @@ public class WebDriverPool {
 		
 		try {
 			driver = webDriverPool.take();
+			
+			if(driver == null) {
+				System.out.println("uh, where is my driver? show me the driver");
+				driver = createNewWebDriver();
+			}
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver rent");
+		
 		return driver;
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
-		if (Config.CURRENT_OS.equals("linux")) System.out.println("driver return");
-		webDriverPool.offer(webDriver);
+		if(webDriverPool.size() < MAX_POOL_SIZE)
+			webDriverPool.offer(webDriver);
+		else
+			webDriver.quit();
 	}
 
+	public void showStatusWebDriverPool() {
+		System.out.println("WebDriverPool have " + webDriverPool.size());
+		
+		ArrayList<WebDriver> list = new ArrayList<>();
+		
+		int size = webDriverPool.size();
+		for(int i = 0; i <size; i++) {
+			try {
+				list.add(webDriverPool.take());
+				System.out.println("take");
+			} catch (Exception e) {
+				System.out.println("releaseWebDriver ERROR");
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("WebDriverList have " + list.size());
+		for(WebDriver driver : list) {
+			System.out.println("currenturl" + driver.getCurrentUrl());
+			releaseWebDriver(driver);
+		}
+	}
+	
+	public void initWebDriverPool() {
+		System.out.println("init driverpool");
+		System.out.println("size " + webDriverPool.size());
+		while(webDriverPool.size() > 0) {
+			try {
+				webDriverPool.take().quit();
+				System.out.println("size " + webDriverPool.size());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		for(int i = 0; i < MAX_POOL_SIZE; i++) {
+			System.out.println("creating...");
+			webDriverPool.offer(createNewWebDriver());
+			System.out.println(webDriverPool.size());
+		}
+		
+	}
 }

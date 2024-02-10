@@ -88,6 +88,13 @@ public class MailService {
             System.out.println("이메일 발송 에러");
         }
        
+        /*
+         * 임시비밀번호 발급 > db에서 비밀번호 수정
+         * 로그인할 떄
+         * 기입한 id로 db에서 userdto 다긁어옴
+         * 그 dto의 get user pw 로 비밀번호를 가져옴
+         * 대조후 통과!
+         */
 		
 		// 서버단에서 비밀번호 바꿔주기
 		dto.setUser_pw(Integer.toString(number_key));

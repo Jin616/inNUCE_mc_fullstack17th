@@ -48,7 +48,7 @@ public class UserController {
 
 		// 해당 아이디를 가진 회원이 user 테이블에 없을 경우
 		if (dto == null) {
-			login_result = "해당 아이디를 가진 회원이 없습니다.";
+			login_result = "아이디나 비밀번호를 확인해주세요.";
 			json_result = "{\"login_result\": \"" + login_result + "\" }";
 			return json_result;
 		}
@@ -78,10 +78,7 @@ public class UserController {
 			}
 			// 다른 비밀번호 입력
 			else {
-				System.out.println(dto.getUser_id());
-				System.out.println(dto.getEmail());
-				System.out.println(dto.getUser_pw());
-				login_result = "잘못된 비밀번호를 입력하셨습니다.";
+				login_result = "아이디나 비밀번호를 확인해주세요.";
 				json_result = "{\"login_result\": \"" + login_result + "\" }";
 				return json_result;
 			}
@@ -143,6 +140,10 @@ public class UserController {
 		session.setAttribute("login_user", dto);
 		return "user/registermember";
 	}
+	@RequestMapping("/registerResult")
+	public String registerResult() {
+		return "user/registerResult";
+	}
 
 	// 로그아웃 (김)
 	@RequestMapping("/logout")
@@ -156,8 +157,14 @@ public class UserController {
 	public String mypage() {
 		return "user/mypage";
 	}
-
-	// 회원정보 수정 (김)
+	
+	// 마이페이지에서 회원정보 수정누르면 뷰 바꿔주기
+	@GetMapping("/mypageChangeinfo")
+	public String changeinfo() {
+		return "user/mypageChangeinfo";
+	}
+	
+	// 마이페이지에서 회원정보 수정 내에서 정보 수정 처리 (김)
 	@PostMapping("/infochange")
 	@ResponseBody
 	public void infoChange(String user_pw, String email, String phone, String address, HttpSession session,
@@ -182,24 +189,31 @@ public class UserController {
 		dto.setUser_pw(user_pw);
 		dto.setPhone(phone);
 
-		System.out.println(address);
-		System.out.println(email);
-		System.out.println(user_pw);
-		System.out.println(phone);
-
 		service.updateUser(dto);
 
 	}
-
-	// 탈퇴기능
+	
+	// 마이페이지 탈퇴화면 뷰 주기
+	@GetMapping("/mypageDelete")
+	public String delete() {
+		return "user/mypageDelete";
+	}
+	// 마이페이지 탈퇴기능 
 	@RequestMapping("/deleteuser")
 	@ResponseBody
-	public void delete(HttpSession session) {
+	public void deleteuser(HttpSession session) {
 		UserDTO dto = (UserDTO) session.getAttribute("login_user");
 		service.deleteuser(dto);
 		session.removeAttribute("login_user");
 	}
-
+	
+	
+	// 마이페이지 스크랩한 기사 뷰 주기
+	@GetMapping("/mypageChatting")
+	public String myChattingroom() {
+		return "user/mypageChattingroom";
+	}
+	
 	// 회원 복구 페이지
 	@RequestMapping("/restoreuser")
 	public String restoreuser() {
@@ -389,8 +403,7 @@ public class UserController {
 		String json_result;
 		// 전체 유저 수
 		int total_user;
-		System.out.println(user_name+ "유저이름");
-		System.out.println(user_id+"유저아이디");
+		
 		// 관리자 화면에서 유저 이름 / 유저 id를 따로 검색하지 않은 경우
 		if(user_id.length()==0 && user_name.length()==0) {
 			total_user = service.selectAllUser();

@@ -34,16 +34,16 @@
 			
 			// 회원 정보 수정 눌렀을때
 			 $("#info_change").on('click',function(){
-				location.href = "mypageChangeinfo"
+				 location.href = "mypageChangeinfo"
 			})//info_change_click
 			
 			// 스크랩한 기사 눌렀을때
 			 $("#my_scrap").on('click',function(){
-				 location.href = "mypageScrap"
+				 location.href = "mypageScrap"	
 			 })// my_scrap click
 			 
 			// 참여중인 채팅방 버튼 눌렀을때
-			$("#my_chatting").on('click',function(){	
+			$("#my_chatting").on('click',function(){
 				location.href = "mypageChatting"
 			})// my_chatting click
 			
@@ -51,21 +51,35 @@
 			$("#delete").on('click',function(){
 				location.href = "mypageDelete"
 			})// delete click
+			
+			// 탈퇴하기 버튼 눌렀을때
+			$("#deleteButton").on('click',function(){
+				$.ajax({ 
+					url : "deleteuser",
+					type : 'post',
+					success : function(response){
+						alert("회원탈퇴가 완료됐습니다.")
+						location.href = "main"
+						
+						}//success
+					});//ajax
+				})//delete button click
+			
 		}// else
-		})// on
+	})// on
 	
 </script>
 <!--  header -->
 <header>
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
-	
+		<!--  좌측 네비바 -->
 	<div id = "myPage_navigater" >
 		<div class='title'>마이페이지</div>
 		<button id="info_change" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 정보 수정</button>
 		<button id="my_scrap" clicked="none"><i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사 </button>
 		<button id="my_chatting" clicked="none"><i class="fa-regular fa-comments"></i>&nbsp;참여중인 채팅방</button>
-		<button id="delete" clicked="none"> 회원 탈퇴</button>
+		<button id="delete" clicked="yes"> 회원 탈퇴</button>
 	</div>
 	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
@@ -74,10 +88,16 @@
 
 </header>
 
-<!--  좌측 네비바 -->
-
 <!--  마이페이지 내용 -->
-<div id = "myPage_main" > </div>
+<main>
+
+	<div id ="myPage_main">
+		<div> 정말로 회원을 탈퇴하시겠습니까? </div><br>
+		<div> 회원 탈퇴 후 2분내로 로그인 하시면 복구하실 수 있습니다.</div><br>
+		<input id= 'deleteButton' type='button' value='탈퇴하기' >
+	</div>
+
+</main>
 
 </body>
 </html>

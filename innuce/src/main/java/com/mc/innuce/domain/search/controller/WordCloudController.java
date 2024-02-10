@@ -48,22 +48,25 @@ public class WordCloudController {
 		for (String string : strArr) {
 			
 			HashMap<String, Integer> crawlerData = service.getCategoryContent(string);
-
-			JSONArray jsonArray = new JSONArray();
-			// 명사들을 하나씩
-			for (String token : crawlerData.keySet()) {
+			if(crawlerData != null) {
+				JSONArray jsonArray = new JSONArray();
+				// 명사들을 하나씩
+				for (String token : crawlerData.keySet()) {
+					
+					JSONObject informationObject = new JSONObject();
+					
+					// {"x": "token"}
+					informationObject.put("x", token);
+					// { value: 80 }
+					informationObject.put("value", crawlerData.get(token));
+					// {"x": "token", value: 80}
+					jsonArray.put(informationObject);
+				}
 				
-				JSONObject informationObject = new JSONObject();
+				list.add(jsonArray.toString());
+				
+			} 
 
-				// {"x": "token"}
-				informationObject.put("x", token);
-				// { value: 80 }
-				informationObject.put("value", crawlerData.get(token));
-				// {"x": "token", value: 80}
-				jsonArray.put(informationObject);
-			}
-
-			list.add(jsonArray.toString());
 		}
 
 		return list;

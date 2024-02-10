@@ -7,27 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아이디 비밀번호 찾기 </title>
+
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
+<!-- css -->
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-<script>
-window.onload = function(){
 	
-	let id_find_button = document.getElementById("id_find_button")
-	let pw_find_button = document.getElementById("pw_find_button")
-	// 아이디 찾기 버튼 눌렀을때
-	$("#id_find_button").on("click",function(){
-		location.href ="idfind"
-	})//id_find_button click
-	
-	$("#pw_find_button").on("click",function(){
-		location.href ="pwfind"
-	})//pw_find_button click
-}// onload
-</script>
 </head>
+
 <body>
 <!--  header -->
 <header>
@@ -37,14 +25,17 @@ window.onload = function(){
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
-<div id="find_box">
 
-	<div class="button">
-			<input id="id_find_button" type="button" value="아이디 찾기">&nbsp;&nbsp;
-			<input id="pw_find_button" type="button" value="비밀번호 찾기">
+<div id ="welcome-box">
+	<div class="title"><p>Welcome<p></div>
+	<div class="title"><p>in NUCE 회원이 되셨습니다.<p></div>
+	
+	<div class="toMain">
+		<a href="/main">메인페이지로 이동</a>
 	</div>
-
+	
 </div>
 
 </body>
+
 </html>

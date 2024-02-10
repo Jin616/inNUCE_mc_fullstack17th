@@ -247,8 +247,8 @@ $('.tab-link').click(function() {
 		'color': '#5A6372'
 	});
 	$('.tab-link.current').css({
-		'font-size': '25px',
-		'color': 'black'
+		'color': '#333',
+		'font-size': '22px'
 	});
 });
 

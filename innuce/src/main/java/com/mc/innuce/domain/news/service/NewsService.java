@@ -50,6 +50,7 @@ public class NewsService {
 		return newsdao.selectOneNews(newsKey);
 	}
 
+
 	// 카테고리 별 뉴스를 넘겨주는 
 	public JSONObject getHeadlineNews() {
 		JSONObject result = new JSONObject();
@@ -68,4 +69,12 @@ public class NewsService {
 		newsdao.insertNewsHeadline(list);
 	}
 	
+
+	
+	// 스크랩에서 쓸 news_key 를 가지고 한개의 newsDTO 가져오기 (김)
+	public NewsDTO selectOne(long news_key) {
+		
+		return newsdao.selectSingleNews(news_key);
+	}
+
 }

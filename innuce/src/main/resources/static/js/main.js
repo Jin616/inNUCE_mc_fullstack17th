@@ -195,40 +195,38 @@ $.ajax({
 	type: "get",
 	dataType: "json",
 	success: function(response) {
-		//let arr = JSON.parse(response);
-		//console.log(arr);
-
-		for (let i = 0; i < 6; i++) { // categoryidx
-			for (let j = 0; j < 5; j++) { // listidx
+		for (let i = 0; i < 6; i++) { // categoryIdx
+			for (let j = 0; j < 5; j++) { // listIdx
 				// categoryidx-listidx-(a|img|date|main|cont)
-				let news = response[i][j];
+				let n = response[i][j]; // news
 				// 인덱스 보정
-				let categoryidx = i + 1;
-				let listidx = j + 1;
-
-				$('#' + categoryidx + '-' + listidx + '-a').attr('href', 'news/' + news.news_key);
-				$('#' + categoryidx + '-' + listidx + '-img').attr('src',
-					news.news_thumbnailuri2 == null ? news.news_thumbnailuri : news.news_thumbnailuri2);
+				let categoryIdx = i + 1;
+				let listIdx = j + 1;
+				let idx = categoryIdx + '-' + listIdx;
+				
+				$('#' + idx + '-a').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-img').attr('src',
+					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
 
 				// Posted July 11, 2017
-				let date = new Date(news.news_writendate);
-				// 'ko-KR'
+				let date = new Date(n.news_writendate);
+				// 'ko-KR'로 해도 되는데 원본이 en-US로 되어있어서 en-US로 작성
 				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 				console.log(formattedDate);
-				$('#' + categoryidx + '-' + listidx + '-date').text("Posted " + formattedDate);
+				$('#' + idx + '-date').text("Posted " + formattedDate);
 
-				$('#' + categoryidx + '-' + listidx + '-main').attr('href', 'news/' + news.news_key);
-				$('#' + categoryidx + '-' + listidx + '-main').text(news.news_title);
-				$('#' + categoryidx + '-' + listidx + '-main').css({
+				$('#' + idx + '-main').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-main').text(n.news_title);
+				$('#' + idx + '-main').css({
 					'color': 'black',
 					'text-decoration': 'none'
 				});
 
-				let summ = news.summ_content;
+				let summ = n.summ_content;
 				summ = summ.length > 150 ? summ.slice(0, 150) + '...' : summ;
-				$('#' + categoryidx + '-' + listidx + '-cont').attr('href', 'news/' + news.news_key);
-				$('#' + categoryidx + '-' + listidx + '-cont').text(summ);
-				$('#' + categoryidx + '-' + listidx + '-cont').css({
+				$('#' + idx + '-cont').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-cont').text(summ);
+				$('#' + idx + '-cont').css({
 					'color': 'black',
 					'text-decoration': 'none'
 				});
@@ -251,7 +249,4 @@ $('.tab-link').click(function() {
 		'font-size': '22px'
 	});
 });
-
-
-
 /* category ajax end*/

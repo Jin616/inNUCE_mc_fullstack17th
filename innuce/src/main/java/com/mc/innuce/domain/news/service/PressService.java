@@ -24,6 +24,8 @@ public class PressService {
 	 * pressList의 dto 값들을 넣어준다. DB에 각각의 기능을 실행 후 결과값 출력 후 종료
 	 */
 
+	private List<PressDTO> pressList = new ArrayList<>();
+	
 	public void updatePressTable(List<PressDTO> pressList) {
 		HashMap<Integer, PressDTO> originMap = new HashMap<Integer, PressDTO>();
 		List<PressDTO> originList = getAllPressList();

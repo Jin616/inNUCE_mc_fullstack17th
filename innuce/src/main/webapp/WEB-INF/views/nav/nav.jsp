@@ -12,9 +12,10 @@
 		 <div class="contents__media">
 		 
 	 		<div id="media-title">언론사</div>
-			 <ul class='inner'>
+			 <ul id="press-info" class='inner'>
 			 
-			 	<li>
+			 	
+			 	<!-- <li>
 		 			<ul>
 		 				<li>
 		 					<label>
@@ -116,12 +117,8 @@
 		 					<label><input type="checkbox"> 언론사</label>
 		 					
 		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
 		 			</ul>
-			 	</li>
+			 	</li> -->
 			 	
 			 </ul>
 			 
@@ -147,3 +144,4 @@
 	</li>
 </ul>
 </div>
+<script defer src="/js/press.js"></script>

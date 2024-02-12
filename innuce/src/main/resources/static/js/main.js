@@ -164,7 +164,7 @@ $('#myPlace').on('click', function() {
 
 /*검색 글자 제한*/
 let replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi;
-let replaceNotFullKorean = /[ㅏ-ㅣ]/gi;
+let replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
 
 $('#searchBar').on("focusout", function() {
 	let x = $(this).val();
@@ -180,6 +180,7 @@ $('#searchBar').on("focusout", function() {
 	/*$(this).val($(this).val().replace(replaceNotFullKorean,""));*/
 })
 
+/* enter 막기 */
 
 
 /* 02-08 seo category ajax start*/
@@ -248,3 +249,6 @@ $('.tab-link').click(function() {
 
 
 /* category ajax end*/
+
+
+

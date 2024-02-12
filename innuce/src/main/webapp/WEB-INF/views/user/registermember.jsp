@@ -278,7 +278,7 @@
 			</select> <br>
 			<div style="margin:2px 0;">
 			주소<br> <input class="mypage_input" type="text" name="address_number" id="address_number" placeholder="우편번호">
-			&nbsp;<input class = "mypage_button"id ="address_search_button" type ="button" value ="우편번호찾기"><br>
+			&nbsp;<input class = "mypage_button" type ="button" value ="우편번호찾기"><br>
 			</div>
 			<input class="mypage_input" type="text" name="address_doro" id="address_doro" placeholder="도로명주소"><br>
 			<input class="mypage_input" type="text" name="address_specific" id="address_specific" placeholder="상세주소"><br>

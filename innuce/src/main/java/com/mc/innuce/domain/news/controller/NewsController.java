@@ -15,6 +15,9 @@ import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 import com.mc.innuce.domain.news.service.NewsService;
 
+/**
+ * @author JIN
+ */
 @RestController
 public class NewsController {
 
@@ -29,7 +32,6 @@ public class NewsController {
 		return ns.getHeadlineNews().toString(); 
 	}
 	
-	// 0208 seo
 	@GetMapping("/news/{newsKey}")
 	public ModelAndView showNews(@PathVariable String newsKey) {
 		ModelAndView mv = new ModelAndView();
@@ -43,6 +45,8 @@ public class NewsController {
 		return mv;
 	}
 	
+	//////////////////////////////////////////////////////
+	// testlink
 	@GetMapping("/testleek/{n}")
 	public void testLeek(@PathVariable int n) {
 		ChromeOptions chromeOptions = new ChromeOptions();
@@ -72,4 +76,5 @@ public class NewsController {
 	public void initPool() {
 		pool.initWebDriverPool();
 	}
+	
 }

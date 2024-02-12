@@ -12,116 +12,7 @@
 		 <div class="contents__media">
 		 
 	 		<div id="media-title">언론사</div>
-			 <ul class='inner'>
-			 
-			 	<li>
-		 			<ul>
-		 				<li>
-		 					<label>
-		 						<input type="checkbox"> 언론사
-		 					</label>
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 			</ul>
-		 			
-			 	</li>
-			 	<li>
-			 		
-		 			<ul>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 			</ul>
-			 	</li>
-			 	
-			 	<li>
-			 		<ul>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 			</ul>
-			 	</li>
-			 	
-			 	<li>
-			 		
-		 			<ul>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 			</ul>
-			 	</li>
-			 	
-			 	<li>
-			 		
-		 			<ul>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 				<li>
-		 					<label><input type="checkbox"> 언론사</label>
-		 					
-		 				</li>
-		 			</ul>
-			 	</li>
+			 <ul id="press-info" class='inner'>
 			 	
 			 </ul>
 			 
@@ -147,3 +38,4 @@
 	</li>
 </ul>
 </div>
+<script defer src="/js/press.js"></script>

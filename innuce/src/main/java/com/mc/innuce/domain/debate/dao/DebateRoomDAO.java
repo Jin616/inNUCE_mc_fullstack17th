@@ -20,4 +20,6 @@ public interface DebateRoomDAO {
 	int createDebateRoom(List<Integer> newKeywordList);
 
 	int openDebateRoomCount();
+
+	List<DebateRoomDTO> myDebateRoomList(List<Integer> subMyDebateRoomKeyList);
 }

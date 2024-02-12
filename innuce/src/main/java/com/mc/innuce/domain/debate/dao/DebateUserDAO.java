@@ -35,4 +35,8 @@ public interface DebateUserDAO {
 
 	List<Integer> openDebateRoomUserConnectCountList(List<Integer> openDebateRoomKeyList);
 
+	List<Integer> myDebateRoomKeyList(int user_key);
+
+	int myDebateRoomKeyCount(int user_key);
+
 }

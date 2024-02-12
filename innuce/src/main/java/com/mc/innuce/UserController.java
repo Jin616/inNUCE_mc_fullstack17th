@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
+import com.mc.innuce.domain.debate.service.DebateRoomService;
+import com.mc.innuce.domain.debate.service.DebateUserService;
 import com.mc.innuce.domain.user.dto.MailDTO;
 import com.mc.innuce.domain.user.dto.UserDTO;
 import com.mc.innuce.domain.user.service.MailService;
@@ -29,6 +32,12 @@ public class UserController {
 
 	@Autowired
 	MailService mail_service;
+	
+	@Autowired
+	DebateUserService debateUserService;
+	
+	@Autowired
+	DebateRoomService debateRoomService;
 
 	// 로그인 페이지 (김)
 	@RequestMapping("/login")
@@ -39,17 +48,17 @@ public class UserController {
 	// 로그인 결과 (김)
 	@PostMapping("/loginresult")
 	@ResponseBody
-	public String loginresult(String user_id, String user_pw, boolean rememberId
-			, HttpServletResponse response, HttpSession session) {
+	public String loginresult(String user_id, String user_pw, boolean rememberId, HttpServletResponse response,
+			HttpSession session) {
 
 		// 받은 아이디로 userdto 하나 집어보기
-		
+
 		UserDTO dto = service.selectOneUser(user_id);
 		System.out.println(user_id);
 		String login_result = null;
 		String json_result = null;
 		System.out.println(rememberId);
-		
+
 		// 해당 아이디를 가진 회원이 user 테이블에 없을 경우
 		if (dto == null) {
 			login_result = "아이디나 비밀번호를 확인해주세요.";
@@ -78,17 +87,17 @@ public class UserController {
 				session.setAttribute("login_user", dto);
 				login_result = "로그인 성공.";
 				json_result = "{\"login_result\": \"" + login_result + "\" }";
-				
-				if(rememberId) {
-					Cookie cookie = new Cookie("id",user_id);
+
+				if (rememberId) {
+					Cookie cookie = new Cookie("id", user_id);
 					response.addCookie(cookie);
 				} else {
-					Cookie cookie = new Cookie("id",user_id);
+					Cookie cookie = new Cookie("id", user_id);
 					cookie.setMaxAge(0);
-					
+
 					response.addCookie(cookie);
 				}
-				
+
 				return json_result;
 			}
 			// 다른 비밀번호 입력
@@ -155,6 +164,7 @@ public class UserController {
 		session.setAttribute("login_user", dto);
 		return "user/registermember";
 	}
+
 	@RequestMapping("/registerResult")
 	public String registerResult() {
 		return "user/registerResult";
@@ -172,13 +182,13 @@ public class UserController {
 	public String mypage() {
 		return "user/mypage";
 	}
-	
+
 	// 마이페이지에서 회원정보 수정누르면 뷰 바꿔주기
 	@GetMapping("/mypageChangeinfo")
 	public String changeinfo() {
 		return "user/mypageChangeinfo";
 	}
-	
+
 	// 마이페이지에서 회원정보 수정 내에서 정보 수정 처리 (김)
 	@PostMapping("/infochange")
 	@ResponseBody
@@ -207,13 +217,14 @@ public class UserController {
 		service.updateUser(dto);
 
 	}
-	
+
 	// 마이페이지 탈퇴화면 뷰 주기
 	@GetMapping("/mypageDelete")
 	public String delete() {
 		return "user/mypageDelete";
 	}
-	// 마이페이지 탈퇴기능 
+
+	// 마이페이지 탈퇴기능
 	@RequestMapping("/deleteuser")
 	@ResponseBody
 	public void deleteuser(HttpSession session) {
@@ -221,14 +232,53 @@ public class UserController {
 		service.deleteuser(dto);
 		session.removeAttribute("login_user");
 	}
-	
-	
+
 	// 마이페이지 스크랩한 기사 뷰 주기
+
+	// 마이페이지 토론방 목록
 	@GetMapping("/mypageChatting")
-	public String myChattingroom() {
-		return "user/mypageChattingroom";
+	public ModelAndView myChattingroom(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+
+		UserDTO dto = (UserDTO) session.getAttribute("login_user");
+
+		// login id가 참여중인 debate_room_key 목록 생성
+		List<Integer> myDebateRoomKeyList = debateUserService.myDebateRoomKeyList(dto.getUser_key());
+		int totalCount = debateUserService.myDebateRoomKeyCount(dto.getUser_key());
+		
+		mv.addObject("page", page);
+		mv.addObject("pageCount", 10);
+		mv.addObject("totalCount", totalCount);
+
+		if (myDebateRoomKeyList == null || myDebateRoomKeyList.isEmpty()) {
+			mv.setViewName("user/mypageChattingroom");
+			return mv;
+		}
+
+		int start = (page - 1) * 10;
+		int end = (page - 1) * 10 + 10;
+		if (end >= myDebateRoomKeyList.size())
+			end = myDebateRoomKeyList.size();
+		List<Integer> subMyDebateRoomKeyList = myDebateRoomKeyList.subList(start, end);
+
+		// debate_room_status 가 2 또는 1인 목록
+		List<DebateRoomDTO> myDebateRoomList = debateRoomService.myDebateRoomList(subMyDebateRoomKeyList);
+
+		// debate_room_key 목록으로 해당하는 방의 실시간 참여자 수 목록 반환
+		List<Integer> myDebateRoomUserConnectCountList = debateUserService
+				.openDebateRoomUserConnectCountList(subMyDebateRoomKeyList);
+		// debate_room_key 목록으로 해당하는 방의 전체 참여자 수 목록 반환
+		List<Integer> myDebateRoomUserCountList = debateUserService.openDebateRoomUserCountList(subMyDebateRoomKeyList);
+
+		mv.addObject("openDebateRoomList", myDebateRoomList);
+		mv.addObject("openDebateRoomUserConnectCountList", myDebateRoomUserConnectCountList);
+		mv.addObject("openDebateRoomUserCountList", myDebateRoomUserCountList);
+		mv.setViewName("user/mypageChattingroom");
+
+		return mv;
 	}
-	
+
 	// 회원 복구 페이지
 	@RequestMapping("/restoreuser")
 	public String restoreuser() {
@@ -304,8 +354,8 @@ public class UserController {
 			user_in_last_page = id_list_length % user_in_page;
 		}
 		// 총 페이지 숫자
-		int page_count = id_list_length / user_in_page +1;
-	
+		int page_count = id_list_length / user_in_page + 1;
+
 		// sql 쿼리시 limit x,y 절에서 시작해야될 포인트(x)
 		int starting_point = (pagenum - 1) * user_in_page;
 		// 해당 pagenum에 user_in_page 만큼 user_id들을 담고있는 리스트
@@ -392,7 +442,6 @@ public class UserController {
 		}
 		json_result = "{\"pw_find_result\": \"" + pw_find_result + "\" }";
 
-
 		return json_result;
 	}
 
@@ -418,27 +467,27 @@ public class UserController {
 		String json_result;
 		// 전체 유저 수
 		int total_user;
-		
+
 		// 관리자 화면에서 유저 이름 / 유저 id를 따로 검색하지 않은 경우
-		if(user_id.length()==0 && user_name.length()==0) {
+		if (user_id.length() == 0 && user_name.length() == 0) {
 			total_user = service.selectAllUser();
 		}
-		// 관리자 화면에서 id로 검색을 한 경우  id는 유니크하기 때문에 total_user가 1 or 0이 나올꺼임
-		else if(user_id.length()!=0 && user_name.length()==0) {
+		// 관리자 화면에서 id로 검색을 한 경우 id는 유니크하기 때문에 total_user가 1 or 0이 나올꺼임
+		else if (user_id.length() != 0 && user_name.length() == 0) {
 			total_user = service.selectAllUserById(user_id);
 		}
 		// 관리자 화면에서 이름으로 검색을 한 경우
-		else if(user_id.length()==0 && user_name.length()!=0) {
-				total_user = service.selectAllUserByUserName(user_name);
-			}
+		else if (user_id.length() == 0 && user_name.length() != 0) {
+			total_user = service.selectAllUserByUserName(user_name);
+		}
 		// 위에서 모든 경우를 다 나눴기 때문에 total_user 이 분기를 탈 일은 없음
 		else {
 			total_user = 0;
 		}
-		
+
 		// 한페이지에 보여줄 user 수
 		int user_in_page = 10;
-		
+
 		// 마지막 페이지에 보여줄 user 수
 		int user_in_last_page;
 		if (total_user % user_in_page == 0) {
@@ -446,77 +495,61 @@ public class UserController {
 		} else {
 			user_in_last_page = total_user % user_in_page;
 		}
-		
+
 		// 총 페이지 숫자
 		int page_count = total_user / user_in_page + 1;
 
 		// sql 쿼리시 limit x,y 절에서 시작해야될 포인트(x)
 		int starting_point = (pagenum - 1) * user_in_page;
-		
+
 		// user_dto들 다 담아온 리스트
 		List<UserDTO> user_list;
-		
+
 		// 관리자 화면에서 유저 이름 / 유저 id를 따로 검색하지 않은 경우
-		if(user_id.length()==0 && user_name.length()==0) {
+		if (user_id.length() == 0 && user_name.length() == 0) {
 			user_list = service.selectAllUserPagingList(user_in_page, starting_point);
 		}
-		// 관리자 화면에서 id로 검색을 한 경우  id는 유니크하기 때문에 user_list의 size가 1 or 0이 나올꺼임
-		else if(user_id.length()!=0 && user_name.length()==0) {
-			user_list = service.selectAllUserPagingListById(user_id,user_in_page,starting_point);
+		// 관리자 화면에서 id로 검색을 한 경우 id는 유니크하기 때문에 user_list의 size가 1 or 0이 나올꺼임
+		else if (user_id.length() != 0 && user_name.length() == 0) {
+			user_list = service.selectAllUserPagingListById(user_id, user_in_page, starting_point);
 		}
 		// 관리자 화면에서 이름으로 검색을 한 경우
-		else if(user_id.length()==0 && user_name.length()!=0) {
-			user_list = service.selectAllUserPagingListByUserName(user_name,user_in_page,starting_point);
-			}
+		else if (user_id.length() == 0 && user_name.length() != 0) {
+			user_list = service.selectAllUserPagingListByUserName(user_name, user_in_page, starting_point);
+		}
 		// 위에서 모든 경우를 다 나눴기 때문에 total_user 이 분기를 탈 일은 없음
 		else {
 			user_list = null;
 		}
-		
+
 		// 검색조건의 회원이없는경우
-		if(user_list.size() == 0 || total_user == 0) {
+		if (user_list.size() == 0 || total_user == 0) {
 			result = "해당하는 회원이 없습니다 <br>";
 			// 검색옵션 및 검색어 페이지
-						result +="<div id='search_board_box'>";
-						result +=
-								"<select id='search_option'>"+
-								"<option value='name'>이름</option>"+
-								"<option value='id'>아이디</option>"+
-								"</select>"+
-								"<input type='text', placeholder='검색어입력', id='search'>"+
-								"<button id='search_button' type='button'>검색 </button>";
-						result +="</div>";
-						
-						//검색옵션을 통한 검색 ajax처리
-						result +=
-								"<script>"+
-								"$('#search_button').on('click',function(){"+
-								
-								// 아이디로 검색했을경우
-								"if($('#search_option option:selected').val() == 'id'){"+
-								"$.ajax({"+
-								"url: 'usermanage?&search_id='+ $('#search').val(),"+
-								"type: 'get',"+
-								"dataType: 'json',"+
-								"success : function(response){"+
-								"$('#adminPage_main').html(response.member_table)"+
-								"}"+ //success
-								"})"+ //ajax
-								"}"+ //if
-								// 이름으로 검색했을경우
-								"else{"+
-								"$.ajax({"+
-								"url: 'usermanage?&search_name='+$('#search').val(),"+
-								"type: 'get',"+
-								"dataType: 'json',"+
-								"success : function(response){"+
-								"$('#adminPage_main').html(response.member_table);"+
-								"}"+ //success
-								"})"+ //ajax
-								"}"+//else
-								"})" ; // on
-		}
-		else {
+			result += "<div id='search_board_box'>";
+			result += "<select id='search_option'>" + "<option value='name'>이름</option>"
+					+ "<option value='id'>아이디</option>" + "</select>"
+					+ "<input type='text', placeholder='검색어입력', id='search'>"
+					+ "<button id='search_button' type='button'>검색 </button>";
+			result += "</div>";
+
+			// 검색옵션을 통한 검색 ajax처리
+			result += "<script>" + "$('#search_button').on('click',function(){" +
+
+			// 아이디로 검색했을경우
+					"if($('#search_option option:selected').val() == 'id'){" + "$.ajax({"
+					+ "url: 'usermanage?&search_id='+ $('#search').val()," + "type: 'get'," + "dataType: 'json',"
+					+ "success : function(response){" + "$('#adminPage_main').html(response.member_table)" + "}" + // success
+					"})" + // ajax
+					"}" + // if
+					// 이름으로 검색했을경우
+					"else{" + "$.ajax({" + "url: 'usermanage?&search_name='+$('#search').val()," + "type: 'get',"
+					+ "dataType: 'json'," + "success : function(response){"
+					+ "$('#adminPage_main').html(response.member_table);" + "}" + // success
+					"})" + // ajax
+					"}" + // else
+					"})"; // on
+		} else {
 			// html로 테이블 만들기
 			result = "<table id= 'id_search_table'>"
 					+ "<thead> <tr> <th>회원id</th> <th>회원이름</th> <th>가입일자</th><th>강제추방</th></tr></thead> <tbody>";
@@ -524,141 +557,105 @@ public class UserController {
 			// 마지막 td의 버튼은 누르면 회원 탈퇴 기능
 			if (pagenum != page_count) {
 				for (int i = 0; i < user_in_page; i++) {
-					result += "<tr> <td>" + user_list.get(i).getUser_id() + "</td><td>" + user_list.get(i).getUser_name()
-							+ "</td><td>" + user_list.get(i).getRegdate() + "</td><td>" + 
-							"<button class = 'admin_button' id='button"+ i+
-							"'user_id ='"+user_list.get(i).getUser_id()+ "'> 강제탈퇴</button>"+"</td></tr>";
-							
-							
+					result += "<tr> <td>" + user_list.get(i).getUser_id() + "</td><td>"
+							+ user_list.get(i).getUser_name() + "</td><td>" + user_list.get(i).getRegdate()
+							+ "</td><td>" + "<button class = 'admin_button' id='button" + i + "'user_id ='"
+							+ user_list.get(i).getUser_id() + "'> 강제탈퇴</button>" + "</td></tr>";
+
 				}
 			}
 			// 마지막 페이지인 경우
 			else {
 				for (int i = 0; i < user_in_last_page; i++) {
-					
-					result +=  "<tr> <td>" + user_list.get(i).getUser_id() + "</td><td>" + user_list.get(i).getUser_name()
-							+ "</td><td>" + user_list.get(i).getRegdate() + "</td><td>" + 
-							"<button class = 'admin_button' id='button"+ i+
-							"'user_id ='"+user_list.get(i).getUser_id()+ "'> 강제탈퇴</button>"+"</td></tr>";
+
+					result += "<tr> <td>" + user_list.get(i).getUser_id() + "</td><td>"
+							+ user_list.get(i).getUser_name() + "</td><td>" + user_list.get(i).getRegdate()
+							+ "</td><td>" + "<button class = 'admin_button' id='button" + i + "'user_id ='"
+							+ user_list.get(i).getUser_id() + "'> 강제탈퇴</button>" + "</td></tr>";
 				}
 			}
 			// 테이블 마무리
 			result += "</tbody></table>";
-			
+
 			// 각각의 회원 탈퇴 버튼 눌렀을떄의 ajax script를 html에 붙이기
 			if (pagenum != page_count) {
 				for (int i = 0; i < user_in_page; i++) {
-					result += "<script>"
-							+ "$('#button"+i+"').on('click',function(){"
-							+ "result = window.confirm('정말로 해당유저를 삭제하시겠습니까?');"
-							+ "if(result ==true){"
+					result += "<script>" + "$('#button" + i + "').on('click',function(){"
+							+ "result = window.confirm('정말로 해당유저를 삭제하시겠습니까?');" + "if(result ==true){"
 							// 정말로 삭제한다고 했을때 ajax 부르기
-							+ "$.ajax({"
-							+ "url : 'admindelete', "
-							//data : { 'user_id' : $("#user_id").val()},
-							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
-							+ "type : 'post',"
-							+ "success : function(response){"
-							+"alert('회원삭제가 완료되었습니다');"
-							+"location.reload(true)"
-							+"}"//success
+							+ "$.ajax({" + "url : 'admindelete', "
+							// data : { 'user_id' : $("#user_id").val()},
+							+ " data :{ 'user_id' : $('#button" + i + "').attr('user_id')}," + "type : 'post',"
+							+ "success : function(response){" + "alert('회원삭제가 완료되었습니다');" + "location.reload(true)"
+							+ "}"// success
 							+ "})"// ajax
-							+"}"//if
-							+"})" // on
-							+"</script>";
+							+ "}"// if
+							+ "})" // on
+							+ "</script>";
 				}
-			}
-			else {
+			} else {
 				for (int i = 0; i < user_in_last_page; i++) {
-					result += "<script>"
-							+ "$('#button"+i+"').on('click',function(){"
-							+ "result = window.confirm('정말로 해당유저를 삭제하시겠습니까?');"
-							+ "if(result ==true){"
+					result += "<script>" + "$('#button" + i + "').on('click',function(){"
+							+ "result = window.confirm('정말로 해당유저를 삭제하시겠습니까?');" + "if(result ==true){"
 							// 정말로 삭제한다고 했을때 ajax 부르기
-							+ "$.ajax({"
-							+ "url : 'admindelete', "
-							//data : { 'user_id' : $("#user_id").val()},
-							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
-							+ "type : 'post',"
-							+ "success : function(response){"
-							+"alert('회원삭제가 완료되었습니다');"
-							+"location.reload(true)"
-							+"}"//success
+							+ "$.ajax({" + "url : 'admindelete', "
+							// data : { 'user_id' : $("#user_id").val()},
+							+ " data :{ 'user_id' : $('#button" + i + "').attr('user_id')}," + "type : 'post',"
+							+ "success : function(response){" + "alert('회원삭제가 완료되었습니다');" + "location.reload(true)"
+							+ "}"// success
 							+ "})"// ajax
-							+"}"//if
-							+"})" // on
-							+"</script>";
+							+ "}"// if
+							+ "})" // on
+							+ "</script>";
 				}
 			}
-			
+
 			// 밑에 페이지 이동 링크
 			result += "<div id= 'a_tags_box'>";
-			 
-			for (int i=0 ; i<page_count; i++) { 
-				result +=
-				"<a id="+(i+1)+">" +(i+1)+"</a>" +
-				"<script>"+
-				"$('#"+(i+1)+"').on('click',function(){" +
-				"$.ajax({"+
-				"url:'usermanage?pagenum='+$('#"+(i+1)+"').html()+'&search_name="+user_name+"&search_id="+user_id+"' ,"+
-				"type: 'get',"+
-				"dataType: 'json',"+
-				"success : function(response){"+
-				"$('#adminPage_main').html(response.member_table)"+
-				"}"+ //success
-				"})"+ //ajax
-				"})"+// on
-				"</script>"
-				; 
+
+			for (int i = 0; i < page_count; i++) {
+				result += "<a id=" + (i + 1) + ">" + (i + 1) + "</a>" + "<script>" + "$('#" + (i + 1)
+						+ "').on('click',function(){" + "$.ajax({" + "url:'usermanage?pagenum='+$('#" + (i + 1)
+						+ "').html()+'&search_name=" + user_name + "&search_id=" + user_id + "' ," + "type: 'get',"
+						+ "dataType: 'json'," + "success : function(response){"
+						+ "$('#adminPage_main').html(response.member_table)" + "}" + // success
+						"})" + // ajax
+						"})" + // on
+						"</script>";
 			}
 			result += "</div>";
-			
+
 			// 검색옵션 및 검색어 페이지
-			result +="<div id='search_board_box'>";
-			result +=
-					"<select id='search_option'>"+
-					"<option value='name'>이름</option>"+
-					"<option value='id'>아이디</option>"+
-					"</select>"+
-					"<input type='text', placeholder='검색어입력', id='search'>"+
-					"<button id='search_button' type='button'>검색 </button>";
-			result +="</div>";
-			
-			//검색옵션을 통한 검색 ajax처리
-			result +=
-					"<script>"+
-					"$('#search_button').on('click',function(){"+
-					
-					// 아이디로 검색했을경우
-					"if($('#search_option option:selected').val() == 'id'){"+
-					"$.ajax({"+
-					"url: 'usermanage?&search_id='+ $('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table)"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+ //if
+			result += "<div id='search_board_box'>";
+			result += "<select id='search_option'>" + "<option value='name'>이름</option>"
+					+ "<option value='id'>아이디</option>" + "</select>"
+					+ "<input type='text', placeholder='검색어입력', id='search'>"
+					+ "<button id='search_button' type='button'>검색 </button>";
+			result += "</div>";
+
+			// 검색옵션을 통한 검색 ajax처리
+			result += "<script>" + "$('#search_button').on('click',function(){" +
+
+			// 아이디로 검색했을경우
+					"if($('#search_option option:selected').val() == 'id'){" + "$.ajax({"
+					+ "url: 'usermanage?&search_id='+ $('#search').val()," + "type: 'get'," + "dataType: 'json',"
+					+ "success : function(response){" + "$('#adminPage_main').html(response.member_table)" + "}" + // success
+					"})" + // ajax
+					"}" + // if
 					// 이름으로 검색했을경우
-					"else{"+
-					"$.ajax({"+
-					"url: 'usermanage?&search_name='+$('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table);"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+//else
-					"})" ; // on
-					
+					"else{" + "$.ajax({" + "url: 'usermanage?&search_name='+$('#search').val()," + "type: 'get',"
+					+ "dataType: 'json'," + "success : function(response){"
+					+ "$('#adminPage_main').html(response.member_table);" + "}" + // success
+					"})" + // ajax
+					"}" + // else
+					"})"; // on
+
 		}
 		json_result = "{\"member_table\": \"" + result + "\" }";
-		
+
 		return json_result;
 	}
-	
+
 	// 관리자 페이지에서 회원 강제탈퇴
 	@PostMapping("/admindelete")
 	@ResponseBody
@@ -666,8 +663,8 @@ public class UserController {
 		UserDTO dto = service.selectOneUser(user_id);
 		service.deleteuser(dto);
 	}
-	
-	//관리자 페이지에서 탈퇴회원관리
+
+	// 관리자 페이지에서 탈퇴회원관리
 	@GetMapping("/userrestoremanage")
 	@ResponseBody
 	public String userrestoremanage(@RequestParam(value = "pagenum", required = false, defaultValue = "1") int pagenum,
@@ -675,30 +672,29 @@ public class UserController {
 			@RequestParam(value = "search_name", required = false, defaultValue = "") String user_name) {
 		String result;
 		String json_result;
-		
+
 		// 전체 삭제된 유저 수
 		int total_deleted_user;
 		// 관리자 화면에서 유저 이름 / 유저 id를 따로 검색하지 않은 경우
-		if(user_id.length()==0 && user_name.length()==0) {
+		if (user_id.length() == 0 && user_name.length() == 0) {
 			total_deleted_user = service.selectAllDeletedUser();
 		}
-		// 관리자 화면에서 id로 검색을 한 경우  id는 유니크하기 때문에 total_user가 1 or 0이 나올꺼임
-		else if(user_id.length()!=0 && user_name.length()==0) {
+		// 관리자 화면에서 id로 검색을 한 경우 id는 유니크하기 때문에 total_user가 1 or 0이 나올꺼임
+		else if (user_id.length() != 0 && user_name.length() == 0) {
 			total_deleted_user = service.selectAllDeletedUserById(user_id);
 		}
 		// 관리자 화면에서 이름으로 검색을 한 경우
-		else if(user_id.length()==0 && user_name.length()!=0) {
+		else if (user_id.length() == 0 && user_name.length() != 0) {
 			total_deleted_user = service.selectAllDeletedUserByUserName(user_name);
 		}
 		// 위에서 모든 경우를 다 나눴기 때문에 total_user 이 분기를 탈 일은 없음
 		else {
 			total_deleted_user = 0;
 		}
-		
-		
+
 		// 한페이지에 보여줄 user 수
 		int user_in_page = 10;
-		
+
 		// 마지막 페이지에 보여줄 user 수
 		int user_in_last_page;
 		if (total_deleted_user % user_in_page == 0) {
@@ -706,76 +702,61 @@ public class UserController {
 		} else {
 			user_in_last_page = total_deleted_user % user_in_page;
 		}
-		
+
 		// 총 페이지 숫자
 		int page_count = total_deleted_user / user_in_page + 1;
 
 		// sql 쿼리시 limit x,y 절에서 시작해야될 포인트(x)
 		int starting_point = (pagenum - 1) * user_in_page;
-		
+
 		// user_dto들 다 담아온 리스트
 		List<UserDTO> deleted_user_list = service.selectAllDeletedUserPagingList(user_in_page, starting_point);
-	
+
 		// 관리자 화면에서 유저 이름 / 유저 id를 따로 검색하지 않은 경우
-		if(user_id.length()==0 && user_name.length()==0) {
+		if (user_id.length() == 0 && user_name.length() == 0) {
 			deleted_user_list = service.selectAllDeletedUserPagingList(user_in_page, starting_point);
 		}
-		// 관리자 화면에서 id로 검색을 한 경우  id는 유니크하기 때문에 user_list의 size가 1 or 0이 나올꺼임
-		else if(user_id.length()!=0 && user_name.length()==0) {
-			deleted_user_list = service.selectAllDeletedUserPagingListById(user_id,user_in_page,starting_point);
+		// 관리자 화면에서 id로 검색을 한 경우 id는 유니크하기 때문에 user_list의 size가 1 or 0이 나올꺼임
+		else if (user_id.length() != 0 && user_name.length() == 0) {
+			deleted_user_list = service.selectAllDeletedUserPagingListById(user_id, user_in_page, starting_point);
 		}
 		// 관리자 화면에서 이름으로 검색을 한 경우
-		else if(user_id.length()==0 && user_name.length()!=0) {
-			deleted_user_list = service.selectAllDeletedUserPagingListByUserName(user_name,user_in_page,starting_point);
+		else if (user_id.length() == 0 && user_name.length() != 0) {
+			deleted_user_list = service.selectAllDeletedUserPagingListByUserName(user_name, user_in_page,
+					starting_point);
 		}
 		// 위에서 모든 경우를 다 나눴기 때문에 total_user 이 분기를 탈 일은 없음
 		else {
 			deleted_user_list = null;
 		}
 		// 삭제된 회원이 없는 경우
-		if(deleted_user_list.size() == 0 || total_deleted_user == 0) {
+		if (deleted_user_list.size() == 0 || total_deleted_user == 0) {
 			result = "회원이 없습니다<br>";
 			// 검색옵션 및 검색어 페이지
-			result +="<div id='search_board_box'>";
-			result +=
-					"<select id='search_option'>"+
-					"<option value='name'>이름</option>"+
-					"<option value='id'>아이디</option>"+
-					"</select>"+
-					"<input type='text', placeholder='검색어입력', id='search'>"+
-					"<button id='search_button' type='button'>검색 </button>";
-			result +="</div>";
-						
-			//검색옵션을 통한 검색 ajax처리
-			result +=
-					"<script>"+
-					"$('#search_button').on('click',function(){"+
-					
-					// 아이디로 검색했을경우
-					"if($('#search_option option:selected').val() == 'id'){"+
-					"$.ajax({"+
-					"url: 'userrestoremanage?&search_id='+ $('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table)"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+ //if
+			result += "<div id='search_board_box'>";
+			result += "<select id='search_option'>" + "<option value='name'>이름</option>"
+					+ "<option value='id'>아이디</option>" + "</select>"
+					+ "<input type='text', placeholder='검색어입력', id='search'>"
+					+ "<button id='search_button' type='button'>검색 </button>";
+			result += "</div>";
+
+			// 검색옵션을 통한 검색 ajax처리
+			result += "<script>" + "$('#search_button').on('click',function(){" +
+
+			// 아이디로 검색했을경우
+					"if($('#search_option option:selected').val() == 'id'){" + "$.ajax({"
+					+ "url: 'userrestoremanage?&search_id='+ $('#search').val()," + "type: 'get'," + "dataType: 'json',"
+					+ "success : function(response){" + "$('#adminPage_main').html(response.member_table)" + "}" + // success
+					"})" + // ajax
+					"}" + // if
 					// 이름으로 검색했을경우
-					"else{"+
-					"$.ajax({"+
-					"url: 'admindelete?&search_name='+$('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table);"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+//else
-					"})" ; // on
-		}
-		else {
+					"else{" + "$.ajax({" + "url: 'admindelete?&search_name='+$('#search').val()," + "type: 'get',"
+					+ "dataType: 'json'," + "success : function(response){"
+					+ "$('#adminPage_main').html(response.member_table);" + "}" + // success
+					"})" + // ajax
+					"}" + // else
+					"})"; // on
+		} else {
 			// html로 테이블 만들기
 			result = "<table id= 'id_search_table'>"
 					+ "<thead> <tr> <th>회원id</th> <th>회원이름</th> <th>탈퇴일자</th><th>회원복구</th></tr></thead> <tbody>";
@@ -783,148 +764,110 @@ public class UserController {
 			// 마지막 td의 버튼은 누르면 회원 탈퇴 기능
 			if (pagenum != page_count) {
 				for (int i = 0; i < user_in_page; i++) {
-					result += "<tr> <td>" + deleted_user_list.get(i).getUser_id() + "</td><td>" + deleted_user_list.get(i).getUser_name()
-							+ "</td><td>" + deleted_user_list.get(i).getDeleted_time() + "</td><td>" + 
-							"<button class = 'admin_button' id='button"+ i+
-							"'user_id ='"+deleted_user_list.get(i).getUser_id()+ "'> 강제복구</button>"+"</td></tr>";
-							
-							
+					result += "<tr> <td>" + deleted_user_list.get(i).getUser_id() + "</td><td>"
+							+ deleted_user_list.get(i).getUser_name() + "</td><td>"
+							+ deleted_user_list.get(i).getDeleted_time() + "</td><td>"
+							+ "<button class = 'admin_button' id='button" + i + "'user_id ='"
+							+ deleted_user_list.get(i).getUser_id() + "'> 강제복구</button>" + "</td></tr>";
+
 				}
 			}
 			// 마지막 페이지인 경우
 			else {
 				for (int i = 0; i < user_in_last_page; i++) {
-					result += "<tr> <td>" + deleted_user_list.get(i).getUser_id() + "</td><td>" + deleted_user_list.get(i).getUser_name()
-							+ "</td><td>" + deleted_user_list.get(i).getDeleted_time() + "</td><td>" + 
-							"<button class = 'admin_button' id='button"+ i+
-							"'user_id ='"+deleted_user_list.get(i).getUser_id()+ "'> 강제복구</button>"+"</td></tr>";
+					result += "<tr> <td>" + deleted_user_list.get(i).getUser_id() + "</td><td>"
+							+ deleted_user_list.get(i).getUser_name() + "</td><td>"
+							+ deleted_user_list.get(i).getDeleted_time() + "</td><td>"
+							+ "<button class = 'admin_button' id='button" + i + "'user_id ='"
+							+ deleted_user_list.get(i).getUser_id() + "'> 강제복구</button>" + "</td></tr>";
 				}
 			}
 			// 테이블 마무리
 			result += "</tbody></table>";
-			
-			
+
 			// 각각의 회원 탈퇴 복구 눌렀을떄의 ajax script를 html에 붙이기
 			if (pagenum != page_count) {
 				for (int i = 0; i < user_in_page; i++) {
-					result += "<script>"
-							+ "$('#button"+i+"').on('click',function(){"
-							+ "result = window.confirm('정말로 해당유저를 복구하시겠습니까?');"
-							+ "if(result ==true){"
+					result += "<script>" + "$('#button" + i + "').on('click',function(){"
+							+ "result = window.confirm('정말로 해당유저를 복구하시겠습니까?');" + "if(result ==true){"
 							// 정말로 삭제한다고 했을때 ajax 부르기
-							+ "$.ajax({"
-							+ "url : 'adminrestore', "
-							//data : { 'user_id' : $("#user_id").val()},
-							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
-							+ "type : 'post',"
-							+ "success : function(response){"
-							+"alert('회원복구가 완료되었습니다');"
-							+"location.reload(true)"
-							+"}"//success
+							+ "$.ajax({" + "url : 'adminrestore', "
+							// data : { 'user_id' : $("#user_id").val()},
+							+ " data :{ 'user_id' : $('#button" + i + "').attr('user_id')}," + "type : 'post',"
+							+ "success : function(response){" + "alert('회원복구가 완료되었습니다');" + "location.reload(true)"
+							+ "}"// success
 							+ "})"// ajax
-							+"}"//if
-							+"})" // on
-							+"</script>";
+							+ "}"// if
+							+ "})" // on
+							+ "</script>";
 				}
-			}
-			else {
+			} else {
 				for (int i = 0; i < user_in_last_page; i++) {
-					result += "<script>"
-							+ "$('#button"+i+"').on('click',function(){"
-							+ "result = window.confirm('정말로 해당유저를 복구하시겠습니까?');"
-							+ "if(result ==true){"
+					result += "<script>" + "$('#button" + i + "').on('click',function(){"
+							+ "result = window.confirm('정말로 해당유저를 복구하시겠습니까?');" + "if(result ==true){"
 							// 정말로 삭제한다고 했을때 ajax 부르기
-							+ "$.ajax({"
-							+ "url : 'adminrestore', "
-							//data : { 'user_id' : $("#user_id").val()},
-							+" data :{ 'user_id' : $('#button"+i+"').attr('user_id')}," 
-							+ "type : 'post',"
-							+ "success : function(response){"
-							+"alert('회원복구가 완료되었습니다');"
-							+"location.reload(true)"
-							+"}"//success
+							+ "$.ajax({" + "url : 'adminrestore', "
+							// data : { 'user_id' : $("#user_id").val()},
+							+ " data :{ 'user_id' : $('#button" + i + "').attr('user_id')}," + "type : 'post',"
+							+ "success : function(response){" + "alert('회원복구가 완료되었습니다');" + "location.reload(true)"
+							+ "}"// success
 							+ "})"// ajax
-							+"}"//if
-							+"})" // on
-							+"</script>";
+							+ "}"// if
+							+ "})" // on
+							+ "</script>";
 				}
 			}
-			// 밑에 페이지 이동 링크 
+			// 밑에 페이지 이동 링크
 			result += "<div id= 'a_tags_box'>";
-			
-			for (int i=0 ; i<page_count; i++) { 
-				result +=
-				"<a id="+(i+1)+">" +(i+1)+"</a>" +
-				"<script>"+
-				"$('#"+(i+1)+"').on('click',function(){" +
-				"$.ajax({"+
-				"url:'userrestoremanage?pagenum='+$('#"+(i+1)+"').html(),"+
-				"type: 'get',"+
-				"dataType: 'json',"+
-				"success : function(response){"+
-				"$('#adminPage_main').html(response.member_table)"+
-				"}"+ //success
-				"})"+ //ajax
-				"})"+// on
-				"</script>"
-				; 
+
+			for (int i = 0; i < page_count; i++) {
+				result += "<a id=" + (i + 1) + ">" + (i + 1) + "</a>" + "<script>" + "$('#" + (i + 1)
+						+ "').on('click',function(){" + "$.ajax({" + "url:'userrestoremanage?pagenum='+$('#" + (i + 1)
+						+ "').html()," + "type: 'get'," + "dataType: 'json'," + "success : function(response){"
+						+ "$('#adminPage_main').html(response.member_table)" + "}" + // success
+						"})" + // ajax
+						"})" + // on
+						"</script>";
 			}
 			result += "</div>";
-			
+
 			// 검색옵션 및 검색어 페이지
-			result +="<div id='search_board_box'>";
-			result +=
-					"<select id='search_option'>"+
-					"<option value='name'>이름</option>"+
-					"<option value='id'>아이디</option>"+
-					"</select>"+
-					"<input type='text', placeholder='검색어입력', id='search'>"+
-					"<button id='search_button' type='button'>검색 </button>";
-			result +="</div>";
-			
-			//검색옵션을 통한 검색 ajax처리
-			result +=
-					"<script>"+
-					"$('#search_button').on('click',function(){"+
-				
-					// 아이디로 검색했을경우
-					"if($('#search_option option:selected').val() == 'id'){"+
-					"$.ajax({"+
-					"url: 'userrestoremanage?search_id='+ $('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table)"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+ //if
+			result += "<div id='search_board_box'>";
+			result += "<select id='search_option'>" + "<option value='name'>이름</option>"
+					+ "<option value='id'>아이디</option>" + "</select>"
+					+ "<input type='text', placeholder='검색어입력', id='search'>"
+					+ "<button id='search_button' type='button'>검색 </button>";
+			result += "</div>";
+
+			// 검색옵션을 통한 검색 ajax처리
+			result += "<script>" + "$('#search_button').on('click',function(){" +
+
+			// 아이디로 검색했을경우
+					"if($('#search_option option:selected').val() == 'id'){" + "$.ajax({"
+					+ "url: 'userrestoremanage?search_id='+ $('#search').val()," + "type: 'get'," + "dataType: 'json',"
+					+ "success : function(response){" + "$('#adminPage_main').html(response.member_table)" + "}" + // success
+					"})" + // ajax
+					"}" + // if
 					// 이름으로 검색했을경우
-					"else{"+
-					"$.ajax({"+
-					"url: 'userrestoremanage?search_name='+$('#search').val(),"+
-					"type: 'get',"+
-					"dataType: 'json',"+
-					"success : function(response){"+
-					"$('#adminPage_main').html(response.member_table);"+
-					"}"+ //success
-					"})"+ //ajax
-					"}"+//else
-					"})" ; // on
+					"else{" + "$.ajax({" + "url: 'userrestoremanage?search_name='+$('#search').val()," + "type: 'get',"
+					+ "dataType: 'json'," + "success : function(response){"
+					+ "$('#adminPage_main').html(response.member_table);" + "}" + // success
+					"})" + // ajax
+					"}" + // else
+					"})"; // on
 		}
-		
+
 		json_result = "{\"member_table\": \"" + result + "\" }";
-		
+
 		return json_result;
 	}
-	
+
 	// 관리자 페이지에서 회원 강제복구
-		@PostMapping("/adminrestore")
-		@ResponseBody
-		public void adminrestore(String user_id) {
-			UserDTO dto = service.selectOneUser(user_id);
-			service.restoreUser(dto);
-		}
+	@PostMapping("/adminrestore")
+	@ResponseBody
+	public void adminrestore(String user_id) {
+		UserDTO dto = service.selectOneUser(user_id);
+		service.restoreUser(dto);
+	}
 
 }
-
-

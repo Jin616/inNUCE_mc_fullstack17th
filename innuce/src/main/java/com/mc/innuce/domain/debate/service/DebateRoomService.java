@@ -21,6 +21,12 @@ public class DebateRoomService {
 	SearchDAO searchDAO;
 
 	private static final int CREATE_ROOM_COUNT = 1; // 방 생성 검색 수 기준
+	private static final int CLOSE_ROOM_SEARCH_COUNT = 1; // 최근 검색한 검색 수 기준
+	private static final int CLOSE_ROOM_USER_COUNT = 1; // 최근 채팅한 유저 수 기준
+	// 위 기준으로 채팅방 열고 닫기
+	// 열린방은 목록에 표시 채팅 가능해짐
+	// 닫을 예정인 방은 여러가지 방법으로 경고, 닫히는 기준 넘으면 닫히지 않는다고 알림
+	// 닫힌방은 기존 들어갔던 사람은 접속 가능하나 채팅 불가능
 
 	public List<DebateRoomDTO> openDebateRoomList(int num) {
 		// TODO Auto-generated method stub
@@ -59,6 +65,11 @@ public class DebateRoomService {
 	public int openDebateRoomCount() {
 		// TODO Auto-generated method stub
 		return debateRoomDAO.openDebateRoomCount();
+	}
+
+	public List<DebateRoomDTO> myDebateRoomList(List<Integer> subMyDebateRoomKeyList) {
+		// TODO Auto-generated method stub
+		return debateRoomDAO.myDebateRoomList(subMyDebateRoomKeyList);
 	}
 
 }

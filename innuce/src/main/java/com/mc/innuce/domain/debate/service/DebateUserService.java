@@ -102,4 +102,14 @@ public class DebateUserService {
 		return debateUserDAO.updateDebateUserConnectStatusDisconnect(debate_user_key);
 	}
 
+	public List<Integer> myDebateRoomKeyList(int user_key) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.myDebateRoomKeyList(user_key);
+	}
+
+	public int myDebateRoomKeyCount(int user_key) {
+		// TODO Auto-generated method stub
+		return debateUserDAO.myDebateRoomKeyCount(user_key);
+	}
+
 }

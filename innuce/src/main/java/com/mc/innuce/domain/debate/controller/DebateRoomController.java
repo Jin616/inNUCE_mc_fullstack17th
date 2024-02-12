@@ -73,16 +73,11 @@ public class DebateRoomController {
 
 		// 로그인이 되어 있지 않다면 -> 토론방 목록 메인 화면으로
 		// 테스트 후 복구
-//		if(udto == null) {
-//			System.out.println("로그인 안됨");
-//			mv.setViewName("redirect:/debate");
-//			return mv;
-//		}
-
-		// 테스트 위한 임시 user_key set
-		// 테스트 후 삭제
-		udto = new UserDTO();
-		udto.setUser_key(1);
+		if(udto == null) {
+			System.out.println("로그인 안됨");
+			mv.setViewName("redirect:/debate");
+			return mv;
+		}
 
 		// DebateUserDTO
 		DebateUserDTO dudto = new DebateUserDTO();

@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-	<div class="search-container" >
+<div class="search-container" >
 	
-	<form action="/search" autocomplete="off">  
+	<form name="searchFrom" action="/search" autocomplete="off">  
 	
 	<div class="input-keyword">
 		<div class="material-symbols-outlined">search</div>
@@ -24,5 +24,4 @@
 	</form>
  
 </div>
-
 

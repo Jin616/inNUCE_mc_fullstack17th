@@ -30,7 +30,8 @@
 			$.ajax({
 				type : 'post',
 				url : 'loginresult',
-				data : { 'user_id' : $("#login_user_id").val(), 'user_pw' : $("#login_user_pw").val() },
+				data : { 'user_id' : $("#login_user_id").val(), 'user_pw' : $("#login_user_pw").val()
+					, 'rememberId' : $('#rememberId').prop('checked')},
 				dataType: 'json',
 				success : function(response){			
 						if(response.login_result == "로그인 성공."){
@@ -92,7 +93,7 @@
 	<div class="login_input_box">
 		<div class="id">
 			<div class="text"></div>
-			<input class ="login_input" id="login_user_id" name="user_id" type="text" placeholder="ID" required maxlength='25'>
+			<input class ="login_input" id="login_user_id" value="${cookie.id.value }" name="user_id" type="text" placeholder="ID" required maxlength='25'>
 		</div>
 
 		<div class="pw">
@@ -103,7 +104,7 @@
 	</div>
 	
 	<div class="checkbox-cover">
-	<input type="checkbox">&nbsp;아이디 저장
+	<input id='rememberId' type="checkbox" name='rememberId' ${empty cookie.id.value ? "" :"checked"}/>&nbsp;아이디 저장
 	</div>
 	
 	<div class="login_button">

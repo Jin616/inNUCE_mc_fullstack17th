@@ -44,7 +44,7 @@
 					</div>
 
 					<div class="image">
-						<img alt="이미지" src="${News.news_thumbnailuri2 }">
+						<img alt="이미지" src="${News.news_thumbnailuri2 }" onerror="this.src='/images/inNUCE_logo.png'"/>
 					</div>
 					<!-- 탭버튼 -->
 					<div class="sub-menu" id="change">
@@ -93,3 +93,4 @@
 
 </body>
 </html>
+

@@ -54,8 +54,8 @@ public class ComponentService {
 //	public List<Long> getNewsKeys2(String keyword) {
 //		return keywordService.getNewsKeys2(keyword);
 //	}
-	public void insertKeywordNews(KeysDTO keysDTO) {
-		keywordService.insertKeywordNews(keysDTO);
+	public int insertKeywordNews(KeysDTO keysDTO) {
+		return keywordService.insertKeywordNews(keysDTO);
 	}
 
 	public List<NewsDTO> getNewsListLimit(Map<String, Object> map) {

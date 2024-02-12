@@ -92,9 +92,9 @@
 <main>
 
 	<div id ="myPage_main">
-		<div> 정말로 회원을 탈퇴하시겠습니까? </div><br>
-		<div> 회원 탈퇴 후 2분내로 로그인 하시면 복구하실 수 있습니다.</div><br>
-		<input id= 'deleteButton' type='button' value='탈퇴하기' >
+		<div class="des"> 정말로 회원을 탈퇴하시겠습니까? </div><br>
+		<div class="des"> 회원 탈퇴 후 2분내로 로그인 하시면 복구하실 수 있습니다.</div><br>
+		<input class="des" id= 'deleteButton' type='button' value='탈퇴하기' >
 	</div>
 
 </main>

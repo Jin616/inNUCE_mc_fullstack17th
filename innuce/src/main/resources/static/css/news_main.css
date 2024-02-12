@@ -104,7 +104,8 @@ main .news-cover .cover .tab-content .content {
 main .news-cover .cover .tab-content .content p {
 	line-height: 150%;
 	white-space: pre-wrap;
-	font-size: 1em;
+	font-weight: 540;
+	font-size: 1.1em;
 	letter-spacing: -0.3px;
 	color: #303038;
 }

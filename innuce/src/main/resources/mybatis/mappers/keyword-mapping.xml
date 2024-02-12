@@ -23,14 +23,14 @@
 	<select id="getNewsKeys" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_title like concat('%',#{keyword },'%')
-		limit 100
+		limit 250
 	</select>
 
 
 	<select id="getNewsKeys2" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_content like concat('%',#{place },'%')
-		limit 100
+		limit 250
 	</select>
 
 

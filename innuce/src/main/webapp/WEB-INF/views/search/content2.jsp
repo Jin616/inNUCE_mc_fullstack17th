@@ -94,8 +94,7 @@ window.onload = function(){
 		}//success
 	})//ajax
 	}//else
-		
-	let noneKeyword = '${noneKeyword }';	
+let noneKeyword = '${noneKeyword }';	
 	
 	if(!noneKeyword) {
 		
@@ -110,7 +109,6 @@ window.onload = function(){
 		+"</ul>"
 		)//html
 	}
-	
 }//onload
 </script>
 
@@ -125,7 +123,6 @@ window.onload = function(){
 				<p>${keyword }</p>
 				<p>${noneKeyword }</p>
 			</div>
-			<p id='noResult'></p>
 	
 			<div id="tab-1-keyword" class="tab-content">
 			
@@ -156,35 +153,23 @@ window.onload = function(){
 
 
 			<div class="paging">
-<%-- 			<%
-			int pageCount = (Integer) request.getAttribute("pageCount");
-			int totalCount = (Integer) request.getAttribute("totalCount");
-		
-			int totalPage = 0;
-			if (totalCount % pageCount == 0) {
-				totalPage = totalCount / pageCount;
-			} else {
-				totalPage = totalCount / pageCount + 1;
-			}
 			
-			/* for (int i = 1; i <= totalPage; i++) { */
-			%>
-			<%
-			/* } */
-			%> --%>
-			<c:if test="${pageMaker.prev }">
-				<a href="/search?keyword=${keyword }&pageNum=${pageMaker.startPage-1 } ">이전</a>&nbsp;
-			</c:if>
-			
-			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="i">
-				<a class="movePage" href="/search?keyword=${keyword }&pageNum=${i }">${i }</a>&nbsp;
-			</c:forEach>
-      <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        <a href="/search?keyword=${keyword }&pageNum=${pageMaker.endPage+1 } ">다음</a>
-      </c:if>       
-			
+				<c:if test="${pageMaker.prev }">
+					<a href="/myLocation?location=${keyword }&pageNum=${pageMaker.startPage-1 } ">이전</a>&nbsp;
+				</c:if>
+				
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="i">
+					<a class="movePage" href="/myLocation?location=${keyword }&pageNum=${i }">${i }</a>&nbsp;
+				</c:forEach>
+	      <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+	        <a href="/myLocation?location=${keyword }&pageNum=${pageMaker.endPage+1 } ">다음</a>
+	    
+	      </c:if>   
 			</div>
-	
+
+
+
+
 
 		</div>
 	</div>

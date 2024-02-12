@@ -101,19 +101,23 @@
 <header>
 	<div class="logo-txt-cover">
 	<%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
+	<!--  좌측 네비바 -->
+	<div id = "myPage_navigater" >
+		<div class='title'>마이페이지</div>
+		<button id="user_manage" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 관리</button>
+		<button id="restore_manage" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;탈퇴 회원 관리 </button>
+		<button id="chat_manage" clicked="none"><i class="fa-regular fa-comments"></i>&nbsp;채팅방 관리</button>
+	</div>
+	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
   	</div>
 	<%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 </header>
 
-<!--  좌측 네비바 -->
-<div id = "myPage_navigater" >
-	<button id="user_manage" clicked="none">  회원 관리</button>
-	<button id="restore_manage" clicked="none"> 탈퇴 회원 관리</button>
-	<button id="chat_manage" clicked="none"> 채팅방 관리 </button>
-</div>
+<main style="position: realtive;">
 <!--  마이페이지 내용 -->
-<div id = "adminPage_main" > </div>
+<div id = "adminPage_main" style="position: absolute; margin-left: 60px;"></div>
 
+</main>
 </body>
 </html>

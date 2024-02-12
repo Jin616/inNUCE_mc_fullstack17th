@@ -1,10 +1,5 @@
 @charset "UTF-8";
 
-a {
-	text-decoration: none;
-	color: #303038;
-}
-
 body {
 	color: #333;
 	font-weight: 600;
@@ -201,6 +196,7 @@ body {
 
 #myPage_navigater>button:hover {
 	color: #333;
+	font-size: 24px;
 }
 
 #myPage_navigater>button[clicked="yes"] {
@@ -210,6 +206,7 @@ body {
 	border: none;
 	font-weight: bold;*/
 	color: #333;
+	font-size: 24px;
 }
 main {
 	position: relative;
@@ -227,17 +224,21 @@ main #myPage_main {
 	justify-content: center;
 	align-items: center;
 }
+main #myPage_main .des {
+	font-size: 20px;
+}
 main #myPage_main #user_info {
 }
 main #myPage_main #user_info .change-cover {
 }
 
-#myPage_main,
 #adminPage_main {
 /*	display: inline-block;
 	vertical-align: middle;
 	align-items: center;
 	width: 70%;*/
+		left: 50%;
+	transform: translate(-50%, 0);
 
 }
 
@@ -252,7 +253,7 @@ main #myPage_main #user_info .change-cover {
 #id_search_table {
 	border-collapse: collapse;
 	width: 500px;
-	margin: 1rem auto;
+	/*margin: 1rem auto;*/
 	background-color: white;
 	border: 1px solid black;
 }

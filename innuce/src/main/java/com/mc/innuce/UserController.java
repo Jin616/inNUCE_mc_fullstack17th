@@ -17,6 +17,8 @@ import com.mc.innuce.domain.user.dto.UserDTO;
 import com.mc.innuce.domain.user.service.MailService;
 import com.mc.innuce.domain.user.service.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -37,15 +39,17 @@ public class UserController {
 	// 로그인 결과 (김)
 	@PostMapping("/loginresult")
 	@ResponseBody
-	public String loginresult(String user_id, String user_pw, HttpSession session) {
+	public String loginresult(String user_id, String user_pw, boolean rememberId
+			, HttpServletResponse response, HttpSession session) {
 
 		// 받은 아이디로 userdto 하나 집어보기
-
+		
 		UserDTO dto = service.selectOneUser(user_id);
 		System.out.println(user_id);
 		String login_result = null;
 		String json_result = null;
-
+		System.out.println(rememberId);
+		
 		// 해당 아이디를 가진 회원이 user 테이블에 없을 경우
 		if (dto == null) {
 			login_result = "아이디나 비밀번호를 확인해주세요.";
@@ -74,6 +78,17 @@ public class UserController {
 				session.setAttribute("login_user", dto);
 				login_result = "로그인 성공.";
 				json_result = "{\"login_result\": \"" + login_result + "\" }";
+				
+				if(rememberId) {
+					Cookie cookie = new Cookie("id",user_id);
+					response.addCookie(cookie);
+				} else {
+					Cookie cookie = new Cookie("id",user_id);
+					cookie.setMaxAge(0);
+					
+					response.addCookie(cookie);
+				}
+				
 				return json_result;
 			}
 			// 다른 비밀번호 입력

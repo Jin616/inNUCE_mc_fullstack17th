@@ -87,15 +87,21 @@
 		limit 5;
 	</select>
 
-	<select id="getKeyword" parameterType="java.util.List"
-		resultType="String">
-		select keyword_content from keyword where
-		<foreach collection="keywordKey" item="keyword"
-			separator=" or ">
-			keyword_key = #{keyword}
-		</foreach>
-	</select>
+	<select id="getKeyword" parameterType="java.util.List" resultType="String"> 
+	select keyword_content from keyword where keyword_key in(
+	<foreach collection="keywordKey" item="keyword" separator=" , ">
+	#{keyword}
+	</foreach>
+	) order by field(keyword_key,
+	<foreach collection="keywordKey" item="keyword" separator=" , ">
+	#{keyword}
+	</foreach>
+	)
+</select>
 	
+	<!-- FYI -->
+	<!--  이렇게 가져오시면 desc로 4개 가져오고 나서는 keyword_key가 작은 순서대로 output이 나오지 싶습니다.. -->
+	<!-- 실시간 인기 채팅방 배너 맨위에 가장 키워드 검색이 높은게 아니라, 키워드 검색이 높은 4개중 keyword_key가 제일 작은값이 나올거에요..! -->
 	<select id="selectTop4KeywordKey" resultType="int">
 		select keyword_key
 		from search

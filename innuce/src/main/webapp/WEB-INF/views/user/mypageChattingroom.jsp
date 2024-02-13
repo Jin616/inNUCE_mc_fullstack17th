@@ -104,7 +104,18 @@
 									<p id='${room.count }-3' class='room-description'>전체 참여자 수
 										: ${openDebateRoomUserCountList[room.index]}</p>
 									<p id='${room.count }-3' class='room-description'>생성일자 :
-										${room.current.debate_room_regdate}</p>
+										${room.current.debate_room_regdate}</p> <c:choose>
+										<c:when test="${room.current.debate_room_status == 2 }">
+											<p id='${room.count }-5' class='room-description'>열림</p>
+										</c:when>
+										<c:when test="${room.current.debate_room_status == 1 }">
+											<p id='${room.count }-5' class='room-description'>10분 뒤
+												닫힘</p>
+										</c:when>
+										<c:when test="${room.current.debate_room_status == 0 }">
+											<p id='${room.count }-5' class='room-description'>닫힘</p>
+										</c:when>
+									</c:choose>
 								</a>
 
 							</div>

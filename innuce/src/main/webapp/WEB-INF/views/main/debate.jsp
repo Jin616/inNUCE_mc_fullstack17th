@@ -64,7 +64,18 @@
 								<p id='${room.count }-1' class='room-name'>${room.current.debate_room_name }</p>
 								<p id='${room.count }-2' class='room-description'>실시간 참여자 수 : ${openDebateRoomUserConnectCountList[room.index]}</p>
 								<p id='${room.count }-3' class='room-description'>전체 참여자 수 : ${openDebateRoomUserCountList[room.index]}</p>
-								<p id='${room.count }-3' class='room-description'>생성일자 : ${room.current.debate_room_regdate}</p>
+								<p id='${room.count }-4' class='room-description'>생성일자 : ${room.current.debate_room_regdate}</p>
+								<c:choose>
+									<c:when test="${room.current.debate_room_status == 2 }">
+										<p id='${room.count }-5' class='room-description'>열림</p>
+									</c:when>
+									<c:when test="${room.current.debate_room_status == 1 }">
+										<p id='${room.count }-5' class='room-description'>10분 뒤 닫힘</p>
+									</c:when>
+									<c:when test="${room.current.debate_room_status == 0 }">
+										<p id='${room.count }-5' class='room-description'>닫힘</p>
+									</c:when>
+								</c:choose>
 							</a>
 							
 						</div>

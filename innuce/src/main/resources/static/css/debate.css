@@ -39,7 +39,7 @@ main .total-container .room-container .inner:first-child {
 main .total-container .room-container .inner .content {
 	display: flex;
 	width: 900px;
-	height: 90px;
+	height: 150px;
 	background: rgba(160, 124, 69, 0.45);
 	border-radius: 5px;
 	/*align-content: center; */

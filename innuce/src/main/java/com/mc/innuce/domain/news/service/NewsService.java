@@ -98,4 +98,9 @@ public class NewsService {
 		return newsdao.getKeyword(keywordKey);
 	}
 
+	public List<Integer> selectTop4KeywordKey() {
+		// TODO Auto-generated method stub
+		return newsdao.selectTop4KeywordKey();
+	}
+
 }

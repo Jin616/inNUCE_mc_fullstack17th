@@ -45,4 +45,14 @@
 		</foreach>
 		)
 	</select>
+	
+	<select id="selectDebateRoomListByKeyword" parameterType="java.util.List" resultType="debateroomdto">
+		select *
+		from debate_room
+		where keyword_key in (
+		<foreach collection="keywordKey" item="keyword_key" separator=" , ">
+			#{keyword_key}
+		</foreach>
+		)
+	</select>
 </mapper>

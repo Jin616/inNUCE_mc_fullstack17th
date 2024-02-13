@@ -104,6 +104,7 @@ header .badges a{
 	justify-content: center;
 	font-weight: 600;
 	cursor: pointer;
+	text-decoration-line: none;
 }
 
 

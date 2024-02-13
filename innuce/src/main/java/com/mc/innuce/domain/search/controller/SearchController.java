@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.news.dto.NewsDTO;
+import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.dto.SearchDTO;
@@ -40,7 +41,9 @@ public class SearchController {
 	private GeolocationService geoService;
 	@Autowired
 	private ComponentService service;
-
+	@Autowired
+	NewsService newsService;
+	
 	private String ip = "";
 
 	private String myLocation = "";
@@ -48,15 +51,26 @@ public class SearchController {
 
 	private List<String> placeList = new ArrayList<>();
 
+	
 	@RequestMapping("/main")
-	public String main(HttpServletRequest request, HttpSession session) {
-
-		return "main";
+	public ModelAndView main(HttpServletRequest request, HttpSession session) {
+		
+		List<String> keywordKey = newsService.getKeywordNews2();
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("keywordKeys", keywordKey);
+		mv.setViewName("main");
+		
+		return mv;
 	}
+	
+	
 
 	@GetMapping("/search")
 	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
+		
+		
 		if (ip.equals("") || ip.equals(" ") || ip == null) {
 			ip = getIp(request);
 		}
@@ -72,16 +86,6 @@ public class SearchController {
 		KeywordDTO kDTO = null;
 		UserDTO uDTO = null;
 		SearchDTO sDTO = null;
-
-//		if (keyword.isEmpty() || keyword.isBlank()) {
-//			mv.addObject("keyword", "\"" + keyword + "\"" + "에 대한 검색결과가 없습니다.");
-//			mv.addObject("newsList", newsList);
-//			mv.addObject("totalCount", totalCount);
-//			mv.addObject("pageCount", PAGECOUNT);
-//
-//			mv.setViewName("search/searchPage");
-//			return mv;
-//		}
 
 //	keyword에 " "이 있을 때만 코모란을 돌리자? x
 		String path = System.getProperty("user.dir");
@@ -129,16 +133,12 @@ public class SearchController {
 						kDTO = service.oneKeyword(token);
 						keywordKeyList.add(kDTO.getKeyword_key());
 						keywordKey = kDTO.getKeyword_key();
-
-//						if (newsKeyList.isEmpty() || newsKeyList == null) {
-//
-//						} else {
+						
 						KeysDTO keys = new KeysDTO(keywordKey, newsKeyList);
 
 						int i = service.insertKeywordNews(keys);
 						System.out.println(i + ": insertKeywordNews 완료");
 
-//						}
 
 					}
 					System.out.println("keyword_key : " + keywordKey);
@@ -187,9 +187,9 @@ public class SearchController {
 		} // for (String token : analyzeList)
 		
 		
-		if(totalCount>=250) {
-			totalCount=250;
-		}
+//		if(totalCount>=250) {
+//			totalCount=250;
+//		}
 		
 		System.out.println(totalCount + " : totalCount");
 		PageMaker pageMaker = new PageMaker(pageNum,totalCount);

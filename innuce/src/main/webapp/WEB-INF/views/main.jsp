@@ -137,29 +137,29 @@ window.onload = function(){
 		
 			<div class="sub-menu">
 				<ul class='menu'>
-					<li class="tab-link current" data-tab="tab-1-keyword">
+					<li id="keyword1" class="tab-link current" data-tab="tab-1-keyword">
 		<!-- 				<form action="javascript:void(0)">
 							<input type=button value="키워드1">
 						</form> -->
-						키워드1
+						${keywordKeys[2] }
 					</li>
-					<li class="tab-link" data-tab="tab-2-keyword">
+					<li id="keyword1" class="tab-link" data-tab="tab-2-keyword">
 <!-- 						<form action="javascript:void(0)">
 							<input type=button value="키워드2">
 						</form> -->
-						키워드2
+						${keywordKeys[1] }
 					</li>
-					<li class="tab-link" data-tab="tab-3-keyword">
+					<li id="keyword1" class="tab-link" data-tab="tab-3-keyword">
 <!-- 						<form action="javascript:void(0)">
 							<input type=button value="키워드3">
 						</form> -->
-						키워드3
+						${keywordKeys[0] }
 					</li>
 				</ul>
 			</div>
 			
 			<div class="main-title">오늘의 키워드 뉴스</div>
-			
+		<%-- 	
 		<div id="tab-1-keyword" class="tab-content current">
       
       <c:forEach var="index" begin='1' end='5'>
@@ -217,7 +217,29 @@ window.onload = function(){
       	</div>
       </c:forEach>
       
-      </div> <!-- tab-3-keyword -->
+      </div> <!-- tab-3-keyword --> --%>
+      <c:forEach var="tabindex" begin='1' end='6'>
+			<div id="tab-${tabindex }-keyword" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
+		
+	      <c:forEach var="index" begin='1' end='5'>
+	      	<div class='content-cover'>
+	      		<a id='${tabindex }-${index}-a-keyword'>
+	      			<img id='${tabindex }-${index}-img-keyword' alt='images' />
+	      		</a>
+	      		<div class='a'>
+	      			<div id='${tabindex }-${index }-date-keyword' class='date'></div>
+	      			<a id='${tabindex }-${index }-main-keyword' class='main'></a>
+	      			<a id='${tabindex }-${index }-cont-keyword' class='cont'><br/></a>
+	      		</div>
+	     			<div class='bookmark-cover'>
+	     				<i class='fa-solid fa-bookmark'></i>
+	     			</div>
+	      	</div>
+	      </c:forEach>
+      
+      </div>
+      </c:forEach>
+      
       
 		</div>
 		
@@ -278,13 +300,13 @@ window.onload = function(){
 		
 	      <c:forEach var="index" begin='1' end='5'>
 	      	<div class='content-cover'>
-	      		<a id='${tabindex }-${index}-a'>
-	      			<img id='${tabindex }-${index}-img' alt='images' />
+	      		<a id='${tabindex }-${index}-a-category'>
+	      			<img id='${tabindex }-${index}-img-category' alt='images' />
 	      		</a>
 	      		<div class='a'>
-	      			<div id='${tabindex }-${index }-date' class='date'></div>
-	      			<a id='${tabindex }-${index }-main' class='main'></a>
-	      			<a id='${tabindex }-${index }-cont' class='cont'><br/></a>
+	      			<div id='${tabindex }-${index }-date-category' class='date'></div>
+	      			<a id='${tabindex }-${index }-main-category' class='main'></a>
+	      			<a id='${tabindex }-${index }-cont-category' class='cont'><br/></a>
 	      		</div>
 	     			<div class='bookmark-cover'>
 	     				<i class='fa-solid fa-bookmark'></i>

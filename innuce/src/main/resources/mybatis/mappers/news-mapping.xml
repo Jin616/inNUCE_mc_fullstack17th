@@ -60,4 +60,27 @@
 	</select>
 	<!-- update -->
 	
+		
+	<select id="selectTop3KeywordKey" resultType="int">
+		select keyword_key
+		from search 
+		group by keyword_key 
+		order by count(*) desc limit 3;
+	</select>
+	
+	<select id="selectKeywordNews" resultType="newsdto">
+		select * from news n join keyword_news kn using(news_key)
+		where keyword_key = #{keyword_key}
+		order by news_pulldate desc
+		limit 5;
+	</select>
+	
+<select id="getKeyword" parameterType="java.util.List" resultType="String"> 
+	select keyword_content from keyword where 
+	<foreach collection="keywordKey" item="keyword" separator=" or ">
+		keyword_key = #{keyword}
+	</foreach>
+</select>
+	
+	
 </mapper>

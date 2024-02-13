@@ -97,28 +97,4 @@ public class PageMaker {
 		this.next = next;
 	}
 
-//	private void calcData() { // 페이지 데이터 처리
-//		// 1~10 페이지는 endPage가 10으로 고정되고 11~20 페이지는 endPage가 20으로 고정되는 방식
-//		endPage = (int) (Math.ceil(cri.getPageNum() / (double) displayPageNum) * displayPageNum);
-//		// startPage는 매 첫번째 페이지
-//		startPage = (endPage - displayPageNum) + 1;
-//
-//		int tempEndPage = (int) (Math.ceil(totalCount / (double) cri.getPAGECOUNT() ));
-//		
-//		if (endPage > tempEndPage) {
-//			endPage = tempEndPage;
-//			// 마지막 게시물이 있는 페이지가 endPage로 다시 할당해준다.
-//		}
-//		prev = startPage == 1 ? false : true;
-//		// 첫번째 페이지가 1이면 false를 반환하여 이전버튼이 사라지게 한다.
-//		next = endPage * cri.getPAGECOUNT() >= totalCount ? false : true; 
-//		// 마지막페이지의 게시글이 10개 이하면 false를 반환.
-//	}
-
-//	public String makeQuery(int pageNum, String keyword) {
-//// 원하는 페이지로 페이지 쿼리문을 날려준다.
-//		UriComponents uriComponents = UriComponentsBuilder.newInstance()
-//				.queryParam("keyword", keyword).queryParam("pageNum", pageNum).build();
-//		return uriComponents.toUriString();
-//	}
 }

@@ -27,6 +27,7 @@ public class ComponentService {
 	WordCloudService cloudService;
 	@Autowired
 	GeolocationService geoService;
+	
 
 	public KeywordDTO oneKeyword(String keyword) {
 		return keywordService.oneKeyword(keyword);
@@ -108,4 +109,5 @@ public class ComponentService {
 		return searchService.oneSearch2(sDTO);
 	}
 
+	
 }

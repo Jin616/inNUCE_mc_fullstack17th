@@ -35,4 +35,11 @@ public interface NewsDAO {
 
 	public void insertNewsHeadline(List<NewsDTO> list);
 
+	public List<Integer> selectTop3KeywordKey();
+
+	public List<NewsDTO> selectKeywordNews(int keyword_key);
+
+	public List<String> getKeyword(List<Integer> keywordKey);
+
+
 }

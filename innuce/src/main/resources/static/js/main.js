@@ -148,6 +148,7 @@ function wordclouding(data, tab_id) {
 
 /*검색옵션*/
 let nav = document.getElementsByTagName('nav');
+
 $('#earth').click(function() {
 	$(nav).toggle();
 })
@@ -198,8 +199,8 @@ $.ajax({
 				let listIdx = j + 1;
 				let idx = categoryIdx + '-' + listIdx;
 				
-				$('#' + idx + '-a').attr('href', 'news/' + n.news_key);
-				$('#' + idx + '-img').attr('src',
+				$('#' + idx + '-a-category').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-img-category').attr('src',
 					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
 
 				// Posted July 11, 2017
@@ -207,20 +208,20 @@ $.ajax({
 				// 'ko-KR'로 해도 되는데 원본이 en-US로 되어있어서 en-US로 작성
 				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 				console.log(formattedDate);
-				$('#' + idx + '-date').text("Posted " + formattedDate);
+				$('#' + idx + '-date-category').text("Posted " + formattedDate);
 
-				$('#' + idx + '-main').attr('href', 'news/' + n.news_key);
-				$('#' + idx + '-main').text(n.news_title);
-				$('#' + idx + '-main').css({
+				$('#' + idx + '-main-category').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-main-category').text(n.news_title);
+				$('#' + idx + '-main-category').css({
 					'color': 'black',
 					'text-decoration': 'none'
 				});
 
 				let summ = n.summ_content;
 				summ = summ.length > 150 ? summ.slice(0, 150) + '...' : summ;
-				$('#' + idx + '-cont').attr('href', 'news/' + n.news_key);
-				$('#' + idx + '-cont').text(summ);
-				$('#' + idx + '-cont').css({
+				$('#' + idx + '-cont-category').attr('href', 'news/' + n.news_key);
+				$('#' + idx + '-cont-category').text(summ);
+				$('#' + idx + '-cont-category').css({
 					'color': 'black',
 					'text-decoration': 'none'
 				});
@@ -244,3 +245,58 @@ $('.tab-link').click(function() {
 	});
 });
 /* category ajax end*/
+
+
+/*keyword*/
+$.ajax({
+	url: "/keyword",
+	type: "get",
+	dataType: "json",
+	success: function(response) {
+		for (let i = 0; i < 3; i++) { // categoryIdx
+			for (let j = 0; j < 5; j++) { // listIdx
+				// categoryidx-listidx-(a|img|date|main|cont)
+				let n = response[i][j]; // news
+				// 인덱스 보정
+				let categoryIdx = i + 1;
+				let listIdx = j + 1;
+				let idx = categoryIdx + '-' + listIdx;
+				
+				/*$('#' + idx + '-a').attr('href', 'news/' + n.news_key);*/
+				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
+				$('#' + idx + '-img-keyword').attr('src',
+					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
+
+				// Posted July 11, 2017
+				let date = new Date(n.news_writendate);
+				// 'ko-KR'로 해도 되는데 원본이 en-US로 되어있어서 en-US로 작성
+				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+				console.log(formattedDate);
+				$('#' + idx + '-date-keyword').text("Posted " + formattedDate);
+
+				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
+				$('#' + idx + '-main-keyword').text(n.news_title);
+				$('#' + idx + '-main-keyword').css({
+					'color': 'black',
+					'text-decoration': 'none'
+				});
+
+				let summ = n.summ_content;
+				summ = summ.length > 150 ? summ.slice(0, 150) + '...' : summ;
+			/*	$('#' + idx + '-cont').attr('href', 'news/' + n.news_key);*/
+				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
+				$('#' + idx + '-cont-keyword').text(summ);
+				$('#' + idx + '-cont-keyword').css({
+					'color': 'black',
+					'text-decoration': 'none'
+				});
+
+			}
+		}
+	},
+	error: function() {
+		alert("정상적이지 않은 요청입니다. 다시 시도해주세요");
+	}
+});
+
+

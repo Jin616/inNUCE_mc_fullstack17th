@@ -77,4 +77,25 @@ public class NewsService {
 		return newsdao.selectSingleNews(news_key);
 	}
 
+	public Object getKeywordNews() {
+		JSONObject result = new JSONObject();
+		JSONParser parser = new JSONParser();
+
+		List<Integer> keywordKey = newsdao.selectTop3KeywordKey(); 
+		
+		for (int i = 0; i < keywordKey.size(); i++) {
+			result.put(""+i, parser.getJsonArrayNews(newsdao.selectKeywordNews(keywordKey.get(i))));
+		}
+		
+		return result;
+	}
+
+	public List<String> getKeywordNews2() {
+		List<Integer> keywordKey = newsdao.selectTop3KeywordKey();
+		for (Integer integer : keywordKey) {
+			System.out.println(integer);
+		}
+		return newsdao.getKeyword(keywordKey);
+	}
+
 }

@@ -62,7 +62,7 @@
 			$("i").addClass("checked")
 			// 북마크 버튼 눌렀을떄 (스크랩 취소)
 			$('i').on('click',function(){
-				alert("클릭인식")
+				
 				$.ajax({
 					type : 'post',
 					url : 'scrapnewscancel',
@@ -120,8 +120,25 @@
 
 	<!--  마이페이지 내용 -->
 	<main>
-		<div id="myPage_main">
+	<div id="myPage_main">
 			<div id="mypage_scrap_main">
+			<c:choose>
+			<c:when test= "${scrapList.size() ==0}">
+			<div class="news-cover">
+			<div class="news-content">
+			<div id='search_board_box'>
+				<select id='search_option'>
+					<option value='search_title'>제목</option>
+					<option value='search_content'>내용</option>
+				</select> <input type='text' , placeholder='검색어입력' , id='search'>
+				<button id='search_button' type='button'>검색</button>
+			</div>		
+			</div>
+			</div>
+			<div> 스크랩된 기사가 없습니다 </div>
+			</c:when> 
+			<c:otherwise>
+
 				<div class="news-cover">
 					<div class="news-content">
 						<div class="cover">
@@ -171,6 +188,8 @@
 						</div>
 					</div>
 				</div>
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</main>

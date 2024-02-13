@@ -63,7 +63,7 @@ public class ScrapController {
 		//NewsDTO newsDto = newsService.selectOne(news_key);
 		
 		scrapService.scrapNews(user_key,news_key);
-		System.out.println("컨트롤러통과");
+		
 		
 	}
 	
@@ -78,7 +78,7 @@ public class ScrapController {
 		//NewsDTO newsDto = newsService.selectOne(news_key);
 			
 		scrapService.cancelScrapNews(user_key,news_key);
-		System.out.println("컨트롤러통과");
+		
 			
 	}
 	
@@ -91,10 +91,10 @@ public class ScrapController {
 		
 		ModelAndView mv = new ModelAndView();
 
-		System.out.println("컨트롤러입장");
+		
 		UserDTO userdto = (UserDTO) session.getAttribute("login_user");
 		int user_key = userdto.getUser_key();
-		System.out.println("유저키"+user_key);
+		
 		// 내가 한 스크랩 수
 		int total_scrap;
 		// 마이페이지 내에서 기사제목 및 내용 검색안한경우
@@ -109,7 +109,7 @@ public class ScrapController {
 		else {
 			total_scrap = scrapService.countMyTotalScrapByContent(user_key,news_content);
 		}
-		
+		if(total_scrap !=0) {
 		// 뉴스DTO들 담아오기
 		List<NewsDTO> fullScrapList ;
 		// 마이페이지 내에서 기사제목 및 내용 검색안한경우
@@ -129,7 +129,7 @@ public class ScrapController {
 		// 다중 쿼리에서 limit 이 안돼서 컨트롤러 단에서 페이징 해줄예정
 		// 지금 fullScrapList에는 모든 스크랩한 newsDTO가 담겨있음
 		// 이걸 한페이지에서 보여줄 scrap_in_page에 맞게 잘라서 보내줄예정
-		
+		System.out.println("totalscrap ==" +total_scrap);
 		// 한페이지에 보여줄 스크랩 수
 		int scrap_in_page=5;
 		// 마지막 페이지에 보여줄 user 수
@@ -144,12 +144,16 @@ public class ScrapController {
 			scrap_in_last_page = total_scrap % scrap_in_page;
 			page_count = total_scrap / scrap_in_page +1;
 		}
-		// 총 페이지 숫자
-		
-		System.out.println(pagenum);
-		System.out.println(page_count);
-		System.out.println(pagenum==page_count);
-		System.out.println(fullScrapList.size());
+		// fullScrapList가 스크랩한 시간의 역순으로 가져오네요.. sql에서 해결하고 싶었지만.. 이 역시도 해결못했습니다
+		//Collections.reverse쓰고 싶은데 Collections가 임포트가 안돼서 손수 뒤집습니다...
+		if(fullScrapList.size()!=1) {		
+		for(int j=0; j<fullScrapList.size()/2; j++) {
+			NewsDTO tempDTO = fullScrapList.get(j);
+			fullScrapList.set(j, fullScrapList.get(fullScrapList.size()-j-1));
+			fullScrapList.set(fullScrapList.size()-j-1, tempDTO);
+		}
+		}
+	
 		// 우리가 현재가진 scrapList에서 인덱싱으로 시작할 지점	
 		int starting_point = (pagenum - 1) * scrap_in_page;
 		
@@ -178,5 +182,12 @@ public class ScrapController {
 		mv.setViewName("user/mypageScrap");
 		
 		return mv;
+		}
+		else {
+			List<NewsDTO> scrapList = new ArrayList<NewsDTO>();
+			mv.addObject("scrapList",scrapList);
+			mv.setViewName("user/mypageScrap");
+			return mv;
+		}
 	}
 }

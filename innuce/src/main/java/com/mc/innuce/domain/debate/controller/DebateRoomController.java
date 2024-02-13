@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
@@ -109,6 +111,13 @@ public class DebateRoomController {
 		mv.setViewName("debate/debateroom");
 
 		return mv;
+	}
+	
+	// 채팅바 채팅방 리스트
+	@PostMapping("/chattingroomlist")
+	@ResponseBody
+	public List<DebateRoomDTO> chattingRoomList(){
+		return debateRoomService.chattingRoomList();
 	}
 
 }

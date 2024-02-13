@@ -100,7 +100,8 @@
 			<div id="myPage_navigater">
 				<div class='title'>마이페이지</div>
 				<button id="info_change" clicked="yes">
-					<span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 정보 수정
+					<span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원
+					정보 수정
 				</button>
 				<button id="my_scrap" clicked="none">
 					<i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사
@@ -119,59 +120,59 @@
 
 	<!--  마이페이지 내용 -->
 	<main>
+		<div id="myPage_main">
+			<div id="mypage_scrap_main">
+				<div class="news-cover">
+					<div class="news-content">
+						<div class="cover">
+							<div id="tab-1-keyword" class="tab-content">
+								<c:forEach var="newsDTO" items="${scrapList}" varStatus="status">
 
-		<div id="mypage_scrap_main">
-			<div class="news-cover">
-				<div class="news-content">
-					<div class="cover">
-						<div id="tab-1-keyword" class="tab-content">
-							<c:forEach var="newsDTO" items="${scrapList}" varStatus="status">
+									<div class='content' value="${newsDTO.news_key }">
+										<a class="img-cover" href="news?newsKey=${newsDTO.news_key }">
+											<img id="img-1" alt="images"
+											src="${newsDTO.news_thumbnailuri2 }"
+											onerror="this.src='/images/inNUCE_logo.png'" />
+										</a> <a class='a' href="news?newsKey=${newsDTO.news_key }">
+											<div id='${status.index }-1' class='date'>${newsDTO.news_writendate }</div>
+											<div id='${status.index }-2' class='main'>${newsDTO.news_title }</div>
+											<div id='${status.index }-3' class='cont'>${newsDTO.summ_content }<br />
+											</div>
+										</a>
 
-								<div class='content' value="${newsDTO.news_key }">
-									<a class="img-cover" href="news?newsKey=${newsDTO.news_key }">
-										<img id="img-1" alt="images"
-										src="${newsDTO.news_thumbnailuri2 }"
-										onerror="this.src='/images/inNUCE_logo.png'" />
-									</a> <a class='a' href="news?newsKey=${newsDTO.news_key }">
-										<div id='${status.index }-1' class='date'>${newsDTO.news_writendate }</div>
-										<div id='${status.index }-2' class='main'>${newsDTO.news_title }</div>
-										<div id='${status.index }-3' class='cont'>${newsDTO.summ_content }<br />
+										<div class='bookmark-cover'>
+											<i class='fa-solid fa-bookmark' news='${newsDTO.news_key}'></i>
 										</div>
-									</a>
-
-									<div class='bookmark-cover'>
-										<i class='fa-solid fa-bookmark' news='${newsDTO.news_key}'></i>
 									</div>
-								</div>
-							</c:forEach>
+								</c:forEach>
+							</div>
 						</div>
-					</div>
 
-					<div class="paging">
-						<%
-						int pageCount = (Integer) request.getAttribute("pageCount");
-						String search_title = (String) request.getAttribute("search_title");
-						String search_content = (String) request.getAttribute("search_content");
-						for (int i = 1; i <= pageCount; i++) {
-						%>
+						<div class="paging">
+							<%
+							int pageCount = (Integer) request.getAttribute("pageCount");
+							String search_title = (String) request.getAttribute("search_title");
+							String search_content = (String) request.getAttribute("search_content");
+							for (int i = 1; i <= pageCount; i++) {
+							%>
 
-						<a
-							href="/mypageScrap?pageNum=<%=i%>&search_title=<%=search_title%>&search_content=<%=search_content%>"><%=i%></a>&nbsp;
-						<%
-						}
-						%>
-					</div>
-					<div id='search_board_box'>
-						<select id='search_option'>
-							<option value='search_title'>제목</option>
-							<option value='search_content'>내용</option>
-						</select> <input type='text' , placeholder='검색어입력' , id='search'>
-						<button id='search_button' type='button'>검색</button>
+							<a
+								href="/mypageScrap?pageNum=<%=i%>&search_title=<%=search_title%>&search_content=<%=search_content%>"><%=i%></a>&nbsp;
+							<%
+							}
+							%>
+						</div>
+						<div id='search_board_box'>
+							<select id='search_option'>
+								<option value='search_title'>제목</option>
+								<option value='search_content'>내용</option>
+							</select> <input type='text' , placeholder='검색어입력' , id='search'>
+							<button id='search_button' type='button'>검색</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</main>
 </body>
 </html>

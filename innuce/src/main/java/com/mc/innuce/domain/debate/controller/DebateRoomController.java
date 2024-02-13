@@ -42,7 +42,7 @@ public class DebateRoomController {
 		mv.addObject("totalCount", totalCount);
 		
 		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
-			mv.setViewName("main/debate");
+			mv.setViewName("debate/debate");
 			return mv;
 		}
 		
@@ -60,7 +60,7 @@ public class DebateRoomController {
 		mv.addObject("openDebateRoomList", openDebateRoomList);
 		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
 		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
-		mv.setViewName("main/debate");
+		mv.setViewName("debate/debate");
 
 		return mv;
 	}

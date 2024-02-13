@@ -138,86 +138,19 @@ window.onload = function(){
 			<div class="sub-menu">
 				<ul class='menu'>
 					<li id="keyword1" class="tab-link current" data-tab="tab-1-keyword">
-		<!-- 				<form action="javascript:void(0)">
-							<input type=button value="키워드1">
-						</form> -->
 						${keywordKeys[2] }
 					</li>
 					<li id="keyword1" class="tab-link" data-tab="tab-2-keyword">
-<!-- 						<form action="javascript:void(0)">
-							<input type=button value="키워드2">
-						</form> -->
 						${keywordKeys[1] }
 					</li>
 					<li id="keyword1" class="tab-link" data-tab="tab-3-keyword">
-<!-- 						<form action="javascript:void(0)">
-							<input type=button value="키워드3">
-						</form> -->
 						${keywordKeys[0] }
 					</li>
 				</ul>
 			</div>
 			
 			<div class="main-title">오늘의 키워드 뉴스</div>
-		<%-- 	
-		<div id="tab-1-keyword" class="tab-content current">
-      
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-      			
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark' news='${newsDTO.news_key}' ></i>
-     			</div>
-      			
-      	</div>
-      </c:forEach>
-      
-      
-      </div> <!-- tab-1-keyword -->
-      
-			<div id="tab-2-keyword" class="tab-content">
-      
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index }' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark' news='${newsDTO.news_key}' ></i>
-     			</div>
-      	</div>
-      </c:forEach>
-      </div> <!-- tab-2-keyword -->
-      
-      
-			<div id="tab-3-keyword" class="tab-content">
 			
-      <c:forEach var="index" begin='1' end='5'>
-      	<div class='content-cover'>
-      		<img id='img-${index}' alt='images' />
-      		<div class='a'>
-      			<div id='${index }-1' class='date'></div>
-      			<div id='${index }-2' class='main'></div>
-      			<div id='${index }-3' class='cont'><br/></div>
-      		</div>
-      			
-     			<div class='bookmark-cover'>
-     				<i class='fa-solid fa-bookmark' news='${newsDTO.news_key}'></i>
-     			</div>
-     			
-      	</div>
-      </c:forEach>
-      
-      </div> <!-- tab-3-keyword --> --%>
       <c:forEach var="tabindex" begin='1' end='6'>
 			<div id="tab-${tabindex }-keyword" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
 		
@@ -251,39 +184,21 @@ window.onload = function(){
 			<div class="sub-menu">
 				<ul class='menu'>
 					<li class="tab-link current" data-tab="tab-1-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="정치">
-						</form> -->
 						정치
 					</li>
 					<li class="tab-link" data-tab="tab-2-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="경제">
-						</form> -->
 						경제
 					</li>
 					<li class="tab-link" data-tab="tab-3-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="사회">
-						</form> -->
 						사회
 					</li>
 					<li class="tab-link" data-tab="tab-4-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="생활">
-						</form> -->
 						생활
 					</li>
 					<li class="tab-link" data-tab="tab-5-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="세계">
-						</form> -->
 						세계
 					</li>
 					<li class="tab-link" data-tab="tab-6-category">
-<!-- 						<form action="javascript:void(0)">
-							<input class="category" type=button value="사설/컬럼">
-						</form> -->
 						사설/컬럼
 					</li>
 				</ul>
@@ -369,27 +284,21 @@ window.onload = function(){
 		</div>
   <!-- 정치 -->
      <div id="con-tab-0" class="tab-container">
-   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	<!-- 경제 -->
      <div id="con-tab-1" class="tab-container">
-   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	<!-- 사회 -->
      <div id="con-tab-2" class="tab-container">
-    <!--  <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	<!-- 생활 -->
      <div id="con-tab-3" class="tab-container">
-   <!--   <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	<!-- 세계 -->
      <div id="con-tab-4" class="tab-container">
-<!--      <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	<!-- 사설/컬럼 -->
      <div id="con-tab-5" class="tab-container">
-<!--      <img src="/images/loading.gif" id="loadingimg"> -->
      </div>
  	
  	</div>

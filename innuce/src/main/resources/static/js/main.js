@@ -213,7 +213,7 @@ $.ajax({
 				$('#' + idx + '-main-category').attr('href', 'news/' + n.news_key);
 				$('#' + idx + '-main-category').text(n.news_title);
 				$('#' + idx + '-main-category').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 
@@ -222,7 +222,7 @@ $.ajax({
 				$('#' + idx + '-cont-category').attr('href', 'news/' + n.news_key);
 				$('#' + idx + '-cont-category').text(summ);
 				$('#' + idx + '-cont-category').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 
@@ -277,7 +277,7 @@ $.ajax({
 				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-main-keyword').text(n.news_title);
 				$('#' + idx + '-main-keyword').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 
@@ -287,7 +287,7 @@ $.ajax({
 				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-cont-keyword').text(summ);
 				$('#' + idx + '-cont-keyword').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 

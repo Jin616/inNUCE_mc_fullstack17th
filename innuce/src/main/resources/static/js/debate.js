@@ -1,8 +1,8 @@
-$('.img-cover').hover(
+$('.content').hover(
 	function(a) {
-		$(this).addClass('fa-shake');
+		$(this).find('i').addClass('fa-shake');
 	},
 	function(a) {
-		$(this).removeClass('fa-shake');
+		$(this).find('i').removeClass('fa-shake');
 	}
 );

@@ -63,7 +63,10 @@ public class SearchController {
 		
 		return mv;
 	}
-	
+//	@RequestMapping("/main")
+//	public String main() {
+//		return "main";
+//	}
 	
 
 	@GetMapping("/search")

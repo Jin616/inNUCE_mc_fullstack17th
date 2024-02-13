@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>inNUCE_Debate</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 
@@ -88,7 +87,7 @@
 					</c:if>
 				</div>
 				
-				<div class="paging">
+<%-- 				<div class="paging">
 				<%
 				int pageCount = (Integer) request.getAttribute("pageCount");
 				int totalCount = (Integer) request.getAttribute("totalCount");
@@ -108,7 +107,7 @@
 				}
 				%>
 					
-				</div> 
+				</div>  --%>
 				
 			</div> 
 		</div>

@@ -214,9 +214,9 @@ public class SearchController {
 			map.put("num2", limit[1]);
 			System.out.println("totalCount : " + totalCount);
 
-			if (newsList.isEmpty()) {
-				newsList = service.getNewsListLimit(map);
-			}
+//			if (newsList.isEmpty()) {
+//				newsList = service.getNewsListLimit(map);
+//			}
 
 //	키워드에 해당하는 news 가져오기
 			newsList = service.getNewsListLimit(map);

@@ -29,6 +29,7 @@ public class PressScheduler {
 			
 			updatePressLocalDate = LocalDate.now();
 		}
+		
 	}
 
 }

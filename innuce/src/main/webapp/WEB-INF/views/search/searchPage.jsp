@@ -44,6 +44,6 @@
  <div id="to-top">
    <div class="material-icons">arrow_upward</div>
  </div>
-
+<script defer src="/js/search-option.js"></script>
 </body>
 </html>

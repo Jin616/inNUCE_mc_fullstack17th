@@ -56,13 +56,14 @@
 		or news_content like concat("%",#{keyword},"%")
 	</select>
 
-
 	<select id="selectHeadLineNews" resultType="newsdto">
-		select * from news where news_key in
-		(select news_key from news_headline
-		where news_category = #{category} order by news_pulldate desc) limit 5;
-
+	select n.* from news_headline nh
+	join news n using(news_key)
+	where n.news_category = #{category}
+	order by n.news_pulldate desc
+	limit 5;
 	</select>
+	
 	<!-- 김 -->
 	<select id="selectSingleNews" resultType="newsdto"
 		parameterType='long'>

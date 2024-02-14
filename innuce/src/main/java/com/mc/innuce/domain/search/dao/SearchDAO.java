@@ -1,6 +1,7 @@
 package com.mc.innuce.domain.search.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -27,5 +28,5 @@ public interface SearchDAO {
 	SearchDTO oneSearch(SearchDTO sDTO);
 
 	SearchDTO oneSearch2(SearchDTO sDTO);
-
+	
 }

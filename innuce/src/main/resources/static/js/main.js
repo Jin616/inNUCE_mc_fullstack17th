@@ -260,15 +260,15 @@ $.ajax({
 	
 });
 
-/* 02-08 seo category ajax start*/
+/* seo start */
+// category
 $.ajax({
 	url: "/headline",
 	type: "get",
-	
 	dataType: "json",
 	success: function(response) {
-		for (let i = 0; i < 6; i++) { // categoryIdx
-			for (let j = 0; j < 5; j++) { // listIdx
+		for (let i = 0; i < 6; i++) { // i = categoryIdx
+			for (let j = 0; j < 5; j++) { // j = listIdx
 				// categoryidx-listidx-(a|img|date|main|cont)
 				let n = response[i][j]; // news
 				// 인덱스 보정
@@ -284,9 +284,8 @@ $.ajax({
 				let date = new Date(n.news_writendate);
 				// 'ko-KR'로 해도 되는데 원본이 en-US로 되어있어서 en-US로 작성
 				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-				console.log(formattedDate);
+				
 				$('#' + idx + '-date-category').text("Posted " + formattedDate);
-
 				$('#' + idx + '-main-category').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-main-category').text(n.news_title);
 				$('#' + idx + '-main-category').css({
@@ -311,7 +310,6 @@ $.ajax({
 	}, complete: function(){
 		// 본인이 스크랩한 기사들은 표시해서 보여주기
 		if(user_id != null){
-		
 		// 해당 유저가 스크랩한 기사리스트
 		let scrap_list=[];
 		//우선 ajax로 해당 유저가 스크랩한 기사들의 news_key를 ajax로 받아온다
@@ -361,8 +359,7 @@ $('.tab-link').click(function() {
 		'font-size': '22px'
 	});
 });
-
-/* category ajax end*/
+/* seo end */
 
 $('main i').on('click',function(){
 		

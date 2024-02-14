@@ -56,7 +56,7 @@ public class NewsService {
 		JSONObject result = new JSONObject();
 		JSONParser parser = new JSONParser();
 
-		String[] categorys = {"정치", "경제", "사회", "생활", "IT", "세계"};
+		String[] categorys = {"정치", "경제", "사회", "생활/문화", "세계", "IT/과학"};
 		
 		for(int i = 0; i < categorys.length; i++)
 			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));

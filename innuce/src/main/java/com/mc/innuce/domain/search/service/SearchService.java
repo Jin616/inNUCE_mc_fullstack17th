@@ -1,13 +1,12 @@
 package com.mc.innuce.domain.search.service;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.search.dao.SearchDAO;
-import com.mc.innuce.domain.search.dto.KeysOfSearchDTO;
 import com.mc.innuce.domain.search.dto.SearchDTO;
 
 @Service
@@ -42,5 +41,5 @@ public class SearchService {
 	public SearchDTO oneSearch2(SearchDTO sDTO) {
 		return dao.oneSearch2(sDTO);
 	}
-
+	
 }

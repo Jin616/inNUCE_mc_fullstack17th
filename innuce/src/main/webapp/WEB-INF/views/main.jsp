@@ -16,7 +16,6 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 
-
 </head>
 
 <body>
@@ -29,6 +28,7 @@
 
 </header>
 
+<!-- 0213 수정 header/header.jsp로 이관 -->
 <!-- nav -->
 <nav>
 <%@ include file ="/WEB-INF/views/nav/nav.jsp" %>
@@ -115,11 +115,7 @@
 			</div>
 
 
-	<!-- 0208 seo modify 중복된 코드 리팩토링 -->
-	<!-- index 주의... 하려다 id 중복되는 거보고 전체 수정합니다. -->
-	<!-- css 보고 클래스로만 css 입히신 거 같아서 id 바꿔서 테스트 해보고 바꿔둡니다. -->
-	<!-- 바꿀라고 했는데 어디서 하드코딩 되었는지 찾을 수가 없어서 인덱스 꼬인 상태로 둡니다... -->
-		<div class="main-title">오늘의 카테고리 뉴스</div>
+	<div class="main-title">오늘의 카테고리 뉴스</div>
 		<c:forEach var="tabindex" begin='1' end='6'>
 		<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
 		
@@ -235,5 +231,6 @@ if(msg != ""){
 </script>
 <jsp:include page="/WEB-INF/views/search/scrapInMain.jsp" />
 <script defer src="/js/main.js"></script>
+<script defer src="/js/search-option.js"></script>
 </body>
 </html>

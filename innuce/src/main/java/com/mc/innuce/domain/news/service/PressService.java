@@ -24,8 +24,6 @@ public class PressService {
 	 * pressList의 dto 값들을 넣어준다. DB에 각각의 기능을 실행 후 결과값 출력 후 종료
 	 */
 
-	private List<PressDTO> pressList = new ArrayList<>();
-	
 	public void updatePressTable(List<PressDTO> pressList) {
 		HashMap<Integer, PressDTO> originMap = new HashMap<Integer, PressDTO>();
 		List<PressDTO> originList = getAllPressList();
@@ -52,6 +50,9 @@ public class PressService {
 			insertRow += pressDAO.insertListPress(insertList);
 
 		System.out.printf("update %d 건, insert %d 건 완료했습니다.", updateRow, insertRow);
+		
+		// 주간조선 하드코딩
+		pressDAO.updateJooGanJoSun();
 	}
 
 	public List<PressDTO> getAllPressList() {

@@ -14,8 +14,7 @@
  		 
 		 <div class="contents__media">
 		 
-		 <ul id="press-info" class='inner'>
-		 </ul>
+		 <ul id="press-info" class='inner'></ul>
 			 
 		 </div>
 		 
@@ -23,7 +22,7 @@
 		 <div class="contents__duration">
 		  <div class='inner'>
 		  	<h4>기간</h4>
-		  	<input type="date" id="SD">&nbsp; ~ &nbsp;<input type="date" id="ED">
+		  	<input type="date" id="SD" value="${ds }">&nbsp; ~ &nbsp;<input type="date" id="ED" value="${de }">
 		  	
 		  </div>
 		 </div>

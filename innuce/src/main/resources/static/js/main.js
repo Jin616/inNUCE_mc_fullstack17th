@@ -231,6 +231,7 @@ $.ajax({
 			url : 'getscraplist',
 			data : {'user_id' : user_id},
 			success : function(response){
+
 				for (var i = 0 ; i < response.length;i++){
 				scrap_list.push(response[i])
 				}//for

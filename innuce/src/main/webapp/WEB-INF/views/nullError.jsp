@@ -10,6 +10,13 @@
 발생한 예외 : ${pageContext.exception}<br>
 예외 메시지 : ${pageContext.exception.message}<br>
 
+<button onclick="location.href='main'">메인으로 돌아가기 </button>
+<ol>
+<c:forEach items="${pageContext.exception.stackTrace}" var="i">
+	<li>${i.toString()}</li>
+</c:forEach>
+</ol>
+>>>>>>> Stashed changes
 </body>
 </html>
 

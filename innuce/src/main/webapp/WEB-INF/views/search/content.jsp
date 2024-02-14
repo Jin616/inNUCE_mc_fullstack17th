@@ -22,21 +22,6 @@ window.onload = function(){
 		+"</ul>"
 		)//html
 	}
-/* 	let content = document.getElementBy('content');
-	
-	content.addEventListner('mouseenter', function() {
-		let width = content.offsetWidth;
-		let height = content.offestHeight;
-		
-		let newWidth = 1000;
-		let newHeight = (height/width) * newWidth;
-		
-		content.style.height=newHeight+'px';
-	});
-	
-	content.addEventListner('mouseleave', function() {
-		content.style.height = '';
-	}) */
 	
 	
 }//onload

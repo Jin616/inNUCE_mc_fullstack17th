@@ -38,59 +38,68 @@
 <main>
 	<div class="total-container">
 	<!-- 키워드 -->
-	<div class="news-container">
+	<div class="news-container1">
 	
 		<div class="news-content-cover" id="keyword">
 		
-			<div class="sub-menu">
-				<ul class='menu'>
-					<li id="keyword1" class="tab-link current" data-tab="tab-1-keyword">
-
-						${keywordKeys[0] }
-					</li>
-					<li id="keyword1" class="tab-link" data-tab="tab-2-keyword">
-
-						${keywordKeys[1] }
-					</li>
-					<li id="keyword1" class="tab-link" data-tab="tab-3-keyword">
-
-						${keywordKeys[2] }
-					</li>
-				</ul>
+			<div class="top">
+				<div class="main-title">오늘의 키워드 뉴스</div>
+				<div class="sub-menu">
+					<ul class='menu'>
+						<li id="keyword1" class="tab-link current" data-tab="tab-1-keyword">
+	
+							${keywordKeys[0] }
+						</li>
+						<li id="keyword1" class="tab-link" data-tab="tab-2-keyword">
+	
+							${keywordKeys[1] }
+						</li>
+						<li id="keyword1" class="tab-link" data-tab="tab-3-keyword">
+	
+							${keywordKeys[2] }
+						</li>
+					</ul>
+				</div>
 			</div>
-			
-			<div class="main-title">오늘의 키워드 뉴스</div>
 
       <c:forEach var="tabindex" begin='1' end='3'>
+      
 			<div id="tab-${tabindex }-keyword" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
 		
 	      <c:forEach var="index" begin='1' end='5'>
+	      
 	      	<div class='content-cover'>
-	      		<a id='${tabindex }-${index}-a-keyword'>
+	      	
+	      		<a id="img-cover" class='${tabindex }-${index}-a-keyword'>
 	      			<img id='${tabindex }-${index}-img-keyword' alt='images' />
 	      		</a>
-	      		<div class='a'>
+	      		
+	      		<a class='${tabindex }-${index }-a-keyword' id="A">
 	      			<div id='${tabindex }-${index }-date-keyword' class='date'></div>
-	      			<a id='${tabindex }-${index }-main-keyword' class='main'></a>
-	      			<a id='${tabindex }-${index }-cont-keyword' class='cont'><br/></a>
-	      		</div>
+	      			<div id='${tabindex }-${index }-main-keyword' class='main'></div>
+	      			<div id='${tabindex }-${index }-cont-keyword' class='cont'><br/></div>
+	      		</a>
+	      		
 	     			<div class='bookmark-cover'>
 	     				<i id='${tabindex }-${index }-scrap-keyword' scrapNum= ${(tabindex-1)*5 +index} class='fa-solid fa-bookmark'></i>
 	     			</div>
 	      	</div>
+	      	
 	      </c:forEach>
       
       </div>
       </c:forEach>
       
       
-		</div>
-		
-	</div>
+		</div> <!-- news-content-cover -->		
+	</div> <!-- news-container -->
 
 	<!-- 카테고리 -->
-	<div class="news-container">
+	<div class="news-container2">
 		<div class="news-content-cover" id="category">
+		
+			<div class="top">
+			<div class="main-title">오늘의 카테고리 뉴스</div>
 			<div class="sub-menu">
 				<ul class='menu'>
 					<li class="tab-link current" data-tab="tab-1-category">
@@ -113,30 +122,35 @@
 					</li>
 				</ul>
 			</div>
-
+			</div>
 
 	<!-- 0208 seo modify 중복된 코드 리팩토링 -->
 	<!-- index 주의... 하려다 id 중복되는 거보고 전체 수정합니다. -->
 	<!-- css 보고 클래스로만 css 입히신 거 같아서 id 바꿔서 테스트 해보고 바꿔둡니다. -->
 	<!-- 바꿀라고 했는데 어디서 하드코딩 되었는지 찾을 수가 없어서 인덱스 꼬인 상태로 둡니다... -->
-		<div class="main-title">오늘의 카테고리 뉴스</div>
+
 		<c:forEach var="tabindex" begin='1' end='6'>
 		<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
 		
 	      <c:forEach var="index" begin='1' end='5'>
+	      
 	      	<div class='content-cover'>
-	      		<a id='${tabindex }-${index}-a-category'>
-	      			<img id='${tabindex }-${index}-img-category' alt='images' />
-	      		</a>
-	      		<div class='a'>
-	      			<div id='${tabindex }-${index }-date-category' class='date'></div>
-	      			<a id='${tabindex }-${index }-main-category' class='main'></a>
-	      			<a id='${tabindex }-${index }-cont-category' class='cont'><br/></a>
+	      	
+						<a class='${tabindex }-${index}-a-category' id="img-cover2">
+							<img id='${tabindex }-${index}-img-category' alt='images' />
+						</a>
+						
+						<a class='${tabindex }-${index }-a-category' id="B">
+							<div id='${tabindex }-${index }-date-category' class='date'></div>
+							<div id='${tabindex }-${index }-main-category' class='main'></div>
+							<div id='${tabindex }-${index }-cont-category' class='cont'><br/></div>
+						</a>
+						
+						<div class='bookmark-cover'>
+							<i id='${tabindex }-${index }-scrap-category' scrapNum= ${(tabindex-1)*5 +index+15} class='fa-solid fa-bookmark'></i>
+						</div>
+	     			
 	      		</div>
-	     			<div class='bookmark-cover'>
-	     				<i id='${tabindex }-${index }-scrap-category' scrapNum= ${(tabindex-1)*5 +index+15} class='fa-solid fa-bookmark'></i>
-	     			</div>
-	      	</div>
 	      </c:forEach>
       
       </div>
@@ -145,9 +159,9 @@
 			
 			
 		</div>
-	</div>
+	</div> <!-- news-container  -->
 	
-</div>	
+</div>	<!-- total-container -->
 </main>
 
 

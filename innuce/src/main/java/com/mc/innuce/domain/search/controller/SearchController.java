@@ -43,41 +43,38 @@ public class SearchController {
 	private ComponentService service;
 	@Autowired
 	NewsService newsService;
-	
+
 	private String ip = "";
 
 	private String myLocation = "";
-	private final int PAGECOUNT=10;
+	private final int PAGECOUNT = 10;
 
 	private List<String> placeList = new ArrayList<>();
 
-	
 	@RequestMapping("/main")
 	public ModelAndView main(HttpServletRequest request, HttpSession session) {
-		
+
 		List<String> keywordKey = newsService.getKeywordNews2();
 		ModelAndView mv = new ModelAndView();
-		
+
 		mv.addObject("keywordKeys", keywordKey);
 		mv.setViewName("main");
-		
+
 		return mv;
 	}
 //	@RequestMapping("/main")
 //	public String main() {
 //		return "main";
 //	}
-	
 
 	@GetMapping("/search")
 	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
-		
-		
+
 		if (ip.equals("") || ip.equals(" ") || ip == null) {
 			ip = getIp(request);
 		}
-		
+
 		ModelAndView mv = new ModelAndView();
 
 		int totalCount = 0;
@@ -111,7 +108,7 @@ public class SearchController {
 			List<Long> newsKeyList = service.getNewsKeys(token);
 			System.out.println("newsKeyList : " + newsKeyList);
 			if (newsKeyList.isEmpty() || newsKeyList == null) {
-				System.out.println(newsKeyList+" : newsKeyList 가 비어있습니다.");
+				System.out.println(newsKeyList + " : newsKeyList 가 비어있습니다.");
 			} else {
 				if (token.length() >= 2) {
 
@@ -136,26 +133,26 @@ public class SearchController {
 						kDTO = service.oneKeyword(token);
 						keywordKeyList.add(kDTO.getKeyword_key());
 						keywordKey = kDTO.getKeyword_key();
-						
+
 						KeysDTO keys = new KeysDTO(keywordKey, newsKeyList);
 
 						int i = service.insertKeywordNews(keys);
 						System.out.println(i + ": insertKeywordNews 완료");
 
-
 					}
 					System.out.println("keyword_key : " + keywordKey);
-
+					System.out.println("ip : " + ip);
 					// Search 테이블 - 유저에 따라 insert | update
 					if (session.getAttribute("login_user") != null) {
-
+						System.out.println("user 존재");
 						// userDTO가 존재
 						uDTO = (UserDTO) session.getAttribute("login_user");
-						// keyword_key / userKey / ip / age / gender 를 search 에 저장.
+						// keyword_key / userKey / ip 를 search 에 저장.
 						sDTO = new SearchDTO(keywordKey, uDTO.getUser_key(), ip);
-
+						System.out.println("난 sdto"+sDTO);
 						SearchDTO oneSearchDTO = service.oneSearch(sDTO);
 						System.out.println("oneSearch 완료" + oneSearchDTO);
+
 						if (oneSearchDTO != null) {
 							int i = service.updateSearch2(sDTO);
 							System.out.println(i + " userDTO가 존재o k-u-c 존재o updateSearch완료");
@@ -166,9 +163,9 @@ public class SearchController {
 
 					} else {
 						// userDTO가 존재 x
-
+						System.out.println("user 존재x");
 						sDTO = new SearchDTO(keywordKey, ip);
-
+						System.out.println("난 sdto"+sDTO);
 						SearchDTO oneSearchDTO = service.oneSearch2(sDTO);
 						System.out.println("oneSearch2 완료 " + oneSearchDTO);
 						if (oneSearchDTO != null) {
@@ -183,25 +180,19 @@ public class SearchController {
 					}
 
 					totalCount += service.getTotalNews(keywordKey);
-			
 
 				} // token >= 2
-			}// newsKeyList is null or isEmpty
+			} // newsKeyList is null or isEmpty
 		} // for (String token : analyzeList)
-		
-		
-//		if(totalCount>=250) {
-//			totalCount=250;
-//		}
-		
+
 		System.out.println(totalCount + " : totalCount");
-		PageMaker pageMaker = new PageMaker(pageNum,totalCount);
-		
+		PageMaker pageMaker = new PageMaker(pageNum, totalCount);
+
 		if (keywordKeyList.isEmpty()) {
 			System.out.println("keywordKeyList 가 비어있습니다.");
 			mv.addObject("noneKeyword", "\"" + keyword + "\"" + "에 대한 검색결과가 없습니다.");
 		} else {
-			
+
 //	paging
 			Map<String, Object> map = new HashMap<>();
 
@@ -214,9 +205,9 @@ public class SearchController {
 			map.put("num2", limit[1]);
 			System.out.println("totalCount : " + totalCount);
 
-//			if (newsList.isEmpty()) {
-//				newsList = service.getNewsListLimit(map);
-//			}
+			if (newsList.isEmpty()) {
+				newsList = service.getNewsListLimit(map);
+			}
 
 //	키워드에 해당하는 news 가져오기
 			newsList = service.getNewsListLimit(map);
@@ -224,7 +215,7 @@ public class SearchController {
 			mv.addObject("newsList", newsList);
 			mv.addObject("keyword", keyword);
 		}
-		
+
 		mv.addObject("pageMaker", pageMaker);
 		mv.setViewName("search/searchPage");
 
@@ -273,7 +264,7 @@ public class SearchController {
 				// TODO: handle exception
 			}
 		}
-		System.out.println("placeList ; "+placeList);
+		System.out.println("placeList ; " + placeList);
 		System.out.println("ip : " + ip);
 
 		System.out.println("myLocation : " + myLocation);
@@ -323,12 +314,12 @@ public class SearchController {
 		} // for (String place : analyzeList)
 
 //	paging
-		
-		if(totalCount>=250) {
-			totalCount=250;
+
+		if (totalCount >= 250) {
+			totalCount = 250;
 		}
-		PageMaker pageMaker = new PageMaker(pageNum,totalCount);
-		
+		PageMaker pageMaker = new PageMaker(pageNum, totalCount);
+
 		Map<String, Object> map = new HashMap<>();
 
 		int[] limit = new int[2];
@@ -342,7 +333,7 @@ public class SearchController {
 		map.put("num2", limit[1]);
 
 		System.out.println("totalCount : " + totalCount);
-		
+
 //	키워드에 해당하는 news 가져오기
 
 		if (newsList.isEmpty()) {

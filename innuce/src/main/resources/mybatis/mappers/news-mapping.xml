@@ -6,59 +6,108 @@
 
 	<!-- insert -->
 	<insert id="insertListNews" parameterType="java.util.List">
-		<foreach collection="list" item="n" separator="," open="insert ignore into news values " close=";">
-			(#{n.news_key}, #{n.press_key}, #{n.news_title}, #{n.news_content}, #{n.news_writendate},
-			#{n.news_updatedate}, #{n.news_pulldate}, #{n.news_writer}, #{n.news_uri}, #{n.news_originuri},
-			#{n.news_deleted}, #{n.news_deleteddate}, #{n.news_deletedcode}, #{n.news_category},
-			#{n.news_thumbnailuri}, #{n.news_thumbnailuri2}, #{n.summ_content}, #{n.summ_sentiment},
+		<foreach collection="list" item="n" separator=","
+			open="insert ignore into news values " close=";">
+			(#{n.news_key},
+			#{n.press_key}, #{n.news_title}, #{n.news_content},
+			#{n.news_writendate},
+			#{n.news_updatedate}, #{n.news_pulldate},
+			#{n.news_writer}, #{n.news_uri}, #{n.news_originuri},
+			#{n.news_deleted}, #{n.news_deleteddate}, #{n.news_deletedcode},
+			#{n.news_category},
+			#{n.news_thumbnailuri}, #{n.news_thumbnailuri2},
+			#{n.summ_content}, #{n.summ_sentiment},
 			#{n.summ_sentimentpercent})
 		</foreach>
 	</insert>
-	
-	<insert id="insertNewsHeadline" parameterType="java.util.List"> 
-		<foreach collection="list" item="n" separator="," open="insert ignore into news_headline values" close=";">
-			(#{n.news_key}, now(), #{n.news_category})
+
+	<insert id="insertNewsHeadline" parameterType="java.util.List">
+		<foreach collection="list" item="n" separator=","
+			open="insert ignore into news_headline values" close=";">
+			(#{n.news_key},
+			now(), #{n.news_category})
 		</foreach>
 	</insert>
-	
+
 	<!-- select -->
 	<select id="selectOneNews">
-	select * from news where news_key = #{newsKey};
-	</select>
-	
-	<select id="countAllNews" resultType="int">
-	select count(*) from news;
-	</select>
-	
-	<select id="selectNewsListWithKey" resultType="newsdto" parameterType="java.util.List">
-	select * from news where in (
-	<foreach collection="list" item="n" separator=",">#{n}</foreach>
-	);
-	</select>
-	
-	<select id="getAllNewsListOnlyKey" resultType="long">
-	select news_key from news;
-	</select>
-	
-	<select id="selectNewsListSearchWithKeyword" resultType="newsdto">
-	select * from news
-	where news_title like concat("%",#{keyword},"%")
-	or news_content like concat("%",#{keyword},"%")
+		select * from news where news_key = #{newsKey};
 	</select>
 
-	
+	<select id="countAllNews" resultType="int">
+		select count(*) from news;
+	</select>
+
+	<select id="selectNewsListWithKey" resultType="newsdto"
+		parameterType="java.util.List">
+		select * from news where in (
+		<foreach collection="list" item="n" separator=",">#{n}</foreach>
+		);
+	</select>
+
+	<select id="getAllNewsListOnlyKey" resultType="long">
+		select news_key from news;
+	</select>
+
+	<select id="selectNewsListSearchWithKeyword"
+		resultType="newsdto">
+		select * from news
+		where news_title like concat("%",#{keyword},"%")
+		or news_content like concat("%",#{keyword},"%")
+	</select>
+
 	<select id="selectHeadLineNews" resultType="newsdto">
-	select n.* from news n
-	join news_headline nh using(news_key)
+	select n.* from news_headline nh
+	join news n using(news_key)
 	where n.news_category = #{category}
 	order by n.news_pulldate desc
 	limit 5;
 	</select>
+	
 	<!-- 김 -->
-	<select id="selectSingleNews" resultType="newsdto" parameterType= 'long'>
-	select * from news where news_key = #{newsKey};
+	<select id="selectSingleNews" resultType="newsdto"
+		parameterType='long'>
+		select * from news where news_key = #{newsKey};
 
 	</select>
 	<!-- update -->
+
+
+	<select id="selectTop3KeywordKey" resultType="int">
+		select keyword_key
+		from search
+		group by keyword_key
+		order by count(*) desc limit 3;
+	</select>
+
+	<select id="selectKeywordNews" resultType="newsdto">
+		select * from news n
+		join keyword_news kn using(news_key)
+		where keyword_key = #{keyword_key}
+		order by news_pulldate desc
+		limit 5;
+	</select>
+
+	<select id="getKeyword" parameterType="java.util.List" resultType="String"> 
+	select keyword_content from keyword where keyword_key in(
+	<foreach collection="keywordKey" item="keyword" separator=" , ">
+	#{keyword}
+	</foreach>
+	) order by field(keyword_key,
+	<foreach collection="keywordKey" item="keyword" separator=" , ">
+	#{keyword}
+	</foreach>
+	)
+</select>
 	
+	<!-- FYI -->
+	<!--  이렇게 가져오시면 desc로 4개 가져오고 나서는 keyword_key가 작은 순서대로 output이 나오지 싶습니다.. -->
+	<!-- 실시간 인기 채팅방 배너 맨위에 가장 키워드 검색이 높은게 아니라, 키워드 검색이 높은 4개중 keyword_key가 제일 작은값이 나올거에요..! -->
+	<select id="selectTop4KeywordKey" resultType="int">
+		select keyword_key
+		from search
+		group by keyword_key
+		order by count(*) desc limit 4
+	</select>
+
 </mapper>

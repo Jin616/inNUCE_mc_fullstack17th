@@ -3,8 +3,7 @@ function searchOptionCheck() {
 	// 언론사 체크 리스트 가져옴
 	let checkedPressList =  $("input[name='selectedPressKeys']:checked");
 	// form 안의 히든 속성으로 값을 넘겨줌
-	let pressString = document.getElementById("pressString");
-	
+	let pressString = $("#pressString");
 	let pressList = "";
 	for (let i = 0; i < checkedPressList.length; i++) {
 		 pressList += checkedPressList.eq(i).val();
@@ -15,19 +14,24 @@ function searchOptionCheck() {
 	
 	// 언론사 값이 없다면 url에 노출되지 않도록 name 속성 제거
 	if (pressList != "")
-		pressString.setAttribute("value", pressList);
+		pressString.attr("value", pressList);
 	else
-		pressString.removeAttribute("name");	
-	
+		pressString.removeAttr("name");	
 	// 날짜 값
-	if ($('#SD').val() != "" & $('#ED').val() != "") {
-		document.getElementById("ds").setAttribute("value", $('#SD').val());
-		document.getElementById("de").setAttribute("value", $('#ED').val());
+	let userSelectStart = $('#SD').val();
+	let userSelectEnd = $('#ED').val();
+	
+	if (userSelectStart != "" & userSelectEnd != "") {
+		$('#ds').attr("value", userSelectStart);
+		$('#de').attr("value", userSelectEnd);
 	} else {
-		document.getElementById("ds").removeAttribute("name");
-		document.getElementById("de").removeAttribute("name");
+		$('#ds').removeAttr("name");
+		$('#de').removeAttr("name");
 	}
 	
+	if ($('#pageNum').val() == "") {
+		$('#pageNum').removeAttr("name");
+	}
 }
 
 // 날짜 검증
@@ -48,3 +52,9 @@ $("input[type='date']").on('change', function() {
 		return ;
 	};
 });
+
+// parameter 넘어온 값 유지
+function submitForm(i) {
+	$('#pageNum').val(i);
+	$('#searchForm').submit();
+}

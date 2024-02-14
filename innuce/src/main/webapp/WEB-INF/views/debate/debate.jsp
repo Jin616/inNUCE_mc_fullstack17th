@@ -1,91 +1,54 @@
 <%@page import="com.mc.innuce.domain.user.dto.UserDTO"%>
+<%@page import="org.openqa.selenium.Alert"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 
 <link rel="stylesheet" type="text/css" href="/css/header.css">
-<link rel="stylesheet" type="text/css" href="/css/mypage.css">
 <link rel="stylesheet" type="text/css" href="/css/debate.css">
-<script defer src="/js/main.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<style>
-</style>
+<script defer src="/js/debate.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.content a').on('click', function(e) {
+			if (${empty sessionScope.login_user}) {
+				alert("로그인 하세요.");
+			}
+		});
+	});
+</script>
 </head>
 <body>
-	<script>
-	$(document).ready(function(){
-		
-	
-		// 세션에 유저가 없어서 마이페이지를 보여주면 안되는경우
-		if(${empty sessionScope.login_user})
-		{
-			alert("세션이 만료되었습니다. 메인화면으로 이동합니다.");
-		    location.href = "main";
-		}
-		else{
-			
-			// 회원 정보 수정 눌렀을때
-			 $("#info_change").on('click',function(){
-				location.href = "mypageChangeinfo"
-			})//info_change_click
-			// 스크랩한 기사 눌렀을때
-			 $("#my_scrap").on('click',function(){
-				 location.href = "mypageScrap"
-			 })// my_scrap click
-			 
-			// 참여중인 채팅방 버튼 눌렀을때
-			$("#my_chatting").on('click',function(){
-				location.href = "mypageChatting"	
-			})// my_chatting click
-				
-			// 회원탈퇴 버튼 눌렀을때
-			$("#delete").on('click',function(){
-				location.href = "mypageDelete"
-			})// delete click
-		}// else
-		})// on
-	
-</script>
-	<!--  header -->
+	<!-- HEADER -->
 	<header>
 		<div class="logo-txt-cover">
 			<%@ include file="/WEB-INF/views/header/topBar.jsp"%>
-			<!--  좌측 네비바 -->
-			<div id="myPage_navigater">
-				<div class='title'>마이페이지</div>
-				<button id="info_change" clicked="none">
-					<span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원
-					정보 수정
-				</button>
-				<button id="my_scrap" clicked="none">
-					<i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사
-				</button>
-				<button id="my_chatting" clicked="yes">
-					<i class="fa-regular fa-comments"></i>&nbsp;참여중인 채팅방
-				</button>
-				<button id="delete" clicked="none">회원 탈퇴</button>
-			</div>
-
-			<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
 		</div>
-		<%@ include file="/WEB-INF/views/header/logo.jsp"%>
 
+		<!-- 로고 -->
+		<div class="logo-container">
+			<a href="/main" class="logo-img"> <img
+				src="/images/inNUCE_logo.png" />
+			</a>
+
+			<div class="logo-ex">
+				<span> in NUCE <br />
+				</span> <span> [인누케]<br /> 호두(껍데기) 안에 라는 뜻의 라틴어<br />
+				</span> <span> = 한 마디로 요약하면<br />
+				</span>
+			</div>
+		</div>
+		<!-- 검색바 -->
+		<%@ include file="/WEB-INF/views/header/searchBar.jsp"%>
 	</header>
 
-
-	<!--  마이페이지 내용 -->
+	<!-- MAIN -->
 	<main>
-
-		<div id="myPage_main"></div>
 
 		<div class="total-container">
 			<div class="room-container">
@@ -103,7 +66,7 @@
 										: ${openDebateRoomUserConnectCountList[room.index]}</p>
 									<p id='${room.count }-3' class='room-description'>전체 참여자 수
 										: ${openDebateRoomUserCountList[room.index]}</p>
-									<p id='${room.count }-3' class='room-description'>생성일자 :
+									<p id='${room.count }-4' class='room-description'>생성일자 :
 										${room.current.debate_room_regdate}</p> <c:choose>
 										<c:when test="${room.current.debate_room_status == 2 }">
 											<p id='${room.count }-5' class='room-description'>열림</p>
@@ -143,7 +106,7 @@
 					for (int i = 1; i <= totalPage; i++) {
 					%>
 
-					<a href="/mypageChatting?page=<%=i%>"><%=i%></a>&nbsp;
+					<a href="/debate?page=<%=i%>"><%=i%></a>&nbsp;
 					<%
 					}
 					%>
@@ -154,6 +117,10 @@
 		</div>
 
 	</main>
+
+
+
+
 
 </body>
 </html>

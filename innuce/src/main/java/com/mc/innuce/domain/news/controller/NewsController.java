@@ -32,6 +32,12 @@ public class NewsController {
 		return ns.getHeadlineNews().toString(); 
 	}
 	
+	@GetMapping("keyword")
+	@ResponseBody
+	public String keyword() {
+		return ns.getKeywordNews().toString(); 
+	}
+	
 	@GetMapping("/news/{newsKey}")
 	public ModelAndView showNews(@PathVariable String newsKey) {
 		ModelAndView mv = new ModelAndView();

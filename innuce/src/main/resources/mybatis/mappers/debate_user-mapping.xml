@@ -98,4 +98,16 @@
 		where
 		debate_user_key = #{debate_user_key}
 	</update>
+	
+	<select id="myDebateRoomKeyList" parameterType="int" resultType="int">
+		select debate_room_key
+		from debate_user
+		where user_key = #{user_key} and debate_user_status = 1
+	</select>
+	
+	<select id="myDebateRoomKeyCount" parameterType="int" resultType="int">
+		select count(debate_room_key)
+		from debate_user
+		where user_key = #{user_key} and debate_user_status = 1
+	</select>
 </mapper>

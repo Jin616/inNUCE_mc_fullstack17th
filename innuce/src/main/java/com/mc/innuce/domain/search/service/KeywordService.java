@@ -1,8 +1,5 @@
 package com.mc.innuce.domain.search.service;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +62,6 @@ public class KeywordService {
 		return keywordDAO.deleteKeyword(token);
 	}
 
-	
 	// seo start
 	public int getTotalNewsOptionPeriod(Map<String, Object> map) {
 		return keywordDAO.optionPeriodSearch(map);

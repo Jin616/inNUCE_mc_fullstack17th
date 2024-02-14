@@ -63,7 +63,7 @@
 	<select id="getNewsKeys" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_title like concat('%',#{keyword },'%')
-		limit 250
+		<!-- limit 250 -->
 	</select>
 	
 	<!-- seo start -->
@@ -71,7 +71,7 @@
 		select count(*) from keyword_news
 		join news using(news_key) 
 		where 1 = 1
-		and keyword_key = #{keyword_key}
+		and keyword_key = #{keywordKey}
 		and news_writendate between #{ds} and #{de};
 	</select>
 	
@@ -79,7 +79,7 @@
 		select count(*) from keyword_news
 		join news using(news_key)
 		where 1 = 1
-		and keyword_key = #{keyword_key}
+		and keyword_key = #{keywordKey}
 		and (
 		<foreach collection="pressKeyList" item="press_key" separator=" or ">
 			press_key = #{press_key}
@@ -91,7 +91,7 @@
 		select count(*) from keyword_news
 		join news using(news_key)
 		where 1 = 1
-		and keyword_key = #{keyword_key}
+		and keyword_key = #{keywordKey}
 		and news_writendate between #{ds} and #{de}
 		and (
 		<foreach collection="pressKeyList" item="press_key" separator=" or ">
@@ -104,7 +104,7 @@
 	<select id="getNewsKeys2" resultType="Long" parameterType="String">
 		select news_key from news
 		where news_content like concat('%',#{place },'%')
-		limit 250
+		<!-- limit 250 -->
 	</select>
 
 

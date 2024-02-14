@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.service.NewsService;
+import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.dto.SearchDTO;
 import com.mc.innuce.global.util.sqltojava.SqlConverter;
-import com.mc.innuce.domain.search.dto.KeysDTO;
-import com.mc.innuce.domain.search.dto.KeysOfSearchDTO;
 
 @Service
 public class ComponentService {
@@ -119,6 +118,8 @@ public class ComponentService {
 		map.put("ds", sc.localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
 		map.put("de", sc.localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
 		
+		System.out.println("ds" + map.get("ds"));
+		System.out.println("de" + map.get("de"));
 		return keywordService.getTotalNewsOptionPeriod(map);
 	}
 
@@ -154,6 +155,5 @@ public class ComponentService {
 		return keywordService.getNewsListLimitOptionPressPeriod(map);
 	}
 	// seo end
-
 
 }

@@ -35,4 +35,24 @@
 			(#{keyword_key}, now(), (select keyword_content from keyword where keyword_key = #{keyword_key}), 2)
 		</foreach>
 	</insert>
+	
+	<select id="myDebateRoomList" parameterType="java.util.List" resultType="debateroomdto">
+		select *
+		from debate_room
+		where debate_room_key in (
+		<foreach collection="subMyDebateRoomKeyList" item="debate_room_key" separator=" , ">
+			#{debate_room_key}
+		</foreach>
+		)
+	</select>
+	
+	<select id="selectDebateRoomListByKeyword" parameterType="java.util.List" resultType="debateroomdto">
+		select *
+		from debate_room
+		where keyword_key in (
+		<foreach collection="keywordKey" item="keyword_key" separator=" , ">
+			#{keyword_key}
+		</foreach>
+		)
+	</select>
 </mapper>

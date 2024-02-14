@@ -21,7 +21,7 @@ $.ajax({
 
 				let pressLi = $("<li>");
 				let pressLabel = $("<label>");
-				let pressCheckbox = $("<input type='checkbox' name='selectedPressKeys' value=" + p.press_key + ">");
+				let pressCheckbox = $("<input type='checkbox' id='press" + p.press_key + "' name='selectedPressKeys' value=" + p.press_key + ">");
 				
 				pressLabel.append(pressCheckbox);
 				pressLabel.append(p.press_name);
@@ -37,6 +37,9 @@ $.ajax({
 	},
 	error: function() {
 		alert("press list를 불러오는 중에 오류가 발생했습니다.");
+	},
+	complete: function() {
+		refillPressCheckbox();
 	}
 
 });
@@ -55,4 +58,16 @@ function limitPressCheckbox() {
 			$(this).prop("checked", false);
 		}
 	});
+}
+
+// ajax로 언론사 체크박스를 생성 후 다시 체크박스를 채워주는 함수
+function refillPressCheckbox() {
+	let pressKeyStr = $("#pressString").val().replace(/\[|\]/g, '');
+	let pressKeyList = pressKeyStr.split(",").map(n => parseInt(n.trim(), 10));
+	
+	for (let i = 0; i < pressKeyList.length; i++) {
+		console.log("Checking checkbox with ID:", '#press' + pressKeyList[i]);
+		$('#press' + pressKeyList[i]).prop("checked", true);
+	}
+	
 }

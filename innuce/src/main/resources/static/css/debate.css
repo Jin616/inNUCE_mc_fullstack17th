@@ -38,8 +38,8 @@ main .total-container .room-container .inner:first-child {
 }
 main .total-container .room-container .inner .content {
 	display: flex;
-	width: 900px;
-	height: 90px;
+	width: 700px;
+	height: 150px;
 	background: rgba(160, 124, 69, 0.45);
 	border-radius: 5px;
 	/*align-content: center; */
@@ -64,7 +64,7 @@ main .total-container .room-container .inner .content .img-cover {
 main .total-container .room-container .inner .content .img-cover i {
 	font-size: 18px;
 }
-main .total-container .room-container .inner .content .img-cover:hover i {
+main .total-container .room-container .inner .content:hover .img-cover i {
 	font-size: 25px;
 	transition: .3s;
 }

@@ -1,5 +1,6 @@
 package com.mc.innuce.domain.debate.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +21,8 @@ public interface DebateRoomDAO {
 	int createDebateRoom(List<Integer> newKeywordList);
 
 	int openDebateRoomCount();
+
+	List<DebateRoomDTO> myDebateRoomList(List<Integer> subMyDebateRoomKeyList);
+
+	List<DebateRoomDTO> selectDebateRoomListByKeyword(List<Integer> keywordKey);
 }

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mc.innuce.domain.debate.dto.DebateRoomDTO;
@@ -40,7 +42,7 @@ public class DebateRoomController {
 		mv.addObject("totalCount", totalCount);
 		
 		if(openDebateRoomList == null || openDebateRoomList.isEmpty()) {
-			mv.setViewName("main/debate");
+			mv.setViewName("debate/debate");
 			return mv;
 		}
 		
@@ -58,7 +60,7 @@ public class DebateRoomController {
 		mv.addObject("openDebateRoomList", openDebateRoomList);
 		mv.addObject("openDebateRoomUserConnectCountList", openDebateRoomUserConnectCountList);
 		mv.addObject("openDebateRoomUserCountList", openDebateRoomUserCountList);
-		mv.setViewName("main/debate");
+		mv.setViewName("debate/debate");
 
 		return mv;
 	}
@@ -73,16 +75,11 @@ public class DebateRoomController {
 
 		// 로그인이 되어 있지 않다면 -> 토론방 목록 메인 화면으로
 		// 테스트 후 복구
-//		if(udto == null) {
-//			System.out.println("로그인 안됨");
-//			mv.setViewName("redirect:/debate");
-//			return mv;
-//		}
-
-		// 테스트 위한 임시 user_key set
-		// 테스트 후 삭제
-		udto = new UserDTO();
-		udto.setUser_key(1);
+		if(udto == null) {
+			System.out.println("로그인 안됨");
+			mv.setViewName("redirect:/debate");
+			return mv;
+		}
 
 		// DebateUserDTO
 		DebateUserDTO dudto = new DebateUserDTO();
@@ -114,6 +111,13 @@ public class DebateRoomController {
 		mv.setViewName("debate/debateroom");
 
 		return mv;
+	}
+	
+	// 채팅바 채팅방 리스트
+	@PostMapping("/chattingroomlist")
+	@ResponseBody
+	public List<DebateRoomDTO> chattingRoomList(){
+		return debateRoomService.chattingRoomList();
 	}
 
 }

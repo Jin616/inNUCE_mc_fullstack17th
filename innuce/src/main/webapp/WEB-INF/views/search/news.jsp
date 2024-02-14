@@ -73,7 +73,9 @@
 	
 					</div>
 					
-
+					<div class='bookmark-cover'>
+	     				<i id='scrap_button' class='fa-solid fa-bookmark' news='${News.news_key}'></i>
+	     			</div>
 					<div class="end">
 						<a class="original" href="${News.news_originuri }">
 							<div>기사 원문</div>
@@ -85,7 +87,7 @@
 		</div>
 
 	</main>
-
+<jsp:include page="/WEB-INF/views/search/scrapInNews.jsp" />
  <!--TO TOP BUTTON-->
  <div id="to-top">
    <div class="material-icons">arrow_upward</div>

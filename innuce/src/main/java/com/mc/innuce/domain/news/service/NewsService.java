@@ -56,7 +56,7 @@ public class NewsService {
 		JSONObject result = new JSONObject();
 		JSONParser parser = new JSONParser();
 
-		String[] categorys = {"정치", "경제", "사회", "생활", "IT", "세계"};
+		String[] categorys = {"정치", "경제", "사회", "생활/문화", "세계", "IT/과학"};
 		
 		for(int i = 0; i < categorys.length; i++)
 			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
@@ -75,6 +75,32 @@ public class NewsService {
 	public NewsDTO selectOne(long news_key) {
 		
 		return newsdao.selectSingleNews(news_key);
+	}
+
+	public Object getKeywordNews() {
+		JSONObject result = new JSONObject();
+		JSONParser parser = new JSONParser();
+
+		List<Integer> keywordKey = newsdao.selectTop3KeywordKey(); 
+		
+		for (int i = 0; i < keywordKey.size(); i++) {
+			result.put(""+i, parser.getJsonArrayNews(newsdao.selectKeywordNews(keywordKey.get(i))));
+		}
+		
+		return result;
+	}
+
+	public List<String> getKeywordNews2() {
+		List<Integer> keywordKey = newsdao.selectTop3KeywordKey();
+		for (Integer integer : keywordKey) {
+			System.out.println(integer);
+		}
+		return newsdao.getKeyword(keywordKey);
+	}
+
+	public List<Integer> selectTop4KeywordKey() {
+		// TODO Auto-generated method stub
+		return newsdao.selectTop4KeywordKey();
 	}
 
 }

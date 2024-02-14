@@ -12,16 +12,14 @@
 		 <div class="contents__media">
 		 
 	 		<div id="media-title">언론사</div>
-			 <ul id="press-info" class='inner'>
-			 	
-			 </ul>
+			 <ul id="press-info" class='inner'></ul>
 			 
 		 </div>
 		 <!-- 2 - 기간 -->
 		 <div class="contents__duration">
 		  <div class='inner'>
 		  	<h4>기간</h4>
-		  	<input type="date" id="SD">&nbsp; ~ &nbsp;<input type="date" id="ED">
+		  	<input type="date" id="SD" value="">&nbsp; ~ &nbsp;<input type="date" id="ED" value="">
 		  	
 		  </div>
 		 </div>

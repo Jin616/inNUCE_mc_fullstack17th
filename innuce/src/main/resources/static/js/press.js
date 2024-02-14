@@ -1,4 +1,5 @@
-/** press 정보를 가져와 언론사 선택 리스트를 만들어주는 스크립트
+/**press 정보를 가져와 언론사 선택 리스트를 만들어주는 스크립트
+ * seo
  */
 
 // ajax로 서버에 저장된 press 정보를 가져옴
@@ -11,8 +12,8 @@ $.ajax({
 		let pressContainer = $("#press-info");
 
 		for (let i = 0; i * 4 < pressList.length; i++) {
-			let li = $("<li>");
-			let ul = $("<ul>");
+			let li = $("<li class='press-row'>");
+			let ul = $("<ul class='press-article'>");
 			
 			for (let j = 0; j < 4; j++) {
 				let index = i * 4 + j;
@@ -40,10 +41,10 @@ $.ajax({
 
 });
 
-
+// 언론사를 최대 limitPressCheckboxNum 만큼 선택할 수 있게 제한을 두는 함수 
 function limitPressCheckbox() {
 	// 최대 선택 가능한 개수
-	let limitPressCheckboxNum = 3;
+	let limitPressCheckboxNum = 10;
 	
 	$("input[name='selectedPressKeys']").change(function() {
 		let selectedPressKeys = $("input[name='selectedPressKeys']:checked").length;

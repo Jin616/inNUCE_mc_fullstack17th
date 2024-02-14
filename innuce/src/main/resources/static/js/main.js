@@ -183,14 +183,14 @@ $('#searchBar').on("focusout", function() {
 /* enter 막기 */
 
 
-/* 02-08 seo category ajax start*/
+/* seo start */
 $.ajax({
 	url: "/headline",
 	type: "get",
 	dataType: "json",
 	success: function(response) {
-		for (let i = 0; i < 6; i++) { // categoryIdx
-			for (let j = 0; j < 5; j++) { // listIdx
+		for (let i = 0; i < response.length; i++) { // i = categoryIdx
+			for (let j = 0; j < response[i].length; j++) { // j = listIdx
 				// categoryidx-listidx-(a|img|date|main|cont)
 				let n = response[i][j]; // news
 				// 인덱스 보정
@@ -198,7 +198,8 @@ $.ajax({
 				let listIdx = j + 1;
 				let idx = categoryIdx + '-' + listIdx;
 				
-				$('#' + idx + '-a').attr('href', 'news/' + n.news_key);
+				alert(n.news_key);
+				$('#' + idx + '-img').attr('href', 'news/' + n.news_key);
 				$('#' + idx + '-img').attr('src',
 					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
 
@@ -243,4 +244,4 @@ $('.tab-link').click(function() {
 		'font-size': '22px'
 	});
 });
-/* category ajax end*/
+/* seo end */

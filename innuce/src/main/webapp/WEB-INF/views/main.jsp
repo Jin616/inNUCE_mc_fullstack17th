@@ -16,7 +16,6 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 
-
 </head>
 
 <body>
@@ -122,6 +121,7 @@ window.onload = function(){
 
 </header>
 
+<!-- 0213 수정 header/header.jsp로 이관 -->
 <!-- nav -->
 <nav>
 <%@ include file ="/WEB-INF/views/nav/nav.jsp" %>
@@ -272,24 +272,24 @@ window.onload = function(){
 	<!-- index 주의... 하려다 id 중복되는 거보고 전체 수정합니다. -->
 	<!-- css 보고 클래스로만 css 입히신 거 같아서 id 바꿔서 테스트 해보고 바꿔둡니다. -->
 	<!-- 바꿀라고 했는데 어디서 하드코딩 되었는지 찾을 수가 없어서 인덱스 꼬인 상태로 둡니다... -->
-		<div class="main-title">오늘의 카테고리 뉴스</div>
+	<div class="main-title">오늘의 카테고리 뉴스</div>
 		<c:forEach var="tabindex" begin='1' end='6'>
-		<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
-		
-	      <c:forEach var="index" begin='1' end='5'>
-	      	<div class='content-cover'>
-	      		<a id='${tabindex }-${index}-a'>
-	      			<img id='${tabindex }-${index}-img' alt='images' />
-	      		</a>
-	      		<div class='a'>
-	      			<div id='${tabindex }-${index }-date' class='date'></div>
-	      			<a id='${tabindex }-${index }-main' class='main'></a>
-	      			<a id='${tabindex }-${index }-cont' class='cont'><br/></a>
-	      		</div>
-	     			<div class='bookmark-cover'>
-	     				<i class='fa-solid fa-bookmark'></i>
-	     			</div>
-	      	</div>
+			<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
+			
+		      <c:forEach var="index" begin='1' end='5'>
+		      	<div class='content-cover'>
+		      		<a id='${tabindex }-${index}-a'>
+		      			<img id='${tabindex }-${index}-img' alt='images' />
+		      		</a>
+		      		<div class='a'>
+		      			<div id='${tabindex }-${index }-date' class='date'></div>
+		      			<a id='${tabindex }-${index }-main' class='main'></a>
+		      			<a id='${tabindex }-${index }-cont' class='cont'><br/></a>
+		      		</div>
+		     			<div class='bookmark-cover'>
+		     				<i class='fa-solid fa-bookmark'></i>
+		     			</div>
+		      	</div>
 	      </c:forEach>
       
       </div>
@@ -393,5 +393,6 @@ if(msg != ""){
 }
 </script>
 <script defer src="/js/main.js"></script>
+<script defer src="/js/search-option.js"></script>
 </body>
 </html>

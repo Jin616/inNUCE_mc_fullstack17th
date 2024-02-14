@@ -28,7 +28,19 @@ public interface KeywordDAO {
 	int insertKeywordNews(KeysDTO keysDTO);
 	public int deleteKeyword(String token);
 	
+	// seo start
+	int optionPeriodSearch(Map<String, Object> map);
 
+	int optionPressSearch(Map<String, Object> map);
+
+	int optionPeriodPressSearch(Map<String, Object> map);
+
+	public List<NewsDTO> getNewsListLimitOptionPeriod(Map<String, Object> map);
+	
+	public List<NewsDTO> getNewsListLimitOptionPress(Map<String, Object> map);
+	
+	public List<NewsDTO> getNewsListLimitOptionPressPeriod(Map<String, Object> map);
+	// seo end
 
 
 }

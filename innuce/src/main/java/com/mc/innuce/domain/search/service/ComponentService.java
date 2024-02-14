@@ -1,5 +1,6 @@
 package com.mc.innuce.domain.search.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.service.NewsService;
 import com.mc.innuce.domain.search.dto.KeywordDTO;
 import com.mc.innuce.domain.search.dto.SearchDTO;
+import com.mc.innuce.global.util.sqltojava.SqlConverter;
 import com.mc.innuce.domain.search.dto.KeysDTO;
 import com.mc.innuce.domain.search.dto.KeysOfSearchDTO;
 
@@ -27,7 +29,9 @@ public class ComponentService {
 	WordCloudService cloudService;
 	@Autowired
 	GeolocationService geoService;
-
+	@Autowired
+	SqlConverter sc;
+	
 	public KeywordDTO oneKeyword(String keyword) {
 		return keywordService.oneKeyword(keyword);
 	}
@@ -76,7 +80,6 @@ public class ComponentService {
 	}
 
 	public NewsDTO oneNews(String newsKey) {
-		// TODO Auto-generated method stub
 		return newsService.selectOne(newsKey);
 	}
 
@@ -107,5 +110,50 @@ public class ComponentService {
 	public SearchDTO oneSearch2(SearchDTO sDTO) {
 		return searchService.oneSearch2(sDTO);
 	}
+
+	// seo start
+	public int getTotalNewsOptionPeriod(int keywordKey, String ds, String de) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("keywordKey", String.valueOf(keywordKey));
+		map.put("ds", sc.localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
+		map.put("de", sc.localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
+		
+		return keywordService.getTotalNewsOptionPeriod(map);
+	}
+
+	public int getTotalNewsOptionPress(int keywordKey, List<Integer> pressKeyList) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("keywordKey", keywordKey);
+		map.put("pressKeyList", pressKeyList);
+		
+		return keywordService.getTotalNewsOptionPress(map);
+	}
+
+	public int getTotalNewsOptionPeriodPress(int keywordKey, String ds, String de, List<Integer> pressKeyList) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("keywordKey", keywordKey);
+		map.put("pressKeyList", pressKeyList);
+		map.put("ds", sc.localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
+		map.put("de", sc.localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
+		
+		return keywordService.getTotalNewsOptionPeriodPress(map);
+	}
+	
+	public List<NewsDTO> getNewsListLimitOptionPeriod(Map<String, Object> map) {
+		return keywordService.getNewsListLimitOptionPeriod(map);
+	}
+
+	public List<NewsDTO> getNewsListLimitOptionPress(Map<String, Object> map) {
+		return keywordService.getNewsListLimitOptionPress(map);
+	}
+	
+	public List<NewsDTO> getNewsListLimitOptionPressPeriod(Map<String, Object> map) {
+		return keywordService.getNewsListLimitOptionPressPeriod(map);
+	}
+	// seo end
+
 
 }

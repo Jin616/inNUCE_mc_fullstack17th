@@ -4,11 +4,14 @@
 
 <div class="search-container" >
 	
-	<form name="searchFrom" action="/search" autocomplete="off">  
+	<form name="searchFrom" action="search" onsubmit="searchOptionCheck()" autocomplete="off">  
 	
 	<div class="input-keyword">
 		<div class="material-symbols-outlined">search</div>
 		<input id="searchBar" name="keyword" type=text placeholder="검색어를 입력해주세요" required maxlength='25'/>
+		<input type="hidden" id="ds" name="ds" value="">
+		<input type="hidden" id="de" name="de" value="">
+		<input type="hidden" id="pressString" name="pressString" value="">
 	</div>
 	
 	<div class="button">
@@ -20,7 +23,6 @@
 			<input class="myPlace" type=submit value=''>
 		</i>
 	</div>
- 
 	</form>
  
 </div>

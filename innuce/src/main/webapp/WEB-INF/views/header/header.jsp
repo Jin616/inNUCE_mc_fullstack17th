@@ -57,4 +57,3 @@ $(document).ready(function(){
 
 <!-- 검색바 -->
   	<%@ include file ="/WEB-INF/views/header/searchBar.jsp" %>
-  

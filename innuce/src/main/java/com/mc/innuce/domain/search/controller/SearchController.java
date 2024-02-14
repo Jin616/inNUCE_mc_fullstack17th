@@ -2,6 +2,7 @@ package com.mc.innuce.domain.search.controller;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.mc.innuce.domain.search.paging.PageMaker;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
 import com.mc.innuce.domain.user.dto.UserDTO;
+import com.mc.innuce.global.util.sqltojava.SqlConverter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -44,22 +46,44 @@ public class SearchController {
 	private String ip = "";
 
 	private String myLocation = "";
-	private final int PAGECOUNT=10;
+	private final int PAGECOUNT = 10;
 
 	private List<String> placeList = new ArrayList<>();
 
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request, HttpSession session) {
-
 		return "main";
 	}
 
 	@GetMapping("/search")
 	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+			@RequestParam(value = "pressString", required = false, defaultValue = "") String pressString,
+			@RequestParam(value = "ds", required = false, defaultValue = "") String ds,
+			@RequestParam(value = "de", required = false, defaultValue = "") String de) throws Exception {
+		
 		if (ip.equals("") || ip.equals(" ") || ip == null) {
 			ip = getIp(request);
 		}
+		
+		// seo start
+		// 언론사 옵션
+		int pressOption = 0;
+		List<Integer> pressKeyList = new ArrayList<>();
+		
+		if (!pressString.isEmpty()) {
+			pressOption = 1;
+			String[] strList = pressString.split(",");
+			
+			for (String str : strList) 
+				pressKeyList.add(Integer.parseInt(str));
+		}
+		
+		// 기간 옵션
+		int periodOption = 0;
+		if (!ds.isEmpty() && !de.isEmpty())
+			periodOption = 1;
+		// seo end
 		
 		ModelAndView mv = new ModelAndView();
 
@@ -100,7 +124,6 @@ public class SearchController {
 		}
 
 		for (String token : analyzeList) {
-
 			List<Long> newsKeyList = service.getNewsKeys(token);
 			System.out.println("newsKeyList : " + newsKeyList);
 			if (newsKeyList.isEmpty() || newsKeyList == null) {
@@ -179,13 +202,20 @@ public class SearchController {
 						}
 					}
 
-					totalCount += service.getTotalNews(keywordKey);
-			
-
+					// seo start
+					if (pressOption == 0 && periodOption == 0)
+						totalCount += service.getTotalNews(keywordKey);
+					else if (pressOption == 0 && periodOption == 1)
+						totalCount += service.getTotalNewsOptionPeriod(keywordKey, ds, de);
+					else if (pressOption == 1 && periodOption == 0)
+						totalCount += service.getTotalNewsOptionPress(keywordKey, pressKeyList);
+					else if (pressOption == 1 && periodOption == 1)
+						totalCount += service.getTotalNewsOptionPeriodPress(keywordKey, ds, de, pressKeyList);
+					// seo end
+					
 				} // token >= 2
 			}// newsKeyList is null or isEmpty
 		} // for (String token : analyzeList)
-		
 		
 		if(totalCount>=250) {
 			totalCount=250;
@@ -211,22 +241,37 @@ public class SearchController {
 			map.put("num2", limit[1]);
 			System.out.println("totalCount : " + totalCount);
 
-			if (newsList.isEmpty()) {
-				newsList = service.getNewsListLimit(map);
-			}
-
 //	키워드에 해당하는 news 가져오기
-			newsList = service.getNewsListLimit(map);
-
+			// seo start
+			if (pressOption == 0 && periodOption == 0) {
+				newsList = service.getNewsListLimit(map);
+			} else if (pressOption == 0 && periodOption == 1) {
+				map.put("ds", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
+				map.put("de", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
+				
+				newsList = service.getNewsListLimitOptionPeriod(map);
+			} else if (pressOption == 1 && periodOption == 0) {
+				map.put("pressKeyList", pressKeyList);
+				
+				newsList = service.getNewsListLimitOptionPress(map);
+			} else if (pressOption == 1 && periodOption == 1) {
+				map.put("pressKeyList", pressKeyList);
+				map.put("ds", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
+				map.put("de", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
+				
+				newsList = service.getNewsListLimitOptionPressPeriod(map);
+			}
+			// seo end
+			
 			mv.addObject("newsList", newsList);
 			mv.addObject("keyword", keyword);
 		}
 		
 		mv.addObject("pageMaker", pageMaker);
 		mv.setViewName("search/searchPage");
-
+		
 		return mv;
-
+		
 	}
 
 	@RequestMapping("/myLocation")

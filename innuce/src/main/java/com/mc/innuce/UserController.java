@@ -233,7 +233,7 @@ public class UserController {
 		session.removeAttribute("login_user");
 	}
 
-	// 마이페이지 스크랩한 기사 뷰 주기
+	
 
 	// 마이페이지 토론방 목록
 	@GetMapping("/mypageChatting")

@@ -1,16 +1,4 @@
 @charset "UTF-8";
-/*body {
-	color: #333333;
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 1.4;
-
-}*/
-
-/*input {
-	all: unset;
-}
-*/
 a {
 	text-decoration: none;
 }
@@ -124,7 +112,6 @@ main .news-cover .news-content .tab-content .content {
 	position: relative;*/
 	display: flex;
 	width: 975px;
-	height: 180px;
 	background-color: rgba(203, 183, 153, 0.55);
 	border-radius: 5px;
 	align-content: center;
@@ -137,7 +124,6 @@ main .news-cover .news-content .tab-content .content>div {}
 
 main .news-cover .news-content .tab-content .content:hover {
 	width: 1000px;
-	height: 200px;
 	transition: .2;
 }
 
@@ -197,9 +183,7 @@ main .news-cover .news-content .tab-content .content .a .main {
 main .news-cover .news-content .tab-content .content .a .cont {
 	font-size: 20px;
 	font-weight: 500;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	word-break: break-all
+	
 }
 
 main .news-cover .news-content .tab-content .content .bookmark-cover {

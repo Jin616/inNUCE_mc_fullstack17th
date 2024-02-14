@@ -1,6 +1,7 @@
-s<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <script>
@@ -21,11 +22,25 @@ window.onload = function(){
 		+"</ul>"
 		)//html
 	}
+/* 	let content = document.getElementBy('content');
+	
+	content.addEventListner('mouseenter', function() {
+		let width = content.offsetWidth;
+		let height = content.offestHeight;
+		
+		let newWidth = 1000;
+		let newHeight = (height/width) * newWidth;
+		
+		content.style.height=newHeight+'px';
+	});
+	
+	content.addEventListner('mouseleave', function() {
+		content.style.height = '';
+	}) */
+	
 	
 }//onload
 </script>
-
-<div class="news-cover">
 
 
 <div class="news-cover">
@@ -36,6 +51,7 @@ window.onload = function(){
 				<p>${keyword }</p>
 				<p>${noneKeyword }</p>
 			</div>
+			
 			<p id='noResult'></p>
 	
 			<div id="tab-1-keyword" class="tab-content">
@@ -50,7 +66,18 @@ window.onload = function(){
       		<a class='a' href="news?newsKey=${newsDTO.news_key }">
       			<div id='${status.index }-1' class='date'>${newsDTO.news_writendate }</div>
       			<div id='${status.index }-2' class='main'>${newsDTO.news_title }</div>
-      			<div id='${status.index }-3' class='cont'>${newsDTO.summ_content }<br/></div>
+      			<div id='${status.index }-3' class='cont'>
+      			<c:choose>
+      			 <c:when test="${fn:length(newsDTO.summ_content) gt 150 }">
+      			 	${fn:substring(newsDTO.summ_content,0,150) }...
+      			 </c:when>
+     			  <c:otherwise>
+     			  	${newsDTO.summ_content}
+ 					  </c:otherwise>
+      			</c:choose>
+      			<br>
+      			<%-- ${fn:length(newsDTO.summ_content) gt 150 ? substring(newsDTO.summ_content,0,150) +"..." : newsDTO.summ_content }<br/> --%>
+      			</div>
       		</a>
       		
      			<div class='bookmark-cover'>
@@ -67,22 +94,6 @@ window.onload = function(){
 
 
 			<div class="paging">
-<%-- 			<%
-			int pageCount = (Integer) request.getAttribute("pageCount");
-			int totalCount = (Integer) request.getAttribute("totalCount");
-		
-			int totalPage = 0;
-			if (totalCount % pageCount == 0) {
-				totalPage = totalCount / pageCount;
-			} else {
-				totalPage = totalCount / pageCount + 1;
-			}
-			
-			/* for (int i = 1; i <= totalPage; i++) { */
-			%>
-			<%
-			/* } */
-			%> --%>
 			<c:if test="${pageMaker.prev }">
 				<a href="/search?keyword=${keyword }&pageNum=${pageMaker.startPage-1 } ">이전</a>&nbsp;
 			</c:if>

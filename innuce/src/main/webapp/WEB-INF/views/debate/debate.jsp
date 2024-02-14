@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>inNUCE_Debate</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 

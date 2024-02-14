@@ -169,12 +169,6 @@ $('#searchBar').on("focusout", function() {
 	/*$(this).val($(this).val().replace(replaceNotFullKorean,""));*/
 })
 
-/* enter 막기 */
-
-
-
-
-
 /*keyword*/
 $.ajax({
 	url: "/keyword",
@@ -205,7 +199,7 @@ $.ajax({
 				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-main-keyword').text(n.news_title);
 				$('#' + idx + '-main-keyword').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 
@@ -215,7 +209,7 @@ $.ajax({
 				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-cont-keyword').text(summ);
 				$('#' + idx + '-cont-keyword').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 				$('#' + idx + '-scrap-keyword').attr('news',n.news_key)
@@ -237,7 +231,6 @@ $.ajax({
 			url : 'getscraplist',
 			data : {'user_id' : user_id},
 			success : function(response){
-				alert($("[scrapNum]").length)
 				for (var i = 0 ; i < response.length;i++){
 				scrap_list.push(response[i])
 				}//for

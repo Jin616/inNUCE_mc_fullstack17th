@@ -26,6 +26,7 @@ import com.mc.innuce.domain.search.paging.PageMaker;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
 import com.mc.innuce.domain.user.dto.UserDTO;
+import com.mc.innuce.global.util.komoran.KomoranModel;
 import com.mc.innuce.global.util.sqltojava.SqlConverter;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 @Controller
 public class SearchController {
 
-	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+//	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
 	@Autowired
 	private GeolocationService geoService;
@@ -112,11 +113,11 @@ public class SearchController {
 		SearchDTO sDTO = null;
 
 //	keyword에 " "이 있을 때만 코모란을 돌리자? x
-		String path = System.getProperty("user.dir");
+//		String path = System.getProperty("user.dir");
 
-		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
+//		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
 
-		KomoranResult komoranResult = komoran.analyze(keyword);
+		KomoranResult komoranResult = KomoranModel.getInstance().getKomoran().analyze(keyword);
 
 //		일반명사NNG
 //		고유명사NNP

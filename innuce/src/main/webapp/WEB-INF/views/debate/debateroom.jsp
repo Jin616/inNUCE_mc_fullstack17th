@@ -120,7 +120,9 @@
 			data : params,
 			dataType : "json",
 			success : function(response) {
-				//alert(JSON.stringify(response));
+				if(response[0].user_id == "system"){
+					return alert(response[0].opinion_contents);
+				}
 				for (let i = 0; i < response.length; i++) {
 					// createMessage 메소드의 파라미터로 들어갈 JSON 형식으로 변환
 					let jsonobj = {

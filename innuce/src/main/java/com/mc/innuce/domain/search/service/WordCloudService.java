@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.search.dao.KeywordDAO;
+import com.mc.innuce.global.util.komoran.KomoranModel;
 
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
@@ -20,10 +21,10 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Service
 public class WordCloudService {
+//	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+	
 	@Autowired
 	KeywordDAO dao;
-
-	Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
 	public Map<String, HashMap<String, Integer>> map = new HashMap<>();
 
@@ -31,11 +32,11 @@ public class WordCloudService {
 
 		String[] sid = { "정치", "경제", "사회", "생활/문화", "세계", "IT/과학" };
 
-		String path = System.getProperty("user.dir");
+//		String path = System.getProperty("user.dir");
 //		System.out.println(path);
 //		D:\fullstack\workspace_innuce\innuce
 //		사전 경로 
-		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
+//		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
 //		komoran.setUserDic(path + "/src/main/resources/static/dictionary/dic.user");
 
 //		String dataSource = new NaverCrawler().crawler(number);
@@ -67,7 +68,7 @@ public class WordCloudService {
 		}
 
 //		입력 텍스트에 대한 형태소 분석을 수행
-		KomoranResult komoranResult = komoran.analyze(eachDescription);
+		KomoranResult komoranResult = KomoranModel.getInstance().getKomoran().analyze(eachDescription);
 //		System.out.println("ParsingKomoran(parsingData): "+komoranResult.getNouns());
 //		고유명사 , 일반명사 , 의존명사 
 //		="NNP", "NNG", "NNB"

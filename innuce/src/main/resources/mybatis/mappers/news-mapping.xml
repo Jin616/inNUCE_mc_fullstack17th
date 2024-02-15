@@ -76,7 +76,7 @@
 	<select id="selectTop3KeywordKey" resultType="int">
 		<![CDATA[
 		select keyword_key
-		from (select * from search where datediff(now(),search_time) < 1 ) as k
+		from (select * from search where datediff(now(),search_time) = 0 or datediff(now(),search_time) = 1 ) as k
 		group by keyword_key
 		order by count(*) desc limit 3;
 		]]>
@@ -106,10 +106,12 @@
 	<!--  이렇게 가져오시면 desc로 4개 가져오고 나서는 keyword_key가 작은 순서대로 output이 나오지 싶습니다.. -->
 	<!-- 실시간 인기 채팅방 배너 맨위에 가장 키워드 검색이 높은게 아니라, 키워드 검색이 높은 4개중 keyword_key가 제일 작은값이 나올거에요..! -->
 	<select id="selectTop4KeywordKey" resultType="int">
+		<![CDATA[
 		select keyword_key
-		from search
+		from (select * from search where datediff(now(),search_time) = 0 or datediff(now(),search_time) = 1 ) as k
 		group by keyword_key
-		order by count(*) desc limit 4
+		order by count(*) desc limit 4;
+		]]>
 	</select>
 
 </mapper>

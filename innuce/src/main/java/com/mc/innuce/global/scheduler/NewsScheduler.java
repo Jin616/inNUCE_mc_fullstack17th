@@ -20,13 +20,14 @@ public class NewsScheduler {
 	@Autowired
 	WebDriverPool pool;
 	
-	private boolean isCategoryCrawlerRunning = false; // default false !
-	private boolean isHeadlineCrawlerRunning = false; // default false !
+	private boolean isCategoryCrawlerRunning = true; // default false !
+	private boolean isHeadlineCrawlerRunning = true; // default false !
 	
 	public static int categoryCrawlerCallCount = 0;
 	public static int headlineCrawlerCallCount = 0;
 	
-	@Scheduled(cron = "0 0/30 * * * *")
+	@Scheduled(cron = "0 0/1 * * * *")
+	//@Scheduled(cron = "0 0/30 * * * *")
 	public void schduleUpdateNewsCategory() {
 		
 		try {
@@ -52,7 +53,8 @@ public class NewsScheduler {
 	}
 
 	// 매 시 15, 45분 마다 실행
-	@Scheduled(cron = "0 15/30 * * * *")
+	@Scheduled(cron = "0 0/30 * * * *")
+	//@Scheduled(cron = "0 15/30 * * * *")
 	public void scheduleUpdateNewsHeadline() {
 		
 		try {

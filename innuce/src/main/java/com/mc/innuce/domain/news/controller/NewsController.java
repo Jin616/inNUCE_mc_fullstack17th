@@ -67,10 +67,12 @@ public class NewsController {
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-application-cache");
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+		
 		for(int i = 0; i < n; i++) {
 			WebDriver driver = new ChromeDriver(chromeOptions);
 			driver.quit();
 		}
+		
 	}
 	
 	@GetMapping("/testshowdriver")

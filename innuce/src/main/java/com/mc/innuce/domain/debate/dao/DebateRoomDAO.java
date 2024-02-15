@@ -25,4 +25,12 @@ public interface DebateRoomDAO {
 	List<DebateRoomDTO> myDebateRoomList(List<Integer> subMyDebateRoomKeyList);
 
 	List<DebateRoomDTO> selectDebateRoomListByKeyword(List<Integer> keywordKey);
+
+	List<Integer> selectDebateRoomKeyListBySearchCount(int closeRoomSearchCount);
+
+	int updateDebateRoomStatusOpen(List<Integer> mergedList);
+
+	int updateDebateRoomStatusWarn(List<Integer> mergedList);
+
+	int updateDebateRoomStatusClosed(List<Integer> mergedList);
 }

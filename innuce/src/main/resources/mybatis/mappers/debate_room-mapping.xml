@@ -55,4 +55,49 @@
 		</foreach>
 		)
 	</select>
+	
+	<select id="selectDebateRoomKeyListBySearchCount" parameterType="int" resultType="int">
+		select debate_room_key
+		from debate_room
+		where keyword_key in (select keyword_key
+								from (select keyword_key, count(*) as num
+										from search
+										where search_time &gt;= date_add(now(), interval -1 day)
+								group by keyword_key) as oneday
+								where oneday.num &gt;= #{closeRoomSearchCount})
+	</select>
+	
+	<update id="updateDebateRoomStatusOpen" parameterType="java.util.List">
+		update debate_room
+		set debate_room_status = 2
+		where debate_room_key in (
+			<foreach collection="mergedList" item="debate_room_key" separator=" , ">
+				#{debate_room_key}
+			</foreach>
+		)
+		and (debate_room_status = 1 or debate_room_status = 0)
+	</update>
+	
+	<update id="updateDebateRoomStatusWarn" parameterType="java.util.List">
+		update debate_room
+		set debate_room_status = 1
+		where debate_room_key not in (
+			<foreach collection="mergedList" item="debate_room_key" separator=" , ">
+				#{debate_room_key}
+			</foreach>
+		)
+		and debate_room_status = 2
+	</update>
+	
+	<update id="updateDebateRoomStatusClosed" parameterType="java.util.List">
+		update debate_room
+		set debate_room_status = 0
+		where debate_room_key not in (
+			<foreach collection="mergedList" item="debate_room_key" separator=" , ">
+				#{debate_room_key}
+			</foreach>
+		)
+		and debate_room_status = 1
+	</update>
+	
 </mapper>

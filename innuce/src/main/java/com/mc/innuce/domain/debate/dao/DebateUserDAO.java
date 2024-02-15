@@ -39,4 +39,6 @@ public interface DebateUserDAO {
 
 	int myDebateRoomKeyCount(int user_key);
 
+	List<Integer> selectDebateRoomKeyListByUserCount(int closeRoomUserCount);
+
 }

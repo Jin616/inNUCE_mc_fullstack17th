@@ -23,16 +23,8 @@
 	$(document).ready(
 			function() {
 				// Model로 전달 받은 데이터
-				let roomId = $
-				{
-					debateroom.debate_room_key
-				}
-				;
-				let debateuser = $
-				{
-					debateuser.debate_user_key
-				}
-				;
+				let roomId = ${debateroom.debate_room_key};
+				let debateuser = ${debateuser.debate_user_key};
 
 				// websocketconfig의 endpoint 연결
 				let sockJS = new SockJS("/ws");
@@ -44,7 +36,7 @@
 					stomp.subscribe('/sub/debate/' + roomId, function(debateMessage) {
 						// 수신된 메시지를 채팅창 마지막에 붙임
 						currentMessage(createMessage(debateMessage),
-								$('.debate_room_opinion_list'));
+								$('.opinion_list'));
 					});
 
 					// 채팅방 인원 정보 메시지 구독
@@ -74,7 +66,7 @@
 
 				// 이전 채팅 버튼 클릭 시 보여지는 채팅 이전의 채팅을 가져와 보여주기
 				$('#loadbtn').on('click', function() {
-					loadMessage($('.debate_room_opinion_list'), roomId);
+					loadMessage($('.opinion_list'), roomId);
 				});
 
 				// 해당 페이지를 나갈때 나가기 전 동작
@@ -119,14 +111,16 @@
 			data : params,
 			dataType : "json",
 			success : function(response) {
-				//alert(JSON.stringify(response));
+				if(response[0].user_id == "system"){
+					return alert(response[0].opinion_contents);
+				}
 				for (let i = 0; i < response.length; i++) {
 					// createMessage 메소드의 파라미터로 들어갈 JSON 형식으로 변환
 					let jsonobj = {
 						body : JSON.stringify(response[i])
 					};
 					// 채팅을 만들어 순서대로 채팅공간 제일 앞으로 붙이기
-					preMessage(createMessage(jsonobj), $('.debate_room_opinion_list'));
+					preMessage(createMessage(jsonobj), $('.opinion_list'));
 				}
 			},
 			error : function(request, e) {

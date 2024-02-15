@@ -86,7 +86,7 @@
 		select * from news n
 		join keyword_news kn using(news_key)
 		where keyword_key = #{keyword_key}
-		order by news_pulldate desc
+		order by news_writendate desc
 		limit 5;
 	</select>
 

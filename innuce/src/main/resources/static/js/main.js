@@ -349,7 +349,7 @@ $.ajax({
 	
 });
 
-$('.tab-link').click(function() {
+/*$('.tab-link').click(function() {
 	$('.tab-link').css({
 		'font-size': '20px',
 		'color': '#5A6372'
@@ -358,7 +358,7 @@ $('.tab-link').click(function() {
 		'color': '#333',
 		'font-size': '22px'
 	});
-});
+});*/
 /* seo end */
 
 $('main i').on('click',function(){

@@ -36,6 +36,5 @@
 	<li>${i.toString()}</li>
 </c:forEach>
 </ol>
->>>>>>> Stashed changes
 </body>
 </html>

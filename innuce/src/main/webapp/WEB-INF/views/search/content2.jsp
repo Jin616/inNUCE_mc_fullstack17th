@@ -1,7 +1,7 @@
 s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script>
 window.onload = function(){
@@ -136,7 +136,17 @@ let noneKeyword = '${noneKeyword }';
       		<a class='a' href="news?newsKey=${newsDTO.news_key }">
       			<div id='${status.index }-1' class='date'>${newsDTO.news_writendate }</div>
       			<div id='${status.index }-2' class='main'>${newsDTO.news_title }</div>
-      			<div id='${status.index }-3' class='cont'>${newsDTO.summ_content }<br/></div>
+      			<div id='${status.index }-3' class='cont'>
+      			<c:choose>
+      			 <c:when test="${fn:length(newsDTO.summ_content) gt 150 }">
+      			 	${fn:substring(newsDTO.summ_content,0,150) }...
+      			 </c:when>
+     			  <c:otherwise>
+     			  	${newsDTO.summ_content}
+ 					  </c:otherwise>
+      			</c:choose>
+      			<br/>
+      			</div>
       		</a>
       		
      			<div class='bookmark-cover'>

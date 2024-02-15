@@ -93,6 +93,8 @@
       
 		</div> <!-- news-content-cover -->		
 	</div> <!-- news-container -->
+	
+
 
 	<!-- 카테고리 -->
 	<div class="news-container2">
@@ -112,17 +114,18 @@
 						사회
 					</li>
 					<li class="tab-link" data-tab="tab-4-category">
-						생활
+						생활/문화
 					</li>
 					<li class="tab-link" data-tab="tab-5-category">
 						세계
 					</li>
 					<li class="tab-link" data-tab="tab-6-category">
-						사설/컬럼
+						IT/과학
 					</li>
 				</ul>
 			</div>
 			</div>
+			
 		<c:forEach var="tabindex" begin='1' end='6'>
 		<div id="tab-${tabindex }-category" class="tab-content <c:if test="${tabindex == 1}">current</c:if>">
 		
@@ -228,6 +231,7 @@
  
 			
 </footer>
+
 
  <!--TO TOP BUTTON-->
  <div id="to-top">

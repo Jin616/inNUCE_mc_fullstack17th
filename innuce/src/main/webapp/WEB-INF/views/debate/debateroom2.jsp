@@ -11,7 +11,7 @@
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 
 <link rel="stylesheet" type="text/css" href="/css/header.css">
-<link rel="stylesheet" type="text/css" href="/css/debate_room.css">
+<link rel="stylesheet" type="text/css" href="/css/debate_room2.css">
 
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script
@@ -119,9 +119,7 @@
 			data : params,
 			dataType : "json",
 			success : function(response) {
-				if(response[0].user_id == "system"){
-					return alert(response[0].opinion_contents);
-				}
+				//alert(JSON.stringify(response));
 				for (let i = 0; i < response.length; i++) {
 					// createMessage 메소드의 파라미터로 들어갈 JSON 형식으로 변환
 					let jsonobj = {
@@ -221,10 +219,25 @@
 <main>
 
 	<div class='total-container'>
-	
-		<div class="debate_user_count_wrapper">
-			<div class="debate_user_count">
-				<table border="1" id="debate_user_count_table">
+
+
+		<div class="title_container">
+
+			<div class="title_wrapper">
+			
+				<div class="room_name">
+					<p>${debateroom.debate_room_name }</p>
+				</div>
+				
+				<button class="leave_debate_room" id="leavebtn" type="button">채팅방 나가기</button>
+				
+			</div>
+			
+    </div>
+
+		<div class="count_wrapper">
+			<div class="user_count">
+				<table border="1" id="count_table">
 					<tr>
 						<th>실시간 참여자 수</th>
 						<th>전체 참여자 수</th>
@@ -236,30 +249,20 @@
 				</table>
 			</div>
 		</div>
-		
-		<div class="debate_room_title_container">
 
-			<div class="debate_room_title_wrapper">
-				<div class="debate_room_name">
-					<h1>${debateroom.debate_room_name }</h1>
-				</div>
-				<button class="leave_debate_room" id="leavebtn" type="button">채팅방
-					나가기</button>
-			</div>
+
+
+		<div class="content_container">
+
+		<button class="load_message" id="loadbtn" type="button">이전 채팅 확인하기</button>
+		
+		<div class="opinion_list"></div>
+	
 		</div>
-		
-		<div class="debate_room_content_container">
-
-			<button class="load_message" id="loadbtn" type="button">이전 채팅 확인하기</button>
 			
-			<div class="debate_room_opinion_list"></div>
-			
-			<div class="send_opinion">
-				<input type="text" id="send_message" id="message"
-					placeholder="채팅을 입력하세요">
-				<button id="sendbtn" type="button">전송</button>
-			</div>
-		
+		<div class="send_opinion">
+			<input type="text" id="send_message" id="message" placeholder="채팅을 입력하세요">
+			<button id="sendbtn" type="button"><i class="fa-solid fa-paper-plane" style="color: #5d4828; font-size: 22px;"></i></button>
 		</div>
 
 	</div>

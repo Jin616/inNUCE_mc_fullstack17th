@@ -1,13 +1,39 @@
 @charset "UTF-8";
 
+body {
+	font-family: Arial, sans-serif;
+	font-weight: 550;
+}
+
+#sendbtn {
+	all: unset;
+}
+
 main {
 	position: relative;
 }
 
+#loadbtn {
+	cursor: pointer;
+}
+
+main .total-container {
+	height: 1000px;
+	width: 918px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 70px;
+}
+
 /* 타이틀바 전체 테두리 */
-main .debate_room_title_container {
-	box-sizing: border-box;
-	/* Auto layout */
+main .total-container .title_container {
+	/*	box-sizing: border-box;
+	 Auto layout 
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
@@ -15,79 +41,50 @@ main .debate_room_title_container {
 	gap: 8px;
 	position: absolute;
 	width: 700px;
-	height: 56px;
 	left: 50%;
 	transform: translate(-50%, 0);
-	margin: 70px auto;
 	padding: 20px auto;
 	background: #FFFFFF;
 	border: 1px solid #A07C45;
+*/
+	border: 1px solid #A07C45;
+	width: 700px;
 	border-radius: 15px 15px 0px 0px;
 }
 
 /* (Other User) */
-main .debate_room_title_container .debate_room_title_wrapper {
+main .title_container .title_wrapper {
 	/* Auto layout */
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	padding: 0px 0px;
 	gap: 16px;
-	width: 100%;
-	height: 100%;
-	background: #FFFFFF;
 	/* Inside auto layout */
 	flex: none;
 	order: 0;
 	align-self: stretch;
 	flex-grow: 1;
+	height: 70px;
 }
 
 /* Texts */
-main .debate_room_title_container .debate_room_title_wrapper .debate_room_name
-	{
+main .title_container .title_wrapper .room_name {
 	/* Auto layout */
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	padding: 0px;
 	gap: 4px;
-	width: 80%;
-	height: 100%;
 	/* Inside auto layout */
 	flex: none;
 	order: 0;
 	flex-grow: 0;
 }
 
-main .debate_room_title_container .debate_room_title_wrapper button {
-	display: flex;
-	margin-left: auto;
-	background-color: rgba(160, 124, 69, 0.45);
-	border: 1px solid #4E3B1E;
-	border-radius: 30px;
-	color: #4E3B1E;
-	cursor: pointer;
-	font-weight: 600;
-	font-size: 12px;
-	padding: 0 12px;
-	line-height: 24px;
-	text-align: center;
-	text-decoration: none;
-	user-select: none;
-	-webkit-user-select: none;
-	touch-action: manipulation;
-}
-
 /* 채팅방 제목 */
-main .debate_room_title_container .debate_room_title_wrapper .debate_room_name h1
-	{
-	width: 80%;
-	height: 100%;
-	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 600;
-	font-size: 32px;
+main .title_container .title_wrapper .room_name p {
+	font-size: 40px;
 	line-height: 20px;
 	/* or 62% */
 	display: flex;
@@ -98,6 +95,150 @@ main .debate_room_title_container .debate_room_title_wrapper .debate_room_name h
 	flex: none;
 	order: 0;
 	flex-grow: 0;
+	margin-left: 10px;
+	font-weight: 600;
+}
+
+/*main .title_container .title_wrapper #leavebtn {
+	height: 40px;
+	display: flex;
+	margin-left: auto;
+	background-color: rgba(160, 124, 69, 0.45);
+	border-radius: 5px;
+	color: #4E3B1E;
+	cursor: pointer;
+	font-size: 18px;
+	text-align: center;
+	align-items: center;
+	user-select: none;
+	font-weight: 550;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	border: 1px solid #4E3B1E;
+	margin-right: 10px;
+}*/
+
+main .title_container .title_wrapper #loadbtn {}
+
+main .total-container .send_opinion {
+	display: flex;
+	width: 700px;
+	flex-direction: row;
+	border-radius: 0px 0px 15px 15px;
+	border-left: 1px solid #A07C45;
+	border-right: 1px solid #A07C45;
+	border-bottom: 1px solid #A07C45;
+}
+
+/* 전송할 메세지를 적는 창 */
+main .total-container #message {
+	width: 630px;
+	height: 60px;
+	color: #333;
+	font-size: 22px;
+	padding-left: 20px;
+}
+
+/* 전송 버튼 */
+main .total-container #sendbtn {
+	border-radius: 5px;
+	color: #4E3B1E;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 12px;
+	width: 50px;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	touch-action: manipulation;
+	margin-right: 10px;
+}
+
+main .count_wrapper {
+	width: 700px;
+	padding: 5px 0;
+	border-left: 1px solid #A07C45;
+	border-right: 1px solid #A07C45;
+	border-bottom: 1px solid #A07C45;
+	display: flex;
+	flex-direction: row;
+	align-items: center
+}
+
+#loadbtn,
+#leavebtn {
+	/*	margin-left: auto;
+	background-color: inherit;
+	border: none;
+	outline: none;
+	text-align: center;
+	align-items: center;*/
+	height: 35px;
+	display: flex;
+	margin-left: auto;
+	background-color: rgba(160, 124, 69, 0.45);
+	border-radius: 5px;
+	color: #4E3B1E;
+	cursor: pointer;
+	font-size: 16px;
+	text-align: center;
+	align-items: center;
+	user-select: none;
+	font-weight: 550;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	border: 1px solid #4E3B1E;
+	margin-right: 10px;
+
+}
+
+main .count_wrapper .user_count {}
+
+main .content_container {
+	width: 700px;
+	height: 800px;
+	background-color: rgba(160, 124, 69, 0.6);
+	border-left: 1px solid #A07C45;
+	border-right: 1px solid #A07C45;
+	border-bottom: 1px solid #A07C45;
+	overflow: auto;
+}
+
+main .content_container::-webkit-scrollbar {
+	width: 10px;
+	z-index: 1;
+}
+
+main .content_container::-webkit-scrollbar-thumb {
+	background-color: #4E3B1E;
+}
+
+main .content_container::-webkit-scrollbar-track {
+	background-color: rgba(160, 124, 69, 0.6);
+}
+
+#count_table tbody {
+	display: flex;
+	flex-direction: row;
+}
+
+#count_table tr {
+	display: flex;
+	flex-direction: column;
+
+}
+
+#count_table tr th {
+	width: 140px;
+	margin-left: 10px;
+	text-align: start;
+	height: 25px;
+}
+
+#count_table tr td {
+	width: 150px;
+	height: 25px;
+	text-align: start;
 }
 
 /* 실시간 참여자수 테이블 */
@@ -108,72 +249,43 @@ main #debate_user_count_table {
 	font-size: 15px;
 	color: #4E3B1E;
 	border-collapse: collapse;
-	align-items : center;
+	align-items: center;
 }
 
 /* 실시간 참여자수 테이블 */
 main #debate_user_count_table td {
-	border-top : 1px solid #4E3B1E; 
+	/*	border-top : 1px solid #4E3B1E; */
 }
 
-/* 채팅 메세지들 담기는 박스 */
-main .debate_room_content_container{
-	width: 700px;
-	height: 300px;
-	background: #FFFFFF;
-	border: 1px solid #A07C45;
+.content_container {
 }
-
-/*이전 채팅 보기 버튼 */
-main #loadbtn{
-	background-color: inherit;
-	border: none;
-	outline: none;
-	color: #A07C45;
-	text-align : center;
-	align-items : center;
-}
-/* 전송 버튼 */
-main #sendbtn{
-	display: flex;
-	margin-left: auto;
-	background-color: rgba(160, 124, 69, 0.45);
-	border: 1px solid #4E3B1E;
-	border-radius: 30px;
-	color: #4E3B1E;
-	cursor: pointer;
-	font-weight: 600;
-	font-size: 12px;
-	padding: 0 12px;
-	line-height: 24px;
-	text-align: center;
-	touch-action: manipulation;
-}
-
-/* 전송할 메세지를 적는 창 */
-main #send_message{
-	width :600px;
-	background-color: rgba(216, 203, 184, 1);
-	font-family: 'Inter';
-	font-style: normal;
-	color: #4E3B1E;
-}
-
-/* 채팅방의 각각의 메세지들 */
-/* 각각의 메세지들인데 id나 채팅내용 수정하시려면 debateroom.jsp에 179번쨰줄 */
-main div{
-	
-	border : 1px solid rgba(216, 203, 184, 1);
+.opinion_list {
+	overflow: auto;
 }
 
 /* 내가보낸 메세지 */
-main div[isMine$=true]{
-	width : 400px;
+main div[isMine$=true] {
+	background-color: rgba(120, 227, 120, 0.5);
+	word-break: break-all;
+	margin-top: 8px;
+	margin-right: 8px;
+	margin-left: 300px;
+	border-radius: 9px;
+	 max-width: 70%;
+	display: inline-flexbox;
+	padding: 0.2em;
+	text-align: right;
 }
 
 /* 남이보낸 메세지 */
-main div[isMine$=false]{
-	width : 500px;
+main div[isMine$=false] {
+	background-color: rgba(53, 99, 233, 0.5);
+	word-break: break-all;
+	margin-top: 8px;
+	margin-left: 8px;
+	margin-right: 300px;
+	border-radius: 9px;
+	display: inline-flexbox;
+	padding: 0.2em;
+	text-align: left;
 }
-
-

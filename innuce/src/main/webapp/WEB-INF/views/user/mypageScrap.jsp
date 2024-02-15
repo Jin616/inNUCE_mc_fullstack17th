@@ -99,11 +99,11 @@
 			<!--  좌측 네비바 -->
 			<div id="myPage_navigater">
 				<div class='title'>마이페이지</div>
-				<button id="info_change" clicked="yes">
+				<button id="info_change" clicked="none">
 					<span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원
 					정보 수정
 				</button>
-				<button id="my_scrap" clicked="none">
+				<button id="my_scrap" clicked="yes">
 					<i class='fa-solid fa-bookmark'></i>&nbsp;스크랩한 기사
 				</button>
 				<button id="my_chatting" clicked="none">

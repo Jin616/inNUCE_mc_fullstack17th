@@ -117,7 +117,16 @@
 						body : JSON.stringify(response[i])
 					};
 					// 채팅을 만들어 순서대로 채팅공간 제일 앞으로 붙이기
+					let message = JSON.parse(jsonobj.body);
+					let contents = message.opinion_contents;
+					// 이전메세지가 없는경우
+					if(contents =="이전 메시지가 없습니다."){
+						alert(contents);
+					}
+					// 이전 메세지가 있는경우
+					else{
 					preMessage(createMessage(jsonobj), $('.opinion_list'));
+					}
 				}
 			},
 			error : function(request, e) {

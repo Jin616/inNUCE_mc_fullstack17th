@@ -108,7 +108,7 @@ public class DebateRoomController {
 		// debate_room dto 전달
 		mv.addObject("debateroom", drdto);
 
-		mv.setViewName("debate/debateroom");
+		mv.setViewName("debate/debateroom2");
 
 		return mv;
 	}

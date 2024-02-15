@@ -185,7 +185,7 @@ $.ajax({
 				let idx = categoryIdx + '-' + listIdx;
 				
 				/*$('#' + idx + '-a').attr('href', 'news/' + n.news_key);*/
-				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
+				$('.' + idx + '-a-keyword').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-img-keyword').attr('src',
 					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
 
@@ -196,7 +196,7 @@ $.ajax({
 				console.log(formattedDate);
 				$('#' + idx + '-date-keyword').text("Posted " + formattedDate);
 
-				$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);
+				/*$('#' + idx + '-main-keyword').attr('href', 'news?newsKey=' + n.news_key);*/
 				$('#' + idx + '-main-keyword').text(n.news_title);
 				$('#' + idx + '-main-keyword').css({
 					'color': '#333',
@@ -277,7 +277,7 @@ $.ajax({
 				let listIdx = j + 1;
 				let idx = categoryIdx + '-' + listIdx;
 				
-				$('#' + idx + '-a-category').attr('href', 'news?newsKey=' + n.news_key);
+				$('.' + idx + '-a-category').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-img-category').attr('src',
 					n.news_thumbnailuri2 == null ? n.news_thumbnailuri : n.news_thumbnailuri2);
 
@@ -287,19 +287,18 @@ $.ajax({
 				let formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 				
 				$('#' + idx + '-date-category').text("Posted " + formattedDate);
-				$('#' + idx + '-main-category').attr('href', 'news?newsKey=' + n.news_key);
 				$('#' + idx + '-main-category').text(n.news_title);
 				$('#' + idx + '-main-category').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 
 				let summ = n.summ_content;
 				summ = summ.length > 150 ? summ.slice(0, 150) + '...' : summ;
-				$('#' + idx + '-cont-category').attr('href', 'news?newsKey=' + n.news_key);
+				/*$('#' + idx + '-cont-category').attr('href', 'news?newsKey=' + n.news_key);*/
 				$('#' + idx + '-cont-category').text(summ);
 				$('#' + idx + '-cont-category').css({
-					'color': 'black',
+					'color': '#333',
 					'text-decoration': 'none'
 				});
 				$('#' + idx + '-scrap-category').attr('news',n.news_key)
@@ -350,7 +349,7 @@ $.ajax({
 	
 });
 
-$('.tab-link').click(function() {
+/*$('.tab-link').click(function() {
 	$('.tab-link').css({
 		'font-size': '20px',
 		'color': '#5A6372'
@@ -359,7 +358,7 @@ $('.tab-link').click(function() {
 		'color': '#333',
 		'font-size': '22px'
 	});
-});
+});*/
 /* seo end */
 
 $('main i').on('click',function(){

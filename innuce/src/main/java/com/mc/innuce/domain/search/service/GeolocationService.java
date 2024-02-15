@@ -56,7 +56,7 @@ public class GeolocationService implements NaverService {
 
 //			121.186.56.92
 
-			String subURL = "/geolocation/v2/geoLocation?ip=" + ip + "&ext=t&responseFormatType=json";
+			String subURL = "/geolocation/v2/geoLocation?ip=" + "121.186.56.92" + "&ext=t&responseFormatType=json";
 
 			String timeStamp = String.valueOf(System.currentTimeMillis());
 			String accessKey = NaverInfo.geo_Access_Key_ID;

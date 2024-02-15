@@ -65,7 +65,7 @@ window.onload = function(){
 					data : {'user_id' : user_id, 'news_key' : $(this).attr('news')},
 					success : function(response){
 						alert("스크랩이 취소 됐습니다")
-						
+						location.reload(true)
 					}//success
 				})//ajax
 			}
@@ -82,7 +82,7 @@ window.onload = function(){
 					data : {'user_id' : user_id, 'news_key' : $(this).attr('news')},
 					success : function(response){
 						alert("스크랩이 완료 됐습니다")
-						
+						location.reload(true)
 					}//success
 				})//ajax
 			}//else

@@ -74,10 +74,12 @@
 
 
 	<select id="selectTop3KeywordKey" resultType="int">
+		<![CDATA[
 		select keyword_key
-		from search
+		from (select * from search where datediff(now(),search_time) < 1 ) as k
 		group by keyword_key
 		order by count(*) desc limit 3;
+		]]>
 	</select>
 
 	<select id="selectKeywordNews" resultType="newsdto">

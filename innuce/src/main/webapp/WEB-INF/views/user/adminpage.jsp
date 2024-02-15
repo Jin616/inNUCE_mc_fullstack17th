@@ -38,7 +38,7 @@
 				 // 좌측 네비게이터 바에 css 바꾸기
 				 $("#user_manage").attr("clicked","yes");
 				 $("#restore_manage").attr("clicked","none");
-				 $("#chat_manage").attr("clicked","none");
+				 
 				
 				 
 				 $.ajax({ 
@@ -63,7 +63,7 @@
 				 // 좌측 네비게이터 바에 css 바꾸기
 				 $("#user_manage").attr("clicked","none");
 				 $("#restore_manage").attr("clicked","yes");
-				 $("#chat_manage").attr("clicked","none");
+				 
 				
 				 
 				 $.ajax({ 
@@ -82,17 +82,7 @@
 				 
 			})//user_manage_click
 			// 채팅방 관리 버튼 눌렀을때
-			$("#chat_manage").on('click',function(){
-				
-				 // 좌측 네비게이터 바에 css 바꾸기
-				 $("#user_manage").attr("clicked","none");
-				 $("#restore_manage").attr("clicked","none");
-				 $("#chat_manage").attr("clicked","yes");
-				
-				// 페이지 내용 바꾸기
-				$("#adminPage_main").html('')//html
-				
-			})// chat_manage click
+		
 		}// else
 		})// on
 	
@@ -106,7 +96,7 @@
 		<div class='title'>마이페이지</div>
 		<button id="user_manage" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;회원 관리</button>
 		<button id="restore_manage" clicked="none"><span class="material-symbols-outlined">manage_accounts</span>&nbsp;탈퇴 회원 관리 </button>
-		<button id="chat_manage" clicked="none"><i class="fa-regular fa-comments"></i>&nbsp;채팅방 관리</button>
+		
 	</div>
 	
 	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>

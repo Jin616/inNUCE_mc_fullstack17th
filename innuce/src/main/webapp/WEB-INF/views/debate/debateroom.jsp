@@ -169,11 +169,15 @@
 
 		// date_regdate 데이터를 조정하여 출력할 수 있음
 		let regdate = date_regdate.toTimeString().split(' ')[0];
-
+		
+		// 내가 보낸 메세지면 메세지의 attr isMine을 true로 아니면 false로
+		let login_user_id = '${sessionScope.login_user.user_id}'
+		let isMine = (id==login_user_id);
+		
 		// 각 채팅의 id를 key 값으로 줘야 이전 메시지 가져올 수 있음
 		// 수정 시 loadMessage function과 함께 수정
-		let result = '<p id=' + key + '>' + key + ' ' + id + ' ' + contents
-				+ ' ' + regdate + ' ' + like + '</p>';
+		let result = '<div id=' + key + ' isMine='+isMine+'>'   + id + ' ' + contents
+				+ ' ' + regdate + ' ' + like + '</div>';
 		return result;
 	}
 
@@ -215,17 +219,9 @@
 
 	<!-- MAIN -->
 	<main>
-		<div class="debate_room_title_container">
-			<div class="debate_room_title_wrapper">
-				<div class="debate_room_name">
-					<h1>${debateroom.debate_room_name }</h1>
-				</div>
-				<button class="leave_debate_room" id="leavebtn" type="button">채팅방 나가기</button>
-			</div>
-		</div>
-		
-		<div class="debate_user-count">
-			<table border="1">
+		<div class="debate_user_count_wrapper">
+		<div class="debate_user_count">
+			<table border="1" id ="debate_user_count_table">
 				<tr>
 					<th>실시간 참여자 수</th>
 					<th>전체 참여자 수</th>
@@ -236,14 +232,25 @@
 				</tr>
 			</table>
 		</div>
+		</div>
+		<div class="debate_room_title_container">
 		
-		<button class="load_message" id="loadbtn" type="button">이전 채팅</button>
+			<div class="debate_room_title_wrapper">
+				<div class="debate_room_name">
+					<h1>${debateroom.debate_room_name }</h1>
+				</div>
+				<button class="leave_debate_room" id="leavebtn" type="button">채팅방 나가기</button>
+			</div>
+		</div>
+		<div class="debate_room_content_container">
+		
+		<button class="load_message" id="loadbtn" type="button">이전 채팅 확인하기</button>
 		<div class="debate_room_opinion_list"></div>
 		<div class="send_opinion">
-			<input type="text" class="send_message" id="message">
-			<button class="send_message" id="sendbtn" type="button">전송</button>
+			<input type="text" id="send_message" id="message" placeholder="채팅을 입력하세요">
+			<button  id="sendbtn" type="button">전송</button>
 		</div>
-
+		</div>
 	</main>
 </body>
 </html>

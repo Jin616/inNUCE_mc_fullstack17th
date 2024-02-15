@@ -80,14 +80,14 @@ window.onload = function(){
 
 			<div class="paging">
 			<c:if test="${pageMaker.prev }">
-				<a href="/search?keyword=${keyword }&pageNum=${pageMaker.startPage-1 } ">이전</a>&nbsp;
+				<a onclick="submitForm(${pageMaker.startPage-1 })">이전</a>&nbsp;
 			</c:if>
 			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="i">
-				<a class="movePage" href="/search?keyword=${keyword }&pageNum=${i }">${i }</a>&nbsp;
+				<a class="movePage" onclick="submitForm(${i})">${i }</a>&nbsp;
 			</c:forEach>
       <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        <a href="/search?keyword=${keyword }&pageNum=${pageMaker.endPage+1 } ">다음</a>
+        <a onclick="submitForm(${pageMaker.endPage+1 }">다음</a>
       </c:if>       
 			
 			</div>

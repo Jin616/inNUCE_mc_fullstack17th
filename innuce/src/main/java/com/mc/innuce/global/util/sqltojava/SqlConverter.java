@@ -4,9 +4,12 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author JIN
  */
+@Component
 public class SqlConverter {
 
 	public LocalDate timestampToLocalDate(Timestamp timestamp) {
@@ -24,4 +27,5 @@ public class SqlConverter {
 	public Timestamp localDateTimeToTimestamp(LocalDateTime localdatetime) {
 		return Timestamp.valueOf(localdatetime);
 	}
+	
 }

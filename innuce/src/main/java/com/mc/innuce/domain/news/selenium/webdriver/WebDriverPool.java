@@ -14,7 +14,6 @@ import com.mc.innuce.global.config.Config;
 
 /**
  * Chrome 브라우저로 Selenium WebDriver 인스턴스를 관리하기 위한 Pool
- * 
  * @author JIN
  */
 @Component
@@ -23,11 +22,13 @@ public class WebDriverPool {
 	private static final int MAX_POOL_SIZE = 4;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
+	// 서버가 실행되기 전 미리 생성
 	static {
 		for (int i = 0; i < MAX_POOL_SIZE; i++)
 			webDriverPool.offer(createNewWebDriver());
 	}
 
+	// option을 준 웹드라이버 생성
 	public static WebDriver createNewWebDriver() {
 		ChromeOptions chromeOptions = new ChromeOptions();
 
@@ -44,6 +45,8 @@ public class WebDriverPool {
 		
 		WebDriver driver;
 		int retryCount = 0;
+		
+		
 		while (true) {
 			try {
 				driver = new ChromeDriver(chromeOptions);
@@ -76,7 +79,7 @@ public class WebDriverPool {
 	}
 
 	public static void releaseWebDriver(WebDriver webDriver) {
-		if(webDriverPool.size() < MAX_POOL_SIZE)
+		if (webDriverPool.size() < MAX_POOL_SIZE)
 			webDriverPool.offer(webDriver);
 		else
 			webDriver.quit();
@@ -88,7 +91,7 @@ public class WebDriverPool {
 		ArrayList<WebDriver> list = new ArrayList<>();
 		
 		int size = webDriverPool.size();
-		for(int i = 0; i <size; i++) {
+		for (int i = 0; i <size; i++) {
 			try {
 				list.add(webDriverPool.take());
 				System.out.println("take");
@@ -99,7 +102,7 @@ public class WebDriverPool {
 		}
 		
 		System.out.println("WebDriverList have " + list.size());
-		for(WebDriver driver : list) {
+		for (WebDriver driver : list) {
 			System.out.println("currenturl" + driver.getCurrentUrl());
 			releaseWebDriver(driver);
 		}
@@ -108,7 +111,7 @@ public class WebDriverPool {
 	public void initWebDriverPool() {
 		System.out.println("init driverpool");
 		System.out.println("size " + webDriverPool.size());
-		while(webDriverPool.size() > 0) {
+		while (webDriverPool.size() > 0) {
 			try {
 				webDriverPool.take().quit();
 				System.out.println("size " + webDriverPool.size());
@@ -118,7 +121,7 @@ public class WebDriverPool {
 		}
 		
 		
-		for(int i = 0; i < MAX_POOL_SIZE; i++) {
+		for (int i = 0; i < MAX_POOL_SIZE; i++) {
 			System.out.println("creating...");
 			webDriverPool.offer(createNewWebDriver());
 			System.out.println(webDriverPool.size());

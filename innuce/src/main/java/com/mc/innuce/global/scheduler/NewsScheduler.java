@@ -26,7 +26,7 @@ public class NewsScheduler {
 	public static int categoryCrawlerCallCount = 0;
 	public static int headlineCrawlerCallCount = 0;
 	
-	@Scheduled(cron = "0 0/20 * * * *")
+	@Scheduled(cron = "0 0/30 * * * *")
 	public void schduleUpdateNewsCategory() {
 		
 		try {
@@ -51,8 +51,8 @@ public class NewsScheduler {
 		
 	}
 
-	// 한시간 마다 실행
-	@Scheduled(cron = "30 0 * * * *")
+	// 매 시 15, 45분 마다 실행
+	@Scheduled(cron = "0 15/30 * * * *")
 	public void scheduleUpdateNewsHeadline() {
 		
 		try {

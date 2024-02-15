@@ -28,4 +28,7 @@
 		where press_key = #{press_key}
 	</update>
 	
+	<update id="updateJooGanJoSun" parameterType="String">
+		update press set press_name = "주간조선" where press_key = 53;
+	</update>
 </mapper>

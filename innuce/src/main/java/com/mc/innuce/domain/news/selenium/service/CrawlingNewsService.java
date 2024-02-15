@@ -147,10 +147,8 @@ public class CrawlingNewsService {
 
 			System.out.println(printColor(category, "green") + " searching start");
 			int insertSize = insertNewsFromVo(newsVOList);
-			System.out.println(
-					printColor(category, "green") + " VO size is " + printColor("" + newsVOList.size(), "green"));
-			System.out
-					.println(printColor(category, "green") + " insert size is " + printColor("" + insertSize, "green"));
+			System.out.println(printColor(category, "green") + " VO size is " + printColor("" + newsVOList.size(), "green"));
+			System.out.println(printColor(category, "green") + " insert size is " + printColor("" + insertSize, "green"));
 		}
 	}
 
@@ -161,8 +159,9 @@ public class CrawlingNewsService {
 		String url = naverCategoryURI + category;
 		List<NewsTemVO> resultList = new ArrayList<>();
 
-		// 100, 50, 50, 25 ...
-		int moreCategoryNewsClickCountLimit = 25 * (1 + 3 / (NewsScheduler.categoryCrawlerCallCount + 1));
+		int[] countMoreLimits = {100, 10, 5};
+		int moreCategoryNewsClickCountLimit = 
+				NewsScheduler.categoryCrawlerCallCount < 3 ? countMoreLimits[NewsScheduler.categoryCrawlerCallCount] : 2;
 		// 작업이 끝까지 진행될 때까지 반복
 		// 페이지 리로딩 없이 정상 실행 되었다면 반복 없이 break 문을 만나 종료
 		while (true) {
@@ -202,8 +201,10 @@ public class CrawlingNewsService {
 
 				// dbHash에 중복된 개수를 카운팅
 				int falseCount = 0;
-				// 250, 150, 100, 100, 50 ....
-				int falseCountLimit = 50 * (1 + 4 / (NewsScheduler.categoryCrawlerCallCount + 1));
+				int[] countFalseLimits = {200, 100, 50};
+				int falseCountLimit = 
+						NewsScheduler.categoryCrawlerCallCount < 3 ? countFalseLimits[NewsScheduler.categoryCrawlerCallCount] : 20;
+				
 				// 각 요소마다 필요한 값 추출 및 dbHash에 임시 저장
 				// 저장에 성공했다면 VO객체로 파싱 후 resultList에 담음
 				// 도중에 실패하더라도 dbHash에 저장된 값이 있으므로 다시 파싱 안하고 넘어감
@@ -508,14 +509,10 @@ public class CrawlingNewsService {
 
 	// 네이버에서 키워드로 검색할때 조건에 맞는 기사를 필터링 하는 메소드
 	private List<WebElement> filterSuitableNewsElements(List<WebElement> list) {
+		// 네이버 뉴스가 있고 썸네일이 있는경우 필터
 		return list.stream()
 				.filter(e -> e.findElements(By.className("dsc_thumb")).size() == 1
-						&& e.findElement(By.className("info_group")).findElements(By.tagName("a")).size() == 2) // 네이버
-																												// 뉴스가
-																												// 있고
-																												// 썸네일이
-																												// 있는경우
-																												// 필터
+						&& e.findElement(By.className("info_group")).findElements(By.tagName("a")).size() == 2) 
 				.filter(e -> !e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)
 						.getAttribute("href").contains("sports") // 스포츠 뉴스 필터
 						&& !e.findElement(By.className("info_group")).findElements(By.tagName("a")).get(1)

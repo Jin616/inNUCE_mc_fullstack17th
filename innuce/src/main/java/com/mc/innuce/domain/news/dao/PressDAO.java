@@ -19,4 +19,6 @@ public interface PressDAO {
 
 	public int updatePress(PressDTO dto);
 
+	public void updateJooGanJoSun();
+
 }

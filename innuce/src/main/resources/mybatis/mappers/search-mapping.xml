@@ -11,7 +11,7 @@
 		from search
 		where search_time &gt;= date_add(now(), interval -1 day)
 		group by keyword_key) as oneday
-		where oneday.num &gt;= #{createRoomCount};
+		where oneday.num &gt;= #{createRoomCount}
 	</select>
 	
 	<select id="oneSearch" parameterType="searchdto" resultType="searchdto">

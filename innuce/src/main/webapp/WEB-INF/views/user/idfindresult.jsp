@@ -21,11 +21,13 @@
    <%@ include file ="/WEB-INF/views/header/topBar.jsp" %>
   </div>
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
+  
+  <div id= "idfindresult_box" style="margin-top: 350px;">
+		${html_result}
+	</div>
 </header>
 
-<div id= "idfindresult_box">
-${html_result}
-</div>
+
 
 
 </body>

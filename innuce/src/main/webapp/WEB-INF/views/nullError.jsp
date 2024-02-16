@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 
 <link rel="stylesheet" type="text/css" href="/css/header.css">
+<link rel="stylesheet" type="text/css" href="/css/error.css">
 
 </head>
 <body>
@@ -16,25 +17,24 @@
   </div>
 </header>
 
-<main >
-  <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
-<h1>죄송합니다. 지원하지 않는 서비스입니다.</h1>
-<h2>메인으로 돌아가주세요</h2>
-발생한 예외 : ${pageContext.exception}<br>
-예외 메시지 : ${pageContext.exception.message}<br>
-<ol>
-<c:forEach items="${pageContext.exception.stackTrace}" var="i">
-	<li>${i.toString()}</li>
-</c:forEach>
-</ol>
+<main>
+<div class="error-container">
 
-</main>
+   <div class="logo-container">
+	   
+	   <div class='img-container'>
+		  <a href="/main" class="logo-img">
+		   <img src="/images/inNUCE_logo.png"/> 
+		  </a>
+	  </div>
+  
+	  <div style="font-size:30px; margin-top:150px;">죄송합니다. 지원하지 않는 서비스입니다.</div>
+		<div style="font-size:30px">로고를 클릭해서 메인으로 돌아가주세요</div>
+  </div>
 
-<button onclick="location.href='main'">메인으로 돌아가기 </button>
-<ol>
-<c:forEach items="${pageContext.exception.stackTrace}" var="i">
-	<li>${i.toString()}</li>
-</c:forEach>
-</ol>
+
+
+</div>
+
 </body>
 </html>

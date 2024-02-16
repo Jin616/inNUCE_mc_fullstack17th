@@ -13,7 +13,8 @@
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-<script defer src="/js/main.js"></script>
+<script defer src="/js/searchPage.js"></script>
+<script defer src="/js/etc.js"></script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -68,7 +69,7 @@
 					url : 'scrapnewscancel',
 					data : {'user_id' : user_id, 'news_key' : $(this).attr('news')},
 					success : function(response){
-						alert("스크랩이 취소 됐습니다")
+						/* alert("스크랩이 취소 됐습니다") */
 						location.reload(true)
 					}//success
 				})//ajax
@@ -183,7 +184,7 @@
 							<select id='search_option'>
 								<option value='search_title'>제목</option>
 								<option value='search_content'>내용</option>
-							</select> <input type='text' , placeholder='검색어입력' , id='search'>
+							</select> <input type='text' placeholder='검색어입력' id='search'>
 							<button id='search_button' type='button'>검색</button>
 						</div>
 					</div>
@@ -193,5 +194,7 @@
 			</div>
 		</div>
 	</main>
+	
+	
 </body>
 </html>

@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/css/debate.css">
 
 <script defer src="/js/debate.js"></script>
+<script defer src="/js/searchPage.js"></script>
 <script>
 	$(document).ready(function() {
 		$('.content a').on('click', function(e) {
@@ -119,7 +120,10 @@
 	</main>
 
 
-
+ <!--TO TOP BUTTON-->
+ <div id="to-top">
+   <div class="material-icons">arrow_upward</div>
+ </div>
 
 
 </body>

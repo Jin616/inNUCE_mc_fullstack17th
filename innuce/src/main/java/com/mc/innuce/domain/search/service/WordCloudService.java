@@ -21,7 +21,6 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Service
 public class WordCloudService {
-//	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 	
 	@Autowired
 	KeywordDAO dao;
@@ -69,7 +68,6 @@ public class WordCloudService {
 
 //		입력 텍스트에 대한 형태소 분석을 수행
 		KomoranResult komoranResult = KomoranModel.getInstance().getKomoran().analyze(eachDescription);
-//		System.out.println("ParsingKomoran(parsingData): "+komoranResult.getNouns());
 //		고유명사 , 일반명사 , 의존명사 
 //		="NNP", "NNG", "NNB"
 		List<String> analyzeList = komoranResult.getMorphesByTags("NNP", "NNG", "NNB");
@@ -84,7 +82,6 @@ public class WordCloudService {
 					listHash.put(token, num);
 				}
 			}
-//			if(listHash.size())
 			
 		}
 		map.put(number, listHash);

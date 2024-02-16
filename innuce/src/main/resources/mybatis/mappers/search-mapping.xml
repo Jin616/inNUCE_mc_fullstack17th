@@ -41,5 +41,10 @@
 		search_time=now() where keyword_key=#{keyword_key} and user_key=#{user_key } and client_key=#{client_key}
 	</update>
 
+<!-- select keyword_key, user_key, client_key, count(*)
+from search
+group by keyword_key, user_key, client_key
+having count(*) > 1
+order by keyword_key; -->
 
 </mapper>

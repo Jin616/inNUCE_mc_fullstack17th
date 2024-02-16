@@ -348,14 +348,18 @@ public class UserController {
 		int user_in_page = 5;
 		// 마지막 페이지에 보여줄 user 수
 		int user_in_last_page;
+		// 총 페이지 숫자
+		int page_count;
 		if (id_list_length % user_in_page == 0) {
 			user_in_last_page = user_in_page;
+			page_count = id_list_length / user_in_page;
 		} else {
 			user_in_last_page = id_list_length % user_in_page;
+			page_count = id_list_length / user_in_page + 1;
 		}
 		// 총 페이지 숫자
-		int page_count = id_list_length / user_in_page + 1;
-
+		System.out.println(user_in_last_page);
+		
 		// sql 쿼리시 limit x,y 절에서 시작해야될 포인트(x)
 		int starting_point = (pagenum - 1) * user_in_page;
 		// 해당 pagenum에 user_in_page 만큼 user_id들을 담고있는 리스트
@@ -364,7 +368,7 @@ public class UserController {
 		String[] regdate_paging_list = service.selectPagingRegdate(user_name, email, starting_point, user_in_page);
 
 		String result;
-
+		
 		// 해당되는 이름 이메일을 가진 userdto가 없는경우
 		if (id_list_length == 0) {
 			result = "검색된 결과가 없습니다" + "<br>";
@@ -373,6 +377,7 @@ public class UserController {
 
 		// 해당하는 조건의 userdto가 있는경우
 		else {
+			
 			result = "<table id= 'id_search_table'>"
 					+ "<thead><tr> <th> 가입된 아이디</th> <th> 가입일자 </th> </tr></thead><tbody>";
 			// 마지막 페이지가 아니여서 각 테이블에 user_in_page 수 만큼 보여주는 경우

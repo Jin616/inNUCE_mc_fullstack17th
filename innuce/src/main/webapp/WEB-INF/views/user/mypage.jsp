@@ -14,9 +14,8 @@
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<style>
-
-</style>
+<script defer src="/js/searchPage.js"></script>
+<script defer src="/js/etc.js"></script>
 </head>
 <body>
 <script>
@@ -67,7 +66,6 @@
 		<button id="delete" clicked="none"> 회원 탈퇴</button>
 	</div>
 	
-	<%@ include file="/WEB-INF/views/header/chattingroomlist.jsp"%>
   </div>
   <%@ include file ="/WEB-INF/views/header/logo.jsp" %>
 
@@ -77,6 +75,7 @@
 
 <!--  마이페이지 내용 -->
 <div id = "myPage_main" > </div>
+
 
 </body>
 </html>

@@ -65,10 +65,6 @@ public class SearchController {
 
 		return mv;
 	}
-//	@RequestMapping("/main")
-//	public String main() {
-//		return "main";
-//	}
 
 	@GetMapping("/search")
 	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,

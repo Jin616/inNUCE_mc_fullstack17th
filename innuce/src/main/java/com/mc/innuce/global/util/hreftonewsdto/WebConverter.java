@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author JIN
  */
+@Component
 public class WebConverter {
 
 	public int getIntPressKey(String href) {

@@ -10,8 +10,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
 
-import com.mc.innuce.global.config.Config;
-
 /**
  * Chrome 브라우저로 Selenium WebDriver 인스턴스를 관리하기 위한 Pool
  * @author JIN
@@ -19,7 +17,7 @@ import com.mc.innuce.global.config.Config;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 4;
+	private static final int MAX_POOL_SIZE = 2;
 	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	// 서버가 실행되기 전 미리 생성
@@ -66,11 +64,6 @@ public class WebDriverPool {
 		
 		try {
 			driver = webDriverPool.take();
-			
-			if(driver == null) {
-				System.out.println("uh, where is my driver? show me the driver");
-				driver = createNewWebDriver();
-			}
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
@@ -119,7 +112,6 @@ public class WebDriverPool {
 				e.printStackTrace();
 			}
 		}
-		
 		
 		for (int i = 0; i < MAX_POOL_SIZE; i++) {
 			System.out.println("creating...");

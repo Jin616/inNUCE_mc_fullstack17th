@@ -498,7 +498,8 @@ public class CrawlingNewsService {
 		else
 			news.setNews_thumbnailuri2(newsdriver.findElement(By.id("img1")).getAttribute("src"));
 
-		news.setSumm_content(summaryService.summary(news.getNews_title(), news.getNews_content()));
+		// naverapi 사용종료로 인한 서머리 불가
+		// news.setSumm_content(summaryService.summary(news.getNews_title(), news.getNews_content()));
 		if (news.getSumm_content() == null)
 			news.setSumm_content("원문참조");
 

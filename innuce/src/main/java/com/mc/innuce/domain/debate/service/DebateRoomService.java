@@ -49,7 +49,7 @@ public class DebateRoomService {
 	}
 
 	// 10분마다 방 열리고 닫힘 업데이트
-	@Scheduled(cron = "0 0/10 * * * *")
+	// @Scheduled(cron = "0 0/10 * * * *")
 	public void updateDebateRoomStatus() {
 		// 검색 기준 넘은 debate_key list
 		List<Integer> searchDebateRoomKeyList = debateRoomDAO.selectDebateRoomKeyListBySearchCount(CLOSE_ROOM_SEARCH_COUNT);
@@ -70,7 +70,7 @@ public class DebateRoomService {
 	}
 
 	// 10분마다 방 생성 결정
-	@Scheduled(cron = "0 0/10 * * * *")
+	// @Scheduled(cron = "0 0/10 * * * *")
 	public void createDebateRoom() {
 		// 방 생성 기준을 넘는 keyword_key list 가져오기
 		// 24시간 이내 검색수가 CREATE_ROOM_COUNT이상인것
@@ -100,7 +100,7 @@ public class DebateRoomService {
 		return debateRoomDAO.myDebateRoomList(subMyDebateRoomKeyList);
 	}
 
-	@Scheduled(cron = "0 0/10 * * * *")
+	// @Scheduled(cron = "0 0/10 * * * *")
 	public void updateChattingRoomList() {
 		if (popularDebateRoom == null)
 			popularDebateRoom = new ArrayList<>();

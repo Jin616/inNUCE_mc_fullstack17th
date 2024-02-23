@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private int MAX_POOL_SIZE = 1;
+	private int MAX_POOL_SIZE = 2;
 	private BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	// 서버가 실행되기 전 미리 생성
 	WebDriverPool() {
-//		for (int i = 0; i < MAX_POOL_SIZE; i++)
-//			webDriverPool.offer(createNewWebDriver());
+		for (int i = 0; i < MAX_POOL_SIZE; i++)
+			webDriverPool.offer(createNewWebDriver());
 	}
 
 	// option을 준 웹드라이버 생성

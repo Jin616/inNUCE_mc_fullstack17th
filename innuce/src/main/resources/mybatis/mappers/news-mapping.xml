@@ -68,7 +68,6 @@
 	<select id="selectSingleNews" resultType="newsdto"
 		parameterType='long'>
 		select * from news where news_key = #{newsKey};
-
 	</select>
 	<!-- update -->
 

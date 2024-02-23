@@ -47,6 +47,9 @@ public class CrawlingNewsService_refactorying {
 	WebDriverPool dp;
 	@Autowired
 	WebConverter conv;
+	@Autowired
+	WebDriverPool pool;
+	
 	private static Set<String> dbHash = new HashSet<>();
 	
 	final private String naverNewsMainURI = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=";
@@ -74,7 +77,7 @@ public class CrawlingNewsService_refactorying {
 	public void crawlerHeadlineNews(String category, String categoryNumString) {
 		initDBHash();
 
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		List<NewsTemVO> resultVOList = new ArrayList<>();
 		List<NewsDTO> resultDTOList = new ArrayList<>();
 		String url = naverCategoryURI + categoryNumString;
@@ -113,7 +116,7 @@ public class CrawlingNewsService_refactorying {
 			} catch (Exception e) {
 				System.out.println(printColor("ERROR HEADLINE", "red"));
 				e.printStackTrace();
-				driver = WebDriverPool.createNewWebDriver();
+				driver = pool.createNewWebDriver();
 				continue;
 			}
 		}
@@ -149,7 +152,7 @@ public class CrawlingNewsService_refactorying {
 
 	// 카테고리 페이지에서 VOList를 파싱하는 메소드
 	public List<NewsTemVO> getNewsTemVOListPerCategory(String category) {
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 
 		String url = naverCategoryURI + category;
 		List<NewsTemVO> resultList = new ArrayList<>();
@@ -245,7 +248,7 @@ public class CrawlingNewsService_refactorying {
 	}
 
 	public List<NewsDTO> getSearchNewsDefault(String url) {
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		driver.get(url);
 
 		List<NewsDTO> resultList = new ArrayList<>();
@@ -328,7 +331,7 @@ public class CrawlingNewsService_refactorying {
 		}
 
 		// db에 이미 검색된 적이 있는지 dto 객체를 가져옴
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		List<NewsDTO> resultList = new ArrayList<>();
 		List<String> newsKeyList = new ArrayList<>();
 
@@ -355,7 +358,7 @@ public class CrawlingNewsService_refactorying {
 			ds = ds.plusDays(1);
 		}
 
-		WebDriverPool.releaseWebDriver(driver);
+		pool.releaseWebDriver(driver);
 
 		return null;
 	}
@@ -402,7 +405,7 @@ public class CrawlingNewsService_refactorying {
 
 	// vo 객체를 dto로 파싱 후 db에 insert 하는 메소드
 	public int insertNewsFromVo(List<NewsTemVO> voList) {
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		List<NewsDTO> resultList = new ArrayList<>();
 		int resultSize = 0;
 
@@ -518,7 +521,7 @@ public class CrawlingNewsService_refactorying {
 	// WebDriverPool에 드라이버 반환
 	private void releaseDriver(WebDriver driver) {
 		driver = reload(driver);
-		WebDriverPool.releaseWebDriver(driver);
+		pool.releaseWebDriver(driver);
 	}
 
 	// driver에서 quit()을 호출함으로써 메모리 확보 후 새로 생성한 객체를 반환해줌.
@@ -530,7 +533,7 @@ public class CrawlingNewsService_refactorying {
 				if (driver != null)
 					driver.quit();
 				sleep(500);
-				driver = WebDriverPool.createNewWebDriver();
+				driver = pool.createNewWebDriver();
 				break;
 			} catch (NoSuchDriverException e) {
 				System.out.println(printColor("ERROR", "red") + " : CrawlingNewsService.reload - retry count : "
@@ -633,7 +636,7 @@ public class CrawlingNewsService_refactorying {
 	}
 
 	public int getLimitPagePerCategory(String category) {
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		int limitPage;
 		String url = naverNewsMainURI + category + prePage + "999";
 
@@ -660,7 +663,7 @@ public class CrawlingNewsService_refactorying {
 
 	public List<NewsTemVO> getCategoryNews(List<String> pageUrlList) {
 		// searchall = 1, 중복페이지 만나면 스킵 option = 0 - 구현예정
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		int option = 1;
 
 		HashSet<String> dbHash = initHashSetFromNewsKey();

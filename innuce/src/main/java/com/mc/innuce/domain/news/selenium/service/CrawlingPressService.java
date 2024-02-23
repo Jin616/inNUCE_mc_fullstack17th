@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.news.dto.PressDTO;
@@ -18,12 +19,15 @@ import com.mc.innuce.domain.news.selenium.webdriver.WebDriverPool;
 @Service
 public class CrawlingPressService {
 
+	@Autowired
+	WebDriverPool pool;
+	
 	private String rankingURL = "https://news.naver.com/main/ranking/popularDay.naver";
 
 	// rankingURL에서 언론사DTO들을 긁어옴 서버 실행 시 등 주기적으로 한번씩 실행해서 DB 업데이트 해주는 방향으로 설계 예정
 	public List<PressDTO> getPressInform() {
 		List<PressDTO> pressDTOList = new ArrayList<>();
-		WebDriver driver = WebDriverPool.getWebDriver();
+		WebDriver driver = pool.getWebDriver();
 		
 		driver.get(rankingURL);
 		
@@ -50,7 +54,7 @@ public class CrawlingPressService {
 			pressDTOList.add(dto);
 		}
 
-		WebDriverPool.releaseWebDriver(driver);
+		pool.releaseWebDriver(driver);
 		return pressDTOList;
 	}
 

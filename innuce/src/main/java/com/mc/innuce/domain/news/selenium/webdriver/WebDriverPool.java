@@ -17,17 +17,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverPool {
 
-	private static final int MAX_POOL_SIZE = 2;
-	private static final BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
+	private int MAX_POOL_SIZE = 1;
+	private BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
 	// 서버가 실행되기 전 미리 생성
-	static {
-		for (int i = 0; i < MAX_POOL_SIZE; i++)
-			webDriverPool.offer(createNewWebDriver());
+	WebDriverPool() {
+//		for (int i = 0; i < MAX_POOL_SIZE; i++)
+//			webDriverPool.offer(createNewWebDriver());
 	}
 
 	// option을 준 웹드라이버 생성
-	public static WebDriver createNewWebDriver() {
+	public WebDriver createNewWebDriver() {
 		ChromeOptions chromeOptions = new ChromeOptions();
 
 		chromeOptions.addArguments("--lang=ko_KR.utf-8");
@@ -59,7 +59,7 @@ public class WebDriverPool {
 		return driver;
 	}
 	
-	public static WebDriver getWebDriver() {
+	public WebDriver getWebDriver() {
 		WebDriver driver = null;
 		
 		try {
@@ -71,7 +71,7 @@ public class WebDriverPool {
 		return driver;
 	}
 
-	public static void releaseWebDriver(WebDriver webDriver) {
+	public void releaseWebDriver(WebDriver webDriver) {
 		if (webDriverPool.size() < MAX_POOL_SIZE)
 			webDriverPool.offer(webDriver);
 		else

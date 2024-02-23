@@ -11,9 +11,9 @@ public class KomoranScheduler {
 	@Autowired
 	WordCloudService service;
 	
-//	@Scheduled(cron = "0 0 * * * *") // 정각부터 1시간 마다
-//	public void scheduleUpdateWordCloud() {
-//		service.initCloud();
-//	}
+	@Scheduled(cron = "0 0 * * * *") // 정각부터 1시간 마다
+	public void scheduleUpdateWordCloud() {
+		service.initCloud();
+	}
 
 }

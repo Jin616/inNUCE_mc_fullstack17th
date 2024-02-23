@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>inNUCE_Debate</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 
@@ -23,16 +22,8 @@
 	$(document).ready(
 			function() {
 				// Model로 전달 받은 데이터
-				let roomId = $
-				{
-					debateroom.debate_room_key
-				}
-				;
-				let debateuser = $
-				{
-					debateuser.debate_user_key
-				}
-				;
+				let roomId = ${debateroom.debate_room_key };
+				let debateuser = ${debateuser.debate_user_key};
 
 				// websocketconfig의 endpoint 연결
 				let sockJS = new SockJS("/ws");
@@ -44,7 +35,7 @@
 					stomp.subscribe('/sub/debate/' + roomId, function(debateMessage) {
 						// 수신된 메시지를 채팅창 마지막에 붙임
 						currentMessage(createMessage(debateMessage),
-								$('.debate_room_opinion_list'));
+								$('.opinion_list'));
 					});
 
 					// 채팅방 인원 정보 메시지 구독
@@ -74,7 +65,7 @@
 
 				// 이전 채팅 버튼 클릭 시 보여지는 채팅 이전의 채팅을 가져와 보여주기
 				$('#loadbtn').on('click', function() {
-					loadMessage($('.debate_room_opinion_list'), roomId);
+					loadMessage($('.opinion_list'), roomId);
 				});
 
 				// 해당 페이지를 나갈때 나가기 전 동작
@@ -119,16 +110,23 @@
 			data : params,
 			dataType : "json",
 			success : function(response) {
-				if(response[0].user_id == "system"){
-					return alert(response[0].opinion_contents);
-				}
+				//alert(JSON.stringify(response));
 				for (let i = 0; i < response.length; i++) {
 					// createMessage 메소드의 파라미터로 들어갈 JSON 형식으로 변환
 					let jsonobj = {
 						body : JSON.stringify(response[i])
 					};
 					// 채팅을 만들어 순서대로 채팅공간 제일 앞으로 붙이기
-					preMessage(createMessage(jsonobj), $('.debate_room_opinion_list'));
+					let message = JSON.parse(jsonobj.body);
+					let contents = message.opinion_contents;
+					// 이전메세지가 없는경우
+					if(contents =="이전 메시지가 없습니다."){
+						alert(contents);
+					}
+					// 이전 메세지가 있는경우
+					else{
+					preMessage(createMessage(jsonobj), $('.opinion_list'));
+					}
 				}
 			},
 			error : function(request, e) {
@@ -176,8 +174,39 @@
 
 		// 각 채팅의 id를 key 값으로 줘야 이전 메시지 가져올 수 있음
 		// 수정 시 loadMessage function과 함께 수정
-		let result = '<div id=' + key + ' isMine='+isMine+'>' + id + ' ' + contents
-				+ ' ' + regdate + ' ' + like + '</div>';
+		let result = '<div id=' + key + ' isMine='+isMine+'>' + id + '  ' + contents
+				+ '  ' + regdate + ' ' + like + '</div>';
+				
+/* 		if(isMine) {
+			let result = '<div id=' + key + ' isMine='+isMine+'>'
+			+	like + ' ' + regdate 
+			+ ' ' + contents + ' ' + id +'</div>';	
+			
+	
+		}	else {
+			let result = '<div id=' + key + ' isMine='+isMine+'>' 
+			+ id + ' ' + contents
+			+ ' ' + regdate + ' ' + like + '</div>';
+		}	 */
+				
+		/*		if(isMine) {
+		let result = '<div id=' + key + ' isMine='+isMine+'>' 
+		+ '<div class="like_">' + like + '</div>' 
+		+ '<div class="regdate_">' + regdate + '</div>' 
+		+ '<div class="contents_">' + contents + '</div>' 
+		+ '<div class="id_">' + id + '</div>' 
+		+'</div>';	
+		
+
+	}	else {
+		let result = '<div id=' + key + ' isMine='+isMine+'>' 
+		+ '<div class="id_">' + id + '</div>' 
+		+ '<div class="contents_">' + contents + '</div>' 
+		+ '<div class="regdate_">' + regdate + '</div>' 
+		+ '<div class="like_">' + like + '</div>' 
+		+'</div>';	
+	}	*/
+				
 		return result;
 	}
 
@@ -221,13 +250,29 @@
 <main>
 
 	<div class='total-container'>
-	
-		<div class="debate_user_count_wrapper">
-			<div class="debate_user_count">
-				<table border="1" id="debate_user_count_table">
+
+
+		<div class="title_container">
+
+			<div class="title_wrapper">
+			
+				<div class="room_name">
+					<p>${debateroom.debate_room_name }</p>
+				</div>
+
+				<button class="leave_debate_room" id="leavebtn" type="button">EXIT</button>
+				
+			</div>
+			
+    </div>
+
+		<div class="count_wrapper">
+		
+			<div class="user_count">
+				<table border="1" id="count_table">
 					<tr>
-						<th>실시간 참여자 수</th>
-						<th>전체 참여자 수</th>
+						<th>실시간 참여자 수 :</th>
+						<th>전체 참여자 수 :</th>
 					</tr>
 					<tr>
 						<td id="connected_user_count"></td>
@@ -235,31 +280,20 @@
 					</tr>
 				</table>
 			</div>
-		</div>
-		
-		<div class="debate_room_title_container">
-
-			<div class="debate_room_title_wrapper">
-				<div class="debate_room_name">
-					<h1>${debateroom.debate_room_name }</h1>
-				</div>
-				<button class="leave_debate_room" id="leavebtn" type="button">채팅방
-					나가기</button>
-			</div>
-		</div>
-		
-		<div class="debate_room_content_container">
-
 			<button class="load_message" id="loadbtn" type="button">이전 채팅 확인하기</button>
+		</div>
+
+
+
+		<div class="content_container">
+
+			<div class="opinion_list"></div>
+	
+		</div>
 			
-			<div class="debate_room_opinion_list"></div>
-			
-			<div class="send_opinion">
-				<input type="text" id="send_message" id="message"
-					placeholder="채팅을 입력하세요">
-				<button id="sendbtn" type="button">전송</button>
-			</div>
-		
+		<div class="send_opinion">
+			<input type="text" id="message" placeholder="채팅을 입력하세요">
+			<button id="sendbtn" type="button"><i class="fa-solid fa-paper-plane" style="color: #5d4828; font-size: 22px;"></i></button>
 		</div>
 
 	</div>

@@ -225,7 +225,7 @@ main .news-cover .news-content .paging {
 
 main .news-cover .news-content .paging a {
 	text-decoration: none;
-
+	cursor: pointer;
 }
 main .news-cover .news-content .paging a:link {
 	color: #858585;

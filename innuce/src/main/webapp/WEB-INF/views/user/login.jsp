@@ -19,6 +19,13 @@
 	
 	$(document).ready(function() {
 		
+		$("#login_box").keydown(function(e){
+			if(e.keyCode==13){
+				$("#loginButton").click();
+			}
+		})
+		
+		
 		// 로그인 버튼 클릭
 		$("#loginButton").on('click',function(ev) {
 			

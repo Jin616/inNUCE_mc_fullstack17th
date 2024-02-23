@@ -52,8 +52,17 @@
 							<!-- <li class="tab-link current" data-tab="tab-1">짧은 요약</li> -->
 							<li class="tab-link current" data-tab="tab-1">기사 요약</li>
 							<li class="tab-link" data-tab="tab-2">기사 전문</li>
+							<li class='bookmark-cover'>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	     					<i id='scrap_button' class='fa-solid fa-bookmark' news='${News.news_key}'></i>
+	     					</li>
 						</ul>
-						
+					
 						
 						<div id="tab-1" class="tab-content current">
 	
@@ -73,9 +82,7 @@
 	
 					</div>
 					
-					<div class='bookmark-cover'>
-	     				<i id='scrap_button' class='fa-solid fa-bookmark' news='${News.news_key}'></i>
-	     			</div>
+					
 					<div class="end">
 						<a class="original" href="${News.news_originuri }">
 							<div>기사 원문</div>

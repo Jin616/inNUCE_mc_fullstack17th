@@ -245,6 +245,7 @@ if(msg != ""){
 	alert(msg);
 }
 </script>
+
 <jsp:include page="/WEB-INF/views/search/scrapInMain.jsp" />
 <script defer src="/js/main.js"></script>
 <script defer src="/js/search-option.js"></script>

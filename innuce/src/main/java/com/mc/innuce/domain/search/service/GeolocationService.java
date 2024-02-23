@@ -49,14 +49,8 @@ public class GeolocationService implements NaverService {
 
 		try {
 
-//			url -> ip주소
-//			InetAddress inet = InetAddress.getByName("www.naver.com");
-//			String ip = inet.getHostAddress();
-//			System.out.println("ip주소 : "+ip);
 
-//			121.186.56.92
-
-			String subURL = "/geolocation/v2/geoLocation?ip=" + "121.186.56.92" + "&ext=t&responseFormatType=json";
+			String subURL = "/geolocation/v2/geoLocation?ip=" + ip + "&ext=t&responseFormatType=json";
 
 			String timeStamp = String.valueOf(System.currentTimeMillis());
 			String accessKey = NaverInfo.geo_Access_Key_ID;

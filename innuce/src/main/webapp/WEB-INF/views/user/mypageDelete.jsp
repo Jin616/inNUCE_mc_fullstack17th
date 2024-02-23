@@ -12,9 +12,10 @@
 
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-<script defer src="/js/main.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script defer src="/js/searchPage.js"></script>
+<script defer src="/js/etc.js"></script>
 <style>
 
 </style>
@@ -98,6 +99,5 @@
 	</div>
 
 </main>
-
 </body>
 </html>

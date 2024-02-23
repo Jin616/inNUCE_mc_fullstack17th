@@ -168,7 +168,8 @@ body {
 #myPage_navigater {
 	background-color: rgba(216, 203, 184, 1);
 	position: fixed;
-	top: 310px;
+	top: 410px;
+	left: -100px;
 	width: 200px;
 	display: inline-block;
 	vertical-align: middle;
@@ -402,6 +403,7 @@ tbody tr:hover {
 	transform: translate(-50%, 0);
 	border-radius: 20px;
 	margin: 50px auto;
+	
 }
 
 /* idpwfind.jsp */

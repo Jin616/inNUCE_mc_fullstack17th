@@ -26,6 +26,7 @@ import com.mc.innuce.domain.search.paging.PageMaker;
 import com.mc.innuce.domain.search.service.ComponentService;
 import com.mc.innuce.domain.search.service.GeolocationService;
 import com.mc.innuce.domain.user.dto.UserDTO;
+import com.mc.innuce.global.util.komoran.KomoranModel;
 import com.mc.innuce.global.util.sqltojava.SqlConverter;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 @Controller
 public class SearchController {
 
-	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+//	private Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
 	@Autowired
 	private GeolocationService geoService;
@@ -64,10 +65,6 @@ public class SearchController {
 
 		return mv;
 	}
-//	@RequestMapping("/main")
-//	public String main() {
-//		return "main";
-//	}
 
 	@GetMapping("/search")
 	public ModelAndView mainSearch(String keyword, HttpServletRequest request, HttpSession session,
@@ -75,30 +72,30 @@ public class SearchController {
 			@RequestParam(value = "pressString", required = false, defaultValue = "") String pressString,
 			@RequestParam(value = "ds", required = false, defaultValue = "") String ds,
 			@RequestParam(value = "de", required = false, defaultValue = "") String de) throws Exception {
-		
+		String ip = "";
 		if (ip.equals("") || ip.equals(" ") || ip == null) {
 			ip = getIp(request);
 		}
-		
+
 		// seo start
 		// 언론사 옵션
 		int pressOption = 0;
 		List<Integer> pressKeyList = new ArrayList<>();
-		
+
 		if (!pressString.isEmpty()) {
 			pressOption = 1;
 			String[] strList = pressString.split(",");
-			
-			for (String str : strList) 
+
+			for (String str : strList)
 				pressKeyList.add(Integer.parseInt(str));
 		}
-		
+
 		// 기간 옵션
 		int periodOption = 0;
 		if (!ds.isEmpty() && !de.isEmpty())
 			periodOption = 1;
 		// seo end
-		
+
 		ModelAndView mv = new ModelAndView();
 
 		int totalCount = 0;
@@ -112,11 +109,11 @@ public class SearchController {
 		SearchDTO sDTO = null;
 
 //	keyword에 " "이 있을 때만 코모란을 돌리자? x
-		String path = System.getProperty("user.dir");
+//		String path = System.getProperty("user.dir");
 
-		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
+//		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
 
-		KomoranResult komoranResult = komoran.analyze(keyword);
+		KomoranResult komoranResult = KomoranModel.getInstance().getKomoran().analyze(keyword);
 
 //		일반명사NNG
 //		고유명사NNP
@@ -172,7 +169,7 @@ public class SearchController {
 						uDTO = (UserDTO) session.getAttribute("login_user");
 						// keyword_key / userKey / ip 를 search 에 저장.
 						sDTO = new SearchDTO(keywordKey, uDTO.getUser_key(), ip);
-						System.out.println("난 sdto"+sDTO);
+						System.out.println("난 sdto" + sDTO);
 						SearchDTO oneSearchDTO = service.oneSearch(sDTO);
 						System.out.println("oneSearch 완료" + oneSearchDTO);
 
@@ -188,7 +185,7 @@ public class SearchController {
 						// userDTO가 존재 x
 						System.out.println("user 존재x");
 						sDTO = new SearchDTO(keywordKey, ip);
-						System.out.println("난 sdto"+sDTO);
+						System.out.println("난 sdto" + sDTO);
 						SearchDTO oneSearchDTO = service.oneSearch2(sDTO);
 						System.out.println("oneSearch2 완료 " + oneSearchDTO);
 						if (oneSearchDTO != null) {
@@ -212,7 +209,7 @@ public class SearchController {
 					else if (pressOption == 1 && periodOption == 1)
 						totalCount += service.getTotalNewsOptionPeriodPress(keywordKey, ds, de, pressKeyList);
 					// seo end
-					
+
 				} // token >= 2
 			} // newsKeyList is null or isEmpty
 		} // for (String token : analyzeList)
@@ -243,7 +240,7 @@ public class SearchController {
 			} else if (pressOption == 0 && periodOption == 1) {
 				map.put("ds", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
 				map.put("de", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
-				
+
 				mv.addObject("ds", ds);
 				mv.addObject("de", de);
 				newsList = service.getNewsListLimitOptionPeriod(map);
@@ -256,23 +253,23 @@ public class SearchController {
 				map.put("pressKeyList", pressKeyList);
 				map.put("ds", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(ds).atTime(0, 0, 0)));
 				map.put("de", new SqlConverter().localDateTimeToTimestamp(LocalDate.parse(de).atTime(23, 59, 59)));
-				
+
 				mv.addObject("ds", ds);
 				mv.addObject("de", de);
 				mv.addObject("pressKeyList", pressKeyList);
 				newsList = service.getNewsListLimitOptionPressPeriod(map);
 			}
 			// seo end
-			
+
 			mv.addObject("newsList", newsList);
 			mv.addObject("keyword", keyword);
 		}
 
 		mv.addObject("pageMaker", pageMaker);
 		mv.setViewName("search/searchPage");
-		
+
 		return mv;
-		
+
 	}
 
 	@RequestMapping("/myLocation")
@@ -281,7 +278,7 @@ public class SearchController {
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum) throws Exception {
 
 		System.out.println("first location : " + location);
-
+		String ip = "";
 		ModelAndView mv = new ModelAndView();
 
 		if (ip.equals("") || ip.equals(" ") || ip == null) {

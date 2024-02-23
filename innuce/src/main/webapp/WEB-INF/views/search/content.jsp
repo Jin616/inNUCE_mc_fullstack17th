@@ -87,8 +87,8 @@ window.onload = function(){
 				<a class="movePage" onclick="submitForm(${i})">${i }</a>&nbsp;
 			</c:forEach>
       <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        <a onclick="submitForm(${pageMaker.endPage+1 }">다음</a>
-      </c:if>       
+        <a onclick="submitForm(${pageMaker.endPage+1 })">다음</a>
+      </c:if>
 			
 			</div>
 <jsp:include page="/WEB-INF/views/search/scrapInSearchPage.jsp" />	

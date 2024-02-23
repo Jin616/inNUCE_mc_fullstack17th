@@ -4,7 +4,7 @@
 
 <div class="search-container" >
 	
-	<form id="searchForm" name="searchFrom" action="search" onsubmit="searchOptionCheck()" autocomplete="off">  
+	<form id="searchForm" name="searchFrom" action="/search" onsubmit="searchOptionCheck()" autocomplete="off">  
 	
 	<div class="input-keyword">
 		<div class="material-symbols-outlined">search</div>

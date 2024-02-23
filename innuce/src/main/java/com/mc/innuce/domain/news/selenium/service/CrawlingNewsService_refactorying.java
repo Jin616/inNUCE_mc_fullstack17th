@@ -19,7 +19,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.NoSuchDriverException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.mc.innuce.domain.news.dto.NewsDTO;
 import com.mc.innuce.domain.news.dto.NewsTemVO;
@@ -36,8 +35,7 @@ import com.mc.innuce.global.util.sqltojava.SqlConverter;
  * 
  * @author JIN
  */
-@Service
-public class CrawlingNewsService {
+public class CrawlingNewsService_refactorying {
 
 	@Autowired
 	NewsService newsService;
@@ -49,7 +47,7 @@ public class CrawlingNewsService {
 	WebDriverPool dp;
 	@Autowired
 	WebConverter conv;
-	private Set<String> dbHash = new HashSet<>();
+	private static Set<String> dbHash = new HashSet<>();
 	
 	final private String naverNewsMainURI = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=";
 	final private String prePage = "#&date=%2000:00:00&page=";
@@ -63,14 +61,15 @@ public class CrawlingNewsService {
 	final private int limitCrawlingSearchSortDay = 1000;
 	final private int limitCrawlingSearchSortInterest = 20;
 
-	private void initDBHash() {
-		if (dbHash.isEmpty()) {
-			dbHash = initHashSetFromNewsKey();
-			System.out.println("init " + printColor("dbHash", "red"));
-			System.out.println("dbHash size : " + printColor("" + dbHash.size(), "green"));
-		}
+	/*
+	 * bean이 생성될 때 생성자를 호출하면서 뉴스키가 담겨있는 dbHash를 초기화 함.
+	 */
+	CrawlingNewsService_refactorying() {
+		initDBHash();
 	}
-
+	
+	
+	
 	// 뉴스 카테고리 페이지에서 헤드라인만 추출하는
 	public void crawlerHeadlineNews(String category, String categoryNumString) {
 		initDBHash();
@@ -114,7 +113,6 @@ public class CrawlingNewsService {
 			} catch (Exception e) {
 				System.out.println(printColor("ERROR HEADLINE", "red"));
 				e.printStackTrace();
-				driver.quit();
 				driver = WebDriverPool.createNewWebDriver();
 				continue;
 			}
@@ -171,14 +169,12 @@ public class CrawlingNewsService {
 				while (driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).isDisplayed()
 						&& clickCount++ < moreCategoryNewsClickCountLimit) {
 					driver.findElement(By.className("_CONTENT_LIST_LOAD_MORE_BUTTON")).click();
-					
+
 					sleep(500);
 				}
 			} catch (Exception e) {
 				System.out.println("기사 더 보기 버튼 에러");
 				e.printStackTrace();
-				driver.quit();
-				driver = WebDriverPool.createNewWebDriver();
 				continue;
 			}
 
@@ -229,8 +225,7 @@ public class CrawlingNewsService {
 				System.out.println(printColor("This error may have occurred due to a forced page move.", "red"));
 				System.out.println(printColor(driver.getCurrentUrl(), "red"));
 				e.printStackTrace();
-				driver.quit();
-				driver = WebDriverPool.createNewWebDriver();
+				driver = reload(driver);
 				continue; // 에러 잡혔다는 건 페이지 초기화 되었다는 뜻이므로 while 반복
 			}
 		}
@@ -412,27 +407,16 @@ public class CrawlingNewsService {
 		int resultSize = 0;
 
 		for (int i = 0; i < voList.size(); i++) {
-			
-			while (true) {
-				try {
-					// 램 용량 최적화를 위한 10번 페이지 이동마다 드라이버 초기화
-					if (i % 10 == 9) {
-						driver = reload(driver);
-					}
-		
-					resultList.add(parseNewsToNewsDTO(driver, voList.get(i).getUrl(), voList.get(i).getThumburl()));
-					// 램 용량 최적화를 위한 10번의 객체 생성마다 resultList db에 insert 및 초기화
-					if (resultList.size() > 9) {
-						resultSize += newsService.insertNewsList(resultList);
-						resultList = new ArrayList<>();
-					}
-					break ;
-				} catch (Exception e) {
-					System.out.println("insertNewsFromVO error");
-					e.printStackTrace();
-					driver.quit();
-					driver = WebDriverPool.createNewWebDriver();
-				}
+			// 램 용량 최적화를 위한 10번 페이지 이동마다 드라이버 초기화
+			if (i % 10 == 9) {
+				driver = reload(driver);
+			}
+
+			resultList.add(parseNewsToNewsDTO(driver, voList.get(i).getUrl(), voList.get(i).getThumburl()));
+			// 램 용량 최적화를 위한 10번의 객체 생성마다 resultList db에 insert 및 초기화
+			if (resultList.size() > 9) {
+				resultSize += newsService.insertNewsList(resultList);
+				resultList = new ArrayList<>();
 			}
 		}
 
@@ -531,13 +515,6 @@ public class CrawlingNewsService {
 				.collect(Collectors.toList());
 	}
 
-	private HashSet<String> initHashSetFromNewsKey() {
-		HashSet<String> dbHash = new HashSet<>();
-		for (long i : newsService.getAllNewsListOnlyKey())
-			dbHash.add(String.format("%013d", i));
-		return dbHash;
-	}
-
 	// WebDriverPool에 드라이버 반환
 	private void releaseDriver(WebDriver driver) {
 		driver = reload(driver);
@@ -550,13 +527,9 @@ public class CrawlingNewsService {
 
 		while (true) {
 			try {
-				try {
+				if (driver != null)
 					driver.quit();
-				} catch (Exception e) {
-					System.out.println("driver quit failed");
-				}
 				sleep(500);
-
 				driver = WebDriverPool.createNewWebDriver();
 				break;
 			} catch (NoSuchDriverException e) {
@@ -577,12 +550,13 @@ public class CrawlingNewsService {
 		return colorMap.get(color) + str + colorMap.get("reset");
 	}
 
-	// 특정 페이지에서 특정 요소까지 스크롤을 내림
+	// 특정 페이지에서 특정 요소까지 스크롤을 내려주는 메소드
 	private void scrollToElement(WebDriver driver, WebElement element) {
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 
+	// 네이버 뉴스 메인에서 키워드를 검색할 때 url로 매핑해주는 메소드 
 	private String parseQueryWithDate(String keyword, LocalDate now) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -598,6 +572,20 @@ public class CrawlingNewsService {
 		}
 	}
 
+	private void initDBHash() {
+		if (dbHash.isEmpty())
+			dbHash = initHashSetFromNewsKey();
+	}
+
+	private HashSet<String> initHashSetFromNewsKey() {
+		HashSet<String> dbHash = new HashSet<>();
+		
+		for (long i : newsService.getAllNewsListOnlyKey())
+			dbHash.add(String.format("%013d", i));
+		
+		return dbHash;
+	}
+	
 	// 2024-02-02
 	// 네이버 페이지 구성 변경으로 인해 죽은 코드들 고이 잠들다.
 	public void getCategoryNews(String[] categorys) {

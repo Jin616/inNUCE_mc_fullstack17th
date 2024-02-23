@@ -18,18 +18,18 @@ public class PressScheduler {
 	@Autowired
 	CrawlingPressService cps;
 
-	private LocalDate updatePressLocalDate = LocalDate.now();
-	
-	@Scheduled(cron = "0 0 * * * *")
-	public void scheduleUpdatePressDaily() {
-		
-		// if(updatePressLocalDate.isBefore(LocalDate.now())) {
-		if (Config.CURRENT_OS.equals("linux") && updatePressLocalDate.isBefore(LocalDate.now())) {
-			ps.updatePressTable(cps.getPressInform());
-			
-			updatePressLocalDate = LocalDate.now();
-		}
-		
-	}
+//	private LocalDate updatePressLocalDate = LocalDate.now();
+//	
+//	@Scheduled(cron = "0 0 * * * *")
+//	public void scheduleUpdatePressDaily() {
+//		
+//		// if(updatePressLocalDate.isBefore(LocalDate.now())) {
+//		if (Config.CURRENT_OS.equals("linux") && updatePressLocalDate.isBefore(LocalDate.now())) {
+//			ps.updatePressTable(cps.getPressInform());
+//			
+//			updatePressLocalDate = LocalDate.now();
+//		}
+//		
+//	}
 
 }

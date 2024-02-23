@@ -39,7 +39,8 @@ public class SummaryService {
 			if (os.contains("win")) {
 				url = "c:/fullstack/naverinform.properties";
 			} else {
-				url = "/usr/properties/naverinform.properties";
+				url = ""
+						+ "";
 			}
 
 			InputStream is = new FileInputStream(new File(url));

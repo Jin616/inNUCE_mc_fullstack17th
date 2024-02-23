@@ -48,10 +48,8 @@ public class SentimentService {
 			this.clientSecret = props.getProperty("naverClientSecret");
 		} catch (FileNotFoundException e) {
 			System.out.println("naverinform file이 없습니다.");
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("SentimentService ERROR!");
-			e.printStackTrace();
 		}
 
 	}

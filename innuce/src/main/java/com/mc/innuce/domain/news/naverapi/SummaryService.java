@@ -51,10 +51,8 @@ public class SummaryService {
 			this.clientSecret = props.getProperty("naverClientSecret");
 		} catch (FileNotFoundException e) {
 			System.out.println("naverinform file이 없습니다.");
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("SummaryService ERROR!");
-			e.printStackTrace();
 		}
 
 	}

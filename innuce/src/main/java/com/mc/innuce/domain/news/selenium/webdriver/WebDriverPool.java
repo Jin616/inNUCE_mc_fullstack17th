@@ -22,8 +22,8 @@ public class WebDriverPool {
 
 	// 서버가 실행되기 전 미리 생성
 	WebDriverPool() {
-		for (int i = 0; i < MAX_POOL_SIZE; i++)
-			webDriverPool.offer(createNewWebDriver());
+//		for (int i = 0; i < MAX_POOL_SIZE; i++)
+//			webDriverPool.offer(createNewWebDriver());
 	}
 
 	// option을 준 웹드라이버 생성

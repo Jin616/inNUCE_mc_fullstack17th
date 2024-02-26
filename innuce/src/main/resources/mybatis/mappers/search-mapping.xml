@@ -19,7 +19,7 @@
 	</select>
 	
 	<select id="oneSearch2" parameterType="searchdto" resultType="searchdto">
-		select * from search where keyword_key=#{keyword_key} and client_key=#{client_key}
+		select * from search where keyword_key=#{keyword_key } and client_key=#{client_key } and user_key is null
 	</select>
 
 	<insert id="insertSearch" parameterType="searchdto">

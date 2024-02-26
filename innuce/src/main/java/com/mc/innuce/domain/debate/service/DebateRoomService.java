@@ -109,7 +109,8 @@ public class DebateRoomService {
 			popularDebateRoom.clear();
 
 		List<Integer> keywordKey = newsService.selectTop4KeywordKey();
-		popularDebateRoom.addAll(debateRoomDAO.selectDebateRoomListByKeyword(keywordKey));
+		if(!keywordKey.isEmpty())
+			popularDebateRoom.addAll(debateRoomDAO.selectDebateRoomListByKeyword(keywordKey));
 	}
 
 	public List<DebateRoomDTO> chattingRoomList() {

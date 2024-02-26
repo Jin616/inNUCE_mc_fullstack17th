@@ -1,5 +1,6 @@
 package com.mc.innuce.domain.news.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -50,17 +51,16 @@ public class NewsService {
 		return newsdao.selectOneNews(newsKey);
 	}
 
-
-	// 카테고리 별 뉴스를 넘겨주는 
+	// 카테고리 별 뉴스를 넘겨주는
 	public JSONObject getHeadlineNews() {
 		JSONObject result = new JSONObject();
 		JSONParser parser = new JSONParser();
 
-		String[] categorys = {"정치", "경제", "사회", "생활/문화", "세계", "IT/과학"};
-		
-		for(int i = 0; i < categorys.length; i++)
-			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
-		
+		String[] categorys = { "정치", "경제", "사회", "생활/문화", "세계", "IT/과학" };
+
+		for (int i = 0; i < categorys.length; i++)
+			result.put("" + i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
+
 		return result;
 	}
 
@@ -68,12 +68,10 @@ public class NewsService {
 	public void insertNewsHeadline(List<NewsDTO> list) {
 		newsdao.insertNewsHeadline(list);
 	}
-	
 
-	
 	// 스크랩에서 쓸 news_key 를 가지고 한개의 newsDTO 가져오기 (김)
 	public NewsDTO selectOne(long news_key) {
-		
+
 		return newsdao.selectSingleNews(news_key);
 	}
 
@@ -81,21 +79,28 @@ public class NewsService {
 		JSONObject result = new JSONObject();
 		JSONParser parser = new JSONParser();
 
-		List<Integer> keywordKey = newsdao.selectTop3KeywordKey(); 
-		
-		for (int i = 0; i < keywordKey.size(); i++) {
-			result.put(""+i, parser.getJsonArrayNews(newsdao.selectKeywordNews(keywordKey.get(i))));
+		List<Integer> keywordKey = newsdao.selectTop3KeywordKey();
+		if (!keywordKey.isEmpty()) {
+			for (int i = 0; i < keywordKey.size(); i++) {
+				result.put("" + i, parser.getJsonArrayNews(newsdao.selectKeywordNews(keywordKey.get(i))));
+			}
 		}
-		
+
 		return result;
 	}
 
 	public List<String> getKeywordNews2() {
 		List<Integer> keywordKey = newsdao.selectTop3KeywordKey();
-		for (Integer integer : keywordKey) {
-			System.out.println(integer);
+		if (!keywordKey.isEmpty()) {
+			for (Integer integer : keywordKey) {
+				System.out.println(integer);
+			}
+			return newsdao.getKeyword(keywordKey);
 		}
-		return newsdao.getKeyword(keywordKey);
+		
+		List<String> list = new ArrayList<String>();
+		
+		return list;
 	}
 
 	public List<Integer> selectTop4KeywordKey() {

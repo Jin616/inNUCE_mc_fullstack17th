@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp" />
 

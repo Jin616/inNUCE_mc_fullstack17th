@@ -24,7 +24,7 @@ public class DebateRoomService {
 
 	@Autowired
 	private DebateUserDAO debateUserDAO;
-
+	
 	@Autowired
 	private NewsService newsService;
 
@@ -59,7 +59,7 @@ public class DebateRoomService {
 		List<Integer> mergedList = new ArrayList<>(searchDebateRoomKeyList);
 		mergedList.removeAll(userDebateRoomKeyList);
 		mergedList.addAll(userDebateRoomKeyList);
-
+		
 		// 합쳐진 리스트에 해당하고 닫혔거나 닫힐 예정인 채팅방 열기
 		debateRoomDAO.updateDebateRoomStatusOpen(mergedList);
 		// 합쳐진 리스트에 해당하지 않고 열려있는 채팅방은 닫힐 예정으로 닫힐 예정인 채팅방은 닫기
@@ -75,14 +75,15 @@ public class DebateRoomService {
 		// 방 생성 기준을 넘는 keyword_key list 가져오기
 		// 24시간 이내 검색수가 CREATE_ROOM_COUNT이상인것
 		List<Integer> passedKeywordList = searchDAO.selectPassedKeywordList(CREATE_ROOM_COUNT);
-
+		
 		// 기존 채팅방의 keyword_key list 가져오기
 		List<Integer> existKeywordList = debateRoomDAO.selectExistKeywordList();
-
+		
 		// 두 list 비교하여 기존 채팅방에 없는 keyword_key list 생성
-		List<Integer> newKeywordList = passedKeywordList.stream().filter(key -> !existKeywordList.contains(key))
+		List<Integer> newKeywordList = passedKeywordList.stream()
+				.filter(key -> !existKeywordList.contains(key))
 				.collect(Collectors.toList());
-
+		
 		// 기존 채팅방에 없는 keyword_key list로 채팅방 생성
 		if (!newKeywordList.isEmpty()) {
 			debateRoomDAO.createDebateRoom(newKeywordList);
@@ -108,14 +109,12 @@ public class DebateRoomService {
 			popularDebateRoom.clear();
 
 		List<Integer> keywordKey = newsService.selectTop4KeywordKey();
-
-		if (!keywordKey.isEmpty())
-			popularDebateRoom.addAll(debateRoomDAO.selectDebateRoomListByKeyword(keywordKey));
+		popularDebateRoom.addAll(debateRoomDAO.selectDebateRoomListByKeyword(keywordKey));
 	}
 
 	public List<DebateRoomDTO> chattingRoomList() {
 		// TODO Auto-generated method stub
-		if (popularDebateRoom == null || popularDebateRoom.isEmpty()) {
+		if(popularDebateRoom == null || popularDebateRoom.isEmpty()) {
 			updateChattingRoomList();
 		}
 		System.out.println(popularDebateRoom);

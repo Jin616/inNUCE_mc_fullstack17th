@@ -142,6 +142,8 @@ public class SearchController {
 						System.out.println(token + " 존재");
 						keywordKeyList.add(kDTO.getKeyword_key());
 						keywordKey = kDTO.getKeyword_key();
+						
+						
 
 					} else {
 						// token이 없으면 - insert
@@ -154,15 +156,17 @@ public class SearchController {
 						keywordKeyList.add(kDTO.getKeyword_key());
 						keywordKey = kDTO.getKeyword_key();
 
-						KeysDTO keys = new KeysDTO(keywordKey, newsKeyList);
-
-						int i = service.insertKeywordNews(keys);
-						System.out.println(i + ": insertKeywordNews 완료");
 
 					}
+					KeysDTO keys = new KeysDTO(keywordKey, newsKeyList);
+					
+					int s = service.insertKeywordNews(keys);
+					System.out.println(s + ": insertKeywordNews 완료");
+					
 					System.out.println("keyword_key : " + keywordKey);
 					System.out.println("ip : " + ip);
-					// Search 테이블 - 유저에 따라 insert | update
+					// Search 테이블 - 유저에 따라 insert | 
+
 					if (session.getAttribute("login_user") != null) {
 						System.out.println("user 존재");
 						// userDTO가 존재
@@ -188,6 +192,7 @@ public class SearchController {
 						System.out.println("난 sdto" + sDTO);
 						SearchDTO oneSearchDTO = service.oneSearch2(sDTO);
 						System.out.println("oneSearch2 완료 " + oneSearchDTO);
+						
 						if (oneSearchDTO != null) {
 							// ip == clinet_key 가 존재
 							int i = service.updateSearch(sDTO);
@@ -197,6 +202,7 @@ public class SearchController {
 							int i = service.insertSearch2(sDTO);
 							System.out.println(i + " userDTO가 존재x k-c 존재x insertSearch2완료");
 						}
+						
 					}
 
 					// seo start

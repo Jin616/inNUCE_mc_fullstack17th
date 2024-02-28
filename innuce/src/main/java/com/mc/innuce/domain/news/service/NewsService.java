@@ -56,7 +56,7 @@ public class NewsService {
 		JSONObject result = new JSONObject();
 		JSONParser parser = new JSONParser();
 
-		String[] categorys = {"정치", "경제", "사회", "생활/문화", "세계", "IT/과학"};
+		String[] categorys = {"정치", "경제", "사회", "생활", "세계", "IT"};
 		
 		for(int i = 0; i < categorys.length; i++)
 			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
@@ -73,7 +73,6 @@ public class NewsService {
 	
 	// 스크랩에서 쓸 news_key 를 가지고 한개의 newsDTO 가져오기 (김)
 	public NewsDTO selectOne(long news_key) {
-		
 		return newsdao.selectSingleNews(news_key);
 	}
 
@@ -82,6 +81,10 @@ public class NewsService {
 		JSONParser parser = new JSONParser();
 
 		List<Integer> keywordKey = newsdao.selectTop3KeywordKey(); 
+		
+		if (keywordKey.size() >= 0) {
+			
+		}
 		
 		for (int i = 0; i < keywordKey.size(); i++) {
 			result.put(""+i, parser.getJsonArrayNews(newsdao.selectKeywordNews(keywordKey.get(i))));

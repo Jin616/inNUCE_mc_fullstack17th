@@ -43,5 +43,4 @@ public interface NewsDAO {
 
 	public List<Integer> selectTop4KeywordKey();
 
-
 }

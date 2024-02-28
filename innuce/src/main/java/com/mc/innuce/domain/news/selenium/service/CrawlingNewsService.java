@@ -412,7 +412,7 @@ public class CrawlingNewsService {
 		int resultSize = 0;
 
 		for (int i = 0; i < voList.size(); i++) {
-			
+			int retryCount = 0;
 			while (true) {
 				try {
 					// 램 용량 최적화를 위한 10번 페이지 이동마다 드라이버 초기화
@@ -428,7 +428,13 @@ public class CrawlingNewsService {
 					}
 					break ;
 				} catch (Exception e) {
-					System.out.println("insertNewsFromVO error");
+					System.out.println("insertNewsFromVO error" + voList.get(i).getUrl());
+					// need delete this!
+					if (voList.get(i).getUrl().equals("https://n.news.naver.com/mnews/article/008/0005004100")) {
+						System.out.println(printColor("CATCH ERROR PAGE", "red"));
+						voList.remove(i--);
+					}
+						
 					e.printStackTrace();
 					driver.quit();
 					driver = pool.createNewWebDriver();

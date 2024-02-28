@@ -216,7 +216,9 @@ public class SearchController {
 		System.out.println(totalCount + " : totalCount");
 		PageMaker pageMaker = new PageMaker(pageNum, totalCount);
 
+		System.out.println("if before " + keywordKeyList.size());
 		if (keywordKeyList.isEmpty()) {
+			System.out.println("if after " + keywordKeyList.size());
 			System.out.println("keywordKeyList 가 비어있습니다.");
 			mv.addObject("noneKeyword", "\"" + keyword + "\"" + "에 대한 검색결과가 없습니다.");
 		} else {

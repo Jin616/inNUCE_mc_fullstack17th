@@ -20,10 +20,10 @@ public class WebDriverPool {
 	private int MAX_POOL_SIZE = 2;
 	private BlockingQueue<WebDriver> webDriverPool = new ArrayBlockingQueue<>(MAX_POOL_SIZE);
 
-	// 서버가 실행되기 전 미리 생성
+	// 빈 객체 생성될 때 풀 생성
 	WebDriverPool() {
-//		for (int i = 0; i < MAX_POOL_SIZE; i++)
-//			webDriverPool.offer(createNewWebDriver());
+		for (int i = 0; i < MAX_POOL_SIZE; i++)
+			webDriverPool.offer(createNewWebDriver());
 	}
 
 	// option을 준 웹드라이버 생성
@@ -41,12 +41,13 @@ public class WebDriverPool {
 		chromeOptions.addArguments("--disable-application-cache");
 		chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 		
-		WebDriver driver;
+		WebDriver driver = null;
 		int retryCount = 0;
 		
 		
 		while (true) {
 			try {
+				Thread.sleep(500);
 				driver = new ChromeDriver(chromeOptions);
 				Thread.sleep(500);
 				
@@ -54,6 +55,8 @@ public class WebDriverPool {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("retryCount : " + ++retryCount);
+				if (retryCount > 50)
+					break;
 			}
 		}
 		return driver;

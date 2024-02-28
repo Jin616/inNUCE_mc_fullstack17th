@@ -27,4 +27,5 @@ public class KomoranModel {
 	public Komoran getKomoran() {
 		return komoran;
 	}
+	
 }

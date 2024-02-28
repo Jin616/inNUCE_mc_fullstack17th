@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
 
 <jsp:include page="/WEB-INF/views/header/head.jsp"/>
 

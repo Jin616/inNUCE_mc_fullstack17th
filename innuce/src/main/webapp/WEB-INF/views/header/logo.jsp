@@ -4,6 +4,7 @@
      
   <div class="logo-container">
   <a href="/main" class="logo-img">
+   <%-- <img src="${s3Path }/resources/img/inNUCE_logo.png"/>  --%>
    <img src="/images/inNUCE_logo.png"/> 
   </a>
   

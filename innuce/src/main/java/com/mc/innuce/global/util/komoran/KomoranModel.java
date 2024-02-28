@@ -5,12 +5,17 @@ import kr.co.shineware.nlp.komoran.core.Komoran;
 
 public class KomoranModel {
 	private static KomoranModel instance;
-	
 	private Komoran komoran;
+	
+	public static void main(String[] args) {
+		KomoranModel km = KomoranModel.getInstance();
+	
+	}
 	
 	private KomoranModel() {
 		komoran = new Komoran(DEFAULT_MODEL.FULL);
 		String path = System.getProperty("user.dir");
+		System.out.println(path);
 		komoran.setFWDic(path + "/src/main/resources/static/dictionary/fwd.user");
 	}
 	

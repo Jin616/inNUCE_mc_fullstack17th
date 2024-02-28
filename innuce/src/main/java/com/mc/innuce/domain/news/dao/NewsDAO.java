@@ -31,7 +31,7 @@ public interface NewsDAO {
 	// news key로 NewsDTO 가져오기 (김)
 	public NewsDTO selectSingleNews(long news_key);
 
-	public List<NewsDTO> selectHeadLineNews(String category);
+	public List<Long> selectHeadLineNews(String category);
 
 	public void insertNewsHeadline(List<NewsDTO> list);
 

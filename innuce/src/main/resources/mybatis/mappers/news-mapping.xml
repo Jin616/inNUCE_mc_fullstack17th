@@ -38,9 +38,8 @@
 		select count(*) from news;
 	</select>
 
-	<select id="selectNewsListWithKey" resultType="newsdto"
-		parameterType="java.util.List">
-		select * from news where in (
+	<select id="selectNewsListWithKey" resultType="newsdto" parameterType="java.util.List">
+		select * from news where news_key in (
 		<foreach collection="list" item="n" separator=",">#{n}</foreach>
 		);
 	</select>
@@ -56,12 +55,11 @@
 		or news_content like concat("%",#{keyword},"%")
 	</select>
 
-	<select id="selectHeadLineNews" resultType="newsdto">
-	select n.* from news_headline nh
-	join news n using(news_key)
-	where nh.news_category = #{category}
-	order by nh.news_pulldate desc
-	limit 5;
+	<select id="selectHeadLineNews" resultType="long">
+		select news_key from news_headline
+		where news_category = #{category}
+		order by news_pulldate desc
+		limit 5;
 	</select>
 	
 	<!-- 김 -->

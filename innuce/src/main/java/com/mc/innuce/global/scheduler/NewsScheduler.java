@@ -52,6 +52,8 @@ public class NewsScheduler {
 //        if (Config.CURRENT_OS.equals("linux") && !isHeadlineCrawlerRunning) {
             System.out.println("headlineCrawlerCallCount : " + ++headlineCrawlerCallCount);
             System.out.println("headline crawller 실행");
+            
+            // 변경 금지 DB에 이미 이걸로 고정된 상태
             String[] categorys = {"정치", "경제", "사회", "생활", "IT", "세계"};
             isCategoryCrawlerRunning = true;
 

@@ -58,8 +58,9 @@ public class NewsService {
 
 		String[] categorys = {"정치", "경제", "사회", "생활", "세계", "IT"};
 		
-		for(int i = 0; i < categorys.length; i++)
+		for(int i = 0; i < categorys.length; i++) {
 			result.put(""+i, parser.getJsonArrayNews(newsdao.selectHeadLineNews(categorys[i])));
+		}
 		
 		return result;
 	}

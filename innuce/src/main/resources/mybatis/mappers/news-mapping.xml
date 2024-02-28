@@ -59,8 +59,8 @@
 	<select id="selectHeadLineNews" resultType="newsdto">
 	select n.* from news_headline nh
 	join news n using(news_key)
-	where n.news_category = #{category}
-	order by n.news_pulldate desc
+	where nh.news_category = #{category}
+	order by nh.news_pulldate desc
 	limit 5;
 	</select>
 	

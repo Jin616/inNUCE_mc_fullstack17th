@@ -301,7 +301,7 @@ $.ajax({
 					'color': '#333',
 					'text-decoration': 'none'
 				});
-				$('#' + idx + '-scrap-category').attr('news',n.news_key)
+				$('#' + idx + '-scrap-category').attr('news',n.news_key);
 			}
 		}
 	},

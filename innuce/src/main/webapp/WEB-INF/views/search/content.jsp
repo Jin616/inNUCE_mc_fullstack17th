@@ -4,29 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<script>
-window.onload = function(){
-
-	let noneKeyword = '${noneKeyword }';	
-	
-	if(!noneKeyword) {
-		
-	} else {
-		console.log(noneKeyword);
-		$("#noResult").html(
-		"<ul style='list-style-type: circle; margin-top: 80px;'>"
-		+"<li	stlye='margin: 5px 0;'>단어의 철자가 정확한지 확인해 보세요.</li>"
-		+"<li	stlye='margin: 5px 0;'>한글을 영어로 혹은 영어를 한글로 입력했는지 확인해 보세요.</li>"
-		+"<li	stlye='margin: 5px 0;'>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</li>"
-		+"<li	stlye='margin: 5px 0;'>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</li>"
-		+"</ul>"
-		)//html
-	}
-	
-	
-}//onload
-</script>
-
 
 <div class="news-cover">
 	<div class="news-content">
@@ -97,3 +74,23 @@ window.onload = function(){
 		</div>
 	</div>
 </div>
+
+
+<script>
+	let noneKeyword = '${noneKeyword }';	
+	
+	if(!noneKeyword) {
+		
+	} else {
+		console.log(noneKeyword);
+		$("#noResult").html(
+		"<ul style='list-style-type: circle; margin-top: 80px;'>"
+		+"<li	style='margin: 5px 0;'>단어의 철자가 정확한지 확인해 보세요.</li>"
+		+"<li	style='margin: 5px 0;'>한글을 영어로 혹은 영어를 한글로 입력했는지 확인해 보세요.</li>"
+		+"<li	style='margin: 5px 0;'>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</li>"
+		+"<li	style='margin: 5px 0;'>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</li>"
+		+"</ul>"
+		)//html
+	}
+	
+</script>
